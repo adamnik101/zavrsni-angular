@@ -1,0 +1,76 @@
+<div class="artist">
+  <div class="top" #top>
+  <ng-container *ngIf="loaded; else notLoaded">
+
+      <div class="info">
+        <div class="top-section">
+          <img src="{{artist.cover}}"/>
+          <div class="actions">
+            <h1>{{artist.name}}</h1>
+            <button *ngIf="!isFollowing" (click)="followArtist(artist)">
+              <img src="assets/icons-svg/plus.svg" alt="plus,icon"/>
+              Follow</button>
+            <button *ngIf="isFollowing" (click)="unfollowArtist(artist)">
+              <img src="assets/icons-svg/check.svg" alt="check,icon"/>
+              Following</button>
+          </div>
+        </div>
+        <div class="lower-section">
+
+        </div>
+
+
+
+      </div>
+  </ng-container>
+    </div>
+  <ng-container *ngIf="loaded">
+    <div class="bottom">
+
+      <div class="section">
+
+        <div class="play">
+          <button>
+            <img src="assets/icons-svg/play.svg">
+          </button>
+          <h2>Popular</h2>
+        </div>
+        <app-track-table [tracks]="artist.own_tracks" [from]="fromPopular"></app-track-table>
+      </div>
+      <div class="section">
+        <div class="play">
+          <button>
+            <img src="assets/icons-svg/play.svg">
+          </button>
+          <h2>Features</h2>
+        </div>
+        <app-track-table [tracks]="artist.feature_tracks" [from]="fromFeatures"></app-track-table>
+      </div>
+      <div class="section" *ngIf="artist.albums_count > 0">
+        <div class="play">
+          <h2>Albums</h2>
+        </div>
+        <div class="albums">
+          <ng-container *ngFor="let album of artist.albums">
+            <app-album-card [album]="album"></app-album-card>
+          </ng-container>
+        </div>
+      </div>
+      <div class="section" *ngIf="artist.featured_albums.length > 0">
+        <div class="play">
+          <h2>Featured albums</h2>
+        </div>
+        <div class="albums">
+          <ng-container *ngFor="let album of artist.featured_albums">
+            <app-album-card [album]="album"></app-album-card>
+          </ng-container>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+  <ng-template #notLoaded>
+    <app-loading></app-loading>
+  </ng-template>
+
+</div>

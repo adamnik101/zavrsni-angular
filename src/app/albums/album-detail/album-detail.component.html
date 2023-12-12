@@ -1,0 +1,32 @@
+
+  <div class="album">
+    <div class="top" #background>
+      <ng-container *ngIf="isLoaded; else loading">
+        <img class="cover" src="{{album.cover}}">
+        <div class="info">
+          <h1>{{album.name}}</h1>
+          <p>{{album.tracks_count}} tracks</p>
+          <p>{{album.release_year}}</p>
+          <div class="artist">
+            <a routerLink="/artists/{{album.artist.id}}">
+              <img src="{{album.artist.cover}}"/>
+              {{album.artist.name}}
+            </a>
+          </div>
+        </div>
+      </ng-container>
+
+    </div>
+    <div class="bottom" *ngIf="isLoaded;">
+      <button class="play" (click)="playAlbum(album.tracks)">
+        <img src="assets/icons-svg/play.svg" alt="play,icon">
+      </button>
+      <app-track-table [tracks]="album.tracks" [from]="from"></app-track-table>
+    </div>
+  </div>
+<ng-template #loading>
+  <div class="loading">
+    <app-loading></app-loading>
+  </div>
+
+</ng-template>

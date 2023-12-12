@@ -1,0 +1,28 @@
+<div class="login">
+  <div class="text">
+    <h3>Login to Treble</h3>
+  </div>
+  <form (ngSubmit)="onLogin()">
+    <div class="form-group">
+      <label class="label" for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Your email" [(ngModel)]="email">
+    </div>
+    <div class="form-group">
+      <label class="label" for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Your password" [(ngModel)]="password">
+    </div>
+    <div class="form-group">
+      <div class="left">
+        <input type="checkbox" name="remember" [(ngModel)]="remember"> Remember me
+      </div>
+      <div class="right">
+        <a routerLink="/auth/register">Don't have an account?</a>
+      </div>
+
+    </div>
+    <p class="error" *ngIf="error !== ''">{{error}}</p>
+    <button matRipple type="submit">Login</button>
+
+  </form>
+  <div class="divider"></div>
+</div>

@@ -1,0 +1,42 @@
+.album{
+  width: 180px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: var(--secondary-black);
+  border-radius: 5px;
+  transition: .1s ease-in-out;
+  &:hover{
+    background: var(--light-black);
+  }
+  .image{
+    width: 100%;
+    img{
+      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      transition: .2s ease-in-out;
+      width: 100%;
+      height: auto;
+      border-radius: 3px;
+    }
+  }
+  .info{
+    padding-top: 10px;
+    .text{
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      a{
+        color: var(--light-text);
+        font-size: 13px;
+        &:hover{
+          text-decoration: underline;
+        }
+      }
+      .tracks{
+        color: var(--light-text);
+        font-size: 12.5px;
+      }
+    }
+  }
+}

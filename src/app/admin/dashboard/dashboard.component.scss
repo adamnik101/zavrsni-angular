@@ -1,0 +1,137 @@
+
+.main-container{
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .full-width{
+
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+  .top{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+    .left{
+      width: 50%;
+    }
+    .right{
+      width: 50%;
+
+    }
+    .chart{
+      background: var(--light-black);
+      padding: 10px;
+      width: 100%;
+      border-radius: 10px;
+      position: relative;
+      canvas{
+        width: 100%;
+      }
+    }
+  }
+}
+.container{
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  .bar{
+    width: 800px;
+    #barChart{
+      background: var(--light-black);
+      padding: 20px;
+      border-radius: 10px;
+  }
+
+  }
+
+}
+.spinners{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  .spinner-container{
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 20px;
+    width: fit-content;
+    height: 270px;
+    background: var(--light-black);
+
+    .spinner{
+      width: 200px;
+      height: 200px;
+      position: relative;
+      .progress-100{
+        position: absolute;
+        top: 0;
+        left: 0;
+        --mdc-circular-progress-active-indicator-color: var(--secondary-black) !important;
+      }
+      .progress{
+        z-index: 1;
+      }
+      .value{
+        font-size: 25px;
+        font-family: Bold;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+      }
+
+    }
+  }
+}
+.count-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-content: flex-start;
+  width: 100%;
+  .count{
+    white-space: nowrap;
+    flex: 1 0 calc(33.33% - 20px);
+    width: fit-content;
+    padding: 15px;
+    height: fit-content;
+    border-radius: 10px;
+    background: var(--light-black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h1{
+      font-size: 25px;
+    }
+  }
+}
+.top-right{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: auto;
+  .count{
+    width: 100%;
+    border-radius: 10px;
+    padding: 12px;
+    background: var(--light-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+  }
+}

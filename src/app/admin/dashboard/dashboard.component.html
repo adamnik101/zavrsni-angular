@@ -1,0 +1,85 @@
+<div class="main-container">
+  <div class="fullwidth">
+    <h1>Welcome back, {{user.first_name}}</h1>
+  </div>
+  <div class="full-width">
+    <div class="spinners">
+      <div class="spinner-container">
+        <div class="spinner">
+          <mat-progress-spinner diameter="200" class='progress' value="{{progress1}}">
+          </mat-progress-spinner>
+          <mat-progress-spinner diameter="200" class="progress-100" value="100">
+          </mat-progress-spinner>
+          <p class="value">{{progress1}}%</p>
+        </div>
+        <p>Active users in the last 7 days</p>
+      </div>
+    </div>
+    <div class="count-container">
+      <div class="count">
+        <h1>{{newUsers | number}}</h1>
+        <p>New users</p>
+      </div>
+      <div class="count">
+        <h1>{{averageNumberOfPlaylistsPerUser | number}}</h1>
+        <p>Playlists per user</p>
+      </div>
+      <div class="count">
+        <h1>{{averageNumberOfTracksPerPlaylist | number}}</h1>
+        <p>Tracks per playlist</p>
+      </div>
+      <div class="count">
+        <h1>{{userCount | number}}</h1>
+        <p>Users</p>
+      </div>
+      <div class="count">
+        <h1>{{playlistCount | number}}</h1>
+        <p>Playlists</p>
+      </div>
+
+      <div class="count">
+        <h1>{{tracksCount | number}}</h1>
+        <p>Tracks</p>
+      </div>
+      <div class="count">
+        <h1>{{artistsCount | number}}</h1>
+        <p>Artists</p>
+      </div>
+      <div class="count">
+        <h1>{{albumsCount | number}}</h1>
+        <p>Albums</p>
+      </div>
+    </div>
+
+</div>
+  <div class="top">
+    <div class="left">
+      <div class="chart">
+        <canvas id="MyChart_1">{{chart1}}</canvas>
+      </div>
+    </div>
+    <div class="right">
+      <div class="chart">
+        <canvas id="barChart">{{pieChart}}</canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+<div class="main-container">
+
+</div>
+
+
+</div>
+
+<div class="top-right">
+  <div class="top-right">
+
+  </div>
+</div>
+<div class="count-container">
+
+</div>
+<!--
+-->

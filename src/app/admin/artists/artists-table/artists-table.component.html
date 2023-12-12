@@ -1,0 +1,53 @@
+<div class="container-padding">
+  <table class="admin-table">
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Artist</th>
+      <th>No. of tracks</th>
+      <th>Created at</th>
+      <th>Updated at</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let artist of pagedResponse.data;let index = index">
+      <tr>
+        <td>{{pagedResponse.from + index}}</td>
+        <td class="cover-text">
+          <img src="{{artist.cover}}">
+          {{artist.name}}</td>
+        <td>{{artist.own_tracks_count}}</td>
+        <td>{{artist.created_at | date: 'medium'}}</td>
+        <td>{{artist.updated_at | date: 'medium'}}</td>
+        <td class="actions">
+          <button (click)="openEditDialog(artist)">Edit</button>
+          <button (click)="openDeleteDialog(artist.id,artist.name, 'artists', pagedResponse.current_page)" class="delete">Delete</button>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+
+
+  <div class="pagination">
+    <div class="info">
+      <p>Showing {{pagedResponse.from}} - {{pagedResponse.to}} of {{pagedResponse.total}}</p>
+      <button matRipple (click)="openCreateArtistDialog()">Add artist</button>
+    </div>
+   <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
+    <ng-container *ngFor="let page of pagedResponse.links">
+      <button (click)="navigateTo(page.url)" mat-button *ngIf="page.url" [ngClass]="{'active-pagination' : page.active}">
+        <span [innerHTML]="page.label"></span>
+      </button>
+    </ng-container>
+   <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
+  </div>
+
+
+  <!--<mat-select>
+    <mat-option value="10">10</mat-option>
+    <mat-option value="20">20</mat-option>
+    <mat-option value="30">30</mat-option>
+  </mat-select>-->
+</div>

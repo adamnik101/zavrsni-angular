@@ -1,0 +1,78 @@
+.card-container{
+  background: var(--secondary-black);
+  width: 200px;
+  min-height: 260px;
+  transition: .1s ease-in-out;
+  border-radius: 7.5px;
+  position: relative;
+  &:hover{
+    background: var(--light-black);
+      .play{
+        opacity: 1;
+        bottom: 80px;
+      }
+  }
+  .card{
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+
+    .top{
+      .image{
+        border-radius: 5px;
+        width: 100%;
+        height: auto;
+        box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      }
+      position: relative;
+
+    }
+    .bottom{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      p{
+        width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        &:nth-child(1) {
+          font-family: Bold;
+        }
+        &:nth-child(2){
+          color: var(--light-text);
+          font-size: 12.5px;
+        }
+      }
+    }
+  }
+  .play{
+    transition: .15s ease-in-out;
+    link: none;
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    opacity: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--main-color);
+    border: none;
+    padding: 10px;
+    &:hover{
+      box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+      cursor: pointer;
+      transform: scale(1.1);
+    }
+    img{
+      width: 20px;
+      background: none;
+      margin-left: 3px;
+    }
+  }
+}

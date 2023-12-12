@@ -1,0 +1,37 @@
+
+
+<ng-container *ngIf="loading; else loaded">
+  <app-loading></app-loading>
+
+</ng-container>
+<ng-template #loaded>
+  <div class="container">
+    <h1>Recently played</h1>
+    <div class="cards">
+      <app-track-table [tracks]="recentTracks" [from]="from"></app-track-table>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Latest albums added</h1>
+    <div class="cards">
+      <ng-container *ngFor="let album of albums">
+        <app-album-card [album]="album"></app-album-card>
+      </ng-container>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Other similiar users also listen to</h1>
+    <div class="cards">
+      <ng-container *ngFor="let artist of recommendedArtists">
+        <app-artist-round-card [artist]="artist"></app-artist-round-card>
+      </ng-container>
+    </div>
+  </div>
+  <div class="container">
+    <h1>Recommended tracks</h1>
+    <div class="cards">
+      <app-track-table [tracks]="recommendedTracks" [from]="from"></app-track-table>
+    </div>
+  </div>
+
+</ng-template>

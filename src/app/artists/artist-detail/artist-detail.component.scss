@@ -1,0 +1,102 @@
+.artist{
+  .top{
+    width: 100%;
+    padding: 20px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 20px;
+    .info{
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 10px;
+      .top-section{
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 20px;
+        img{
+          border-radius: 10px;
+          height: 100%;
+        }
+        h1{
+          font-size: 50px;
+        }
+        button{
+          padding: 10px 12px;
+          color: var(--primary-text);
+          background: var(--main-color);
+          border: none;
+          border-radius: 20px;
+          transition: .05s ease-in-out;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 3px;
+          img{
+            width: 20px;
+          }
+          &:hover{
+            cursor: pointer;
+            transform: scale(1.1);
+          }
+        }
+      }
+      .lower-section{
+
+      }
+
+
+    }
+
+  }
+  .bottom{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    h2{
+      font-family: Bold;
+    }
+
+  }
+}
+.play{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  button{
+    background: var(--main-color);
+    border-radius: 50%;
+    border: none;
+    padding: 12px;
+    img{
+      width: 20px;
+      padding-left: 2px;
+    }
+    transition: .05s ease-in-out;
+    &:hover{
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+
+.albums{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+}

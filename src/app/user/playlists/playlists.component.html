@@ -1,0 +1,32 @@
+<ng-container *ngIf="userService.userLoaded(); else loading">
+  <div class="playlists">
+    <h1>My playlists</h1>
+    <ng-container *ngIf="playlists.length; else noPlaylists">
+      <div class="search-bar">
+        <input type="text" placeholder="Filter playlists by name" (input)="filterPlaylists(query.value)" #query>
+      </div>
+
+      <div class="cards">
+        <ng-container *ngIf="filtered.length > 0">
+          <ng-container *ngFor="let playlist of filtered; trackBy: trackById">
+            <app-playlist-card [playlist]="playlist"></app-playlist-card>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="filtered.length == 0 && !query.value.length" >
+          <ng-container *ngFor="let playlist of playlists; trackBy: trackById">
+            <app-playlist-card [playlist]="playlist"></app-playlist-card>
+          </ng-container>
+        </ng-container>
+        <ng-container *ngIf="!filtered.length && query.value.length">
+          <app-no-results style="width: 100%"></app-no-results>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-template #noPlaylists>
+      <p>No playlists created</p>
+    </ng-template>
+  </div>
+</ng-container>
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>

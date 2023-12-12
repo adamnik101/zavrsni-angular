@@ -1,0 +1,28 @@
+.search-bar{
+  background: var(--light-black);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding-left: 15px ;
+  width: 500px;
+  border-radius: 20px;
+  height: 40px;
+  transition: .1s ease-in-out;
+  &:focus-within{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  img{
+
+  }
+  input[type=text]{
+    border: none;
+    outline: none;
+    padding: 5px;
+    width: 100%;
+    background: none;
+    font-size: 14px;
+  }
+  position: relative;
+}
+

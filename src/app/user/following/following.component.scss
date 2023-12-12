@@ -1,0 +1,33 @@
+.following{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .row{
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    .left{
+      gap: 10px;
+      display: flex;
+      align-items: center;
+      a{
+        font-size: 13px;
+        color: var(--light-text);
+      }
+    }
+    .right{
+
+    }
+    img{
+      height: 100%;
+      border-radius: 50%;
+    }
+    &:hover{
+      background: var(--secondary-black);
+      a{
+        color: var(--primary-text) !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.playlists{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  h1{
+    font-family: Bold;
+  }
+  .search-bar{
+    width: 420px;
+
+  }
+  .cards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}

@@ -1,0 +1,21 @@
+.card{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 150px;
+  height: auto;
+  img{
+    width: 100%;
+    border-radius: 50%;
+  }
+  p{
+    &:nth-child(2){
+      font-family: Bold;
+    }
+    &:nth-child(3){
+      color: var(--light-text);
+    }
+  }
+}

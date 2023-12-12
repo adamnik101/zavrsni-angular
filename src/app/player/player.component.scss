@@ -1,0 +1,157 @@
+.player{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: var(--primary-black);
+  z-index: 7;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  box-shadow: 0px -25px 20px -20px rgba(0, 0, 0, 0.45);
+  .left{
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: flex-start;
+    .image{
+      width: auto;
+      height: 100%;
+      img{
+          height: 100%;
+        width: auto;
+        border-radius: 5px;
+      }
+    }
+    .info{
+      padding: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--light-text);
+      .title{
+        font-weight: bold;
+        color: var(--primary-text);
+        letter-spacing: 1px;
+        font-size: 16px;
+        width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+      }
+      .other{
+        width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      p{
+        width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: var(--light-text);
+        a{
+          color: var(--light-text);
+          &:hover{
+            text-decoration: underline;
+          }
+        }
+        span{
+          color: #707070;
+        }
+      }
+
+    }
+    a{
+
+      color: var(--light-text);
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+  .middle{
+    width: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    .top{
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      .action-button{
+        background: none;
+        border: none;
+
+        &:hover{
+          opacity: .6;
+          cursor: pointer;
+        }
+        img{
+          width: 25px;
+          height: 25px;
+        }
+      }
+      .play{
+        img{
+          width: 25px;
+          height: 25px;
+        }
+      }
+      .optional{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img{
+          width: 23px;
+          height: 23px;
+        }
+      }
+    }
+    .bottom{
+      height: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+      .slider{
+        width: 400px;
+      }
+      p{
+        width: 40px;
+      }
+    }
+  }
+  .right{
+    flex: 1;
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 17px;
+    align-items: center;
+    justify-content: center;
+    button{
+      background: none;
+      border: none;
+      cursor: pointer;
+      &:hover{
+        opacity: .5;
+      }
+    }
+    img{
+      width: 20px;
+    }
+  }
+}
+

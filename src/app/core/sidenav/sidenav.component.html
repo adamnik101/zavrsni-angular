@@ -1,0 +1,57 @@
+<mat-sidenav-container class="container">
+  <mat-sidenav mode="side" opened="true" class="left" [fixedInViewport]="true">
+    <div class="logo">
+      <img ngSrc="assets/logo.svg" alt="home,icon" width="50" height="50"/>
+      <h1>TREBLE</h1>
+    </div>
+    <app-nav-links></app-nav-links>
+      <mat-divider></mat-divider>
+    <ng-container *ngIf="authService.isLoggedIn">
+      <div class="my-collection">
+        <div class="left-collection">
+          <img ngSrc="assets/icons-svg/playlist.svg" width="20" height="20" alt="playlist icon"/>
+          <a routerLink="/user/playlists">My collection</a>
+        </div>
+        <div class="right-collection">
+          <button matRipple (click)="openDialog()">
+            <img ngSrc="assets/icons-svg/plus.svg" alt="plus,icon" height="20" width="20"/>
+          </button>
+        </div>
+
+      </div>
+      <div class="tabs">
+        <mat-tab-group animationDuration="0" disablePagination>
+          <mat-tab label="Playlists">
+            <div class="playlists">
+              <ng-container *ngIf="playlists.length; else noPlaylists">
+                <ng-container *ngFor="let playlist of playlists">
+                  <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
+                </ng-container>
+              </ng-container>
+              <ng-template #noPlaylists>
+                <p class="no-result">Create playlists to see them here</p>
+              </ng-template>
+             <!-- <input type="text" placeholder="Search playlists"/>-->
+
+            </div>
+          </mat-tab>
+          <mat-tab label="Artists">
+            <div class="following">
+              <app-following [following]="following"></app-following>
+            </div>
+          </mat-tab>
+          <mat-tab label="Albums">
+            Albums
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+
+      <mat-divider></mat-divider>
+    </ng-container>
+
+  </mat-sidenav>
+  <mat-sidenav-content class="main-content">
+    <app-header></app-header>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

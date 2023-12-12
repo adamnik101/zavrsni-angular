@@ -1,0 +1,90 @@
+<div class="player" >
+    <div class="left">
+      <div class="image">
+        <ng-container *ngIf="from.imageFrom; else other">
+          <img src="{{from.imageFrom}}" alt="cover">
+        </ng-container>
+        <ng-template #other>
+          <img *ngIf="currentTrack.album" src="{{currentTrack.album?.cover}}" alt="cover">
+          <img *ngIf="!currentTrack.album" src="{{currentTrack.owner.cover}}" alt="cover">
+        </ng-template>
+
+      </div>
+      <div class="info">
+        <p class="title">{{currentTrack.title}}
+          <img *ngIf="currentTrack.explicit" src="assets/icons-svg/explicit.svg" width="15" height="15"/>
+        </p>
+        <div class="other">
+          <a routerLink="/artists/{{currentTrack.owner.id}}">{{currentTrack.owner.name}}</a>
+          <ng-container *ngIf="currentTrack.features.length > 0">
+            ft.
+            <ng-container *ngFor="let feature of currentTrack.features; let index = index">
+              <a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>
+              <ng-container *ngIf="index !== currentTrack.features.length - 1">,&nbsp;</ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <p *ngIf="from.name !== 'search'"><span>Playing from: &nbsp;</span> <a routerLink="/{{from.url}}">{{from.name}}</a></p>
+      </div>
+    </div>
+  <div class="middle">
+    <div class="top">
+      <button *ngIf="!shuffle1; else shuffle" class="action-button optional" (click)="toggleShuffle()">
+        <img src="assets/icons-svg/shuffle-off.svg" alt="shuffle, icon"/>
+      </button>
+      <ng-template #shuffle>
+        <button class="action-button optional" (click)="toggleShuffle()">
+          <img src="assets/icons-svg/shuffle.svg" alt="shuffle, icon"/>
+        </button>
+      </ng-template>
+      <button class="action-button" (click)="goPrevious()">
+        <img src="assets/icons-svg/previous.svg" alt="shuffle, icon"/>
+      </button>
+      <button *ngIf="!audioService.isPlaying; else paused" class="action-button play" (click)="continue()">
+        <img src="assets/icons-svg/play.svg" alt="shuffle, icon"/>
+      </button>
+      <ng-template #paused>
+        <button class="action-button play" (click)="pause()">
+          <img src="assets/icons-svg/pause.svg" alt="shuffle, icon"/>
+        </button>
+      </ng-template>
+
+      <button class="action-button" (click)="goForward()">
+        <img src="assets/icons-svg/forward.svg" alt="shuffle, icon"/>
+      </button>
+      <button *ngIf="audioService.repeatIndex === 0" class="action-button optional" (click)="toggleRepeat()">
+        <img src="assets/icons-svg/repeat.svg" alt="shuffle, icon"/>
+      </button>
+      <button *ngIf="audioService.repeatIndex === 1" class="action-button optional" (click)="toggleRepeat()">
+        <img src="assets/icons-svg/repeat-all.svg" alt="shuffle, icon"/>
+      </button>
+      <button *ngIf="audioService.repeatIndex === 2" class="action-button optional" (click)="toggleRepeat()">
+        <img src="assets/icons-svg/repeat-one.svg" alt="shuffle, icon"/>
+      </button>
+    </div>
+    <div class="bottom">
+      <p>{{audioService.currentTime | date: 'mm:ss'}}</p>
+      <mat-slider class="slider" discrete [displayWith]="formatTime" step="0" [max]="audioService.duration" [min]="0">
+        <input #slider matSliderThumb [value]="audioService.currentTime" [min]="0" [max]="audioService.duration" type="range" (change)="seekTo(slider.value)" class="slider">
+      </mat-slider>
+      <p>{{audioService.duration | date: 'mm:ss'}}</p>
+    </div>
+  </div>
+  <div class="right">
+    <button (click)="toggleQueue()">
+      <img src="assets/icons-svg/queue.svg"/>
+    </button>
+    <button (click)="toggleMuteVolume()">
+      <img *ngIf="audioService.audio.volume > 0 && audioService.audio.volume < 0.8 && !audioService.audio.muted" src="assets/icons-svg/volume-down.svg">
+      <img *ngIf="audioService.audio.muted" src="assets/icons-svg/volume-off.svg"/>
+      <img *ngIf="audioService.audio.volume == 0 && !audioService.audio.muted" src="assets/icons-svg/volume-mute.svg"/>
+      <img *ngIf="!audioService.audio.muted && audioService.audio.volume >= 0.8" src="assets/icons-svg/volume-up.svg"/>
+    </button>
+
+    <mat-slider class="slider" step="0.0001" [max]="1" [min]="0">
+      <input #sliderVolume matSliderThumb [value]="audioService.audio.volume" [min]="0" [max]="1" type="range" (input)="changeVolume(sliderVolume.value)" class="slider">
+    </mat-slider>
+
+  </div>
+</div>

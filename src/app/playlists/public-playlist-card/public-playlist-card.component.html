@@ -1,0 +1,15 @@
+<div class="card-container">
+  <a routerLink="/playlists/{{playlist.id}}" class="card">
+    <div class="top">
+      <img class="image" src="{{playlist.image_url}}"/>
+    </div>
+    <div class="bottom">
+      <p>{{playlist.title}}</p>
+      <p>{{playlist.description}}</p>
+    </div>
+  </a>
+  <button class="play">
+    <img src="assets/icons-svg/play.svg"/>
+  </button>
+</div>
+

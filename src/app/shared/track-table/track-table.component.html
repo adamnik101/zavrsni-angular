@@ -1,0 +1,110 @@
+
+<table>
+  <thead *ngIf="!from.url.includes('/') && !from.name.includes('search') && !from.name.includes('Trending')">
+    <tr>
+      <th class="index">TRACK</th>
+      <!--<th>Plays</th>-->
+      <th class="album" *ngIf="!from.url.includes('albums/')">ALBUM</th>
+      <th class="album" *ngIf="!from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">ADDED AT</th>
+
+      <th class="time"><img src="assets/icons-svg/time.svg" width="15"/></th>
+      <th class="like"></th>
+      <th ></th>
+    </tr>
+  </thead>
+  <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
+    <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById">
+      <tr cdkDrag class="item" >
+        <p *cdkDragPreview>{{track.title}}</p>
+        <td class="cover-title">
+          <button class="play" (click)="playAllFromIndex(tracks, index, from)">
+            <img src="assets/icons-svg/play.svg"/>
+          </button>
+          <div class="image" *ngIf="!from.url.includes('albums/')">
+            <ng-container *ngIf="track.album">
+              <img src="{{track.album.cover}}" >
+            </ng-container>
+            <ng-container *ngIf="!track.album">
+              <img src="{{track.owner.cover}}" >
+            </ng-container>
+          </div>
+          <div class="index" *ngIf="from.url.includes('albums/')">
+           <p> {{index + 1}}</p>
+          </div>
+          <div class="info">
+            <div class="title">
+              <p [ngClass]="track.id === currentTrack.id  ? 'playing' : ''">{{track.title}}</p>
+              <ng-container *ngIf="track.explicit">
+                <img src="assets/icons-svg/explicit.svg" width="14" height="14">
+              </ng-container>
+            </div>
+            <div class="artists">
+              <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a>
+              <ng-container *ngIf="track.features.length > 0">
+                ft.<ng-container *ngFor="let feature of track.features; trackBy: trackById; let index = index">&nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a><ng-container *ngIf="track.features.length - 1 != index">,</ng-container>
+                </ng-container>
+              </ng-container>
+            </div>
+
+          </div>
+        </td>
+        <!--<td>{{track.plays | number}}</td>-->
+        <td class="album" *ngIf="!from.url.includes('albums/')">
+          <ng-container *ngIf="track.album">
+            <a routerLink="/albums/{{track.album.id}}">{{track.album.name}}</a>
+          </ng-container>
+          <ng-container *ngIf="!track.album">
+
+          </ng-container>
+        </td>
+        <td class="time" *ngIf="from.name !== 'Home' && !from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">{{track.pivot?.created_at | humanizeDate}}</td>
+        <td class="time">{{track.duration | date: 'mm:ss'}}</td>
+        <td class="like">
+          <button *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)" class="like-icon">
+            <img  src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
+          </button>
+          <button *ngIf="likedMap.has(track.id)" (click)="removeFromLiked(track.id)">
+            <img src="assets/icons-svg/heart-filled.svg" alt="heart, icon" width="18" height="18">
+          </button>
+
+
+        </td>
+        <td class="more">
+          <button matRipple [matMenuTriggerFor]="more">
+            <img src="assets/icons-svg/more.svg">
+          </button>
+          <mat-menu #more='matMenu'>
+            <ng-template matMenuContent>
+              <button mat-menu-item (click)="addToQueue(track)">Add to queue</button>
+              <button mat-menu-item [matMenuTriggerFor]="playlist">Add to playlist</button>
+              <ng-container *ngIf="from.url.includes('playlists/')">
+                <button mat-menu-item (click)="removeFromPlaylist(track, from)">Remove from playlist</button>
+              </ng-container>
+              <button mat-menu-item *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)">Add to My Collection</button>
+              <button mat-menu-item *ngIf="likedMap.has(track.id)" (click)="removeFromLiked(track.id)">Remove from My Collection</button>
+              <button mat-menu-item routerLink="/artists/{{track.owner.id}}" [matMenuTriggerFor]="artists">Artists</button>
+              <button mat-menu-item *ngIf="track.album && !from.url.includes('albums/')"><a routerLink="/albums/{{track.album.id}}">Go to Album</a></button>
+            </ng-template>
+            <mat-menu #artists="matMenu">
+              <ng-template matMenuContent>
+                <button mat-menu-item routerLink="/artists/{{track.owner.id}}" >Go to {{track.owner.name}}</button>
+                <ng-container *ngFor="let feature of track.features">
+                  <button mat-menu-item routerLink="/artists/{{feature.id}}">Go to {{feature.name}}</button>
+                </ng-container>
+              </ng-template>
+            </mat-menu>
+          </mat-menu>
+          <mat-menu #playlist="matMenu">
+            <ng-template matMenuContent>
+              <ng-container *ngFor="let playlist of playlists; trackBy: trackById">
+                <button mat-menu-item (click)="addTrackToPlaylist(track.id, playlist.id)">{{playlist.title}}</button>
+              </ng-container>
+            </ng-template>
+
+          </mat-menu>
+        </td>
+      </tr>
+    </ng-container>
+
+  </tbody>
+</table>

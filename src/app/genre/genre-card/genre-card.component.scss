@@ -1,0 +1,32 @@
+.card{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50px;
+  min-width: 220px;
+  gap: 20px;
+  background: var(--secondary-black);
+
+  &:hover{
+    background: var(--light-black);
+    .left{
+      width: 20px;
+    }
+  }
+  .left{
+    width: 10px;
+    height: 100%;
+    transition: .2s ease-in-out;
+  }
+  .info{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    p{
+      font-size: 14px;
+    }
+  }
+}

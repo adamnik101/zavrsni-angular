@@ -1,0 +1,41 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  .header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    img{
+      border-radius: 50%;
+      width: 50px;
+    }
+    p{
+      font-family: Bold;
+      color: var(--light-text);
+    }
+    h1{
+      font-size: 25px;
+    }
+  }
+  .trending{
+    h1{
+      font-size: 45px;
+    }
+  }
+  .albums{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .artists{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+    height: 220px;
+  }
+}

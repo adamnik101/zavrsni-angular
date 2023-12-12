@@ -1,0 +1,117 @@
+.playlist{
+  padding: 20px;
+  .top{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .image-info{
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 20px;
+      .image{
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--secondary-black);
+        box-shadow: 5px 5px 15px #090909;
+        border-radius: 5px;
+          img{
+            width: 200px;
+            height: auto;
+            border-radius: 5px;
+          }
+        .note{
+          margin-right: 20px;
+          width: 100px;
+        }
+      }
+      .info{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        h1{
+          font-family: Bold;
+          width: 600px;
+          font-size: 35px;
+
+        }
+        .desc{
+          color: var(--light-text)
+        }
+      }
+    }
+    .actions{
+      padding-top: 20px;
+      padding-right: 100px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      button{
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .left{
+        .play{
+          width: 100px;
+          background: var(--primary-text);
+          color: var(--primary-black);
+          padding: 15px 20px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          justify-content: center;
+          gap: 5px;
+          font-weight: bold;
+          transition: .1s ease-in-out;
+          &:hover{
+            background: var(--light-text);
+          }
+          img{
+            width: 20px;
+          }
+        }
+      }
+      .right{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        button{
+          width: 50px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 5px;
+          color: var(--primary-text);
+          img{
+            width: 25px;
+          }
+        }
+      }
+    }
+  }
+}
+.table{
+  padding: 20px;
+}
+.no-tracks{
+  width: 100%;
+  padding: 20px;
+  p{
+    font-size: 14px;
+    color: var(--light-text);
+  }
+}
+.loading{
+  height: 300px;
+}

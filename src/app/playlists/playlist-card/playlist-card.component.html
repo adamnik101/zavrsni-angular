@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="image">
+    <a routerLink="/playlists/{{playlist.id}}">
+    <ng-container *ngIf="playlist.image_url; else default">
+      <img class="cover" src="{{playlist.image_url}}"/>
+    </ng-container>
+    <ng-template #default>
+      <img style="padding-right: 20px" class="default" src="assets/icons-svg/note.svg"/>
+    </ng-template>
+    </a>
+  </div>
+  <button class="delete" matRipple [matMenuTriggerFor]="more">
+    <img src="assets/icons-svg/more.svg" alt="more,icon">
+  </button>
+
+  <mat-menu #more="matMenu">
+    <button mat-menu-item (click)="deletePlaylist(playlist)">
+      <span>Delete</span>
+    </button>
+  </mat-menu>
+  <button *ngIf="playlist.tracks_count > 0"  class="play" matRipple (click)="playQueue(playlist.tracks.data)">
+    <img src="assets/icons-svg/play.svg" alt="play,icon">
+  </button>
+  <div class="info">
+    <a routerLink="/playlists/{{playlist.id}}">{{playlist.title}}</a>
+    <p class="second">{{playlist.tracks_count}} tracks</p>
+  </div>
+</div>

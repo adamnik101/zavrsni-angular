@@ -1,0 +1,19 @@
+.queue-container{
+  position: fixed;
+  top: 0;
+  transform: translateY(100vh);
+  right: 0;
+  left: 0;
+  bottom: 100px;
+  background: #464646;
+  z-index: 2;
+}
+.player{
+  position: fixed;
+  transform: translateY(100vh);
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: #464646;
+  z-index: 99;
+}

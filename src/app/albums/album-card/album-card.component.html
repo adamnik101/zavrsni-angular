@@ -1,0 +1,12 @@
+<a routerLink="/albums/{{album.id}}" class="album">
+  <div class="image">
+    <img src="{{album.cover}}"/>
+  </div>
+  <div class="info">
+    <div class="text">
+      <p>{{album.name}}</p>
+      <p class="tracks">{{album.tracks_count}} tracks</p>
+      <p class="tracks">{{album.release_year}}</p>
+    </div>
+  </div>
+</a>

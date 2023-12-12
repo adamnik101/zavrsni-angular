@@ -1,0 +1,9 @@
+.container{
+  padding: 20px;
+  .cards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}

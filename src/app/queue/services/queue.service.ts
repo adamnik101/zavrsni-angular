@@ -1,0 +1,76 @@
+import {inject, Injectable} from '@angular/core';
+import {Queue} from "../interfaces/queue";
+import {Track} from "../../shared/interfaces/track";
+import {From} from "../../shared/interfaces/from";
+import {AudioService} from "../../audio/audio.service";
+import {BehaviorSubject} from "rxjs";
+
+@Injectable({
+  providedIn: 'root'
+})
+export class QueueService implements Queue{
+  private currentTrackSubject = new BehaviorSubject<Track>({} as Track)
+  public currentTrack$ = this.currentTrackSubject.asObservable()
+
+  private _audioService = inject(AudioService)
+  shuffleQueue: boolean = false
+  shuffleQueueIndex : number = 0
+  queue: Track[] = []
+  currentQueueIndex: number = 0
+  queueOpened: boolean = false;
+  from: From = {} as From
+  public setCurrentTrack(track: Track) {
+    this.currentTrackSubject.next(track)
+    console.log(track)
+  }
+
+  addTrack(track: Track, from: From): void {
+    this.queue.push(track)
+  }
+
+  addTracks(tracks: Track[], from: From): void {
+    this.queue = []
+    this.queue.push(...tracks)
+    this.from = from
+  }
+
+  clear(): void {
+    this.queue = []
+  }
+
+  currentIndex(): number {
+    return this.currentQueueIndex;
+  }
+
+  isEmpty(): boolean {
+    return !this.queue.length
+  }
+
+  peek(index: number): Track | undefined {
+    return this.queue.at(index)
+  }
+
+  playAtIndex(index: number): void {
+    this.currentQueueIndex = index
+    const track = this.queue[this.currentQueueIndex]
+    this.setCurrentTrack(track)
+    this._audioService.playTrack(track, this.from)
+  }
+
+  remove(index: number): Track[] {
+    if(index < this.currentQueueIndex) {
+      this.currentQueueIndex--
+    }
+    return this.queue.splice(index, 1)
+  }
+
+  shuffle(): void {
+    if(this.shuffleQueue) {
+      console.log('shuffle from queue')
+      const queueLength = this.queue.length
+      this.shuffleQueueIndex = Math.floor(Math.random() * queueLength)
+      console.log(this.shuffleQueueIndex)
+    }
+
+  }
+}

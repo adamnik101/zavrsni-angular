@@ -1,0 +1,49 @@
+
+<ng-container *ngIf="userService.userLoaded(); else loading">
+  <div class="profile">
+    <div class="top">
+      <h1>Welcome back {{user.first_name}}</h1>
+      <div class="row">
+        <p>{{user.following_count}} Following</p>
+        <div class="divider-h"></div>
+        <p>{{user.playlists_count}} Playlists</p>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="section">
+        <h1>Playlists</h1>
+        <div class="row">
+          <ng-container *ngIf="playlists.length; else noPlaylists">
+            <ng-container *ngFor="let playlist of playlists">
+              <app-playlist-card [playlist]="playlist"></app-playlist-card>
+            </ng-container>
+          </ng-container>
+          <ng-template #noPlaylists>
+            You did not create any playlists yet..
+          </ng-template>
+        </div>
+
+      </div>
+      <div class="section">
+        <h1>Following</h1>
+        <ng-container *ngIf="user.following_count > 0; else noFollowings">
+          <app-following [following]="user.following"></app-following>
+        </ng-container>
+        <ng-template #noFollowings>
+          You are not following any artist yet..
+        </ng-template>
+
+      </div>
+      <div class="section favorite">
+        <h1>Your favorite tracks last 7 days</h1>
+        <p>Only visible to you</p>
+        <app-track-table [tracks]="favoriteTracks" [from]="from"></app-track-table>
+      </div>
+    </div>
+
+
+  </div>
+</ng-container>
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>

@@ -1,0 +1,30 @@
+
+<ng-container *ngIf="loaded; else notLoaded">
+  <div class="liked">
+    <h1>Liked tracks</h1>
+    <!--  <input type="text" placeholder="Filter liked tracks by title, artists and albums" (input)="filterLiked(input.value)" #input>-->
+    <ng-container *ngIf="likedTracks.length; else noResults">
+      <!--<ng-container *ngIf="filteredTracks.length > 0">
+        <app-track-table [tracks]="filteredTracks" [from]="fromInfo"></app-track-table>
+      </ng-container>-->
+      <!--<ng-container *ngIf="filteredTracks.length == 0 && !input.value.length">-->
+      <app-track-table [tracks]="likedTracks" [from]="fromInfo"></app-track-table>
+      <div class="loading">
+        <ng-container *ngIf="loading">
+          <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
+        </ng-container>
+      </div>
+      <!--</ng-container>-->
+      <!--<ng-container *ngIf="!filteredTracks.length && input.value.length">
+        <app-no-results></app-no-results>
+      </ng-container>-->
+    </ng-container>
+    <ng-template #noResults>
+      <p>Start by tapping the heart icon on your favorite songs to create your personal playlist.</p>
+    </ng-template>
+  </div>
+
+</ng-container>
+<ng-template #notLoaded>
+  <app-loading></app-loading>
+</ng-template>
