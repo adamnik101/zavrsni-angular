@@ -169,15 +169,20 @@ export class TrackTableComponent {
   }
 
   drop(event: CdkDragDrop<any, any>) {
+    if(this.selectedTracks.size > 0) {
+      console.log(this.selectedTracks)
+      this.addSelectedTracksToPlaylist(this.selectedTracks)
+      return
+    }
     const currIndex = event.currentIndex
     const trackToDrop = this.tracks[currIndex]
     console.log(trackToDrop)
 
     if (event.previousContainer === event.container) {
-      let target = event.event.target
+      let target = (event.event.target as HTMLElement).closest('.row')
 
       if(target) {
-        const id = (target as HTMLElement).id
+        const id = target.id
         if(id && id.length === 36) {
           this.addTrackToPlaylist(trackToDrop.id, id)
         }
@@ -221,5 +226,29 @@ export class TrackTableComponent {
     if(this.closestRow && contextMenu.closed) {
       this.closestRow.style.background = ''
     }
+  }
+  selectedTracks : Map<number, Track> = new Map<number, Track>()
+  selectTrack(event: MouseEvent, index: number, track: Track) {
+      if(event.ctrlKey) {
+        if(this.selectedTracks.has(index)) {
+          this.selectedTracks.delete(index)
+          console.log(this.selectedTracks)
+          return
+        }
+        this.selectedTracks.set(index,track)
+        console.log(this.selectedTracks)
+        return;
+      }
+      this.selectedTracks.clear()
+  }
+
+  private addSelectedTracksToPlaylist(tracksMap: Map<number, Track>) {
+      const tracksToAdd : Track[] = []
+
+    tracksMap.forEach((value, key) => {
+      tracksToAdd.push(value)
+    })
+
+    console.log(tracksToAdd)
   }
 }

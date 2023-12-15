@@ -1,0 +1,15 @@
+
+.cont{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  height: 100%;
+  margin: 0 5px;
+  .divider-1{
+    width: 5px;
+    height: 5px;
+    background: var(--light);
+    border-radius: 50%;
+
+  }
+}

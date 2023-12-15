@@ -11,6 +11,7 @@ import { LoadingComponent } from './components/loading/loading.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CdkDrag, CdkDragPlaceholder, CdkDragPreview, CdkDropList} from "@angular/cdk/drag-drop";
 import {MatIconModule} from "@angular/material/icon";
+import { DividerComponent } from './components/divider/divider.component';
 
 
 
@@ -22,7 +23,8 @@ import {MatIconModule} from "@angular/material/icon";
     TrackTableComponent,
       NoResultsComponent,
       HumanizeDatePipe,
-      LoadingComponent
+      LoadingComponent,
+      DividerComponent
   ],
     exports: [
         TrackTableComponent,

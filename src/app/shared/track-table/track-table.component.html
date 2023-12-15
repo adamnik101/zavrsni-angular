@@ -14,8 +14,15 @@
   </thead>
   <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
     <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById" >
-      <tr cdkDrag class="item" (contextmenu)="openMenuOnRightClick($event, track)">
-        <p *cdkDragPreview>{{track.title}}</p>
+      <tr cdkDrag class="item" [ngClass]="{'selected' : selectedTracks.has(index)}" (click)="selectTrack($event, index,track)" (contextmenu)="openMenuOnRightClick($event, track)" (dblclick)="playAllFromIndex(tracks, index, from)">
+        <ng-container *ngIf="selectedTracks.size > 0; else oneSelected">
+          <p *cdkDragPreview class="preview">{{selectedTracks.size}} tracks selected</p>
+        </ng-container>
+        <ng-template #oneSelected>
+          <p *cdkDragPreview class="preview">{{track.title}} <app-divider></app-divider> {{track.owner.name}}<ng-container *ngFor="let feature of track.features">, {{feature.name}}</ng-container>
+          </p>
+        </ng-template>
+
         <td class="cover-title">
           <button class="play" (click)="playAllFromIndex(tracks, index, from)">
             <img src="assets/icons-svg/play.svg"/>
@@ -39,10 +46,7 @@
               </ng-container>
             </div>
             <div class="artists">
-              <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a>
-              <ng-container *ngIf="track.features.length > 0">
-                ft.<ng-container *ngFor="let feature of track.features; trackBy: trackById; let index = index">&nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a><ng-container *ngIf="track.features.length - 1 != index">,</ng-container>
-                </ng-container>
+              <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a><ng-container *ngIf="track.features.length > 0"><ng-container *ngFor="let feature of track.features; trackBy: trackById; let index = index">, <a routerLink="/artists/{{feature.id}}">{{feature.name}}</a></ng-container>
               </ng-container>
             </div>
 

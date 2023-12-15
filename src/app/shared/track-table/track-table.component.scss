@@ -216,3 +216,12 @@ table{
   color: var(--light);
 }
 
+.selected{
+  background: var(--light-black);
+}
+.preview{
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  background: var(--light-black);
+}
