@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewChild} from '@angular/core';
 import {Track} from "../interfaces/track";
 import {AudioService} from "../../audio/audio.service";
 import {From} from "../interfaces/from";
@@ -8,6 +8,7 @@ import {SnackbarService} from "../services/snackbar.service";
 import {Playlist} from "../../playlists/interfaces/playlist";
 import {QueueService} from "../../queue/services/queue.service";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
+import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 
 
 @Component({
@@ -17,9 +18,10 @@ import {CdkDragDrop} from "@angular/cdk/drag-drop";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrackTableComponent {
+  selectedTrack: Track = { } as Track
   @Input('tracks') tracks: Track[] = []
   @Input('from') from: From = {} as From
-
+  @ViewChild(MatMenuTrigger) contextMenuTrigger!: MatMenuTrigger
   playlists: Playlist[] = []
   likedMap: Map<string, Track> = new Map<string, Track>()
   currentTrack : Track = {} as Track
@@ -183,5 +185,41 @@ export class TrackTableComponent {
     }
   }
 
+
     protected readonly outerWidth = outerWidth;
+    menuTopLeftPosition =  { x: '0px', y: '0px' };
+    clickedElement : HTMLElement | null = null
+    closestRow : HTMLTableRowElement | null = null
+  openMenuOnRightClick(event: MouseEvent, track: Track) {
+    if(event.button === 2) { // right click, secondary
+      this.updateMenu(event, track)
+    }
+  }
+
+  openMenuOnLeftClick(event: MouseEvent, track: Track) {
+      if(event.button === 0) { // left click, main
+        this.updateMenu(event, track)
+      }
+
+  }
+  private updateMenu(event: MouseEvent, track: Track) {
+    this.clickedElement = event.target as HTMLElement
+    this.closestRow = this.clickedElement.closest('tr')
+
+    if(this.closestRow) {
+      this.closestRow.style.background = 'var(--light-black)'
+    }
+    event.preventDefault()
+    this.selectedTrack = track
+    this.menuTopLeftPosition.x = event.clientX + 'px'
+    this.menuTopLeftPosition.y = event.clientY + 'px'
+    this.contextMenuTrigger.openMenu()
+    this._cdr.detectChanges();
+  }
+
+  onMenuClosed(contextMenu: MatMenu) {
+    if(this.closestRow && contextMenu.closed) {
+      this.closestRow.style.background = ''
+    }
+  }
 }

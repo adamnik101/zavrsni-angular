@@ -13,8 +13,8 @@
     </tr>
   </thead>
   <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
-    <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById">
-      <tr cdkDrag class="item" >
+    <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById" >
+      <tr cdkDrag class="item" (contextmenu)="openMenuOnRightClick($event, track)">
         <p *cdkDragPreview>{{track.title}}</p>
         <td class="cover-title">
           <button class="play" (click)="playAllFromIndex(tracks, index, from)">
@@ -69,13 +69,18 @@
 
 
         </td>
+
         <td class="more">
-          <button matRipple [matMenuTriggerFor]="more">
-            <img src="assets/icons-svg/more.svg">
+          <button style="visibility: hidden; position: fixed;"
+                  [style.left]="menuTopLeftPosition.x"
+                  [style.top]="menuTopLeftPosition.y"
+                  [matMenuTriggerFor]="contextMenu"></button>
+          <button matRipple (click)="openMenuOnLeftClick($event, track)">
+            <img src="assets/icons-svg/more.svg" >
           </button>
-          <mat-menu #more='matMenu'>
+          <mat-menu #contextMenu='matMenu' (closed)="onMenuClosed(contextMenu)">
             <ng-template matMenuContent>
-              <button mat-menu-item (click)="addToQueue(track)">
+              <button mat-menu-item (click)="addToQueue(selectedTrack)">
                 <mat-icon class="custom-icon-color">add_to_queue</mat-icon>
                 <span>Add to queue</span>
               </button>
@@ -84,31 +89,32 @@
                 <span>Add to playlist</span>
               </button>
               <ng-container *ngIf="from.url.includes('playlists/')">
-                <button mat-menu-item (click)="removeFromPlaylist(track, from)">Remove from playlist</button>
+                <button mat-menu-item (click)="removeFromPlaylist(selectedTrack, from)">Remove from playlist</button>
               </ng-container>
-              <button mat-menu-item *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)">
+              <button mat-menu-item *ngIf="!likedMap.has(selectedTrack.id)" (click)="likeTrack(selectedTrack)">
                 <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
                 <span>Add to My Collection</span>
               </button>
-              <button mat-menu-item *ngIf="likedMap.has(track.id)" (click)="removeFromLiked(track.id)">
+              <button mat-menu-item *ngIf="likedMap.has(selectedTrack.id)" (click)="removeFromLiked(selectedTrack.id)">
                 <mat-icon class="custom-icon-color">favorite</mat-icon>
                 <span>Remove from My Collection</span>
               </button>
-              <button mat-menu-item routerLink="/artists/{{track.owner.id}}" [matMenuTriggerFor]="artists">
+              <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}" [matMenuTriggerFor]="contextArtists">
                 <mat-icon class="custom-icon-color">people</mat-icon>
                 <span>Artists</span>
               </button>
-              <button mat-menu-item *ngIf="track.album && !from.url.includes('albums/')"><a routerLink="/albums/{{track.album.id}}">
+              <button mat-menu-item *ngIf="selectedTrack.album && !from.url.includes('albums/')" routerLink="/albums/{{selectedTrack.album.id}}">
+
                 <mat-icon class="custom-icon-color">album</mat-icon>
                 <span>Go to Album</span>
-              </a></button>
+              </button>
             </ng-template>
-            <mat-menu #artists="matMenu">
+            <mat-menu #contextArtists="matMenu" >
               <ng-template matMenuContent>
-                <button mat-menu-item routerLink="/artists/{{track.owner.id}}" >
-                  <span>{{track.owner.name}}</span>
+                <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}" >
+                  <span>{{selectedTrack.owner.name}}</span>
                 </button>
-                <ng-container *ngFor="let feature of track.features">
+                <ng-container *ngFor="let feature of selectedTrack.features">
                   <button class="custom" mat-menu-item routerLink="/artists/{{feature.id}}">
                     <span>{{feature.name}}</span>
                   </button>
@@ -126,6 +132,7 @@
           </mat-menu>
         </td>
       </tr>
+
     </ng-container>
 
   </tbody>

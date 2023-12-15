@@ -526,3 +526,7 @@ input[type=email], input[type=password], input[type=text], textarea{
   background: var(--main-color) !important;
   color: var(--primary-text) !important;
 }
+.mat-mdc-menu-item .mat-icon-no-color, .mat-mdc-menu-item .mat-mdc-menu-submenu-icon{
+  color: var(--light) !important;
+}
+
