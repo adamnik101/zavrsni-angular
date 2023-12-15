@@ -12,6 +12,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CdkDrag, CdkDragPlaceholder, CdkDragPreview, CdkDropList} from "@angular/cdk/drag-drop";
 import {MatIconModule} from "@angular/material/icon";
 import { DividerComponent } from './components/divider/divider.component';
+import { FormatDurationPipe } from './pipes/format-duration.pipe';
 
 
 
@@ -24,15 +25,17 @@ import { DividerComponent } from './components/divider/divider.component';
       NoResultsComponent,
       HumanizeDatePipe,
       LoadingComponent,
-      DividerComponent
+      DividerComponent,
+      FormatDurationPipe
   ],
-    exports: [
-        TrackTableComponent,
-        NoResultsComponent,
-        HumanizeDatePipe,
-        LoadingComponent
+  exports: [
+    TrackTableComponent,
+    NoResultsComponent,
+    HumanizeDatePipe,
+    LoadingComponent,
+    FormatDurationPipe
 
-    ],
+  ],
   imports: [
     CommonModule,
     MatSnackBarModule,

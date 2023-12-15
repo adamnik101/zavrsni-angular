@@ -141,6 +141,10 @@ export class TrackTableComponent {
           const playlistToDeleteFrom = this.playlists.find(pl => pl.id == from.id)
           if(playlistToDeleteFrom) {
             playlistToDeleteFrom.tracks_count--
+            playlistToDeleteFrom.tracks
+            this._playlistService.totalDuration.update((value) => {
+              return value - (Math.floor(track.duration) - Math.floor(track.duration % 1000))
+            })
           }
           this._snackbarService.showSuccessMessage('Removed track from playlist.')
           this._cdr.markForCheck()

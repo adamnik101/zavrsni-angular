@@ -17,6 +17,7 @@ export class PlaylistService extends BaseService{
   public tracks$ = this.tracksSubject.asObservable()
   private tracks: Track[] = []
   playlist: Playlist = {} as Playlist
+  totalDuration = signal<number>(0)
   page = 1
   createPlaylist(playlistToCreate: FormData) {
 

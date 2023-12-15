@@ -62,7 +62,7 @@
           </ng-container>
         </td>
         <td class="time" *ngIf="from.name !== 'Home' && !from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">{{track.pivot?.created_at | humanizeDate}}</td>
-        <td class="time">{{track.duration | date: 'mm:ss'}}</td>
+        <td class="time">{{track.duration | formatDuration}}</td>
         <td class="like">
           <button *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)" class="like-icon">
             <img  src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
@@ -93,7 +93,10 @@
                 <span>Add to playlist</span>
               </button>
               <ng-container *ngIf="from.url.includes('playlists/')">
-                <button mat-menu-item (click)="removeFromPlaylist(selectedTrack, from)">Remove from playlist</button>
+                <button mat-menu-item (click)="removeFromPlaylist(selectedTrack, from)">
+                  <mat-icon>remove_circle_outline</mat-icon>
+                  <span>Remove from playlist</span>
+                </button>
               </ng-container>
               <button mat-menu-item *ngIf="!likedMap.has(selectedTrack.id)" (click)="likeTrack(selectedTrack)">
                 <mat-icon class="custom-icon-color">favorite_outline</mat-icon>

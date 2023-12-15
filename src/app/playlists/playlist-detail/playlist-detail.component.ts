@@ -6,6 +6,7 @@ import {BehaviorSubject, Observable, of, Subscription} from "rxjs";
 import {From} from "../../shared/interfaces/from";
 import {Title} from "@angular/platform-browser";
 import {Track} from "../../shared/interfaces/track";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-playlist-detail',
@@ -17,7 +18,8 @@ export class PlaylistDetailComponent implements OnInit{
   @ViewChild('background') background!: ElementRef
   fromInfo : From = {} as From
   tracks : Track[] = []
-  constructor(private _route: ActivatedRoute, private _playlistService: PlaylistService, private _title: Title) {
+
+  constructor(private _route: ActivatedRoute, public playlistService: PlaylistService, private _title: Title) {
   }
   ngOnInit(): void {
 
@@ -32,7 +34,7 @@ export class PlaylistDetailComponent implements OnInit{
               }
             })
           })*/
-          this._playlistService.showPlaylist(id).subscribe({
+          this.playlistService.showPlaylist(id).subscribe({
             next: (response) => {
               this.playlist = response
               this.isLoaded = true
@@ -44,6 +46,14 @@ export class PlaylistDetailComponent implements OnInit{
                 imageFrom: this.playlist.image_url
               };
               this._title.setTitle(`${this.playlist.title} - TREBLE`)
+
+              let totalDuration = 0
+              this.playlistService.totalDuration.set(0)
+              for (let track of response.tracks.data) {
+                totalDuration += Math.floor(track.duration) - Math.floor(track.duration % 1000)
+              }
+              this.playlistService.totalDuration.set(totalDuration)
+
             }
           })
         }
@@ -51,10 +61,10 @@ export class PlaylistDetailComponent implements OnInit{
     })
   }
   set playlist(value: Playlist) {
-    this._playlistService.playlist = value
+    this.playlistService.playlist = value
   }
   get playlist() {
-    return this._playlistService.playlist
+    return this.playlistService.playlist
   }
 
   /*@HostListener('window:scroll', ['$event'])

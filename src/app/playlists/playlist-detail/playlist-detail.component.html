@@ -15,6 +15,7 @@
           <p>{{playlist.tracks_count}} tracks</p>
           <p *ngIf="playlist.description" class="desc">{{playlist.description}}</p>
           <p>Last updated {{playlist.latest_added | humanizeDate}}</p>
+         <p>{{playlistService.totalDuration() | formatDuration}}</p>
         </div>
       </div>
       <div class="actions" *ngIf="playlist.tracks_count > 0">
