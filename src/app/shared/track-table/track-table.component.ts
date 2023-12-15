@@ -7,8 +7,9 @@ import {PlaylistService} from "../../playlists/services/playlist.service";
 import {SnackbarService} from "../services/snackbar.service";
 import {Playlist} from "../../playlists/interfaces/playlist";
 import {QueueService} from "../../queue/services/queue.service";
-import {CdkDragDrop} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, CdkDragExit, CdkDragStart} from "@angular/cdk/drag-drop";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
+import {DragDropService} from "../services/drag-drop.service";
 
 
 @Component({
@@ -31,7 +32,8 @@ export class TrackTableComponent {
               private _queueService: QueueService,
               private _playlistService: PlaylistService,
               private _snackbarService: SnackbarService,
-              private _cdr: ChangeDetectorRef) {}
+              private _cdr: ChangeDetectorRef,
+              private _dragDropService: DragDropService) {}
   ngOnInit() {
     this._userService.playlists$.subscribe({
       next: (playlists) => {
@@ -182,6 +184,16 @@ export class TrackTableComponent {
       let target = (event.event.target as HTMLElement).closest('.row')
 
       if(target) {
+        /*const row = target as HTMLDivElement
+
+        row.addEventListener('mouseenter', () => {
+          row.classList.add('hovered-row');
+        });
+
+        // Remove the border class when the mouse leaves
+        row.addEventListener('mouseleave', () => {
+          row.classList.remove('hovered-row');
+        });*/
         const id = target.id
         if(id && id.length === 36) {
           this.addTrackToPlaylist(trackToDrop.id, id)
@@ -227,28 +239,36 @@ export class TrackTableComponent {
       this.closestRow.style.background = ''
     }
   }
-  selectedTracks : Map<number, Track> = new Map<number, Track>()
-  selectTrack(event: MouseEvent, index: number, track: Track) {
+  selectedTracks : Map<string, Track> = new Map<string, Track>()
+  tracksToAdd: Track[] = []
+  selectTrack(event: MouseEvent, id: string, track: Track) {
       if(event.ctrlKey) {
-        if(this.selectedTracks.has(index)) {
-          this.selectedTracks.delete(index)
+        if(this.selectedTracks.has(id)) {
+          this.selectedTracks.delete(id)
           console.log(this.selectedTracks)
           return
         }
-        this.selectedTracks.set(index,track)
+        this.selectedTracks.set(id,track)
         console.log(this.selectedTracks)
         return;
       }
       this.selectedTracks.clear()
   }
 
-  private addSelectedTracksToPlaylist(tracksMap: Map<number, Track>) {
-      const tracksToAdd : Track[] = []
-
+  //treba preko servisa
+  private addSelectedTracksToPlaylist(tracksMap: Map<string, Track>) {
     tracksMap.forEach((value, key) => {
-      tracksToAdd.push(value)
+      this.tracksToAdd.push(value)
     })
 
-    console.log(tracksToAdd)
+    console.log(this.tracksToAdd)
+  }
+
+  onDragStarted(event: CdkDragStart) {
+    this._dragDropService.dragging = true
+  }
+
+  onDragDropped(event: CdkDragDrop<any>) {
+    this._dragDropService.dragging = false
   }
 }

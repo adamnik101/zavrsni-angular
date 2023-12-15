@@ -1,4 +1,4 @@
-<div class="row" [id]="playlist.id">
+<div class="row" [id]="playlist.id" [ngClass]="{'drop-to': shouldAddBorder}" (mouseenter)="setBorder()" (mouseleave)="removeBorder()">
   <div class="image">
     <ng-container *ngIf="playlist.image_url; else default">
       <img class="has-cover" src="{{playlist.image_url}}" width="25" height="25"/>

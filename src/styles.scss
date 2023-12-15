@@ -530,3 +530,6 @@ input[type=email], input[type=password], input[type=text], textarea{
   color: var(--light) !important;
 }
 
+.hovered-row{
+  border: 2px solid blue !important;
+}
