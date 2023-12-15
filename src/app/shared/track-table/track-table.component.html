@@ -75,21 +75,43 @@
           </button>
           <mat-menu #more='matMenu'>
             <ng-template matMenuContent>
-              <button mat-menu-item (click)="addToQueue(track)">Add to queue</button>
-              <button mat-menu-item [matMenuTriggerFor]="playlist">Add to playlist</button>
+              <button mat-menu-item (click)="addToQueue(track)">
+                <mat-icon class="custom-icon-color">add_to_queue</mat-icon>
+                <span>Add to queue</span>
+              </button>
+              <button mat-menu-item [matMenuTriggerFor]="playlist">
+                <mat-icon class="custom-icon-color">playlist_add</mat-icon>
+                <span>Add to playlist</span>
+              </button>
               <ng-container *ngIf="from.url.includes('playlists/')">
                 <button mat-menu-item (click)="removeFromPlaylist(track, from)">Remove from playlist</button>
               </ng-container>
-              <button mat-menu-item *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)">Add to My Collection</button>
-              <button mat-menu-item *ngIf="likedMap.has(track.id)" (click)="removeFromLiked(track.id)">Remove from My Collection</button>
-              <button mat-menu-item routerLink="/artists/{{track.owner.id}}" [matMenuTriggerFor]="artists">Artists</button>
-              <button mat-menu-item *ngIf="track.album && !from.url.includes('albums/')"><a routerLink="/albums/{{track.album.id}}">Go to Album</a></button>
+              <button mat-menu-item *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)">
+                <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
+                <span>Add to My Collection</span>
+              </button>
+              <button mat-menu-item *ngIf="likedMap.has(track.id)" (click)="removeFromLiked(track.id)">
+                <mat-icon class="custom-icon-color">favorite</mat-icon>
+                <span>Remove from My Collection</span>
+              </button>
+              <button mat-menu-item routerLink="/artists/{{track.owner.id}}" [matMenuTriggerFor]="artists">
+                <mat-icon class="custom-icon-color">people</mat-icon>
+                <span>Artists</span>
+              </button>
+              <button mat-menu-item *ngIf="track.album && !from.url.includes('albums/')"><a routerLink="/albums/{{track.album.id}}">
+                <mat-icon class="custom-icon-color">album</mat-icon>
+                <span>Go to Album</span>
+              </a></button>
             </ng-template>
             <mat-menu #artists="matMenu">
               <ng-template matMenuContent>
-                <button mat-menu-item routerLink="/artists/{{track.owner.id}}" >Go to {{track.owner.name}}</button>
+                <button mat-menu-item routerLink="/artists/{{track.owner.id}}" >
+                  <span>{{track.owner.name}}</span>
+                </button>
                 <ng-container *ngFor="let feature of track.features">
-                  <button mat-menu-item routerLink="/artists/{{feature.id}}">Go to {{feature.name}}</button>
+                  <button class="custom" mat-menu-item routerLink="/artists/{{feature.id}}">
+                    <span>{{feature.name}}</span>
+                  </button>
                 </ng-container>
               </ng-template>
             </mat-menu>

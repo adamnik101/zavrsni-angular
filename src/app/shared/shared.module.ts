@@ -10,6 +10,7 @@ import { HumanizeDatePipe } from './pipes/humanize-date.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {CdkDrag, CdkDragPlaceholder, CdkDragPreview, CdkDropList} from "@angular/cdk/drag-drop";
+import {MatIconModule} from "@angular/material/icon";
 
 
 
@@ -38,6 +39,7 @@ import {CdkDrag, CdkDragPlaceholder, CdkDragPreview, CdkDropList} from "@angular
     MatMenuModule,
     MatProgressSpinnerModule,
     CdkDrag,
+    MatIconModule,
     CdkDropList,
     CdkDragPreview,
     CdkDragPlaceholder

@@ -182,4 +182,6 @@ export class TrackTableComponent {
       }
     }
   }
+
+    protected readonly outerWidth = outerWidth;
 }
