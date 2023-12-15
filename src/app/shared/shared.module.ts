@@ -13,6 +13,7 @@ import {CdkDrag, CdkDragPlaceholder, CdkDragPreview, CdkDropList} from "@angular
 import {MatIconModule} from "@angular/material/icon";
 import { DividerComponent } from './components/divider/divider.component';
 import { FormatDurationPipe } from './pipes/format-duration.pipe';
+import {MatListModule} from "@angular/material/list";
 
 
 
@@ -47,7 +48,8 @@ import { FormatDurationPipe } from './pipes/format-duration.pipe';
     MatIconModule,
     CdkDropList,
     CdkDragPreview,
-    CdkDragPlaceholder
+    CdkDragPlaceholder,
+    MatListModule
   ]
 })
 export class SharedModule { }

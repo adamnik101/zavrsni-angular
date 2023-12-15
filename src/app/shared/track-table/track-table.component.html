@@ -14,7 +14,7 @@
   </thead>
   <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
     <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById" >
-      <tr cdkDrag (cdkDragDropped)="onDragDropped($event)" (cdkDragStarted)="onDragStarted($event)" class="item" [ngClass]="{'selected' : selectedTracks.has(track.id)}" (click)="selectTrack($event, track.id,track)" (contextmenu)="openMenuOnRightClick($event, track)" (dblclick)="playAllFromIndex(tracks, index, from)">
+      <tr  cdkDrag (cdkDragDropped)="onDragDropped($event)" (cdkDragStarted)="onDragStarted($event)" class="item" [ngClass]="{'selected' : selectedTracks.has(track.id)}" (click)="selectTrack($event, track.id,track)" (contextmenu)="openMenuOnRightClick($event, track)" (dblclick)="playAllFromIndex(tracks, index, from)">
         <ng-container *ngIf="selectedTracks.size > 0; else oneSelected">
           <p *cdkDragPreview class="preview">{{selectedTracks.size}} tracks selected</p>
         </ng-container>
@@ -106,6 +106,7 @@
                 <mat-icon class="custom-icon-color">favorite</mat-icon>
                 <span>Remove from My Collection</span>
               </button>
+              <mat-divider></mat-divider>
               <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}" [matMenuTriggerFor]="contextArtists">
                 <mat-icon class="custom-icon-color">people</mat-icon>
                 <span>Artists</span>

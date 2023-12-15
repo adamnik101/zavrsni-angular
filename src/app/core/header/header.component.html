@@ -9,10 +9,23 @@
     <app-search-bar></app-search-bar>
   </div>
   <div class="right">
-    <button mat-button [matMenuTriggerFor]="menu" matRipple>Menu</button>
+    <button mat-button [matMenuTriggerFor]="menu" matRipple>
+      <mat-icon>person</mat-icon>
+    </button>
     <mat-menu #menu="matMenu">
-      <a routerLink="/user/profile" mat-menu-item>Profile</a>
-      <a routerLink="/user/settings"  mat-menu-item>Settings</a>
+      <a routerLink="/user/profile" mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
+      <a routerLink="/user/settings"  mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span>Settings</span>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>Log out</span>
+      </a>
     </mat-menu>
   </div>
 </div>

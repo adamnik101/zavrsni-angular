@@ -6,6 +6,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatRippleModule} from "@angular/material/core";
 import {RouterLink} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
+import {MatIconModule} from "@angular/material/icon";
+import {MatListModule} from "@angular/material/list";
 
 
 
@@ -17,12 +19,14 @@ import {ReactiveFormsModule} from "@angular/forms";
     exports: [
         HeaderComponent
     ],
-    imports: [
-        CommonModule,
-        MatMenuModule,
-        MatRippleModule,
-        RouterLink,
-        ReactiveFormsModule
-    ]
+  imports: [
+    CommonModule,
+    MatMenuModule,
+    MatRippleModule,
+    RouterLink,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatListModule
+  ]
 })
 export class HeaderModule { }

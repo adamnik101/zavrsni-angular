@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import {AudioService} from "../audio/audio.service";
 import {Track} from "../shared/interfaces/track";
 import {From} from "../shared/interfaces/from";
@@ -97,5 +97,16 @@ export class PlayerComponent {
 
   toggleQueue() {
     this._queueService.queueOpened = !this._queueService.queueOpened
+  }
+  @HostListener('window:keydown', ["$event"])
+  handleSpaceDown(event: KeyboardEvent) {
+    if(event.key === " ") {
+      event.preventDefault()
+      if(!this.audioService.audio.paused) {
+        this.audioService.pause()
+        return
+      }
+      this.audioService.continue()
+    }
   }
 }
