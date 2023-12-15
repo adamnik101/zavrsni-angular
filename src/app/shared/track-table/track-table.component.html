@@ -85,11 +85,11 @@
           <mat-menu #contextMenu='matMenu' (closed)="onMenuClosed(contextMenu)">
             <ng-template matMenuContent>
               <button mat-menu-item (click)="addToQueue(selectedTrack)">
-                <mat-icon class="custom-icon-color">add_to_queue</mat-icon>
+                <mat-icon class="custom-icon-color">playlist_add</mat-icon>
                 <span>Add to queue</span>
               </button>
               <button mat-menu-item [matMenuTriggerFor]="playlist">
-                <mat-icon class="custom-icon-color">playlist_add</mat-icon>
+                <mat-icon class="custom-icon-color">add</mat-icon>
                 <span>Add to playlist</span>
               </button>
               <ng-container *ngIf="from.url.includes('playlists/')">
