@@ -9,8 +9,9 @@
     <app-search-bar></app-search-bar>
   </div>
   <div class="right">
-    <button mat-button [matMenuTriggerFor]="menu" matRipple>
-      <mat-icon>person</mat-icon>
+    <button mat-button [matMenuTriggerFor]="menu" matRipple class="cover">
+      <mat-icon *ngIf="!cover">person</mat-icon>
+      <img *ngIf="cover" src="{{cover}}"/>
     </button>
     <mat-menu #menu="matMenu">
       <a routerLink="/user/profile" mat-menu-item>
@@ -22,7 +23,7 @@
         <span>Settings</span>
       </a>
       <mat-divider></mat-divider>
-      <a mat-menu-item>
+      <a mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Log out</span>
       </a>

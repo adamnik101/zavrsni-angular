@@ -12,6 +12,7 @@ import { FollowingComponent } from './following/following.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {ArtistsModule} from "../artists/artists.module";
 
 
 @NgModule({
@@ -25,14 +26,15 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
     exports: [
         FollowingComponent
     ],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    PlaylistsModule,
-    SharedModule,
-    MatProgressSpinnerModule,
-    MatDividerModule,
-    MatSlideToggleModule
-  ]
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        PlaylistsModule,
+        SharedModule,
+        MatProgressSpinnerModule,
+        MatDividerModule,
+        MatSlideToggleModule,
+        ArtistsModule
+    ]
 })
 export class UserModule { }

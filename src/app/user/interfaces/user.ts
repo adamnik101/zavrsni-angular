@@ -15,6 +15,7 @@ export interface User {
   following_count: number
   playlists_count: number
   settings: Settings
+  cover: string
   formatted_created_at: string
   formatted_updated_at: string
 }

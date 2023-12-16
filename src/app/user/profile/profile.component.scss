@@ -2,17 +2,45 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 20px;
+
   .row{
     display: flex;
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
     flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
   }
   .top{
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    height: 300px;
+    background: var(--profile);
+    .left{
+      img{
+        width: 250px;
+        border-radius: 50%;
+        box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      }
+    }
+    .right{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h1{
+        font-size: 70px;
+      }
+      .row{
+
+      }
+    }
   }
   .bottom{
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -20,6 +48,18 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      .top-section{
+        max-width: 1170px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        a{
+          &:hover{
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
       h1{
 
       }

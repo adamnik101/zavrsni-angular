@@ -27,4 +27,8 @@ export class AuthService extends BaseService{
   register(data: RegisterData)  {
     return this.post('auth/register', data)
   }
+
+  logout() {
+    this.isLoggedIn = false
+  }
 }

@@ -9,7 +9,7 @@ export class ColorThiefService {
   constructor() { }
 
 
-  getRgbColorsFromImage(renderer: Renderer2, url: string, element: ElementRef<any>) : void {
+  getRgbColorsFromImage(renderer: Renderer2, url: string, element: ElementRef<any>, isProfile?: boolean) : void {
 
     const colorThief = new ColorThief()
     const image = new Image()
@@ -24,7 +24,12 @@ export class ColorThiefService {
         let newBackground = `rgb(${red}, ${green}, ${blue})`
         //renderer.setStyle(element, 'background', newBackground)
 
+      if(isProfile) {
+        document.documentElement.style.setProperty('--profile', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
+        return
+      }
       document.documentElement.style.setProperty('--queue',newBackground);
+
       //renderer.setStyle(element, 'transition', 'background 500ms ease 0s');
         //renderer.setStyle(element, 'background', '--queue')
 
