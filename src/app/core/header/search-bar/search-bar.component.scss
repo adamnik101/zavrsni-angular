@@ -1,5 +1,5 @@
 .search-bar{
-  background: var(--light-black);
+  background: var(--secondary-black);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -9,8 +9,9 @@
   border-radius: 20px;
   height: 40px;
   transition: .1s ease-in-out;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   &:focus-within{
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    box-shadow: 5px 5px 15px #090909;
   }
   img{
 

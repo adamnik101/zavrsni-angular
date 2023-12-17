@@ -1,27 +1,35 @@
 .artist{
+
   .top{
     width: 100%;
-    padding: 20px;
     height: 250px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    background-color: var(--artist);
     gap: 20px;
     .info{
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
+
       gap: 10px;
       .top-section{
+        padding: 20px;
+        padding-top: 30px;
+        backdrop-filter: blur(10px);
+
         height: 100%;
         display: flex;
         flex-direction: row;
         align-items: flex-end;
         gap: 20px;
+
         img{
           border-radius: 10px;
           height: 100%;
+
         }
         h1{
           font-size: 50px;
@@ -72,6 +80,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 15px;
+  margin-bottom: 20px;
   button{
     background: var(--main-color);
     border-radius: 50%;

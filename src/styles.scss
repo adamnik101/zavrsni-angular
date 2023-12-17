@@ -157,6 +157,8 @@ mat-dialog-container{
   --main-color: #fa1a1a;
   --sidenav-width: 250px;
   --header-height: 65px;
+  --artist: #000;
+  --header: #090909;
   --primary-black: #090909;
   --black: #000;
   --light: #ffffff;
@@ -167,7 +169,9 @@ mat-dialog-container{
   --failed: #fa1a1a;
   --primary-text: #fff;
   --light-text: #9b9b9b;
-  --queue: linear-gradient(#000, #000)
+  --queue: linear-gradient(#181818, #000);
+  --playlist: linear-gradient(#212121, #000);
+  --player: #090909;
   /*--main-color: #fa1a1a;
   --sidenav-width: 250px;
   --header-height: 65px;

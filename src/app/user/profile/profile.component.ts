@@ -34,7 +34,7 @@ export class ProfileComponent{
     this._userSubscription = this.userService.user$.subscribe({
       next: (user) => {
         this.user = user
-        this._colorService.getRgbColorsFromImage(this._renderer, this.user.cover, this.cover, true)
+        this._colorService.getRgbColorsFromImage(this.user.cover, "profile", true)
         console.log(user)
         this.load = !this.load
 
@@ -59,5 +59,7 @@ export class ProfileComponent{
     console.log('destroy')
     this._userSubscription.unsubscribe()
     this._recentlySub.unsubscribe()
+    document.documentElement.style.setProperty('--header', 'var(--primary-black)')
+
   }
 }

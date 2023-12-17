@@ -1,4 +1,4 @@
-<div class="player" >
+<div class="player"  #player>
     <div class="left">
       <div class="image">
         <ng-container *ngIf="from.imageFrom; else other">
@@ -31,36 +31,36 @@
   <div class="middle">
     <div class="top">
       <button *ngIf="!shuffle1; else shuffle" class="action-button optional" (click)="toggleShuffle()">
-        <img src="assets/icons-svg/shuffle-off.svg" alt="shuffle, icon"/>
+        <mat-icon [style.color]="'#fff'" class="smaller-1">shuffle</mat-icon>
       </button>
       <ng-template #shuffle>
         <button class="action-button optional" (click)="toggleShuffle()">
-          <img src="assets/icons-svg/shuffle.svg" alt="shuffle, icon"/>
+          <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">shuffle</mat-icon>
         </button>
       </ng-template>
       <button class="action-button" (click)="goPrevious()">
-        <img src="assets/icons-svg/previous.svg" alt="shuffle, icon"/>
+        <mat-icon [style.color]="'#fff'" class="smaller">skip_previous</mat-icon>
       </button>
       <button *ngIf="!audioService.isPlaying; else paused" class="action-button play" (click)="continue()">
-        <img src="assets/icons-svg/play.svg" alt="shuffle, icon"/>
+        <mat-icon [style.color]="'#fff'" class="bigger">play_circle_filled</mat-icon>
       </button>
       <ng-template #paused>
-        <button class="action-button play" (click)="pause()">
-          <img src="assets/icons-svg/pause.svg" alt="shuffle, icon"/>
+        <button class="action-button" (click)="pause()">
+          <mat-icon [style.color]="'#fff'" class="bigger">pause_circle_filled</mat-icon>
         </button>
       </ng-template>
 
       <button class="action-button" (click)="goForward()">
-        <img src="assets/icons-svg/forward.svg" alt="shuffle, icon"/>
+        <mat-icon [style.color]="'#fff'" class="smaller">skip_next</mat-icon>
       </button>
       <button *ngIf="audioService.repeatIndex === 0" class="action-button optional" (click)="toggleRepeat()">
-        <img src="assets/icons-svg/repeat.svg" alt="shuffle, icon"/>
+        <mat-icon [style.color]="'#fff'" class="smaller-1">repeat</mat-icon>
       </button>
       <button *ngIf="audioService.repeatIndex === 1" class="action-button optional" (click)="toggleRepeat()">
-        <img src="assets/icons-svg/repeat-all.svg" alt="shuffle, icon"/>
+        <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">repeat</mat-icon>
       </button>
       <button *ngIf="audioService.repeatIndex === 2" class="action-button optional" (click)="toggleRepeat()">
-        <img src="assets/icons-svg/repeat-one.svg" alt="shuffle, icon"/>
+        <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">repeat_one</mat-icon>
       </button>
     </div>
     <div class="bottom">
@@ -73,13 +73,13 @@
   </div>
   <div class="right">
     <button (click)="toggleQueue()">
-      <img src="assets/icons-svg/queue.svg"/>
+      <mat-icon [style.color]="'#fff'" class="icon">queue_music</mat-icon>
     </button>
     <button (click)="toggleMuteVolume()">
-      <img *ngIf="audioService.audio.volume > 0 && audioService.audio.volume < 0.8 && !audioService.audio.muted" src="assets/icons-svg/volume-down.svg">
-      <img *ngIf="audioService.audio.muted" src="assets/icons-svg/volume-off.svg"/>
-      <img *ngIf="audioService.audio.volume == 0 && !audioService.audio.muted" src="assets/icons-svg/volume-mute.svg"/>
-      <img *ngIf="!audioService.audio.muted && audioService.audio.volume >= 0.8" src="assets/icons-svg/volume-up.svg"/>
+      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="!audioService.audio.muted && audioService.audio.volume >= 0.8">volume_up</mat-icon>
+      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="audioService.audio.volume > 0 && audioService.audio.volume < 0.8 && !audioService.audio.muted">volume_down</mat-icon>
+      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="audioService.audio.muted">volume_off</mat-icon>
+      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="audioService.audio.volume == 0 && !audioService.audio.muted">volume_mute</mat-icon>
     </button>
 
     <mat-slider class="slider" step="0.0001" [max]="1" [min]="0">

@@ -7,6 +7,7 @@ import {QueueService} from "../queue/services/queue.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {QueueComponent} from "../queue/queue.component";
 import {Subscription} from "rxjs";
+import {ColorThiefService} from "../shared/services/color-thief.service";
 
 @Component({
   selector: 'app-player',
@@ -17,6 +18,8 @@ export class PlayerComponent {
   shuffle1 = false
   currentTrack : Track = {} as Track
   currSub! : Subscription
+  currentImage: string = ''
+  @ViewChild('player') player!: ElementRef
   constructor(public audioService: AudioService, private _queueService: QueueService, private _router: Router, private _route: ActivatedRoute) { }
   /*get currentTrack() : Track {
     return this.audioService.currentlyPlayingTrack

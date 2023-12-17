@@ -2,7 +2,7 @@
   padding-left: calc(var(--sidenav-width) + 20px);
   width: 100%;
   height: 60px;
-  background: var(--primary-black);
+  background: var(--header);
   position: fixed;
   top: 0;
   right: 0;
@@ -12,6 +12,7 @@
   justify-content: space-between;
   z-index: 2;
   box-shadow: 0px 25px 20px -20px rgba(0, 0, 0, 0.45);
+
   .right{
     padding-right: 20px;
     img{
@@ -27,6 +28,7 @@
       font-size: 14px;
       font-family: Bold;
       cursor: pointer;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     }
   }
   .left{
@@ -43,6 +45,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+
     }
     .back{
 

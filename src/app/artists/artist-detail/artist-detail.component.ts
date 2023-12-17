@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ArtistService} from "../services/artist.service";
 import {ActivatedRoute} from "@angular/router";
 import {Artist} from "../interfaces/artist";
@@ -6,6 +6,7 @@ import {From} from "../../shared/interfaces/from";
 import {UserService} from "../../user/services/user.service";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {Title} from "@angular/platform-browser";
+import {ColorThiefService} from "../../shared/services/color-thief.service";
 
 @Component({
   selector: 'app-artist-detail',
@@ -15,6 +16,7 @@ import {Title} from "@angular/platform-browser";
 export class ArtistDetailComponent implements OnInit {
   artist: Artist = {} as Artist
   @ViewChild('top') top!: ElementRef
+  @ViewChild('bottom') bottom!: ElementRef
   fromFeatures: From = { } as From
   fromPopular: From = { } as From
   loaded: boolean = false;
@@ -24,7 +26,9 @@ export class ArtistDetailComponent implements OnInit {
               private _route: ActivatedRoute,
               private _userService: UserService,
               private _snackbarService: SnackbarService,
-              private _title: Title) {
+              private _title: Title,
+              private _renderer: Renderer2,
+              private _colorService: ColorThiefService) {
   }
   ngOnInit() {
     this.loaded = false
@@ -42,8 +46,8 @@ export class ArtistDetailComponent implements OnInit {
               console.log(artist)
               this.top.nativeElement.style.background = `
               linear-gradient(90deg, var(--black), transparent 100%),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${this.artist.cover}') right/600px repeat-x`
-
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${artist.cover}') center/cover no-repeat`
+              this._colorService.getRgbColorsFromImage(artist.cover, 'artist', true)
               this.fromFeatures = {
                 id: this.artist.id,
                 name: this.artist.name + '\'s features',
@@ -116,5 +120,8 @@ export class ArtistDetailComponent implements OnInit {
         sub.unsubscribe()
       }
     })
+  }
+  ngOnDestroy() {
+    document.documentElement.style.setProperty('--header', `var(--primary-black)`)
   }
 }

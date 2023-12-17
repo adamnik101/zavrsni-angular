@@ -4,7 +4,7 @@
   left: 0;
   right: 0;
   height: 100px;
-  background: var(--primary-black);
+  background: var(--player);
   z-index: 7;
   padding: 10px;
   display: flex;
@@ -89,6 +89,7 @@
     .top{
       display: flex;
       flex-direction: row;
+      align-items: center;
       gap: 20px;
       .action-button{
         background: none;
@@ -102,13 +103,23 @@
           width: 25px;
           height: 25px;
         }
-      }
-      .play{
-        img{
+        .bigger{
+          font-size: 35px;
+          width: 35px;
+          height: 35px;
+        }
+        .smaller{
+          font-size: 25px;
           width: 25px;
           height: 25px;
         }
+        .smaller-1{
+          font-size: 20px;
+          width: 20px;
+          height: 25px;
+        }
       }
+
       .optional{
         display: flex;
         align-items: center;
@@ -148,6 +159,11 @@
       &:hover{
         opacity: .5;
       }
+    }
+    .icon{
+      width: 25px;
+      height: 25px;
+      font-size: 25px;
     }
     img{
       width: 20px;

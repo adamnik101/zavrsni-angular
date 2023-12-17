@@ -12,6 +12,10 @@
     <button mat-button [matMenuTriggerFor]="menu" matRipple class="cover">
       <mat-icon *ngIf="!cover">person</mat-icon>
       <img *ngIf="cover" src="{{cover}}"/>
+      <!--@if(cover){ // works but webstorm doesnt support it still
+      <img *ngIf="cover" src="{{cover}}"/>
+      }-->
+
     </button>
     <mat-menu #menu="matMenu">
       <a routerLink="/user/profile" mat-menu-item>

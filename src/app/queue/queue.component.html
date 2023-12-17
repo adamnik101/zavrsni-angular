@@ -28,16 +28,16 @@
           <div class="track-info">
             <div class="image">
               <button class="play" *ngIf="index !== this.queueService.currentQueueIndex" (click)="this.queueService.playAtIndex(index)">
-                <img src="assets/icons-svg/play.svg"/>
+                <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
               </button>
               <button (click)="audioService.pause()" class="pause" *ngIf="index == this.queueService.currentQueueIndex && !audioService.audio.paused">
-                <img src="assets/icons-svg/pause.svg"/>
+                <mat-icon [style.color]="'#fff'">pause</mat-icon>
               </button>
               <button (click)="audioService.continue()" class="pause" *ngIf="index == this.queueService.currentQueueIndex && audioService.audio.paused">
-                <img src="assets/icons-svg/play.svg"/>
+                <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
               </button>
               <ng-container *ngIf="index === this.queueService.currentQueueIndex" >
-                <img class="playing playing-icon" src="assets/icons-svg/playing.svg"/>
+                <mat-icon class="playing playing-icon" [style.color]="'#fff'" [style.font-size]="'20px'">volume_up</mat-icon>
               </ng-container>
               <p class="index" *ngIf="index !== this.queueService.currentQueueIndex">{{index + 1}}</p>
               <!--<img src="{{queueService.from.imageFrom}}">-->

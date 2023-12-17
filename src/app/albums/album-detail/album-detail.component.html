@@ -1,21 +1,23 @@
 
   <div class="album">
-    <div class="top" #background>
-      <ng-container *ngIf="isLoaded; else loading">
-        <img class="cover" src="{{album.cover}}">
-        <div class="info">
-          <h1>{{album.name}}</h1>
-          <p>{{album.tracks_count}} tracks</p>
-          <p>{{album.release_year}}</p>
-          <div class="artist">
-            <a routerLink="/artists/{{album.artist.id}}">
-              <img src="{{album.artist.cover}}"/>
-              {{album.artist.name}}
-            </a>
-          </div>
-        </div>
-      </ng-container>
 
+    <div class="top" #background>
+
+        <ng-container *ngIf="isLoaded; else loading">
+          <div class="backdrop"></div>
+          <img class="cover" src="{{album.cover}}">
+          <div class="info">
+            <h1>{{album.name}}</h1>
+            <p>{{album.tracks_count}} tracks</p>
+            <p>{{album.release_year}}</p>
+            <div class="artist">
+              <a routerLink="/artists/{{album.artist.id}}">
+                <img src="{{album.artist.cover}}"/>
+                {{album.artist.name}}
+              </a>
+            </div>
+          </div>
+        </ng-container>
     </div>
     <div class="bottom" *ngIf="isLoaded;">
       <button class="play" (click)="playAlbum(album.tracks)">

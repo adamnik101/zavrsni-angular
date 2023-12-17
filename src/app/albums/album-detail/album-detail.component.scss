@@ -1,15 +1,27 @@
 .album{
+
   .top{
     padding: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 20px;
+    position: relative;
+    .backdrop{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(10px) !important;
+    }
     img{
+      z-index: 1;
       width: 200px;
       border-radius: 5px;
     }
     .info{
+      z-index: 1;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -54,4 +66,5 @@
 .loading{
   width: 100%;
   height: 300px;
+  backdrop-filter: blur(10px);
 }

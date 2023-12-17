@@ -1,5 +1,6 @@
-<div class="playlist" #background>
+
   <ng-container *ngIf="isLoaded; else loading">
+    <div class="playlist" #background>
     <div class="top">
       <div class="image-info">
         <div class="image">
@@ -34,9 +35,10 @@
 
       </div>
     </div>
+    </div>
   </ng-container>
 
-</div>
+
 <ng-container *ngIf="isLoaded">
   <div class="table" *ngIf="playlist.tracks_count > 0; else noTracks">
     <app-track-table [tracks]="playlist.tracks.data" [from]="fromInfo"></app-track-table>

@@ -108,7 +108,9 @@ export class QueueComponent {
         else{
           this.cover = track.owner.cover
         }
-        this._colorThiefService.getRgbColorsFromImage(this._renderer2, this.cover, this.queue)
+        //this.queue.nativeElement.style.backgroundImage = `url(${this.cover})`
+
+        this._colorThiefService.getRgbColorsFromImage(this.cover, "queue")
         this._cdr.detectChanges()
 
       }

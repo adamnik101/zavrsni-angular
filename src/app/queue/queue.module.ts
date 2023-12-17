@@ -6,6 +6,7 @@ import { QueueComponent } from './queue.component';
 import {CdkDrag, CdkDragHandle, CdkDropList} from "@angular/cdk/drag-drop";
 import {CdkScrollable} from "@angular/cdk/overlay";
 import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {MatButtonModule} from "@angular/material/button";
         CdkDrag,
         CdkDragHandle,
         CdkScrollable,
-        MatButtonModule
+        MatButtonModule,
+        MatIconModule
     ]
 })
 export class QueueModule { }

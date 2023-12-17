@@ -15,6 +15,7 @@ import {FormsModule} from "@angular/forms";
 import { GenreDetailComponent } from './genres/genre-detail/genre-detail.component';
 import {HomeModule} from "./home/home.module";
 import {QueueModule} from "./queue/queue.module";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {QueueModule} from "./queue/queue.module";
         MatSliderModule,
         FormsModule,
         HomeModule,
-        QueueModule
+        QueueModule,
+        MatIconModule
     ],
   providers: [
     {

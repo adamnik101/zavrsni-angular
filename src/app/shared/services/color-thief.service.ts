@@ -8,30 +8,43 @@ import {QueueService} from "../../queue/services/queue.service";
 export class ColorThiefService {
   constructor() { }
 
-
-  getRgbColorsFromImage(renderer: Renderer2, url: string, element: ElementRef<any>, isProfile?: boolean) : void {
+  getRgbColorsFromImage(url: string, type: string, header?: boolean) : void {
 
     const colorThief = new ColorThief()
     const image = new Image()
     image.src = url
-    console.log(element)
     image.onload = () => {
       const dominantColor =  colorThief.getColor(image)
       const red = dominantColor[0]
       const green = dominantColor[1]
       const blue = dominantColor[2]
 
-        let newBackground = `rgb(${red}, ${green}, ${blue})`
-        //renderer.setStyle(element, 'background', newBackground)
+      const darkenFactor = 0.8
+      const darkerRed = red * darkenFactor
+      const darkerGreen = green * darkenFactor
+      const darkerBlue = blue * darkenFactor
 
-      if(isProfile) {
-        document.documentElement.style.setProperty('--profile', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
-        return
+      let newBackground = `rgb(${red}, ${green}, ${blue})`
+      let newBackgroundDarker = `rgb(${darkerRed}, ${darkerGreen}, ${darkerBlue})`
+      if(header) {
+        document.documentElement.style.setProperty('--header', newBackgroundDarker);
+
       }
-      document.documentElement.style.setProperty('--queue',newBackground);
+      switch (type) {
+        case "artist": {
+          document.documentElement.style.setProperty('--artist', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
+        } break;
+        case "playlist": {
+          document.documentElement.style.setProperty('--playlist', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
+        } break;
+        case "queue" : {
+          document.documentElement.style.setProperty('--queue', newBackground);
+        } break;
+        case "profile" : {
+          document.documentElement.style.setProperty('--profile', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
+        } break;
+      }
 
-      //renderer.setStyle(element, 'transition', 'background 500ms ease 0s');
-        //renderer.setStyle(element, 'background', '--queue')
 
     }
 

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {PlaylistService} from "../services/playlist.service";
 import {Playlist} from "../interfaces/playlist";
@@ -7,6 +7,7 @@ import {From} from "../../shared/interfaces/from";
 import {Title} from "@angular/platform-browser";
 import {Track} from "../../shared/interfaces/track";
 import {formatDate} from "@angular/common";
+import {ColorThiefService} from "../../shared/services/color-thief.service";
 
 @Component({
   selector: 'app-playlist-detail',
@@ -19,7 +20,7 @@ export class PlaylistDetailComponent implements OnInit{
   fromInfo : From = {} as From
   tracks : Track[] = []
 
-  constructor(private _route: ActivatedRoute, public playlistService: PlaylistService, private _title: Title) {
+  constructor(private _route: ActivatedRoute, public playlistService: PlaylistService, private _title: Title, private _renderer: Renderer2, private _colorService: ColorThiefService) {
   }
   ngOnInit(): void {
 
@@ -38,7 +39,11 @@ export class PlaylistDetailComponent implements OnInit{
             next: (response) => {
               this.playlist = response
               this.isLoaded = true
-              this.background.nativeElement.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0.72), #000), url('${this.playlist.image_url}')`
+              if(response.image_url){
+                this._colorService.getRgbColorsFromImage(response.image_url,'playlist', true)
+
+              }
+              //this.background.nativeElement.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0.72), #000), url('${this.playlist.image_url}')`
               this.fromInfo = {
                 id: this.playlist.id,
                 name: this.playlist.title,
@@ -66,7 +71,9 @@ export class PlaylistDetailComponent implements OnInit{
   get playlist() {
     return this.playlistService.playlist
   }
-
+  ngOnDestroy() {
+    document.documentElement.style.setProperty('--header', 'var(--primary-black)')
+  }
   /*@HostListener('window:scroll', ['$event'])
   onScroll() {
     if(document.documentElement.scrollHeight - window.innerHeight <= window.scrollY) {
