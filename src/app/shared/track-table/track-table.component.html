@@ -1,51 +1,55 @@
-
 <table>
   <thead *ngIf="!from.url.includes('/') && !from.name.includes('search') && !from.name.includes('Trending')">
     <tr>
       <th class="index">TRACK</th>
       <!--<th>Plays</th>-->
       <th class="album" *ngIf="!from.url.includes('albums/')">ALBUM</th>
-      <th class="album" *ngIf="!from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">ADDED AT</th>
+      <th class="album"
+        *ngIf="!from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">ADDED
+        AT</th>
 
-      <th class="time"><img src="assets/icons-svg/time.svg" width="15"/></th>
+      <th class="time"><img src="assets/icons-svg/time.svg" width="15" /></th>
       <th class="like"></th>
-      <th ></th>
+      <th></th>
     </tr>
   </thead>
   <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
-    <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById" >
+    <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById">
       @defer(on viewport){
-      <tr  cdkDrag (cdkDragDropped)="onDragDropped($event)" (cdkDragStarted)="onDragStarted($event)" class="item" [ngClass]="{'selected' : selectedTracks.has(track.id)}" (click)="selectTrack($event, track.id,track)" (contextmenu)="openMenuOnRightClick($event, track)" (dblclick)="playAllFromIndex(tracks, index, from)">
+      <tr cdkDrag (cdkDragDropped)="onDragDropped($event)" (cdkDragStarted)="onDragStarted($event)" class="item"
+        [ngClass]="{'selected' : selectedTracks.has(track.id)}" (click)="selectTrack($event, track.id,track)"
+        (contextmenu)="openMenuOnRightClick($event, track)" (dblclick)="playAllFromIndex(tracks, index, from)">
         <ng-container *ngIf="selectedTracks.size > 0; else oneSelected">
           <p *cdkDragPreview class="preview">{{selectedTracks.size}} tracks selected</p>
         </ng-container>
         <ng-template #oneSelected>
-          <p *cdkDragPreview class="preview">{{track.title}} <app-divider></app-divider> {{track.owner.name}}<ng-container *ngFor="let feature of track.features">, {{feature.name}}</ng-container>
+          <p *cdkDragPreview class="preview">{{track.title}} <app-divider></app-divider>
+            {{track.owner.name}}<ng-container *ngFor="let feature of track.features">, {{feature.name}}</ng-container>
           </p>
         </ng-template>
 
         <td class="cover-title">
           <button class="play" (click)="playAllFromIndex(tracks, index, from)">
-            <img src="assets/icons-svg/play.svg"/>
+            <img src="assets/icons-svg/play.svg" />
           </button>
           <div class="image" *ngIf="!from.url.includes('albums/')">
             <ng-container *ngIf="track.cover; else albumArtist">
-              <img src="{{track.cover}}" >
+              <img src="{{track.cover}}">
             </ng-container>
 
             <ng-template #albumArtist>
-            <ng-container *ngIf="track.album">
-              <img src="{{track.album.cover}}" >
-            </ng-container>
-            <ng-container *ngIf="!track.album">
-              <img src="{{track.owner.cover}}" >
-            </ng-container>
+              <ng-container *ngIf="track.album">
+                <img src="{{track.album.cover}}">
+              </ng-container>
+              <ng-container *ngIf="!track.album">
+                <img src="{{track.owner.cover}}">
+              </ng-container>
 
             </ng-template>
 
           </div>
           <div class="index" *ngIf="from.url.includes('albums/')">
-           <p> {{index + 1}}</p>
+            <p> {{index + 1}}</p>
           </div>
           <div class="info">
             <div class="title">
@@ -55,7 +59,10 @@
               </ng-container>
             </div>
             <div class="artists">
-              <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a><ng-container *ngIf="track.features.length > 0"><ng-container *ngFor="let feature of track.features; trackBy: trackById; let index = index">, <a routerLink="/artists/{{feature.id}}">{{feature.name}}</a></ng-container>
+              <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a><ng-container
+                *ngIf="track.features.length > 0"><ng-container
+                  *ngFor="let feature of track.features; trackBy: trackById; let index = index">, <a
+                    routerLink="/artists/{{feature.id}}">{{feature.name}}</a></ng-container>
               </ng-container>
             </div>
 
@@ -70,11 +77,13 @@
 
           </ng-container>
         </td>
-        <td class="time" *ngIf="from.name !== 'Home' && !from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">{{track.pivot?.created_at | humanizeDate}}</td>
+        <td class="time"
+          *ngIf="from.name !== 'Home' && !from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">
+          {{track.pivot?.created_at | humanizeDate}}</td>
         <td class="time">{{track.duration | formatDuration}}</td>
         <td class="like">
           <button *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)" class="like-icon">
-            <img  src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
+            <img src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
           </button>
           <button *ngIf="likedMap.has(track.id)" (click)="removeFromLiked(track.id)">
             <img src="assets/icons-svg/heart-filled.svg" alt="heart, icon" width="18" height="18">
@@ -84,12 +93,10 @@
         </td>
 
         <td class="more">
-          <button style="visibility: hidden; position: fixed;"
-                  [style.left]="menuTopLeftPosition.x"
-                  [style.top]="menuTopLeftPosition.y"
-                  [matMenuTriggerFor]="contextMenu"></button>
+          <button style="visibility: hidden; position: fixed;" [style.left]="menuTopLeftPosition.x"
+            [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="contextMenu"></button>
           <button matRipple (click)="openMenuOnLeftClick($event, track)">
-            <img src="assets/icons-svg/more.svg" >
+            <img src="assets/icons-svg/more.svg">
           </button>
           <mat-menu #contextMenu='matMenu' (closed)="onMenuClosed(contextMenu)">
             <ng-template matMenuContent>
@@ -116,19 +123,21 @@
                 <span>Remove from My Collection</span>
               </button>
               <mat-divider></mat-divider>
-              <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}" [matMenuTriggerFor]="contextArtists">
+              <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}"
+                [matMenuTriggerFor]="contextArtists">
                 <mat-icon class="custom-icon-color">people</mat-icon>
                 <span>Artists</span>
               </button>
-              <button mat-menu-item *ngIf="selectedTrack.album && !from.url.includes('albums/')" routerLink="/albums/{{selectedTrack.album.id}}">
+              <button mat-menu-item *ngIf="selectedTrack.album && !from.url.includes('albums/')"
+                routerLink="/albums/{{selectedTrack.album.id}}">
 
                 <mat-icon class="custom-icon-color">album</mat-icon>
                 <span>Go to Album</span>
               </button>
             </ng-template>
-            <mat-menu #contextArtists="matMenu" >
+            <mat-menu #contextArtists="matMenu">
               <ng-template matMenuContent>
-                <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}" >
+                <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}">
                   <span>{{selectedTrack.owner.name}}</span>
                 </button>
                 <ng-container *ngFor="let feature of selectedTrack.features">
