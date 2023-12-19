@@ -16,6 +16,7 @@ import { GenreDetailComponent } from './genres/genre-detail/genre-detail.compone
 import {HomeModule} from "./home/home.module";
 import {QueueModule} from "./queue/queue.module";
 import {MatIconModule} from "@angular/material/icon";
+import {DurationPipe} from "./shared/pipes/duration.pipe";
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import {MatIconModule} from "@angular/material/icon";
         FormsModule,
         HomeModule,
         QueueModule,
-        MatIconModule
+        MatIconModule,
+        DurationPipe
     ],
   providers: [
     {

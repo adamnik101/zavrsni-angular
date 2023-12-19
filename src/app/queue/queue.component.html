@@ -43,12 +43,18 @@
               <!--<img src="{{queueService.from.imageFrom}}">-->
             </div>
             <div class="image cover">
-              <ng-container *ngIf="track.album; else artist">
-                <img src="{{track.album?.cover!}}"/>
+              <ng-container *ngIf="track.cover; else other">
+                <img src="{{track.cover}}" alt="cover"/>
               </ng-container>
-              <ng-template #artist>
-                <img src="{{track.owner.cover}}"/>
+              <ng-template #other>
+                <ng-container *ngIf="track.album; else artist">
+                  <img src="{{track.album?.cover!}}"/>
+                </ng-container>
+                <ng-template #artist>
+                  <img src="{{track.owner.cover}}"/>
+                </ng-template>
               </ng-template>
+
 
             </div>
             <div class="info">

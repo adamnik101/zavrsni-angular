@@ -29,12 +29,20 @@
             <img src="assets/icons-svg/play.svg"/>
           </button>
           <div class="image" *ngIf="!from.url.includes('albums/')">
+            <ng-container *ngIf="track.cover; else albumArtist">
+              <img src="{{track.cover}}" >
+            </ng-container>
+
+            <ng-template #albumArtist>
             <ng-container *ngIf="track.album">
               <img src="{{track.album.cover}}" >
             </ng-container>
             <ng-container *ngIf="!track.album">
               <img src="{{track.owner.cover}}" >
             </ng-container>
+
+            </ng-template>
+
           </div>
           <div class="index" *ngIf="from.url.includes('albums/')">
            <p> {{index + 1}}</p>

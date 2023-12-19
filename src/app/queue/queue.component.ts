@@ -102,12 +102,18 @@ export class QueueComponent {
             inline: "center"
           })
         }
-        if(track.album) {
-          this.cover = track.album.cover
+        if(track.cover) {
+          this.cover = track.cover
         }
         else{
-          this.cover = track.owner.cover
+          if(track.album) {
+            this.cover = track.album.cover
+          }
+          else{
+            this.cover = track.owner.cover
+          }
         }
+
         //this.queue.nativeElement.style.backgroundImage = `url(${this.cover})`
 
         this._colorThiefService.getRgbColorsFromImage(this.cover, "queue")

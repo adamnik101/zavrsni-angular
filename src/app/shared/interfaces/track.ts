@@ -4,6 +4,7 @@ import {Album} from "../../albums/interfaces/album";
 export interface Track {
   id: string
   title: string
+  cover: string
   duration: number
   plays: number
   path: string

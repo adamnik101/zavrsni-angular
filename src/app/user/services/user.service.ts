@@ -1,7 +1,7 @@
 import {Injectable, signal} from '@angular/core';
 import {User} from "../interfaces/user";
 import {BaseService} from "../../core/services/base.service";
-import {BehaviorSubject, config, Subscription} from "rxjs";
+import {BehaviorSubject, config, Observable, Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
@@ -115,7 +115,7 @@ export class UserService extends BaseService{
     return this.get<Track[]>('actor/favorite/tracks')
   }
 
-  getRecentlyPlayedTracks() {
+  getRecentlyPlayedTracks() : Observable<Track[]> {
     return this.get<Track[]>('actor/recent/tracks')
   }
 }
