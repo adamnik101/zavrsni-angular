@@ -1,36 +1,40 @@
 <div class="header">
   <div class="left">
     <!--<button class="back">
-      <img src="assets/icons-svg/back.svg" height="20" width="20" alt="back,icon">
-    </button>
-    <button class="forward">
-      <img src="assets/icons-svg/back.svg" height="20" width="20" alt="back,icon">
-    </button>-->
-    <app-search-bar></app-search-bar>
-  </div>
-  <div class="right">
-    <button mat-button [matMenuTriggerFor]="menu" matRipple class="cover">
-      <mat-icon *ngIf="!cover">person</mat-icon>
-      <img *ngIf="cover" src="{{cover}}"/>
-      <!--@if(cover){ // works but webstorm doesnt support it still
-      <img *ngIf="cover" src="{{cover}}"/>
-      }-->
+    <img src="assets/icons-svg/back.svg" height="20" width="20" alt="back,icon">
+  </button>
+  <button class="forward">
+    <img src="assets/icons-svg/back.svg" height="20" width="20" alt="back,icon">
+  </button>-->
+  <app-search-bar></app-search-bar>
+</div>
+<div class="right">
+  <button mat-button [matMenuTriggerFor]="menu" matRipple class="cover">
+    @if (!cover) {
+      <mat-icon>person</mat-icon>
+    }
+    @if (cover) {
+      <img src="{{cover}}"/>
+    }
+    <!--@if(cover){ // works but webstorm doesnt support it still
+    <img *ngIf="cover" src="{{cover}}"/>
+    }-->
 
-    </button>
-    <mat-menu #menu="matMenu">
-      <a routerLink="/user/profile" mat-menu-item>
-        <mat-icon>person</mat-icon>
-        <span>Profile</span>
-      </a>
-      <a routerLink="/user/settings"  mat-menu-item>
-        <mat-icon>settings</mat-icon>
-        <span>Settings</span>
-      </a>
-      <mat-divider></mat-divider>
-      <a mat-menu-item (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        <span>Log out</span>
-      </a>
-    </mat-menu>
-  </div>
+  </button>
+  <mat-menu #menu="matMenu">
+    <a routerLink="/user/profile" mat-menu-item>
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </a>
+    <a routerLink="/user/settings"  mat-menu-item>
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </a>
+    <mat-divider></mat-divider>
+    <a mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Log out</span>
+    </a>
+  </mat-menu>
+</div>
 </div>

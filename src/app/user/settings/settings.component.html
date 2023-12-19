@@ -1,4 +1,4 @@
-<ng-container *ngIf="settings.id; else loading">
+@if (settings.id) {
   <div class="container">
     <h1>Your info</h1>
     <div class="rows">
@@ -25,7 +25,6 @@
         <div class="right">
           <mat-slide-toggle [checked]="this.user.settings.explicit"></mat-slide-toggle>
         </div>
-
       </div>
       <mat-divider></mat-divider>
       <div class="row-preference">
@@ -36,11 +35,9 @@
         <div class="right">
           <mat-slide-toggle [checked]="this.user.settings.history" (change)="update($event.checked)" #history></mat-slide-toggle>
         </div>
-
       </div>
     </div>
   </div>
-</ng-container>
-<ng-template #loading>
+} @else {
   <app-loading></app-loading>
-</ng-template>
+}

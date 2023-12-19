@@ -1,11 +1,11 @@
 
 <div class="following">
-  <ng-container *ngFor="let artist of following">
+  @for (artist of following; track artist) {
     <div class="row">
       <div class="left">
         <img src="{{artist.cover}}"/>
         <a routerLinkActive="active" routerLink="/artists/{{artist.id}}">{{artist.name}}</a>
       </div>
     </div>
-  </ng-container>
+  }
 </div>

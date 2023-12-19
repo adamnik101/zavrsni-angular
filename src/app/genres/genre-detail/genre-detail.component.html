@@ -2,9 +2,9 @@
 <div class="container">
   <h1>{{genre.name}}</h1>
   <div class="cards">
-    <ng-container *ngFor="let playlist of playlists">
+    @for (playlist of playlists; track playlist) {
       <app-public-playlist-card [playlist]="playlist"></app-public-playlist-card>
-    </ng-container>
+    }
   </div>
 
 </div>

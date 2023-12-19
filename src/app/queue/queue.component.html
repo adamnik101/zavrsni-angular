@@ -2,84 +2,95 @@
 <div class="queue" #queue >
   <div class="background" >
     <div class="info-left">
-      <ng-container *ngIf="cover !== ''">
+      @if (cover !== '') {
         <img src="{{cover}}"/>
-      </ng-container>
+      }
 
       <p class="title">{{this.queueService.queue[this.queueService.currentQueueIndex].title}}</p>
       <div class="artists">
         <p>{{this.queueService.queue[this.queueService.currentQueueIndex].owner.name}}</p>
-        <ng-container *ngIf="queueService.queue[this.queueService.currentQueueIndex].features.length > 0">
-          <p> &nbsp; ft.</p><ng-container *ngFor="let feature of queueService.queue[this.queueService.currentQueueIndex].features; let index = index">&nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a><ng-container *ngIf="queueService.queue[this.queueService.currentQueueIndex].features.length - 1 != index">,</ng-container>
-        </ng-container>
-        </ng-container>
-      </div>
-
-    </div>
-    <div class="list" cdkDropList (cdkDropListDropped)="drop($event)" #trackList cdkScrollable>
-      <ng-container *ngFor="let track of queueService.queue;let index = index" >
-
-        <div class="item" [ngClass]="{'hover': index !== this.queueService.currentQueueIndex,'current' : index == this.queueService.currentQueueIndex,'transparent' : index < this.queueService.currentQueueIndex}" cdkDrag cdkDragLockAxis="y">
-          <!--  <p class="next-up" *ngIf="queueService.currentQueueIndex < this.queueService.queue.length - 1 && index == this.queueService.currentQueueIndex + 1">
-            Next up from: {{this.queueService.from.name}}
-          </p>
-          <p class="currently-playing" *ngIf="queueService.currentQueueIndex == index">Playing from: {{this.queueService.from.name}}</p>
-          -->
-          <div class="track-info">
-            <div class="image">
-              <button class="play" *ngIf="index !== this.queueService.currentQueueIndex" (click)="this.queueService.playAtIndex(index)">
-                <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
-              </button>
-              <button (click)="audioService.pause()" class="pause" *ngIf="index == this.queueService.currentQueueIndex && !audioService.audio.paused">
-                <mat-icon [style.color]="'#fff'">pause</mat-icon>
-              </button>
-              <button (click)="audioService.continue()" class="pause" *ngIf="index == this.queueService.currentQueueIndex && audioService.audio.paused">
-                <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
-              </button>
-              <ng-container *ngIf="index === this.queueService.currentQueueIndex" >
-                <mat-icon class="playing playing-icon" [style.color]="'#fff'" [style.font-size]="'20px'">volume_up</mat-icon>
-              </ng-container>
-              <p class="index" *ngIf="index !== this.queueService.currentQueueIndex">{{index + 1}}</p>
-              <!--<img src="{{queueService.from.imageFrom}}">-->
-            </div>
-            <div class="image cover">
-              <ng-container *ngIf="track.cover; else other">
-                <img src="{{track.cover}}" alt="cover"/>
-              </ng-container>
-              <ng-template #other>
-                <ng-container *ngIf="track.album; else artist">
-                  <img src="{{track.album?.cover!}}"/>
-                </ng-container>
-                <ng-template #artist>
-                  <img src="{{track.owner.cover}}"/>
-                </ng-template>
-              </ng-template>
-
-
-            </div>
-            <div class="info">
-              <p class="title">{{track.title}}</p>
-              <p class="artists">
-                {{track.owner.name}}<ng-container *ngIf="track.features.length > 0">&nbsp;ft.<ng-container *ngFor="let feature of track.features; let index = index">&nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a><ng-container *ngIf="track.features.length - 1 != index">,</ng-container>
-              </ng-container>
-              </ng-container>
-              </p>
-            </div>
-            <div class="drag-handle image" >
-              <button mat-button cdkDragHandle *ngIf="width <= 1100">
-                <img src="assets/icons-svg/grip.svg">
-              </button>
-              <button mat-button (click)="removeFromQueue(index)" *ngIf="index !== this.queueService.currentQueueIndex">
-                <img src="assets/icons-svg/delete.svg">
-              </button>
-            </div>
-          </div>
-
-
-        </div>
-
-      </ng-container>
-    </div>
+        @if (queueService.queue[this.queueService.currentQueueIndex].features.length > 0) {
+          <p> &nbsp; ft.</p>@for (feature of queueService.queue[this.queueService.currentQueueIndex].features; track feature; let index = $index) {
+          &nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>@if (queueService.queue[this.queueService.currentQueueIndex].features.length - 1 != index) {
+          ,
+        }
+      }
+    }
   </div>
+
+</div>
+<div class="list" cdkDropList (cdkDropListDropped)="drop($event)" #trackList cdkScrollable>
+  @for (track of queueService.queue; track track; let index = $index) {
+    <div class="item" [ngClass]="{'hover': index !== this.queueService.currentQueueIndex,'current' : index == this.queueService.currentQueueIndex,'transparent' : index < this.queueService.currentQueueIndex}" cdkDrag cdkDragLockAxis="y">
+      <!--  <p class="next-up" *ngIf="queueService.currentQueueIndex < this.queueService.queue.length - 1 && index == this.queueService.currentQueueIndex + 1">
+      Next up from: {{this.queueService.from.name}}
+    </p>
+    <p class="currently-playing" *ngIf="queueService.currentQueueIndex == index">Playing from: {{this.queueService.from.name}}</p>
+    -->
+    <div class="track-info">
+      <div class="image">
+        @if (index !== this.queueService.currentQueueIndex) {
+          <button class="play" (click)="this.queueService.playAtIndex(index)">
+            <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
+          </button>
+        }
+        @if (index == this.queueService.currentQueueIndex && !audioService.audio.paused) {
+          <button (click)="audioService.pause()" class="pause">
+            <mat-icon [style.color]="'#fff'">pause</mat-icon>
+          </button>
+        }
+        @if (index == this.queueService.currentQueueIndex && audioService.audio.paused) {
+          <button (click)="audioService.continue()" class="pause">
+            <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
+          </button>
+        }
+        @if (index === this.queueService.currentQueueIndex) {
+          <mat-icon class="playing playing-icon" [style.color]="'#fff'" [style.font-size]="'20px'">volume_up</mat-icon>
+        }
+        @if (index !== this.queueService.currentQueueIndex) {
+          <p class="index">{{index + 1}}</p>
+        }
+        <!--<img src="{{queueService.from.imageFrom}}">-->
+      </div>
+      <div class="image cover">
+        @if (track.cover) {
+          <img src="{{track.cover}}" alt="cover"/>
+        } @else {
+          @if (track.album) {
+            <img src="{{track.album?.cover!}}"/>
+          } @else {
+            <img src="{{track.owner.cover}}"/>
+          }
+        }
+      </div>
+      <div class="info">
+        <p class="title">{{track.title}}</p>
+        <p class="artists">
+          {{track.owner.name}}@if (track.features.length > 0) {
+          &nbsp;ft.@for (feature of track.features; track feature; let index = $index) {
+          &nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>@if (track.features.length - 1 != index) {
+          ,
+        }
+      }
+    }
+  </p>
+</div>
+<div class="drag-handle image" >
+  @if (width <= 1100) {
+    <button mat-button cdkDragHandle>
+      <img src="assets/icons-svg/grip.svg">
+    </button>
+  }
+  @if (index !== this.queueService.currentQueueIndex) {
+    <button mat-button (click)="removeFromQueue(index)">
+      <img src="assets/icons-svg/delete.svg">
+    </button>
+  }
+</div>
+</div>
+</div>
+}
+</div>
+</div>
 
 </div>

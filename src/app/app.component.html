@@ -1,14 +1,13 @@
 <app-sidenav></app-sidenav>
-<ng-container *ngIf="(queueService.currentTrack$ | async)?.id">
+@if ((queueService.currentTrack$ | async)?.id) {
   <div class="player" [@slideInOut]="'in'">
     <app-player ></app-player>
   </div>
+}
 
-</ng-container>
-
-<ng-container *ngIf="queueService.queueOpened">
+@if (queueService.queueOpened) {
   <div class="queue-container" [@slideInOut]="'in'">
     <app-queue></app-queue>
   </div>
-</ng-container>
+}
 

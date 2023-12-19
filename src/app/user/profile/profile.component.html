@@ -1,5 +1,5 @@
 
-<ng-container *ngIf="userService.userLoaded(); else loading">
+@if (userService.userLoaded()) {
   <div class="profile">
     <div class="top" #cover>
       <div class="left">
@@ -14,44 +14,42 @@
           <p>{{user.playlists_count}} Playlists</p>
         </div>
       </div>
-
     </div>
     <div class="bottom">
       <div class="section">
         <div class="top-section">
           <h1>Playlists</h1>
-          <a *ngIf="user.playlists_count > 5">See more</a>
+          @if (user.playlists_count > 5) {
+            <a>See more</a>
+          }
         </div>
         <div class="row">
-          <ng-container *ngIf="playlists.length; else noPlaylists">
-            <ng-container *ngFor="let playlist of playlists">
+          @if (playlists.length) {
+            @for (playlist of playlists; track playlist) {
               <app-playlist-card [playlist]="playlist"></app-playlist-card>
-            </ng-container>
-          </ng-container>
-          <ng-template #noPlaylists>
+            }
+          } @else {
             You did not create any playlists yet..
-          </ng-template>
+          }
         </div>
-
       </div>
       <div class="section">
         <div class="top-section">
           <h1>Following</h1>
-          <a *ngIf="user.following_count > 6">See more</a>
+          @if (user.following_count > 6) {
+            <a>See more</a>
+          }
         </div>
-        <ng-container *ngIf="user.following_count > 0; else noFollowings">
+        @if (user.following_count > 0) {
           <!--<app-following [following]="user.following"></app-following>-->
           <div class="row">
-            <ng-container *ngFor="let artist of user.following">
+            @for (artist of user.following; track artist) {
               <app-artist-round-card [artist]="artist"></app-artist-round-card>
-            </ng-container>
+            }
           </div>
-
-        </ng-container>
-        <ng-template #noFollowings>
+        } @else {
           You are not following any artist yet..
-        </ng-template>
-
+        }
       </div>
       <div class="section favorite">
         <h1>Your favorite tracks last 7 days</h1>
@@ -59,10 +57,7 @@
         <app-track-table [tracks]="favoriteTracks" [from]="from"></app-track-table>
       </div>
     </div>
-
-
   </div>
-</ng-container>
-<ng-template #loading>
+} @else {
   <app-loading></app-loading>
-</ng-template>
+}

@@ -1,38 +1,61 @@
 <div class="player"  #player>
-    <div class="left">
-      <div class="image">
-        <ng-container *ngIf="currentTrack.cover; else other">
-          <img src="{{currentTrack.cover}}" alt="cover">
-        </ng-container>
-        <ng-template #other>
-          <img *ngIf="currentTrack.album" src="{{currentTrack.album?.cover}}" alt="cover">
-          <img *ngIf="!currentTrack.album" src="{{currentTrack.owner.cover}}" alt="cover">
-        </ng-template>
+  <div class="left">
+    <div class="image">
+      @if (currentTrack.cover) {
+        <img src="{{currentTrack.cover}}" alt="cover">
+      } @else {
+        @if (currentTrack.album) {
+          <img src="{{currentTrack.album?.cover}}" alt="cover">
+        }
+        @if (!currentTrack.album) {
+          <img src="{{currentTrack.owner.cover}}" alt="cover">
+        }
+      }
+      <ng-template #other>
+        @if (currentTrack.album) {
+          <img src="{{currentTrack.album?.cover}}" alt="cover">
+        }
+        @if (!currentTrack.album) {
+          <img src="{{currentTrack.owner.cover}}" alt="cover">
+        }
+      </ng-template>
 
-      </div>
-      <div class="info">
-        <p class="title">{{currentTrack.title}}
-          <img *ngIf="currentTrack.explicit" src="assets/icons-svg/explicit.svg" width="15" height="15"/>
-        </p>
-        <div class="other">
-          <a routerLink="/artists/{{currentTrack.owner.id}}">{{currentTrack.owner.name}}</a>
-          <ng-container *ngIf="currentTrack.features.length > 0">
-            ft.
-            <ng-container *ngFor="let feature of currentTrack.features; let index = index">
-              <a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>
-              <ng-container *ngIf="index !== currentTrack.features.length - 1">,&nbsp;</ng-container>
-            </ng-container>
-          </ng-container>
-        </div>
-
-        <p *ngIf="from.name !== 'search'"><span>Playing from: &nbsp;</span> <a routerLink="/{{from.url}}">{{from.name}}</a></p>
-      </div>
     </div>
+    <div class="info">
+      <p class="title">{{currentTrack.title}}
+        @if (currentTrack.explicit) {
+          <img src="assets/icons-svg/explicit.svg" width="15" height="15"/>
+        }
+      </p>
+      <div class="other">
+        <a routerLink="/artists/{{currentTrack.owner.id}}">{{currentTrack.owner.name}}</a>
+        @if (currentTrack.features.length > 0) {
+          ft.
+          @for (feature of currentTrack.features; track feature; let index = $index) {
+            <a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>
+            @if (index !== currentTrack.features.length - 1) {
+              ,&nbsp;
+            }
+          }
+        }
+      </div>
+
+      @if (from.name !== 'search') {
+        <p><span>Playing from: &nbsp;</span> <a routerLink="/{{from.url}}">{{from.name}}</a></p>
+      }
+    </div>
+  </div>
   <div class="middle">
     <div class="top">
-      <button *ngIf="!shuffle1; else shuffle" class="action-button optional" (click)="toggleShuffle()">
-        <mat-icon [style.color]="'#fff'" class="smaller-1">shuffle</mat-icon>
-      </button>
+      @if (!shuffle1) {
+        <button class="action-button optional" (click)="toggleShuffle()">
+          <mat-icon [style.color]="'#fff'" class="smaller-1">shuffle</mat-icon>
+        </button>
+      } @else {
+        <button class="action-button optional" (click)="toggleShuffle()">
+          <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">shuffle</mat-icon>
+        </button>
+      }
       <ng-template #shuffle>
         <button class="action-button optional" (click)="toggleShuffle()">
           <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">shuffle</mat-icon>
@@ -41,27 +64,34 @@
       <button class="action-button" (click)="goPrevious()">
         <mat-icon [style.color]="'#fff'" class="smaller">skip_previous</mat-icon>
       </button>
-      <button *ngIf="!audioService.isPlaying; else paused" class="action-button play" (click)="continue()">
-        <mat-icon [style.color]="'#fff'" class="bigger">play_circle_filled</mat-icon>
-      </button>
-      <ng-template #paused>
+      @if (!audioService.isPlaying) {
+        <button class="action-button play" (click)="continue()">
+          <mat-icon [style.color]="'#fff'" class="bigger">play_circle_filled</mat-icon>
+        </button>
+      } @else {
         <button class="action-button" (click)="pause()">
           <mat-icon [style.color]="'#fff'" class="bigger">pause_circle_filled</mat-icon>
         </button>
-      </ng-template>
+      }
 
       <button class="action-button" (click)="goForward()">
         <mat-icon [style.color]="'#fff'" class="smaller">skip_next</mat-icon>
       </button>
-      <button *ngIf="audioService.repeatIndex === 0" class="action-button optional" (click)="toggleRepeat()">
-        <mat-icon [style.color]="'#fff'" class="smaller-1">repeat</mat-icon>
-      </button>
-      <button *ngIf="audioService.repeatIndex === 1" class="action-button optional" (click)="toggleRepeat()">
-        <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">repeat</mat-icon>
-      </button>
-      <button *ngIf="audioService.repeatIndex === 2" class="action-button optional" (click)="toggleRepeat()">
-        <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">repeat_one</mat-icon>
-      </button>
+      @if (audioService.repeatIndex === 0) {
+        <button class="action-button optional" (click)="toggleRepeat()">
+          <mat-icon [style.color]="'#fff'" class="smaller-1">repeat</mat-icon>
+        </button>
+      }
+      @if (audioService.repeatIndex === 1) {
+        <button class="action-button optional" (click)="toggleRepeat()">
+          <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">repeat</mat-icon>
+        </button>
+      }
+      @if (audioService.repeatIndex === 2) {
+        <button class="action-button optional" (click)="toggleRepeat()">
+          <mat-icon [style.color]="'var(--main-color)'" class="smaller-1">repeat_one</mat-icon>
+        </button>
+      }
     </div>
     <div class="bottom">
       <p>{{audioService.currentTime | duration}}</p>
@@ -76,10 +106,18 @@
       <mat-icon [style.color]="'#fff'" class="icon">queue_music</mat-icon>
     </button>
     <button (click)="toggleMuteVolume()">
-      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="!audioService.audio.muted && audioService.audio.volume >= 0.8">volume_up</mat-icon>
-      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="audioService.audio.volume > 0 && audioService.audio.volume < 0.8 && !audioService.audio.muted">volume_down</mat-icon>
-      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="audioService.audio.muted">volume_off</mat-icon>
-      <mat-icon [style.color]="'#fff'" class="icon" *ngIf="audioService.audio.volume == 0 && !audioService.audio.muted">volume_mute</mat-icon>
+      @if (!audioService.audio.muted && audioService.audio.volume >= 0.8) {
+        <mat-icon [style.color]="'#fff'" class="icon">volume_up</mat-icon>
+      }
+      @if (audioService.audio.volume > 0 && audioService.audio.volume < 0.8 && !audioService.audio.muted) {
+        <mat-icon [style.color]="'#fff'" class="icon">volume_down</mat-icon>
+      }
+      @if (audioService.audio.muted) {
+        <mat-icon [style.color]="'#fff'" class="icon">volume_off</mat-icon>
+      }
+      @if (audioService.audio.volume == 0 && !audioService.audio.muted) {
+        <mat-icon [style.color]="'#fff'" class="icon">volume_mute</mat-icon>
+      }
     </button>
 
     <mat-slider class="slider" step="0.0001" [max]="1" [min]="0">

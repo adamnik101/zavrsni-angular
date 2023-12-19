@@ -1,8 +1,8 @@
 <div class="explore">
   <h1>Explore</h1>
   <div class="genres">
-    <ng-container *ngFor="let genre of genres">
+    @for (genre of genres; track genre) {
       <app-genre-card [genre]="genre"></app-genre-card>
-    </ng-container>
+    }
   </div>
 </div>

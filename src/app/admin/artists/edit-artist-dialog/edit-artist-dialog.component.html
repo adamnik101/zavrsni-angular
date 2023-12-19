@@ -11,11 +11,15 @@
       </div>
       <div class="field">
         <input type="text" placeholder="Artist name" formControlName="name">
-        <mat-error *ngIf="form.controls.name.hasError('maxlength')">
-          Name cannot contain more than 50 characters.
-        </mat-error>
+        @if (form.controls.name.hasError('maxlength')) {
+          <mat-error>
+            Name cannot contain more than 50 characters.
+          </mat-error>
+        }
         <button mat-button (click)="imageUpload.click()">Add new image</button>
-        <button *ngIf="selectedFile != null" mat-button (click)="resetImage()">Reset image</button>
+        @if (selectedFile != null) {
+          <button mat-button (click)="resetImage()">Reset image</button>
+        }
       </div>
     </div>
   </form>

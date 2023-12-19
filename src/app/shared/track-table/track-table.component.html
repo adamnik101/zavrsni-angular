@@ -1,169 +1,181 @@
 <table>
-  <thead *ngIf="!from.url.includes('/') && !from.name.includes('search') && !from.name.includes('Trending')">
-    <tr>
-      <th class="index">TRACK</th>
-      <!--<th>Plays</th>-->
-      <th class="album" *ngIf="!from.url.includes('albums/')">ALBUM</th>
-      <th class="album"
-        *ngIf="!from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">ADDED
-        AT</th>
-
-      <th class="time"><img src="assets/icons-svg/time.svg" width="15" /></th>
-      <th class="like"></th>
-      <th></th>
-    </tr>
-  </thead>
+  @if (!from.url.includes('/') && !from.name.includes('search') && !from.name.includes('Trending')) {
+    <thead>
+      <tr>
+        <th class="index">TRACK</th>
+        <!--<th>Plays</th>-->
+        @if (!from.url.includes('albums/')) {
+          <th class="album">ALBUM</th>
+        }
+        @if (!from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ) {
+          <th class="album"
+            >ADDED
+          AT</th>
+        }
+        <th class="time"><img src="assets/icons-svg/time.svg" width="15" /></th>
+        <th class="like"></th>
+        <th></th>
+      </tr>
+    </thead>
+  }
   <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
-    <ng-container *ngFor="let track of tracks;let index = index; trackBy: trackById">
+    @for (track of tracks; track trackById(index, track); let index = $index) {
       @defer(on viewport){
       <tr cdkDrag (cdkDragDropped)="onDragDropped($event)" (cdkDragStarted)="onDragStarted($event)" class="item"
         [ngClass]="{'selected' : selectedTracks.has(track.id)}" (click)="selectTrack($event, track.id,track)"
         (contextmenu)="openMenuOnRightClick($event, track)" (dblclick)="playAllFromIndex(tracks, index, from)">
-        <ng-container *ngIf="selectedTracks.size > 0; else oneSelected">
+        @if (selectedTracks.size > 0) {
           <p *cdkDragPreview class="preview">{{selectedTracks.size}} tracks selected</p>
-        </ng-container>
-        <ng-template #oneSelected>
+        } @else {
           <p *cdkDragPreview class="preview">{{track.title}} <app-divider></app-divider>
-            {{track.owner.name}}<ng-container *ngFor="let feature of track.features">, {{feature.name}}</ng-container>
-          </p>
-        </ng-template>
-
-        <td class="cover-title">
-          <button class="play" (click)="playAllFromIndex(tracks, index, from)">
-            <img src="assets/icons-svg/play.svg" />
-          </button>
-          <div class="image" *ngIf="!from.url.includes('albums/')">
-            <ng-container *ngIf="track.cover; else albumArtist">
-              <img src="{{track.cover}}">
-            </ng-container>
-
-            <ng-template #albumArtist>
-              <ng-container *ngIf="track.album">
-                <img src="{{track.album.cover}}">
-              </ng-container>
-              <ng-container *ngIf="!track.album">
-                <img src="{{track.owner.cover}}">
-              </ng-container>
-
-            </ng-template>
-
-          </div>
-          <div class="index" *ngIf="from.url.includes('albums/')">
-            <p> {{index + 1}}</p>
-          </div>
-          <div class="info">
-            <div class="title">
-              <p [ngClass]="track.id === currentTrack.id  ? 'playing' : ''">{{track.title}}</p>
-              <ng-container *ngIf="track.explicit">
-                <img src="assets/icons-svg/explicit.svg" width="14" height="14">
-              </ng-container>
-            </div>
-            <div class="artists">
-              <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a><ng-container
-                *ngIf="track.features.length > 0"><ng-container
-                  *ngFor="let feature of track.features; trackBy: trackById; let index = index">, <a
-                    routerLink="/artists/{{feature.id}}">{{feature.name}}</a></ng-container>
-              </ng-container>
-            </div>
-
-          </div>
-        </td>
-        <!--<td>{{track.plays | number}}</td>-->
-        <td class="album" *ngIf="!from.url.includes('albums/')">
-          <ng-container *ngIf="track.album">
-            <a routerLink="/albums/{{track.album.id}}">{{track.album.name}}</a>
-          </ng-container>
-          <ng-container *ngIf="!track.album">
-
-          </ng-container>
-        </td>
-        <td class="time"
-          *ngIf="from.name !== 'Home' && !from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ">
-          {{track.pivot?.created_at | humanizeDate}}</td>
-        <td class="time">{{track.duration | formatDuration}}</td>
-        <td class="like">
-          <button *ngIf="!likedMap.has(track.id)" (click)="likeTrack(track)" class="like-icon">
-            <img src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
-          </button>
-          <button *ngIf="likedMap.has(track.id)" (click)="removeFromLiked(track.id)">
-            <img src="assets/icons-svg/heart-filled.svg" alt="heart, icon" width="18" height="18">
-          </button>
-
-
-        </td>
-
-        <td class="more">
-          <button style="visibility: hidden; position: fixed;" [style.left]="menuTopLeftPosition.x"
-            [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="contextMenu"></button>
-          <button matRipple (click)="openMenuOnLeftClick($event, track)">
-            <img src="assets/icons-svg/more.svg">
-          </button>
-          <mat-menu #contextMenu='matMenu' (closed)="onMenuClosed(contextMenu)">
-            <ng-template matMenuContent>
-              <button mat-menu-item (click)="addToQueue(selectedTrack)">
-                <mat-icon class="custom-icon-color">playlist_add</mat-icon>
-                <span>Add to queue</span>
-              </button>
-              <button mat-menu-item [matMenuTriggerFor]="playlist">
-                <mat-icon class="custom-icon-color">add</mat-icon>
-                <span>Add to playlist</span>
-              </button>
-              <ng-container *ngIf="from.url.includes('playlists/')">
-                <button mat-menu-item (click)="removeFromPlaylist(selectedTrack, from)">
-                  <mat-icon>remove_circle_outline</mat-icon>
-                  <span>Remove from playlist</span>
-                </button>
-              </ng-container>
-              <button mat-menu-item *ngIf="!likedMap.has(selectedTrack.id)" (click)="likeTrack(selectedTrack)">
-                <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
-                <span>Add to My Collection</span>
-              </button>
-              <button mat-menu-item *ngIf="likedMap.has(selectedTrack.id)" (click)="removeFromLiked(selectedTrack.id)">
-                <mat-icon class="custom-icon-color">favorite</mat-icon>
-                <span>Remove from My Collection</span>
-              </button>
-              <mat-divider></mat-divider>
-              <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}"
-                [matMenuTriggerFor]="contextArtists">
-                <mat-icon class="custom-icon-color">people</mat-icon>
-                <span>Artists</span>
-              </button>
-              <button mat-menu-item *ngIf="selectedTrack.album && !from.url.includes('albums/')"
-                routerLink="/albums/{{selectedTrack.album.id}}">
-
-                <mat-icon class="custom-icon-color">album</mat-icon>
-                <span>Go to Album</span>
-              </button>
-            </ng-template>
-            <mat-menu #contextArtists="matMenu">
-              <ng-template matMenuContent>
-                <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}">
-                  <span>{{selectedTrack.owner.name}}</span>
-                </button>
-                <ng-container *ngFor="let feature of selectedTrack.features">
-                  <button class="custom" mat-menu-item routerLink="/artists/{{feature.id}}">
-                    <span>{{feature.name}}</span>
-                  </button>
-                </ng-container>
-              </ng-template>
-            </mat-menu>
-          </mat-menu>
-          <mat-menu #playlist="matMenu">
-            <ng-template matMenuContent>
-              <ng-container *ngFor="let playlist of playlists; trackBy: trackById">
-                <button mat-menu-item (click)="addTrackToPlaylist(track.id, playlist.id)">{{playlist.title}}</button>
-              </ng-container>
-            </ng-template>
-
-          </mat-menu>
-        </td>
-      </tr>
+          {{track.owner.name}}@for (feature of track.features; track feature) {
+          , {{feature.name}}
+        }
+      </p>
+    }
+    <td class="cover-title">
+      <button class="play" (click)="playAllFromIndex(tracks, index, from)">
+        <img src="assets/icons-svg/play.svg" />
+      </button>
+      @if (!from.url.includes('albums/')) {
+        <div class="image">
+          @if (track.cover) {
+            <img src="{{track.cover}}">
+          } @else {
+            @if (track.album) {
+              <img src="{{track.album.cover}}">
+            }
+            @if (!track.album) {
+              <img src="{{track.owner.cover}}">
+            }
+          }
+        </div>
       }
-      @placeholder {
-      <app-loading></app-loading>
+      @if (from.url.includes('albums/')) {
+        <div class="index">
+          <p> {{index + 1}}</p>
+        </div>
       }
+      <div class="info">
+        <div class="title">
+          <p [ngClass]="track.id === currentTrack.id  ? 'playing' : ''">{{track.title}}</p>
+          @if (track.explicit) {
+            <img src="assets/icons-svg/explicit.svg" width="14" height="14">
+          }
+        </div>
+        <div class="artists">
+          <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a>@if (track.features.length > 0) {
+          @for (feature of track.features; track trackById(index, feature); let index = $index) {
+            , <a
+          routerLink="/artists/{{feature.id}}">{{feature.name}}</a>
+        }
+      }
+    </div>
+  </div>
+</td>
+<!--<td>{{track.plays | number}}</td>-->
+@if (!from.url.includes('albums/')) {
+  <td class="album">
+    @if (track.album) {
+      <a routerLink="/albums/{{track.album.id}}">{{track.album.name}}</a>
+    }
+    @if (!track.album) {
+    }
+  </td>
+}
+@if (from.name !== 'Home' && !from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ) {
+  <td class="time"
+    >
+  {{track.pivot?.created_at | humanizeDate}}</td>
+}
+<td class="time">{{track.duration | formatDuration}}</td>
+<td class="like">
+  @if (!likedMap.has(track.id)) {
+    <button (click)="likeTrack(track)" class="like-icon">
+      <img src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
+    </button>
+  }
+  @if (likedMap.has(track.id)) {
+    <button (click)="removeFromLiked(track.id)">
+      <img src="assets/icons-svg/heart-filled.svg" alt="heart, icon" width="18" height="18">
+    </button>
+  }
+</td>
+<td class="more">
+  <button style="visibility: hidden; position: fixed;" [style.left]="menuTopLeftPosition.x"
+  [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="contextMenu"></button>
+  <button matRipple (click)="openMenuOnLeftClick($event, track)">
+    <img src="assets/icons-svg/more.svg">
+  </button>
+  <mat-menu #contextMenu='matMenu' (closed)="onMenuClosed(contextMenu)">
+    <ng-template matMenuContent>
+      <button mat-menu-item (click)="addToQueue(selectedTrack)">
+        <mat-icon class="custom-icon-color">playlist_add</mat-icon>
+        <span>Add to queue</span>
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="playlist">
+        <mat-icon class="custom-icon-color">add</mat-icon>
+        <span>Add to playlist</span>
+      </button>
+      @if (from.url.includes('playlists/')) {
+        <button mat-menu-item (click)="removeFromPlaylist(selectedTrack, from)">
+          <mat-icon>remove_circle_outline</mat-icon>
+          <span>Remove from playlist</span>
+        </button>
+      }
+      @if (!likedMap.has(selectedTrack.id)) {
+        <button mat-menu-item (click)="likeTrack(selectedTrack)">
+          <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
+          <span>Add to My Collection</span>
+        </button>
+      }
+      @if (likedMap.has(selectedTrack.id)) {
+        <button mat-menu-item (click)="removeFromLiked(selectedTrack.id)">
+          <mat-icon class="custom-icon-color">favorite</mat-icon>
+          <span>Remove from My Collection</span>
+        </button>
+      }
+      <mat-divider></mat-divider>
+      <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}"
+        [matMenuTriggerFor]="contextArtists">
+        <mat-icon class="custom-icon-color">people</mat-icon>
+        <span>Artists</span>
+      </button>
+      @if (selectedTrack.album && !from.url.includes('albums/')) {
+        <button mat-menu-item
+          routerLink="/albums/{{selectedTrack.album.id}}">
+          <mat-icon class="custom-icon-color">album</mat-icon>
+          <span>Go to Album</span>
+        </button>
+      }
+    </ng-template>
+    <mat-menu #contextArtists="matMenu">
+      <ng-template matMenuContent>
+        <button mat-menu-item routerLink="/artists/{{selectedTrack.owner.id}}">
+          <span>{{selectedTrack.owner.name}}</span>
+        </button>
+        @for (feature of selectedTrack.features; track feature) {
+          <button class="custom" mat-menu-item routerLink="/artists/{{feature.id}}">
+            <span>{{feature.name}}</span>
+          </button>
+        }
+      </ng-template>
+    </mat-menu>
+  </mat-menu>
+  <mat-menu #playlist="matMenu">
+    <ng-template matMenuContent>
+      @for (playlist of playlists; track trackById($index, playlist)) {
+        <button mat-menu-item (click)="addTrackToPlaylist(track.id, playlist.id)">{{playlist.title}}</button>
+      }
+    </ng-template>
+  </mat-menu>
+</td>
+</tr>
+}
+@placeholder {
+<app-loading></app-loading>
+}
+}
 
-    </ng-container>
-
-  </tbody>
+</tbody>
 </table>

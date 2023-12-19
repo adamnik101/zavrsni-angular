@@ -1,45 +1,35 @@
-<ng-container *ngIf="loaded; else notLoaded">
+@if (loaded) {
   <div class="container">
     <div class="header trending">
       <h1>Trending now</h1>
       <img src="assets/icons-svg/fire.svg"/>
-
     </div>
     <div class="header">
       <div class="info">
         <h1>Tracks</h1>
       </div>
-
     </div>
-
     <div class="tracks">
       <app-track-table [tracks]="popularTracks" [from]="from"></app-track-table>
     </div>
-
     <div class="header">
       <h1>Artists</h1>
     </div>
-
     <div class="artists">
-      <ng-container *ngFor="let artist of popularArtists;let index = index">
+      @for (artist of popularArtists; track artist; let index = $index) {
         <app-artist-card [artist]="artist" [index]="index" [trending]="true"></app-artist-card>
-      </ng-container>
-
+      }
     </div>
-
     <div class="header">
       <h1>Albums</h1>
     </div>
-
     <div class="albums">
-      <ng-container *ngFor="let album of popularAlbums">
+      @for (album of popularAlbums; track album) {
         <app-album-card [album]="album"></app-album-card>
-      </ng-container>
-
+      }
     </div>
   </div>
-</ng-container>
-
-<ng-template #notLoaded>
+} @else {
   <app-loading></app-loading>
-</ng-template>
+}
+

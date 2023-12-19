@@ -6,32 +6,33 @@
   </div>
   <table class="admin-table">
     <thead>
-    <tr>
-      <th>#</th>
-      <th>Title</th>
-      <th>Owner</th>
-      <th>Featuring</th>
-      <th>Album</th>
-      <th>Explicit</th>
-      <th>Plays</th>
-      <th>Created at</th>
-      <th>Updated_at</th>
-      <th></th>
-    </tr>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Owner</th>
+        <th>Featuring</th>
+        <th>Album</th>
+        <th>Explicit</th>
+        <th>Plays</th>
+        <th>Created at</th>
+        <th>Updated_at</th>
+        <th></th>
+      </tr>
 
     </thead>
     <tbody>
-    <ng-container *ngFor="let track of pagedResponse.data; let index = index">
-      <tr>
-        <td>{{pagedResponse.from + index}}</td>
-        <td>{{track.title}}</td>
-        <td>
+      @for (track of pagedResponse.data; track track; let index = $index) {
+        <tr>
+          <td>{{pagedResponse.from + index}}</td>
+          <td>{{track.title}}</td>
+          <td>
           {{track.owner.name}}</td>
-        <td>
-          <ng-container *ngFor="let feature of track.features;let fIndex = index">
-            {{feature.name}}<ng-container *ngIf="fIndex != track.features.length - 1">,
-            </ng-container>
-          </ng-container>
+          <td>
+            @for (feature of track.features; track feature; let fIndex = $index) {
+              {{feature.name}}@if (fIndex != track.features.length - 1) {
+              ,
+            }
+          }
         </td>
         <td>{{track.album?.name}}</td>
         <td>{{track.explicit}}</td>
@@ -43,17 +44,19 @@
           <button (click)="openDeleteDialog(track.id,track.title, 'tracks', pagedResponse.current_page)" class="delete">Delete</button>
         </td>
       </tr>
-    </ng-container>
-    </tbody>
-  </table>
-  <div class="pagination">
+    }
+  </tbody>
+</table>
+<div class="pagination">
 
-    <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
-    <ng-container *ngFor="let page of pagedResponse.links">
-      <button class="button" (click)="navigateTo(page.url)" mat-button *ngIf="page.url" [ngClass]="{'active-pagination' : page.active}">
+  <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
+  @for (page of pagedResponse.links; track page) {
+    @if (page.url) {
+      <button class="button" (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
         <span [innerHTML]="page.label"></span>
       </button>
-    </ng-container>
-    <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
-  </div>
+    }
+  }
+  <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
+</div>
 </div>

@@ -1,17 +1,19 @@
 <!--<div class="card">
-  <a routerLink="/artists/{{artist.id}}">
-    <img class="cover" src="{{artist.cover}}"/>
-  </a>
-  <div class="info">
-    <a routerLink="/artists/{{artist.id}}">{{artist.name}}</a>
-  </div>
-  <button class="play">
-    <img src="assets/icons-svg/play.svg" alt="play,icon"/>
-  </button>
+<a routerLink="/artists/{{artist.id}}">
+  <img class="cover" src="{{artist.cover}}"/>
+</a>
+<div class="info">
+  <a routerLink="/artists/{{artist.id}}">{{artist.name}}</a>
+</div>
+<button class="play">
+  <img src="assets/icons-svg/play.svg" alt="play,icon"/>
+</button>
 </div>-->
 <div class="row">
   <div class="left">
-    <p *ngIf="trending">{{index + 1}}</p>
+    @if (trending) {
+      <p>{{index + 1}}</p>
+    }
     <a routerLink="/artists/{{artist.id}}">
       <img src="{{artist.cover}}"/>
     </a>

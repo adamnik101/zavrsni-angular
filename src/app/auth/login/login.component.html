@@ -20,7 +20,9 @@
       </div>
 
     </div>
-    <p class="error" *ngIf="error !== ''">{{error}}</p>
+    @if (error !== '') {
+      <p class="error">{{error}}</p>
+    }
     <button matRipple type="submit">Login</button>
 
   </form>

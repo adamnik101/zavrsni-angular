@@ -3,13 +3,19 @@
   <p>Artist name</p>
   <form [formGroup]="artist">
     <input type="text" placeholder="Artist name" formControlName="name">
-    <mat-error *ngIf="artist.controls.name.hasError('required')">
-      Artist name is required
-    </mat-error>
+    @if (artist.controls.name.hasError('required')) {
+      <mat-error>
+        Artist name is required
+      </mat-error>
+    }
     <div class="upload">
       <button type="button" (click)="imageUpload.click()">
-        <img *ngIf="selectedFile !== null" #image/>
-        <img *ngIf="selectedFile === null" class="default" src="assets/icons-svg/select.svg"/>
+        @if (selectedFile !== null) {
+          <img #image/>
+        }
+        @if (selectedFile === null) {
+          <img class="default" src="assets/icons-svg/select.svg"/>
+        }
       </button>
       <button  class="action remove" [matMenuTriggerFor]="imageOptions">
         <img src="assets/icons-svg/more-horizontal.svg" >
@@ -18,12 +24,14 @@
         <button mat-menu-item (click)="removeImage()">Remove image</button>
       </mat-menu>
     </div>
-    <mat-error *ngIf="artist.controls.image.hasError('required')">
-      Artist image is required
-    </mat-error>
+    @if (artist.controls.image.hasError('required')) {
+      <mat-error>
+        Artist image is required
+      </mat-error>
+    }
     <input type="file" formControlName="image" #imageUpload accept="image/jpeg,image/png,image/jpg" hidden (change)="onFileSelected($event)"/>
   </form>
- </div>
+</div>
 <div mat-dialog-actions>
   <button mat-button matDialogClose class="cancel">Cancel</button>
   <button mat-button (click)="create()">Create</button>

@@ -17,10 +17,12 @@
       Trending
     </a>
   </li>
-  <li *ngIf="authService.isLoggedIn">
-    <a routerLink="/user/liked">
-      <img ngSrc="assets/icons-svg/heart.svg" alt="liked heart,icon" width="20" height="20"/>
-      Saved tracks
-    </a>
-  </li>
+  @if (authService.isLoggedIn) {
+    <li>
+      <a routerLink="/user/liked">
+        <img ngSrc="assets/icons-svg/heart.svg" alt="liked heart,icon" width="20" height="20"/>
+        Saved tracks
+      </a>
+    </li>
+  }
 </ul>

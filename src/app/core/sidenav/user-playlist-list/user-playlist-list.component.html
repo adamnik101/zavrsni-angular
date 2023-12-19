@@ -1,13 +1,14 @@
 <div class="row" [id]="playlist.id" [ngClass]="{'drop-to': shouldAddBorder}" (mouseenter)="setBorder()" (mouseleave)="removeBorder()">
   <div class="image">
-    <ng-container *ngIf="playlist.image_url; else default">
+    @if (playlist.image_url) {
       <img class="has-cover" src="{{playlist.image_url}}" width="25" height="25"/>
-    </ng-container>
-    <ng-template #default>
+    } @else {
       <img  src="assets/icons-svg/note.svg" width="25" height="25"/>
-    </ng-template>
+    }
   </div>
-  <img *ngIf="playlist.tracks_count > 0" class="play" (click)="playPlaylist(playlist)" src="assets/icons-svg/play.svg"/>
+  @if (playlist.tracks_count > 0) {
+    <img class="play" (click)="playPlaylist(playlist)" src="assets/icons-svg/play.svg"/>
+  }
   <div class="info"  >
     <a routerLinkActive="active" routerLink="/playlists/{{playlist.id}}" class="title">{{playlist.title}}</a>
     <p class="number">{{playlist.tracks_count}} tracks</p>

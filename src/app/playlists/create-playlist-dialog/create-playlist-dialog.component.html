@@ -5,8 +5,12 @@
       <div class="right">
         <div class="upload">
           <button type="button" (click)="imageUpload.click()">
-            <img *ngIf="selectedFile !== null" #image/>
-            <img *ngIf="selectedFile === null" class="default" src="assets/icons-svg/select.svg"/>
+            @if (selectedFile !== null) {
+              <img #image/>
+            }
+            @if (selectedFile === null) {
+              <img class="default" src="assets/icons-svg/select.svg"/>
+            }
           </button>
           <button class="action remove" [matMenuTriggerFor]="imageOptions">
             <img src="assets/icons-svg/more-horizontal.svg" >
@@ -22,12 +26,16 @@
         <div class="form-group name">
           <label class="label" for="name">Name of playlist</label>
           <input type="text" id="name" name="name" placeholder="Name" formControlName="title"/>
-          <mat-error *ngIf="playlist.controls.title.hasError('required')">
-            Title is required
-          </mat-error>
-          <mat-error *ngIf="playlist.controls.title.hasError('maxlength')">
-            Max length is 100 characters
-          </mat-error>
+          @if (playlist.controls.title.hasError('required')) {
+            <mat-error>
+              Title is required
+            </mat-error>
+          }
+          @if (playlist.controls.title.hasError('maxlength')) {
+            <mat-error>
+              Max length is 100 characters
+            </mat-error>
+          }
         </div>
         <div class="form-group">
           <label class="label" for="description">Description</label>
@@ -35,9 +43,11 @@
             <textarea  [maxLength]="maxLength" formControlName="description"  rows="5" cols="50" id="description" name="description" placeholder="[Optional]"></textarea>
             <p><span [ngClass]="{'orange' : maxLength - numberOfLetters <= 100 && numberOfLetters < maxLength, 'red' : maxLength === numberOfLetters}">{{numberOfLetters}}</span>/{{maxLength}}</p>
           </div>
-          <mat-error *ngIf="playlist.controls.description.hasError('maxlength')">
-            Max length is 500 characters
-          </mat-error>
+          @if (playlist.controls.description.hasError('maxlength')) {
+            <mat-error>
+              Max length is 500 characters
+            </mat-error>
+          }
         </div>
       </div>
 

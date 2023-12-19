@@ -1,55 +1,62 @@
 
-  <ng-container *ngIf="isLoaded; else loading">
-    <div class="playlist" #background>
+@if (isLoaded) {
+  <div class="playlist" #background>
     <div class="top">
       <div class="image-info">
         <div class="image">
-          <ng-container *ngIf="playlist.image_url; else default">
+          @if (playlist.image_url) {
             <img src="{{playlist.image_url}}" alt="cover, playlist">
-          </ng-container>
-          <ng-template #default>
+          } @else {
             <img class="note" src="assets/icons-svg/note.svg"  alt="icon, note">
-          </ng-template>
+          }
         </div>
         <div class="info">
           <h1>{{playlist.title}}</h1>
           <p>{{playlist.tracks_count}} tracks</p>
-          <p *ngIf="playlist.description" class="desc">{{playlist.description}}</p>
+          @if (playlist.description) {
+            <p class="desc">{{playlist.description}}</p>
+          }
           <p>Last updated {{playlist.latest_added | humanizeDate}}</p>
-         <p>{{playlistService.totalDuration() | formatDuration}}</p>
+          <p>{{playlistService.totalDuration() | formatDuration}}</p>
         </div>
       </div>
-      <div class="actions" *ngIf="playlist.tracks_count > 0">
-        <div class="left">
-          <button class="play">
-            <img src="assets/icons-svg/play-black.svg" alt="play, icon"/>
-            Play
-          </button>
+      @if (playlist.tracks_count > 0) {
+        <div class="actions">
+          <div class="left">
+            <button class="play">
+              <img src="assets/icons-svg/play-black.svg" alt="play, icon"/>
+              Play
+            </button>
+          </div>
+          <div class="right">
+            <button class="add">
+              <img src="assets/icons-svg/heart.svg" alt="heart, icon"/>
+              Add
+            </button>
+          </div>
         </div>
-        <div class="right">
-          <button class="add">
-            <img src="assets/icons-svg/heart.svg" alt="heart, icon"/>
-            Add
-          </button>
-        </div>
-
-      </div>
+      }
     </div>
-    </div>
-  </ng-container>
-
-
-<ng-container *ngIf="isLoaded">
-  <div class="table" *ngIf="playlist.tracks_count > 0; else noTracks">
-    <app-track-table [tracks]="playlist.tracks.data" [from]="fromInfo"></app-track-table>
   </div>
-</ng-container>
+} @else {
+  <div class="loading">
+    <app-loading></app-loading>
+  </div>
+}
 
-  <ng-template #noTracks>
+
+@if (isLoaded) {
+  @if (playlist.tracks_count > 0) {
+    <div class="table">
+      <app-track-table [tracks]="playlist.tracks.data" [from]="fromInfo"></app-track-table>
+    </div>
+  } @else {
     <div class="no-tracks">
       <p>Start building your playlist with tracks by tapping on 'Add to playlist' in the option menu.</p>
     </div>
-  </ng-template>
+  }
+}
+
 <ng-template #loading>
   <div class="loading">
     <app-loading></app-loading>
