@@ -1,7 +1,3 @@
-
-
-
-
 <ng-container *ngIf="query.length == 0; else results">
   <div class="genres-container" *ngIf="query.length === 0">
     <h1>Explore genres</h1>
@@ -11,14 +7,22 @@
       </ng-container>
     </div>
   </div>
-
 </ng-container>
 <ng-template #results>
-  <ng-container *ngIf="!response.tracks?.total && !response.artists?.data?.length && !response.albums?.data?.length; else show">
-
+  <ng-container
+    *ngIf="
+      !response.tracks?.total &&
+        !response.artists?.data?.length &&
+        !response.albums?.data?.length;
+      else show
+    "
+  >
     <div class="no-response">
-      <p>No results for "{{query}}"</p>
-      <p>Please make sure your words are spelled correctly, or use fewer or different keywords.</p>
+      <p>No results for "{{ query }}"</p>
+      <p>
+        Please make sure your words are spelled correctly, or use fewer or
+        different keywords.
+      </p>
     </div>
   </ng-container>
 
@@ -29,24 +33,33 @@
           <h1>Tracks</h1>
 
           <div class="tracks">
-            <app-track-table [tracks]="response.tracks?.data!" [from]="from"></app-track-table>
+            <app-track-table
+              [tracks]="response.tracks?.data!"
+              [from]="from"
+            ></app-track-table>
             <div class="pagination">
-              <p>Showing {{response.tracks!.from}} - {{response.tracks!.to}} tracks of {{response.tracks!.total}}</p>
+              <p>
+                Showing {{ response.tracks!.from }} -
+                {{ response.tracks!.to }} tracks of {{ response.tracks!.total }}
+              </p>
               <ng-container *ngIf="response.tracks!.prev_page_url">
                 <button matRipple (click)="goToPreviousPaginatedPageTrack()">
-                  <img src="assets/icons-svg/back.svg">
+                  <img src="assets/icons-svg/back.svg" />
                 </button>
               </ng-container>
               <ng-container *ngIf="response.tracks!.next_page_url">
-                <button matRipple (click)="goToNextPaginatedPageTrack(response.tracks!.next_page_url)">
-                  <img class="next" src="assets/icons-svg/back.svg">
+                <button
+                  matRipple
+                  (click)="
+                    goToNextPaginatedPageTrack(response.tracks!.next_page_url)
+                  "
+                >
+                  <img class="next" src="assets/icons-svg/back.svg" />
                 </button>
               </ng-container>
             </div>
-
           </div>
         </div>
-
       </ng-container>
 
       <ng-container *ngIf="response.artists?.total">
@@ -58,22 +71,28 @@
             </ng-container>
           </div>
           <div class="pagination">
-            <p>Showing from {{response.artists!.from}} - {{response.artists!.to}} artists of {{response.artists!.total}}</p>
+            <p>
+              Showing from {{ response.artists!.from }} -
+              {{ response.artists!.to }} artists of
+              {{ response.artists!.total }}
+            </p>
             <ng-container *ngIf="response.artists!.prev_page_url">
               <button matRipple (click)="goToPreviousPaginatedPageArtist()">
-                <img src="assets/icons-svg/back.svg">
+                <img src="assets/icons-svg/back.svg" />
               </button>
             </ng-container>
             <ng-container *ngIf="response.artists!.next_page_url">
-              <button matRipple (click)="goToNextPaginatedPageArtist(response.artists!.next_page_url)">
-                <img class="next" src="assets/icons-svg/back.svg">
+              <button
+                matRipple
+                (click)="
+                  goToNextPaginatedPageArtist(response.artists!.next_page_url)
+                "
+              >
+                <img class="next" src="assets/icons-svg/back.svg" />
               </button>
             </ng-container>
           </div>
-
         </div>
-
-
       </ng-container>
 
       <ng-container *ngIf="response.albums?.total">
@@ -85,27 +104,28 @@
             </ng-container>
           </div>
           <div class="pagination">
-            <p>Showing from {{response.albums!.from}} - {{response.albums!.to}} albums of {{response.albums!.total}}</p>
+            <p>
+              Showing from {{ response.albums!.from }} -
+              {{ response.albums!.to }} albums of {{ response.albums!.total }}
+            </p>
             <ng-container *ngIf="response.albums!.prev_page_url">
               <button matRipple (click)="goToPreviousPaginatedPageAlbum()">
-                <img src="assets/icons-svg/back.svg">
+                <img src="assets/icons-svg/back.svg" />
               </button>
             </ng-container>
             <ng-container *ngIf="response.albums!.next_page_url">
-              <button  matRipple (click)="goToNextPaginatedPageAlbum(response.albums!.next_page_url)">
-                <img class="next" src="assets/icons-svg/back.svg">
+              <button
+                matRipple
+                (click)="
+                  goToNextPaginatedPageAlbum(response.albums!.next_page_url)
+                "
+              >
+                <img class="next" src="assets/icons-svg/back.svg" />
               </button>
             </ng-container>
           </div>
-
         </div>
-
-
       </ng-container>
     </div>
   </ng-template>
 </ng-template>
-
-
-
-
