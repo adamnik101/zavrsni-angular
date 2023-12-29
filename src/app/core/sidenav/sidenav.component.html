@@ -22,11 +22,9 @@
         <mat-tab-group animationDuration="0" disablePagination>
           <mat-tab label="Playlists">
             <div class="playlists">
-              @if (playlists.length) {
-                @for (playlist of playlists; track playlist) {
-                  <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
-                }
-              } @else {
+              @for(playlist of playlists; track playlist){
+                <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
+              } @empty {
                 <p class="no-result">Create playlists to see them here</p>
               }
               <!-- <input type="text" placeholder="Search playlists"/>-->
@@ -38,7 +36,11 @@
             </div>
           </mat-tab>
           <mat-tab label="Albums">
-            Albums
+            @for (album of albums; track album.id) {
+              
+            } @empty {
+              No albums liked
+            }
           </mat-tab>
         </mat-tab-group>
       </div>

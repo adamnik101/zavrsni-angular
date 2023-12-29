@@ -24,6 +24,8 @@ import {
 } from '@angular/animations';
 import { transitionAnimation } from '../animations';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import {Track} from "../shared/interfaces/track";
+import {Artist} from "../artists/interfaces/artist";
 
 @Component({
   selector: 'app-queue',
@@ -63,6 +65,8 @@ export class QueueComponent {
   @ViewChild('queue') queue!: ElementRef;
   cover: string = '';
   width: number = 0;
+  currentTrack: Track = {} as Track
+  owner: Artist = {} as Artist
   @HostListener('window:resize', ['$event'])
   getScreenSize() {
     this.width = window.innerWidth;
@@ -93,7 +97,6 @@ export class QueueComponent {
       this.trackList.nativeElement.children[
         this.queueService.currentQueueIndex
       ];
-
     if (playing) {
       playing.scrollIntoView({
         behavior: 'instant',
@@ -105,6 +108,8 @@ export class QueueComponent {
 
     this.queueService.currentTrack$.subscribe({
       next: (track) => {
+        console.log(track)
+        this.owner = track.owner
         const curr =
           this.trackList.nativeElement.children[
             this.queueService.currentQueueIndex

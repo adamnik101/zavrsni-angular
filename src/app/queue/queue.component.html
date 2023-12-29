@@ -10,7 +10,8 @@
       <div class="artists">
         <p>{{this.queueService.queue[this.queueService.currentQueueIndex].owner.name}}</p>
         @if (queueService.queue[this.queueService.currentQueueIndex].features.length > 0) {
-          <p> &nbsp; ft.</p>@for (feature of queueService.queue[this.queueService.currentQueueIndex].features; track feature; let index = $index) {
+          <p> &nbsp; ft.</p>
+          @for (feature of queueService.queue[this.queueService.currentQueueIndex].features; track feature; let index = $index) {
           &nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>@if (queueService.queue[this.queueService.currentQueueIndex].features.length - 1 != index) {
           ,
         }

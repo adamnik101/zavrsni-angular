@@ -1,4 +1,4 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
 import {LoginRequest} from "../interfaces/login-request";
@@ -7,12 +7,14 @@ import {BaseService} from "../../core/services/base.service";
 import {LoginResponse} from "../interfaces/login-response";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {User} from "../../user/interfaces/user";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseService{
   private userSubject: BehaviorSubject<User> = new BehaviorSubject<User>({} as User)
+  private _router = inject(Router)
   public user$ = this.userSubject.asObservable()
   UserSig = signal<User | undefined | null>(undefined)
   public isLoggedIn = false

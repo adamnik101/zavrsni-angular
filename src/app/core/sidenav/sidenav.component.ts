@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {CreatePlaylistDialogComponent} from "../../playlists/create-playlist-dialog/create-playlist-dialog.component";
 import {Artist} from "../../artists/interfaces/artist";
 import {AuthService} from "../../auth/services/auth.service";
+import {Album} from "../../albums/interfaces/album";
 
 @Component({
   selector: 'app-sidenav',
@@ -14,6 +15,7 @@ import {AuthService} from "../../auth/services/auth.service";
 export class SidenavComponent {
   playlists: Playlist[] = []
   following: Artist[] = []
+  albums: Album[] = []
   constructor(public _userService: UserService,
               private _matDialog: MatDialog,
               public authService: AuthService) {
