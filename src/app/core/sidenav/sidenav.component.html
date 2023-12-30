@@ -18,30 +18,49 @@
           </button>
         </div>
       </div>
-      <div class="tabs">
-        <mat-tab-group animationDuration="0" disablePagination>
+      <div class="tabs" (mouseenter)="openPlaylistsTab($event)">
+        <mat-tab-group animationDuration=".2s" disablePagination [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
           <mat-tab label="Playlists">
-            <div class="playlists">
-              @for(playlist of playlists; track playlist){
-                <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
-              } @empty {
-                <p class="no-result">Create playlists to see them here</p>
-              }
-              <!-- <input type="text" placeholder="Search playlists"/>-->
-            </div>
+            <ng-template matTabContent>
+              <div class="playlists">
+                @for(playlist of playlists; track playlist){
+                  @defer (on viewport; prefetch on idle){
+                    <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
+                  } @placeholder{
+                    <app-loading></app-loading>
+                  }
+                } @empty {
+                  <p class="no-result">Create playlists to see them here</p>
+                }
+                <!-- <input type="text" placeholder="Search playlists"/>-->
+              </div>
+            </ng-template>
+
           </mat-tab>
           <mat-tab label="Artists">
-            <div class="following">
-              <app-following [following]="following"></app-following>
-            </div>
+            <ng-template matTabContent>
+              <div class="following">
+                <app-following [following]="following"></app-following>
+              </div>
+            </ng-template>
           </mat-tab>
-          <mat-tab label="Albums">
-            @for (album of albums; track album.id) {
-              <app-album-list-item [album]="album"></app-album-list-item>
-            } @empty {
-              No albums liked
-            }
-          </mat-tab>
+          @if (albums.length > 0){
+            <mat-tab label="Albums">
+              <ng-template matTabContent>
+                <div class="albums">
+                  @for (album of albums; track album.id) {
+                    <app-album-list-item [album]="album"></app-album-list-item>
+                  } @empty {
+                    <div class="empty">
+                      <p>Like albums to see them here</p>
+                      <mat-icon>sentiment_very_dissatisfied</mat-icon>
+                    </div>
+
+                  }
+                </div>
+              </ng-template>
+            </mat-tab>
+          }
         </mat-tab-group>
       </div>
       <mat-divider></mat-divider>

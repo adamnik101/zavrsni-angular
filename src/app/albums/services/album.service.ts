@@ -16,6 +16,6 @@ export class AlbumService extends BaseService{
   }
 
   likeAlbum(id: string) {
-    return this.post(`albums/${id}/like`, null)
+    return this.post<null, {'message' : string; 'albums': Album[] }>(`albums/${id}/like`, null)
   }
 }

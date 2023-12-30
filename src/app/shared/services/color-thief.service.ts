@@ -12,7 +12,8 @@ export class ColorThiefService {
 
     const colorThief = new ColorThief()
     const image = new Image()
-    image.src = url
+
+
     image.onload = () => {
       const dominantColor =  colorThief.getColor(image)
       const red = dominantColor[0]
@@ -47,7 +48,8 @@ export class ColorThiefService {
 
 
     }
-
+    image.crossOrigin = 'anonymous';
+    image.src = url
   }
 
   getDominantColors(image: HTMLImageElement) : [number[]] {

@@ -108,6 +108,9 @@ export class UserService extends BaseService{
   updateFollowing(newFollowing: Artist[]) {
     this._followingSubject.next(newFollowing)
   }
+  updateLikedAlbums(albums: Album[]) {
+    this._likedAlbumSubject.next(albums)
+  }
 
   getRecommendedArtists() {
     return this.get<Artist[]>('actor/recommend/artists')

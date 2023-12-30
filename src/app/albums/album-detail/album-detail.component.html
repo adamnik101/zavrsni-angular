@@ -9,9 +9,16 @@
       <div class="info">
         <div class="name">
           <h1>{{album.name}}</h1>
-          <button (click)="likeAlbum(album.id)" class="center">
-            <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
-          </button>
+          @if (!isAlbumLiked) {
+            <button (click)="likeAlbum(album.id)" class="center">
+              <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
+            </button>
+          } @else {
+            <button class="center">
+              <mat-icon class="custom-icon-color">favorite</mat-icon>
+            </button>
+          }
+
         </div>
         <p>{{album.tracks_count}} tracks</p>
         <p>{{album.release_year}}</p>

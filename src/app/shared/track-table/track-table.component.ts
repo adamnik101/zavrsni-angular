@@ -7,7 +7,7 @@ import {PlaylistService} from "../../playlists/services/playlist.service";
 import {SnackbarService} from "../services/snackbar.service";
 import {Playlist} from "../../playlists/interfaces/playlist";
 import {QueueService} from "../../queue/services/queue.service";
-import {CdkDragDrop, CdkDragExit, CdkDragStart} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, CdkDragExit, CdkDragMove, CdkDragStart} from "@angular/cdk/drag-drop";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import {DragDropService} from "../services/drag-drop.service";
 
@@ -275,4 +275,5 @@ export class TrackTableComponent {
   onDragDropped(event: CdkDragDrop<any>) {
     this._dragDropService.dragging = false
   }
+
 }

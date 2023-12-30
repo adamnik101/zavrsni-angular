@@ -84,7 +84,29 @@
   overflow: scroll;
   overflow-x: hidden;
 }
-
+.albums{
+  height: 200px;
+  .empty{
+    border-radius: 10px;
+    background: var(--secondary-black);
+    height: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--light);
+    p{
+      text-align: center;
+      width: 50%;
+    }
+    .mat-icon{
+      font-size: 40px;
+      width: 50px;
+      height: 50px;
+    }
+  }
+}
 .tabs{
 
 }

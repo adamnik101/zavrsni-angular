@@ -7,6 +7,7 @@ import {Track} from "../../shared/interfaces/track";
 import {QueueService} from "../../queue/services/queue.service";
 import {AudioService} from "../../audio/audio.service";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
+import {UserService} from "../../user/services/user.service";
 
 @Component({
   selector: 'app-album-detail',
@@ -18,9 +19,12 @@ export class AlbumDetailComponent {
   private _queueService = inject(QueueService)
   private _audioService = inject(AudioService)
   private _colorService = inject(ColorThiefService)
+  private _userService = inject(UserService)
   private _route = inject(ActivatedRoute)
+
   public album: Album = {} as Album
   public from : From = {} as From
+  public isAlbumLiked: boolean = false
   public isLoaded: boolean = false
   @ViewChild('background') background!: ElementRef
   ngOnInit() {
@@ -31,8 +35,18 @@ export class AlbumDetailComponent {
   private getAlbum() {
     this._route.paramMap.subscribe({
       next: (paramMap) => {
+        this.isAlbumLiked = false
         const id = paramMap.get('id')
         if(id) {
+          this._userService.likedAlbums$.subscribe({
+            next: (albums) => {
+              for (let album of albums) {
+                if(album.id === id) {
+                  this.isAlbumLiked = true
+                }
+              }
+            }
+          })
           this._albumService.getAlbum(id).subscribe({
             next: (album) => {
               this.album = album
@@ -42,6 +56,7 @@ export class AlbumDetailComponent {
                 id: this.album.id,
                 imageFrom: this.album.cover
               };
+
               console.log(album)
               this._colorService.getRgbColorsFromImage(this.album.cover, "album" ,true)
               this.isLoaded = true
@@ -62,13 +77,15 @@ export class AlbumDetailComponent {
   likeAlbum(id: string) {
     this._albumService.likeAlbum(id).subscribe({
       next: (response) => {
-        console.log(response)
+       this.isAlbumLiked = true
+        this._userService.updateLikedAlbums(response.albums)
       }
     })
   }
 
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')
+    this.isAlbumLiked = false
   }
 
 
