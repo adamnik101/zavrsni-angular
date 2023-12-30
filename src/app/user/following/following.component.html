@@ -1,12 +1,12 @@
 
 <div class="following">
   @for (artist of following; track artist) {
-    <div class="row">
+    <a class="row" routerLinkActive="active" routerLink="/artists/{{artist.id}}">
       <div class="left">
         <img src="{{artist.cover}}"/>
-        <a routerLinkActive="active" routerLink="/artists/{{artist.id}}">{{artist.name}}</a>
+        <p>{{artist.name}}</p>
       </div>
-    </div>
+    </a>
   } @empty {
     Follow artists to see them here
   }

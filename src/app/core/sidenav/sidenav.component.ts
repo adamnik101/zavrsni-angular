@@ -32,6 +32,11 @@ export class SidenavComponent {
         this.following = artists
       }
     })
+    this._userService.likedAlbums$.subscribe({
+      next: (albums) => {
+        this.albums = albums
+      }
+    })
   }
   openDialog() {
     this._matDialog.open(CreatePlaylistDialogComponent).afterClosed().subscribe({

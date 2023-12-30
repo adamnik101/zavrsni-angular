@@ -5,6 +5,7 @@ import { AlbumsRoutingModule } from './albums-routing.module';
 import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import {SharedModule} from "../shared/shared.module";
 import { AlbumCardComponent } from './album-card/album-card.component';
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -15,10 +16,11 @@ import { AlbumCardComponent } from './album-card/album-card.component';
   exports: [
     AlbumCardComponent
   ],
-  imports: [
-    CommonModule,
-    AlbumsRoutingModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        AlbumsRoutingModule,
+        SharedModule,
+        MatIconModule
+    ]
 })
 export class AlbumsModule { }

@@ -59,7 +59,17 @@ export class AlbumDetailComponent {
     this._queueService.addTracks(tracks, this.from)
     this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], this.from)
   }
+  likeAlbum(id: string) {
+    this._albumService.likeAlbum(id).subscribe({
+      next: (response) => {
+        console.log(response)
+      }
+    })
+  }
+
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')
   }
+
+
 }

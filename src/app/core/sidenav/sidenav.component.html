@@ -37,7 +37,7 @@
           </mat-tab>
           <mat-tab label="Albums">
             @for (album of albums; track album.id) {
-              
+              <app-album-list-item [album]="album"></app-album-list-item>
             } @empty {
               No albums liked
             }

@@ -20,36 +20,36 @@
         <div class="top-section">
           <h1>Playlists</h1>
           @if (user.playlists_count > 5) {
-            <a>See more</a>
+            <a routerLink="/user/playlists">See more</a>
           }
         </div>
         <div class="row">
-          @if (playlists.length) {
-            @for (playlist of playlists; track playlist) {
-              <app-playlist-card [playlist]="playlist"></app-playlist-card>
+            @for (playlist of playlists; track playlist; let i = $index) {
+              @if (i < 6) {
+                <app-playlist-card [playlist]="playlist"></app-playlist-card>
+              }
+            } @empty {
+              You did not create any playlists yet..
             }
-          } @else {
-            You did not create any playlists yet..
-          }
         </div>
       </div>
       <div class="section">
         <div class="top-section">
           <h1>Following</h1>
           @if (user.following_count > 6) {
-            <a>See more</a>
+            <a routerLink="/user/followings">See more</a>
           }
         </div>
-        @if (user.following_count > 0) {
           <!--<app-following [following]="user.following"></app-following>-->
           <div class="row">
-            @for (artist of user.following; track artist) {
-              <app-artist-round-card [artist]="artist"></app-artist-round-card>
+            @for (artist of user.following; track artist; let i = $index) {
+              @if(i < 6) {
+                <app-artist-round-card [artist]="artist"></app-artist-round-card>
+              }
+            } @empty {
+              You are not following any artist yet..
             }
           </div>
-        } @else {
-          You are not following any artist yet..
-        }
       </div>
       <div class="section favorite">
         <h1>Your favorite tracks last 7 days</h1>

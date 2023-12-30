@@ -2,6 +2,7 @@ import {Artist} from "../../artists/interfaces/artist";
 import {Track} from "../../shared/interfaces/track";
 import {Playlist} from "../../playlists/interfaces/playlist";
 import {Settings} from "../../settings/interfaces/settings";
+import {Album} from "../../albums/interfaces/album";
 
 export interface User {
   id: string
@@ -11,6 +12,7 @@ export interface User {
   active: boolean
   following: Artist[]
   liked_tracks: Track[]
+  liked_albums: Album[]
   playlists: Playlist[]
   following_count: number
   playlists_count: number

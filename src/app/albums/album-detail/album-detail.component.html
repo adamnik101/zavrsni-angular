@@ -7,7 +7,12 @@
       <div class="backdrop"></div>
       <img class="cover" src="{{album.cover}}">
       <div class="info">
-        <h1>{{album.name}}</h1>
+        <div class="name">
+          <h1>{{album.name}}</h1>
+          <button (click)="likeAlbum(album.id)" class="center">
+            <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
+          </button>
+        </div>
         <p>{{album.tracks_count}} tracks</p>
         <p>{{album.release_year}}</p>
         <div class="artist">

@@ -11,6 +11,7 @@ import {Artist} from "../../artists/interfaces/artist";
 import {AuthService} from "../../auth/services/auth.service";
 import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {Settings} from "../../settings/interfaces/settings";
+import {Album} from "../../albums/interfaces/album";
 
 
 @Injectable({
@@ -36,6 +37,9 @@ export class UserService extends BaseService{
   private _followingSubject: BehaviorSubject<Artist[]> = new BehaviorSubject<Artist[]>([])
   public following$ = this._followingSubject.asObservable()
 
+  private _likedAlbumSubject: BehaviorSubject<Album[]> = new BehaviorSubject<Album[]>([])
+  public likedAlbums$ = this._likedAlbumSubject.asObservable()
+
   private _playlistTracks : Map<Playlist, Track[]> = new Map<Playlist, Track[]>()
   public following : Artist[] = []
   constructor(private http: HttpClient, private config: ConfigService, private _router: Router, private _authService: AuthService) {
@@ -52,6 +56,7 @@ export class UserService extends BaseService{
     const subscribe: Subscription = this.get<User>('actor').subscribe({
       next: (user: User): void => {
         this._userSubject.next(user)
+        this._likedAlbumSubject.next(user.liked_albums)
         this._playlistsSubject.next(user.playlists)
         this._likedTracksSubject.next(user.liked_tracks)
         this._followingSubject.next(user.following)

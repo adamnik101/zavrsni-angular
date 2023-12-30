@@ -14,4 +14,8 @@ export class AlbumService extends BaseService{
   getLatest() {
     return this.get<Album[]>('albums/latest')
   }
+
+  likeAlbum(id: string) {
+    return this.post(`albums/${id}/like`, null)
+  }
 }

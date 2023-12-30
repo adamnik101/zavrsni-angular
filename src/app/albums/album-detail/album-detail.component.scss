@@ -25,6 +25,24 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      .name{
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        button{
+          width: 40px;
+          height: 40px;
+          border: none;
+          border-radius: 50%;
+          background: none;
+          &:hover{
+            cursor: pointer;
+          }
+          .mat-icon{
+            color: var(--light);
+          }
+        }
+      }
       .artist{
         a{
           display: flex;
