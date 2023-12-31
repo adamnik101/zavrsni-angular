@@ -1,4 +1,4 @@
-<a routerLink="/artists/{{artist.id}}" class="card">
+<a routerLink="/artists/{{artist.id}}" class="card" (contextmenu)="openContextMenu($event)">
   <img src="{{artist.cover}}"/>
   <p>{{artist.name}}</p>
 </a>

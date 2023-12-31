@@ -13,6 +13,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDividerModule} from "@angular/material/divider";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {ArtistsModule} from "../artists/artists.module";
+import {AlbumsModule} from "../albums/albums.module";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {ArtistsModule} from "../artists/artists.module";
         MatProgressSpinnerModule,
         MatDividerModule,
         MatSlideToggleModule,
-        ArtistsModule
+        ArtistsModule,
+        AlbumsModule
     ]
 })
 export class UserModule { }

@@ -8,4 +8,11 @@ import {Artist} from "../interfaces/artist";
 })
 export class ArtistRoundCardComponent {
  @Input('artist') artist : Artist = {} as Artist
+
+  openContextMenu(event: MouseEvent) {
+    event.preventDefault()
+    if(event.button === 2) {
+      console.log('right mouse click')
+    }
+  }
 }

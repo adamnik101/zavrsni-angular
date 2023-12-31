@@ -51,6 +51,23 @@
             }
           </div>
       </div>
+      <div class="section">
+        <div class="top-section">
+          <h1>Liked albums</h1>
+          @if ((userService.likedAlbums$ | async )?.length! > 6) {
+            <a routerLink="/user/followings">See more</a>
+          }
+        </div>
+        <div class="row">
+          @for(album of (userService.likedAlbums$ | async); track album; let index = $index) {
+            @if(index < 6) {
+              <app-album-card [album]="album"></app-album-card>
+            }
+          } @empty {
+            You did not like any albums yet.. Tap heart icon to like
+          }
+        </div>
+      </div>
       <div class="section favorite">
         <h1>Your favorite tracks last 7 days</h1>
         <p>Only visible to you</p>

@@ -1,7 +1,7 @@
 
-<div class="following">
+<div class="following" >
   @for (artist of following; track artist) {
-    <a class="row" routerLinkActive="active" routerLink="/artists/{{artist.id}}">
+    <a class="row" routerLinkActive="active" routerLink="/artists/{{artist.id}}" >
       <div class="left">
         <img src="{{artist.cover}}"/>
         <p>{{artist.name}}</p>

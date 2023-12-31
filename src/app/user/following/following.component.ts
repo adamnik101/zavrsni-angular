@@ -8,4 +8,10 @@ import {Artist} from "../../artists/interfaces/artist";
 })
 export class FollowingComponent {
   @Input('following') following: Artist[] = []
+
+  openContextMenu(event: MouseEvent) {
+    if(event.button === 2) { // right click, secondary
+      console.log('asdasda')
+    }
+  }
 }

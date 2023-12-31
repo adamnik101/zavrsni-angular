@@ -14,7 +14,7 @@
               <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
             </button>
           } @else {
-            <button class="center">
+            <button class="center" (click)="removeAlbumFromLiked(album.id)">
               <mat-icon class="custom-icon-color">favorite</mat-icon>
             </button>
           }

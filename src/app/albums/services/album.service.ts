@@ -18,4 +18,8 @@ export class AlbumService extends BaseService{
   likeAlbum(id: string) {
     return this.post<null, {'message' : string; 'albums': Album[] }>(`albums/${id}/like`, null)
   }
+
+  removeFromLiked(id: string) {
+    return this.delete(`albums/${id}/like/delete`)
+  }
 }

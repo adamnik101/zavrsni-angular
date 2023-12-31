@@ -8,6 +8,7 @@ import {QueueService} from "../../queue/services/queue.service";
 import {AudioService} from "../../audio/audio.service";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {UserService} from "../../user/services/user.service";
+import {SnackbarService} from "../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-album-detail',
@@ -21,15 +22,21 @@ export class AlbumDetailComponent {
   private _colorService = inject(ColorThiefService)
   private _userService = inject(UserService)
   private _route = inject(ActivatedRoute)
-
+  private _snackbar = inject(SnackbarService)
   public album: Album = {} as Album
   public from : From = {} as From
   public isAlbumLiked: boolean = false
   public isLoaded: boolean = false
+  private likedAlbums: Album[] = []
   @ViewChild('background') background!: ElementRef
   ngOnInit() {
     this.isLoaded = false
     this.getAlbum()
+    this._userService.likedAlbums$.subscribe({
+      next: (albums) => {
+        this.likedAlbums = albums
+      }
+    })
   }
 
   private getAlbum() {
@@ -75,18 +82,36 @@ export class AlbumDetailComponent {
     this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], this.from)
   }
   likeAlbum(id: string) {
+    this.isAlbumLiked = true
     this._albumService.likeAlbum(id).subscribe({
       next: (response) => {
-       this.isAlbumLiked = true
         this._userService.updateLikedAlbums(response.albums)
       }
     })
+    this._snackbar.showSuccessMessage(`Added '${this.album.name}' to library`)
   }
 
+  removeAlbumFromLiked(id: string) {
+    this.isAlbumLiked = false
+    this._snackbar.showSuccessMessage(`Removed '${this.album.name}' from library`)
+    this._albumService.removeFromLiked(id).subscribe({
+      next: (response) => {
+        if(response === null) {
+          let without: Album[] = []
+          for (let album of this.likedAlbums) {
+            if(album.id !== id) {
+              without.push(album)
+            }
+          }
+
+          this._userService.updateLikedAlbums(without)
+        }
+      }
+    })
+  }
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')
     this.isAlbumLiked = false
   }
-
 
 }
