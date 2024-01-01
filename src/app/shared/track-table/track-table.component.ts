@@ -10,6 +10,11 @@ import {QueueService} from "../../queue/services/queue.service";
 import {CdkDragDrop, CdkDragExit, CdkDragMove, CdkDragStart} from "@angular/cdk/drag-drop";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import {DragDropService} from "../services/drag-drop.service";
+import {AddTracksToPlaylistResponse} from "../interfaces/add-tracks-to-playlist-response";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  AddTracksToPlaylistDialogComponent
+} from "../../playlists/add-tracks-to-playlist-dialog/add-tracks-to-playlist-dialog.component";
 
 
 @Component({
@@ -27,13 +32,15 @@ export class TrackTableComponent {
   likedMap: Map<string, Track> = new Map<string, Track>()
   currentTrack : Track = {} as Track
   likedTracks : Track[] = []
+  dropToPlaylistId: string = ''
   constructor(private _audioService: AudioService,
               private _userService: UserService,
               private _queueService: QueueService,
               private _playlistService: PlaylistService,
               private _snackbarService: SnackbarService,
               private _cdr: ChangeDetectorRef,
-              private _dragDropService: DragDropService) {}
+              private _dragDropService: DragDropService,
+              private _matDialog: MatDialog) {}
   ngOnInit() {
     this._userService.playlists$.subscribe({
       next: (playlists) => {
@@ -175,32 +182,24 @@ export class TrackTableComponent {
   }
 
   drop(event: CdkDragDrop<any, any>) {
-    if(this.selectedTracks.size > 0) {
-      console.log(this.selectedTracks)
-      this.addSelectedTracksToPlaylist(this.selectedTracks)
-      return
-    }
-    const currIndex = event.currentIndex
-    const trackToDrop = this.tracks[currIndex]
-    console.log(trackToDrop)
-
-    if (event.previousContainer === event.container) {
+    if(event.previousContainer === event.container) {
       let target = (event.event.target as HTMLElement).closest('.row')
 
       if(target) {
-        /*const row = target as HTMLDivElement
+        this.dropToPlaylistId = target.id
+        if(this.dropToPlaylistId.length === 36 && this.dropToPlaylistId) {
+          console.log(this.dropToPlaylistId)
 
-        row.addEventListener('mouseenter', () => {
-          row.classList.add('hovered-row');
-        });
+          if(this.selectedTracks.size > 0) {
+            console.log(this.selectedTracks)
+            this.addSelectedTracksToPlaylist(this.selectedTracks, this.dropToPlaylistId)
+            return
+          }
 
-        // Remove the border class when the mouse leaves
-        row.addEventListener('mouseleave', () => {
-          row.classList.remove('hovered-row');
-        });*/
-        const id = target.id
-        if(id && id.length === 36) {
-          this.addTrackToPlaylist(trackToDrop.id, id)
+          const currIndex = event.currentIndex
+          const trackToDrop = this.tracks[currIndex]
+
+          this.addTrackToPlaylist(trackToDrop.id, this.dropToPlaylistId)
         }
       }
     }
@@ -244,7 +243,7 @@ export class TrackTableComponent {
     }
   }
   selectedTracks : Map<string, Track> = new Map<string, Track>()
-  tracksToAdd: Track[] = []
+  tracksToAdd: string[] = []
   selectTrack(event: MouseEvent, id: string, track: Track) {
       if(event.ctrlKey) {
         if(this.selectedTracks.has(id)) {
@@ -257,15 +256,34 @@ export class TrackTableComponent {
         return;
       }
       this.selectedTracks.clear()
+      this.tracksToAdd = []
   }
 
   //treba preko servisa
-  private addSelectedTracksToPlaylist(tracksMap: Map<string, Track>) {
+  private addSelectedTracksToPlaylist(tracksMap: Map<string, Track>, playlistId: string) {
     tracksMap.forEach((value, key) => {
-      this.tracksToAdd.push(value)
+      this.tracksToAdd.push(value.id)
     })
+    this._playlistService.addTracksToPlaylist(this.tracksToAdd, playlistId).subscribe({
+      next: (response: AddTracksToPlaylistResponse) => {
 
-    console.log(this.tracksToAdd)
+
+        /*console.log(response)
+        const playlist = this.playlists.find(playlist => playlist.id === playlistId)
+        if(playlist) {
+          playlist.tracks_count = Number(playlist.tracks_count) + Number(response.addedCount)
+          this._cdr.markForCheck()
+          this._snackbarService.showSuccessMessage(response.message)
+          this.selectedTracks.clear()
+          this.tracksToAdd = []
+        }*/
+      },
+      error: (response) => {
+        console.log(response)
+        this._matDialog.open(AddTracksToPlaylistDialogComponent, {data: response.error})
+      }
+    })
+    this.tracksToAdd = []
   }
 
   onDragStarted(event: CdkDragStart) {

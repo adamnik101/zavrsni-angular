@@ -4,7 +4,8 @@ import {CreatePlaylist} from "../interfaces/create-playlist";
 import {Playlist} from "../interfaces/playlist";
 import {Track} from "../../shared/interfaces/track";
 import {PagedResponse} from "../../shared/interfaces/paged-response";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
+import {AddTracksToPlaylistResponse} from "../../shared/interfaces/add-tracks-to-playlist-response";
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,13 @@ export class PlaylistService extends BaseService{
           this.tracksSubject.next(this.tracks)
       }
     })
+  }
+
+  addTracksToPlaylist(tracksToAdd: string[], playlistId: string, confirm?: boolean): Observable<AddTracksToPlaylistResponse> {
+    return this.post(`playlists/${playlistId}/tracks/add`, {tracks: tracksToAdd, confirm: confirm})
+  }
+
+  addAllTracksToPlaylistConfirm(id: string, tracks?: Track[]) {
+    return
   }
 }
