@@ -1,4 +1,9 @@
 <div class="artist">
+  @if(loaded){
+
+  } @else {
+    <app-loading></app-loading>
+  }
   <div class="top" #top>
     @if (loaded) {
       <div class="info">
@@ -21,8 +26,6 @@
         <div class="lower-section">
         </div>
       </div>
-    } @else {
-      <app-loading></app-loading>
     }
   </div>
   @if (loaded) {
@@ -73,3 +76,4 @@
   }
 
 </div>
+

@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private sub3!: Subscription;
   private sub5!: Subscription;
   public loading: boolean = true;
+  public loadedRecently: boolean = false
   constructor(
     private _albumService: AlbumService,
     private _userService: UserService,
@@ -36,9 +37,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._titleService.setTitle('Home - TREBLE');
+    this.loadedRecently = false
     this.sub5 = this._userService.getRecentlyPlayedTracks().subscribe({
       next: (tracks) => {
         this.recentTracks = tracks;
+        this.loadedRecently = true
       },
     });
     this.sub1 = this._albumService.getLatest().subscribe({

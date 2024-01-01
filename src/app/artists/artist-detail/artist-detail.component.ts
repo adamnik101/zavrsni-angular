@@ -7,6 +7,7 @@ import {UserService} from "../../user/services/user.service";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {Title} from "@angular/platform-browser";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-artist-detail',
@@ -22,6 +23,8 @@ export class ArtistDetailComponent implements OnInit {
   loaded: boolean = false;
   isFollowing: boolean = false
   followings: Artist[] = []
+  subs: Subscription[] = []
+  initSub?: Subscription
   constructor(private _artistService: ArtistService,
               private _route: ActivatedRoute,
               private _userService: UserService,
@@ -35,12 +38,16 @@ export class ArtistDetailComponent implements OnInit {
     this.getArtist()
   }
   getArtist() {
-    const subRoute = this._route.paramMap.subscribe({
+    this.initSub = this._route.paramMap.subscribe({
       next: (response) => {
         this.loaded = false
+        document.documentElement.style.setProperty('--header', `var(--primary-black)`)
+        for (let sub of this.subs) {
+          sub.unsubscribe()
+        }
         const id = response.get('id')
         if(id){
-          const subArtist = this._artistService.getArtist(id).subscribe({
+          this.subs.push(this._artistService.getArtist(id).subscribe({
             next: (artist) => {
               this.artist = artist
               console.log(artist)
@@ -58,36 +65,28 @@ export class ArtistDetailComponent implements OnInit {
                 name: this.artist.name + '\'s popular',
                 url: '/artists/' + this.artist.id
               }
-              this._userService.following$.subscribe({
+              this.subs.push(this._userService.following$.subscribe({
                 next: (artists) => {
                   this.isFollowing = artists.findIndex(ar => ar.id === artist.id) !== -1
                   this.followings = artists
                   this.loaded = true
                   this._title.setTitle(`${artist.name} - TREBLE`)
                 }
-              })
-
-
+              }))
             },
             error: (err) => {
               //
-            },
-            complete() {
-              subArtist.unsubscribe()
             }
-          })
+          }))
         }
       },
       error: (response) => {
         //
-      },
-      complete() {
-        subRoute.unsubscribe()
       }
     })
   }
   followArtist(artist: Artist) {
-    const sub = this._userService.followArtist(artist).subscribe({
+    this.subs.push(this._userService.followArtist(artist).subscribe({
       next: (response) => {
         this._snackbarService.showSuccessMessage(response as string)
         this.followings.unshift(artist)
@@ -95,15 +94,12 @@ export class ArtistDetailComponent implements OnInit {
 
       }, error: (response) => {
         this._snackbarService.showFailedMessage(response.error)
-      },
-      complete() {
-        sub.unsubscribe()
       }
-    })
+    }))
   }
 
   unfollowArtist(artist: Artist) {
-    const sub = this._userService.unfollowArtist(artist).subscribe({
+    this.subs.push(this._userService.unfollowArtist(artist).subscribe({
       next: (response) => {
         this._snackbarService.showSuccessMessage('Unfollowed')
         const artistToDelete = this.followings.findIndex(ar => ar.id === artist.id)
@@ -115,13 +111,14 @@ export class ArtistDetailComponent implements OnInit {
       },
       error: (response) => {
         this._snackbarService.showFailedMessage(response.error)
-      },
-      complete() {
-        sub.unsubscribe()
       }
-    })
+    }))
   }
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', `var(--primary-black)`)
+    for (let sub of this.subs) {
+      sub.unsubscribe()
+    }
+    this.initSub?.unsubscribe()
   }
 }

@@ -9,6 +9,7 @@ import {AudioService} from "../../audio/audio.service";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {UserService} from "../../user/services/user.service";
 import {SnackbarService} from "../../shared/services/snackbar.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-album-detail',
@@ -29,23 +30,26 @@ export class AlbumDetailComponent {
   public isLoaded: boolean = false
   private likedAlbums: Album[] = []
   @ViewChild('background') background!: ElementRef
+  private subs: Subscription[] = []
   ngOnInit() {
-    this.isLoaded = false
+
     this.getAlbum()
-    this._userService.likedAlbums$.subscribe({
+    this.subs.push(this._userService.likedAlbums$.subscribe({
       next: (albums) => {
         this.likedAlbums = albums
       }
-    })
+    }))
   }
 
   private getAlbum() {
-    this._route.paramMap.subscribe({
+    this.subs.push(this._route.paramMap.subscribe({
       next: (paramMap) => {
+        document.documentElement.style.setProperty('--header', 'var(--primary-black)')
+        this.isLoaded = false
         this.isAlbumLiked = false
         const id = paramMap.get('id')
         if(id) {
-          this._userService.likedAlbums$.subscribe({
+          this.subs.push(this._userService.likedAlbums$.subscribe({
             next: (albums) => {
               for (let album of albums) {
                 if(album.id === id) {
@@ -53,8 +57,8 @@ export class AlbumDetailComponent {
                 }
               }
             }
-          })
-          this._albumService.getAlbum(id).subscribe({
+          }))
+          this.subs.push(this._albumService.getAlbum(id).subscribe({
             next: (album) => {
               this.album = album
               this.from = {
@@ -71,10 +75,10 @@ export class AlbumDetailComponent {
               linear-gradient(90deg, var(--black), transparent 100%),
               linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${this.album.cover}') right/600px repeat-x`
             }
-          })
+          }))
         }
       }
-    })
+    }))
   }
 
   playAlbum(tracks: Track[]) {
@@ -83,18 +87,18 @@ export class AlbumDetailComponent {
   }
   likeAlbum(id: string) {
     this.isAlbumLiked = true
-    this._albumService.likeAlbum(id).subscribe({
+    this.subs.push(this._albumService.likeAlbum(id).subscribe({
       next: (response) => {
         this._userService.updateLikedAlbums(response.albums)
       }
-    })
+    }))
     this._snackbar.showSuccessMessage(`Added '${this.album.name}' to library`)
   }
 
   removeAlbumFromLiked(id: string) {
     this.isAlbumLiked = false
     this._snackbar.showSuccessMessage(`Removed '${this.album.name}' from library`)
-    this._albumService.removeFromLiked(id).subscribe({
+    this.subs.push(this._albumService.removeFromLiked(id).subscribe({
       next: (response) => {
         if(response === null) {
           let without: Album[] = []
@@ -107,11 +111,14 @@ export class AlbumDetailComponent {
           this._userService.updateLikedAlbums(without)
         }
       }
-    })
+    }))
   }
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')
     this.isAlbumLiked = false
+    for (let sub of this.subs) {
+      sub.unsubscribe()
+    }
   }
 
 }

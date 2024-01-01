@@ -274,6 +274,7 @@ export class TrackTableComponent {
     this._dragDropService.dragging = false
   }
   ngOnDestroy() {
+      console.log('destroyed table')
     for (let sub of this.subs) {
       sub.unsubscribe()
     }
