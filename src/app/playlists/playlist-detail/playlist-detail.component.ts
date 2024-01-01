@@ -19,13 +19,16 @@ export class PlaylistDetailComponent implements OnInit{
   @ViewChild('background') background!: ElementRef
   fromInfo : From = {} as From
   tracks : Track[] = []
+  private subs: Subscription[] = []
 
   constructor(private _route: ActivatedRoute, public playlistService: PlaylistService, private _title: Title, private _renderer: Renderer2, private _colorService: ColorThiefService) {
   }
   ngOnInit(): void {
 
-    this._route.paramMap.subscribe({
+    this.subs.push(this._route.paramMap.subscribe({
       next: (params) => {
+        this.isLoaded = false
+        document.documentElement.style.setProperty('--header', 'var(--primary-black)')
         const id = params.get('id')
         if(id) {
           /*this._playlistService.loadMoreTracks(id).add(() => {
@@ -35,10 +38,11 @@ export class PlaylistDetailComponent implements OnInit{
               }
             })
           })*/
-          this.playlistService.showPlaylist(id).subscribe({
+          this.subs.push(this.playlistService.showPlaylist(id).subscribe({
             next: (response) => {
               this.playlist = response
-              this.isLoaded = true
+
+
               if(response.image_url){
                 this._colorService.getRgbColorsFromImage(response.image_url,'playlist', true)
 
@@ -58,12 +62,12 @@ export class PlaylistDetailComponent implements OnInit{
                 totalDuration += Math.floor(track.duration) - Math.floor(track.duration % 1000)
               }
               this.playlistService.totalDuration.set(totalDuration)
-
+              this.isLoaded = true
             }
-          })
+          }))
         }
       }
-    })
+    }))
   }
   set playlist(value: Playlist) {
     this.playlistService.playlist = value
@@ -73,6 +77,9 @@ export class PlaylistDetailComponent implements OnInit{
   }
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')
+    for (let sub of this.subs) {
+      sub.unsubscribe()
+    }
   }
   /*@HostListener('window:scroll', ['$event'])
   onScroll() {

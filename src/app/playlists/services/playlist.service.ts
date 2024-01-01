@@ -34,7 +34,7 @@ export class PlaylistService extends BaseService{
   }
 
   removeTrackFromPlaylist(track: Track, playlistId: string) {
-    return this.delete(`playlists/${playlistId}/track/${track.id}/delete`)
+    return this.delete(`playlists/${playlistId}/track/${track.id}/delete/${track.pivot?.id}`)
   }
 
   deletePlaylist(playlist: Playlist) {

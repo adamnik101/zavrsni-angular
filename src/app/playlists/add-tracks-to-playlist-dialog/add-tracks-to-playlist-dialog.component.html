@@ -9,7 +9,7 @@
       @if (btn === 'Add anyway') {
         <button mat-button (click)="addAnyway(data.playlistId, data.tracksAlreadyInPlaylist)">{{ btn }}</button>
       } @else if (btn === 'Don\'t add') {
-        <button mat-button (click)="onNoClick()">{{ btn }}</button>
+        <button mat-button (click)="closeDialog()">{{ btn }}</button>
       }
     } @else if (data.status === 'warning-some') {
       @if (btn === 'Add all') {

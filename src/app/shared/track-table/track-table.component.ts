@@ -15,6 +15,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {
   AddTracksToPlaylistDialogComponent
 } from "../../playlists/add-tracks-to-playlist-dialog/add-tracks-to-playlist-dialog.component";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -33,6 +34,7 @@ export class TrackTableComponent {
   currentTrack : Track = {} as Track
   likedTracks : Track[] = []
   dropToPlaylistId: string = ''
+  private subs: Subscription[] = []
   constructor(private _audioService: AudioService,
               private _userService: UserService,
               private _queueService: QueueService,
@@ -40,13 +42,14 @@ export class TrackTableComponent {
               private _snackbarService: SnackbarService,
               private _cdr: ChangeDetectorRef,
               private _dragDropService: DragDropService,
-              private _matDialog: MatDialog) {}
+              private _matDialog: MatDialog) {
+  }
   ngOnInit() {
-    this._userService.playlists$.subscribe({
+    this.subs.push(this._userService.playlists$.subscribe({
       next: (playlists) => {
         this.playlists = playlists
       }
-    })
+    }))
 
     this.likedTracks = this._userService.likedTracks()
     for (let track of this.likedTracks) {
@@ -62,16 +65,6 @@ export class TrackTableComponent {
 
     this.currentTrack = this._audioService.currentTrack()
   }
-  trackById(index: number, item: any) {
-    return item.id
-  }
-  play(track: Track) {
-    /*this.currentTrack = track
-    this._audioService.playTrack(this.currentTrack, this.from)*/
-    this._queueService.addTrack(track, this.from)
-    //this._audioService.playTrack(track, this.from)
-    console.log(this._queueService.queue)
-  }
   playAllFromIndex(tracks: Track[], index: number, from: From) {
     this._queueService.currentQueueIndex = index
     this._queueService.addTracks(tracks, from)
@@ -79,8 +72,8 @@ export class TrackTableComponent {
     //this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], from)
   }
   addTrackToPlaylist(trackId: string, playlistId: string) {
-    const sub = this._playlistService.addTrackToPlaylist(trackId, playlistId).subscribe({
-      next: (response: any) => {
+    this.subs.push(this._playlistService.addTracksToPlaylist([trackId], playlistId).subscribe({
+      next: (response: AddTracksToPlaylistResponse) => {
         this._snackbarService.showSuccessMessage(response.message)
         const playlist = this.playlists.find(playlist => playlist.id === playlistId)
         if(playlist) {
@@ -90,16 +83,13 @@ export class TrackTableComponent {
       },
       error: (err) => {
         console.log(err)
-        this._snackbarService.showFailedMessage(err.error.message)
-      },
-      complete() {
-        sub.unsubscribe()
+        this._matDialog.open(AddTracksToPlaylistDialogComponent, {data: err.error})
       }
-    })
+    }))
   }
 
   likeTrack(track: Track) {
-    const sub = this._userService.likeTrack(track.id).subscribe({
+    this.subs.push(this._userService.likeTrack(track.id).subscribe({
       next: (response: any) => {
         this._snackbarService.showSuccessMessage(response.message)
         this.likedMap.set(track.id, track)
@@ -108,15 +98,12 @@ export class TrackTableComponent {
       },
       error: (response: any) => {
         this._snackbarService.showFailedMessage(response.error.message)
-      },
-      complete() {
-        sub.unsubscribe()
       }
-    })
+    }))
   }
 
   removeFromLiked(track: string) {
-    const sub = this._userService.removeFromLiked(track).subscribe({
+    this.subs.push(this._userService.removeFromLiked(track).subscribe({
       next: (response) => {
         console.log(response)
         this._snackbarService.showSuccessMessage('Successfully removed track from liked.')
@@ -131,17 +118,14 @@ export class TrackTableComponent {
       },
       error: (response) => {
         this._snackbarService.showFailedMessage(response.error.message)
-      },
-      complete () {
-        sub.unsubscribe()
       }
-    })
+    }))
   }
   get playlist() {
     return this._playlistService.playlist
   }
   removeFromPlaylist(track: Track, from: From) {
-    const sub = this._playlistService.removeTrackFromPlaylist(track, from.id).subscribe({
+    this.subs.push(this._playlistService.removeTrackFromPlaylist(track, from.id).subscribe({
       next: (response: any) => {
         if (response == null){
           this.removeTrack(track, from)
@@ -159,11 +143,8 @@ export class TrackTableComponent {
       },
       error: (response) => {
         this._snackbarService.showFailedMessage(response.error.message)
-      },
-      complete() {
-        sub.unsubscribe()
       }
-    })
+    }))
   }
   private removeTrack(track: Track, from: From){
     let trackToDelete = this.playlist.tracks.data.findIndex(t => t.id === track.id)
@@ -242,16 +223,16 @@ export class TrackTableComponent {
       this.closestRow.style.background = ''
     }
   }
-  selectedTracks : Map<string, Track> = new Map<string, Track>()
+  selectedTracks : Map<number, Track> = new Map<number, Track>()
   tracksToAdd: string[] = []
-  selectTrack(event: MouseEvent, id: string, track: Track) {
+  selectTrack(event: MouseEvent, index: number, track: Track) {
       if(event.ctrlKey) {
-        if(this.selectedTracks.has(id)) {
-          this.selectedTracks.delete(id)
+        if(this.selectedTracks.has(index)) {
+          this.selectedTracks.delete(index)
           console.log(this.selectedTracks)
           return
         }
-        this.selectedTracks.set(id,track)
+        this.selectedTracks.set(index,track)
         console.log(this.selectedTracks)
         return;
       }
@@ -260,29 +241,28 @@ export class TrackTableComponent {
   }
 
   //treba preko servisa
-  private addSelectedTracksToPlaylist(tracksMap: Map<string, Track>, playlistId: string) {
+  private addSelectedTracksToPlaylist(tracksMap: Map<number, Track>, playlistId: string) {
     tracksMap.forEach((value, key) => {
       this.tracksToAdd.push(value.id)
     })
-    this._playlistService.addTracksToPlaylist(this.tracksToAdd, playlistId).subscribe({
+    this.subs.push(this._playlistService.addTracksToPlaylist(this.tracksToAdd, playlistId).subscribe({
       next: (response: AddTracksToPlaylistResponse) => {
-
-
-        /*console.log(response)
-        const playlist = this.playlists.find(playlist => playlist.id === playlistId)
+        console.log(response)
+        const playlist = this.playlists.find(p => p.id === playlistId)
         if(playlist) {
           playlist.tracks_count = Number(playlist.tracks_count) + Number(response.addedCount)
           this._cdr.markForCheck()
           this._snackbarService.showSuccessMessage(response.message)
+          this._matDialog.closeAll()
           this.selectedTracks.clear()
           this.tracksToAdd = []
-        }*/
+        }
       },
       error: (response) => {
         console.log(response)
         this._matDialog.open(AddTracksToPlaylistDialogComponent, {data: response.error})
       }
-    })
+    }))
     this.tracksToAdd = []
   }
 
@@ -293,5 +273,9 @@ export class TrackTableComponent {
   onDragDropped(event: CdkDragDrop<any>) {
     this._dragDropService.dragging = false
   }
-
+  ngOnDestroy() {
+    for (let sub of this.subs) {
+      sub.unsubscribe()
+    }
+  }
 }

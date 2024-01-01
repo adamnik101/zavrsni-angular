@@ -14,7 +14,11 @@ export interface Track {
   features: Artist[]
   album?: Album
   pivot?: {
+    id: string
+    track_id: string
+    playlist_id: string
     created_at: string
+    updated_at: string
   }
   count: number
   formatted_created_at: string
