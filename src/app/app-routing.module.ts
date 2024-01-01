@@ -24,6 +24,7 @@ const routes: Routes = [
   {path : 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
   {path : 'queue', loadChildren: () => import('./queue/queue.module').then(m => m.QueueModule)},
   {path : 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
+
  // {path : '**', pathMatch: 'full', redirectTo: 'explore'}
 ];
 
