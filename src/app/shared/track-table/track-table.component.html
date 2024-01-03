@@ -35,7 +35,7 @@
     }
     <td class="cover-title">
 <!--      fix this-->
-      @if (_queueService.currentTrackInfo() !== null && track.id === _queueService.currentTrackInfo()?.track && from.id === _queueService.currentTrackInfo()?.from) {
+      @if (_queueService.currentTrackInfo() !== null && isCurrentTrack(track, index, from)) {
         @if (_queueService.currentTrackInfo()?.isBeingPlayed) {
           <button class="play" (click)="pause()">
             <img src="assets/icons-svg/pause.svg" />
@@ -52,12 +52,12 @@
       }
 
       @if (!from.url.includes('albums/')) {
-        @if (this._queueService.currentTrackInfo()?.track === track.id && index === this._queueService.currentTrackInfo()?.index && from.id === this._queueService.currentTrackInfo()?.from) {
+        @if (isCurrentTrack(track, index, from)) {
           <div class="playing-now">
             <mat-icon>volume_up</mat-icon>
           </div>
         }
-        <div class="image">
+        <div class="image" [ngClass]="{'opacity-05' : isCurrentTrack(track, index, from)}">
           @if (track.cover) {
             <img src="{{track.cover}}">
           } @else {
@@ -71,7 +71,7 @@
         </div>
       }
       @if (from.url.includes('albums/')) {
-        @if (this._queueService.currentTrackInfo()?.track === track.id) {
+        @if (isCurrentTrack(track, index, from)) {
           <div class="index">
             <mat-icon>volume_up</mat-icon>
           </div>

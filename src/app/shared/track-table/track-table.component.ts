@@ -305,4 +305,7 @@ export class TrackTableComponent {
     this._audioService.continue()
     this._cdr.markForCheck()
   }
+  isCurrentTrack(track: Track, index: number, from : From): boolean {
+      return this._queueService.currentTrackInfo()?.track === track.id && index === this._queueService.currentTrackInfo()?.index && from.id === this._queueService.currentTrackInfo()?.from
+  }
 }
