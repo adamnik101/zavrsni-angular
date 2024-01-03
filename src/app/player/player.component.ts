@@ -74,24 +74,11 @@ export class PlayerComponent {
   }
 
   goForward() {
-    if(this._queueService.shuffleQueue) {
-      this._queueService.shuffle()
-      this._queueService.playAtIndex(this._queueService.shuffleQueueIndex)
-      return
-    }
-    this._queueService.currentQueueIndex++
-    if(this._queueService.currentQueueIndex > this._queueService.queue.length - 1) {
-      this._queueService.currentQueueIndex = 0
-    }
-    this._queueService.playAtIndex(this._queueService.currentQueueIndex)
+    this._queueService.goForward()
   }
 
   goPrevious() {
-    this._queueService.currentQueueIndex--
-    if(this._queueService.currentQueueIndex == -1) {
-      this._queueService.currentQueueIndex = this._queueService.queue.length - 1
-    }
-    this._queueService.playAtIndex(this._queueService.currentQueueIndex)
+    this._queueService.goPrevious()
   }
 
   toggleMuteVolume() {

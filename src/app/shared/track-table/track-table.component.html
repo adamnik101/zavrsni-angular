@@ -34,10 +34,29 @@
       </p>
     }
     <td class="cover-title">
-      <button class="play" (click)="playAllFromIndex(tracks, index, from)">
-        <img src="assets/icons-svg/play.svg" />
-      </button>
+<!--      fix this-->
+      @if (_queueService.currentTrackInfo() !== null && track.id === _queueService.currentTrackInfo()?.track && from.id === _queueService.currentTrackInfo()?.from) {
+        @if (_queueService.currentTrackInfo()?.isBeingPlayed) {
+          <button class="play" (click)="pause()">
+            <img src="assets/icons-svg/pause.svg" />
+          </button>
+        } @else {
+          <button class="play" (click)="continue()">
+            <img src="assets/icons-svg/play.svg" />
+          </button>
+        }
+      } @else if(track.id !== _queueService.currentTrackInfo()?.track) {
+        <button class="play" (click)="playAllFromIndex(tracks, index, from)">
+          <img src="assets/icons-svg/play.svg" />
+        </button>
+      }
+
       @if (!from.url.includes('albums/')) {
+        @if (this._queueService.currentTrackInfo()?.track === track.id && index === this._queueService.currentTrackInfo()?.index && from.id === this._queueService.currentTrackInfo()?.from) {
+          <div class="playing-now">
+            <mat-icon>volume_up</mat-icon>
+          </div>
+        }
         <div class="image">
           @if (track.cover) {
             <img src="{{track.cover}}">
@@ -52,13 +71,24 @@
         </div>
       }
       @if (from.url.includes('albums/')) {
-        <div class="index">
-          <p> {{index + 1}}</p>
-        </div>
+        @if (this._queueService.currentTrackInfo()?.track === track.id) {
+          <div class="index">
+            <mat-icon>volume_up</mat-icon>
+          </div>
+        } @else {
+          <div class="index">
+            <p> {{index + 1}}</p>
+          </div>
+        }
       }
       <div class="info">
         <div class="title">
-          <p [ngClass]="track.id === currentTrack.id  ? 'playing' : ''">{{track.title}}</p>
+          @if (_queueService.currentTrackInfo() != null) {
+            <p [ngClass]="track.id === _queueService.currentTrackInfo()!.track && index === _queueService.currentTrackInfo()!.index && from.id === this._queueService.currentTrackInfo()!.from  ? 'playing' : ''">{{track.title}}</p>
+          } @else {
+            <p>{{track.title}}</p>
+          }
+
           @if (track.explicit) {
             <img src="assets/icons-svg/explicit.svg" width="14" height="14">
           }

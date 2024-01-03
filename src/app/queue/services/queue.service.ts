@@ -1,26 +1,36 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {Queue} from "../interfaces/queue";
 import {Track} from "../../shared/interfaces/track";
 import {From} from "../../shared/interfaces/from";
 import {AudioService} from "../../audio/audio.service";
 import {BehaviorSubject} from "rxjs";
+import {CurrentTrackInfo} from "../../shared/interfaces/current-track-info";
 
 @Injectable({
   providedIn: 'root'
 })
-export class QueueService implements Queue{
+export class QueueService implements Queue {
+
   private currentTrackSubject = new BehaviorSubject<Track>({} as Track)
   public currentTrack$ = this.currentTrackSubject.asObservable()
 
   private _audioService = inject(AudioService)
   shuffleQueue: boolean = false
-  shuffleQueueIndex : number = 0
+  shuffleQueueIndex: number = 0
   queue: Track[] = []
   currentQueueIndex: number = 0
   queueOpened: boolean = false;
   from: From = {} as From
+  currentTrackInfo = signal<CurrentTrackInfo | null>(null)
   public setCurrentTrack(track: Track) {
     this.currentTrackSubject.next(track)
+    this.currentTrackInfo.set({
+      index : this.currentQueueIndex,
+      track : this.queue[this.currentQueueIndex].id,
+      from: this.from.id,
+      isBeingPlayed: true
+    })
+    localStorage.setItem('current-track', JSON.stringify(this.currentTrackInfo()))
     console.log(track)
   }
 
@@ -55,6 +65,7 @@ export class QueueService implements Queue{
     const track = this.queue[this.currentQueueIndex]
     this.setCurrentTrack(track)
     this._audioService.playTrack(track, this.from)
+
   }
 
   remove(index: number): Track[] {
@@ -71,6 +82,25 @@ export class QueueService implements Queue{
       this.shuffleQueueIndex = Math.floor(Math.random() * queueLength)
       console.log(this.shuffleQueueIndex)
     }
+  }
 
+  goForward(): void {
+    if(this.shuffleQueue) {
+      this.shuffle()
+      this.playAtIndex(this.shuffleQueueIndex)
+      return
+    }
+    this.currentQueueIndex++
+    if(this.currentQueueIndex > this.queue.length - 1) {
+      this.currentQueueIndex = 0
+    }
+    this.playAtIndex(this.currentQueueIndex)
+  }
+  goPrevious(): void {
+    this.currentQueueIndex--
+    if(this.currentQueueIndex == -1) {
+      this.currentQueueIndex = this.queue.length - 1
+    }
+    this.playAtIndex(this.currentQueueIndex)
   }
 }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, signal, ViewChild} from '@angular/core';
 import {Track} from "../interfaces/track";
 import {AudioService} from "../../audio/audio.service";
 import {From} from "../interfaces/from";
@@ -16,6 +16,7 @@ import {
   AddTracksToPlaylistDialogComponent
 } from "../../playlists/add-tracks-to-playlist-dialog/add-tracks-to-playlist-dialog.component";
 import {Subscription} from "rxjs";
+import {CurrentTrackInfo} from "../interfaces/current-track-info";
 
 
 @Component({
@@ -35,9 +36,9 @@ export class TrackTableComponent {
   likedTracks : Track[] = []
   dropToPlaylistId: string = ''
   private subs: Subscription[] = []
-  constructor(private _audioService: AudioService,
+  constructor(protected _audioService: AudioService,
               private _userService: UserService,
-              private _queueService: QueueService,
+              protected _queueService: QueueService,
               private _playlistService: PlaylistService,
               private _snackbarService: SnackbarService,
               private _cdr: ChangeDetectorRef,
@@ -64,11 +65,13 @@ export class TrackTableComponent {
     })*/
 
     this.currentTrack = this._audioService.currentTrack()
+
   }
   playAllFromIndex(tracks: Track[], index: number, from: From) {
     this._queueService.currentQueueIndex = index
     this._queueService.addTracks(tracks, from)
     this._queueService.playAtIndex(this._queueService.currentQueueIndex)
+
     //this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], from)
   }
   addTrackToPlaylist(trackId: string, playlistId: string) {
@@ -278,5 +281,28 @@ export class TrackTableComponent {
     for (let sub of this.subs) {
       sub.unsubscribe()
     }
+  }
+
+  pause() {
+    this._queueService.currentTrackInfo.update((tr) => {
+      tr!.isBeingPlayed = false
+      return tr
+    })
+    this._audioService.pause()
+    this._cdr.markForCheck()
+  }
+
+  updateQueueIndex(index: number) {
+    this._queueService.currentQueueIndex = index
+    this._queueService.playAtIndex(this._queueService.currentQueueIndex)
+  }
+
+  continue() {
+    this._queueService.currentTrackInfo.update((tr) => {
+      tr!.isBeingPlayed = true
+      return tr
+    })
+    this._audioService.continue()
+    this._cdr.markForCheck()
   }
 }

@@ -15,4 +15,6 @@ export interface Queue {
   clear() : void
   shuffle() : void
   playAtIndex(index: number) : void
+  goForward(): void
+  goPrevious() : void
 }

@@ -27,12 +27,18 @@ table{
 
       &:hover{
         .index{
+          .mat-icon{
+            display: none;
+          }
           p{
             display: none;
           }
         }
         background: var(--secondary-black);
         .cover-title{
+          .playing-now{
+            display: none;
+          }
           .play{
             opacity: 1;
           }
@@ -64,6 +70,15 @@ table{
         align-items: center;
         gap: 10px;
         position: relative;
+        .playing-now{
+          position: absolute;
+          top: 19px;
+          left: 19px;
+          z-index: 8;
+          .mat-icon{
+            font-size: 20px;
+          }
+        }
         .play{
           cursor: pointer;
           position: absolute;
@@ -87,6 +102,8 @@ table{
           display: flex;
           align-items: center;
           justify-content: center;
+          position: relative;
+
           img{
             height: 95%;
             width: auto;
@@ -169,12 +186,21 @@ table{
   display: flex;
   align-items: center;
   justify-content: center;
+  .mat-icon{
+    font-size: 20px;
+  }
   p{
     color: var(--light-text);
   }
 }
 .playing{
   color: var(--main-color);
+}
+.playing-img{
+  color: var(--main-color);
+  img{
+    width: 25px;
+  }
 }
 .mat-mdc-menu-panel{
   height: 200px !important;

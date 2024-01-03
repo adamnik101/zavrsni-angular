@@ -16,7 +16,7 @@
                 <img src="assets/icons-svg/plus.svg" alt="plus,icon"/>
               Follow</button>
             }
-            @if (isFollowing) {
+            @else {
               <button (click)="unfollowArtist(artist)">
                 <img src="assets/icons-svg/check.svg" alt="check,icon"/>
               Following</button>
