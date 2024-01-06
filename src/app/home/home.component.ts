@@ -23,10 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     url: '/',
     name: 'Home',
   };
-  private sub1!: Subscription;
-  private sub2!: Subscription;
-  private sub3!: Subscription;
-  private sub5!: Subscription;
+  subs: Subscription[] = []
   public loading: boolean = true;
   public loadedRecently: boolean = false
   constructor(
@@ -38,34 +35,33 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._titleService.setTitle('Home - TREBLE');
     this.loadedRecently = false
-    this.sub5 = this._userService.getRecentlyPlayedTracks().subscribe({
+    this.subs.push(this._userService.getRecentlyPlayedTracks().subscribe({
       next: (tracks) => {
         this.recentTracks = tracks;
         this.loadedRecently = true
       },
-    });
-    this.sub1 = this._albumService.getLatest().subscribe({
+    }))
+    this.subs.push(this._albumService.getLatest().subscribe({
       next: (response) => {
         this.albums = response;
       },
-    });
-    this.sub2 = this._userService.getRecommendedArtists().subscribe({
+    }))
+    this.subs.push(this._userService.getRecommendedArtists().subscribe({
       next: (artists) => {
         this.recommendedArtists = artists;
       },
-    });
-    this.sub3 = this._userService.getRecommendedTracks().subscribe({
+    }))
+    this.subs.push(this._userService.getRecommendedTracks().subscribe({
       next: (tracks) => {
         this.recommendedTracks = tracks;
         this.loading = false;
       },
-    });
+    }))
   }
 
   ngOnDestroy() {
-    this.sub1.unsubscribe();
-    this.sub2.unsubscribe();
-    this.sub3.unsubscribe();
-    this.sub5.unsubscribe();
+    for(let sub of this.subs) {
+      sub.unsubscribe()
+    }
   }
 }

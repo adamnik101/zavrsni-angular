@@ -8,6 +8,7 @@ import {AuthService} from "../../auth/services/auth.service";
 import {Album} from "../../albums/interfaces/album";
 import {DragDropService} from "../../shared/services/drag-drop.service";
 import {FormControl} from "@angular/forms";
+import {PlaylistService} from "../../playlists/services/playlist.service";
 
 @Component({
   selector: 'app-sidenav',
@@ -20,6 +21,7 @@ export class SidenavComponent {
   albums: Album[] = []
   selected = new FormControl(0)
   constructor(public _userService: UserService,
+              private _playlistService: PlaylistService,
               private _matDialog: MatDialog,
               public authService: AuthService,
               public dragDropService: DragDropService,
@@ -27,11 +29,12 @@ export class SidenavComponent {
 
   }
   ngOnInit() {
-    this._userService.playlists$.subscribe({
+    this._playlistService.playlists$.subscribe({
       next: (playlists) => {
         this.playlists = playlists
       }
     })
+
     this._userService.following$.subscribe({
       next: (artists) => {
         this.following = artists

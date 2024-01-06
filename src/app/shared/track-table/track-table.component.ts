@@ -23,7 +23,7 @@ import {CurrentTrackInfo} from "../interfaces/current-track-info";
   selector: 'app-track-table',
   templateUrl: './track-table.component.html',
   styleUrls: ['./track-table.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TrackTableComponent {
   isCurrentT = signal<boolean>(false)
@@ -47,8 +47,9 @@ export class TrackTableComponent {
               private _matDialog: MatDialog) {
   }
   ngOnInit() {
-    this.subs.push(this._userService.playlists$.subscribe({
+    this.subs.push(this._playlistService.playlists$.subscribe({
       next: (playlists) => {
+        console.log(playlists)
         this.playlists = playlists
       }
     }))
@@ -82,6 +83,7 @@ export class TrackTableComponent {
         this._snackbarService.showSuccessMessage(response.message)
         const playlist = this.playlists.find(playlist => playlist.id === playlistId)
         if(playlist) {
+          this._playlistService.trackCount.update(value => value + 1)
           playlist.tracks_count++
           this._cdr.markForCheck()
         }
@@ -130,37 +132,7 @@ export class TrackTableComponent {
     return this._playlistService.playlist
   }
   removeFromPlaylist(track: Track, from: From) {
-    this.subs.push(this._playlistService.removeTrackFromPlaylist(track, from.id).subscribe({
-      next: (response: any) => {
-        if (response == null){
-          this.removeTrack(track, from)
-          const playlistToDeleteFrom = this.playlists.find(pl => pl.id == from.id)
-          if(playlistToDeleteFrom) {
-            playlistToDeleteFrom.tracks_count--
-            playlistToDeleteFrom.tracks
-            this._playlistService.totalDuration.update((value) => {
-              return value - (Math.floor(track.duration) - Math.floor(track.duration % 1000))
-            })
-          }
-          this._snackbarService.showSuccessMessage('Removed track from playlist.')
-          this._cdr.markForCheck()
-        }
-      },
-      error: (response) => {
-        this._snackbarService.showFailedMessage(response.error.message)
-      }
-    }))
-  }
-  private removeTrack(track: Track, from: From){
-    let trackToDelete = this.playlist.tracks.data.findIndex(t => t.id === track.id)
-    if(trackToDelete != -1) {
-      this.playlist.tracks.data.splice(trackToDelete, 1)
-      this.playlist.tracks_count--
-      const updateSidenavPlaylist = this._userService.plaldsada.find(p => p.id == from.id)
-      if(updateSidenavPlaylist) {
-        updateSidenavPlaylist.tracks_count--
-      }
-    }
+    this._playlistService.removeTrackFromPlaylist(track, from.id)
   }
 
   addToQueue(track: Track) {
@@ -255,6 +227,7 @@ export class TrackTableComponent {
         console.log(response)
         const playlist = this.playlists.find(p => p.id === playlistId)
         if(playlist) {
+          this._playlistService.trackCount.update(value => value + Number(response.addedCount))
           playlist.tracks_count = Number(playlist.tracks_count) + Number(response.addedCount)
           this._cdr.markForCheck()
           this._snackbarService.showSuccessMessage(response.message)

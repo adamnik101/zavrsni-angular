@@ -5,6 +5,7 @@ import {From} from "../shared/interfaces/from";
 import {Title} from "@angular/platform-browser";
 import {Album} from "../albums/interfaces/album";
 import {Artist} from "../artists/interfaces/artist";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-trending',
@@ -16,6 +17,7 @@ export class TrendingComponent {
   popularAlbums: Album[] = []
   popularArtists: Artist[] = []
   loaded: boolean = false;
+  subs: Subscription[] = []
   from: From = {
     id : '',
     name : "Trending",
@@ -25,24 +27,29 @@ export class TrendingComponent {
 
   ngOnInit() {
     this._titleService.setTitle('Trending - TREBLE')
-    this._trendingService.getPopularTracks().subscribe({
+    this.subs.push(this._trendingService.getPopularTracks().subscribe({
       next: (tracks) => {
         this.popularTracks = tracks
         console.log(this.popularTracks)
       }
-    })
-    this._trendingService.getPopularAlbums().subscribe({
+    }))
+    this.subs.push(this._trendingService.getPopularAlbums().subscribe({
       next: (response) => {
         this.popularAlbums = response
         console.log(this.popularAlbums)
       }
-    })
-    this._trendingService.getPopularArtists().subscribe({
+    }))
+    this.subs.push(this._trendingService.getPopularArtists().subscribe({
       next: (response) => {
         this.popularArtists = response
         console.log(this.popularArtists)
         this.loaded = true
       }
-    })
+    }))
+  }
+  ngOnDestroy() {
+    for (let sub of this.subs) {
+      sub.unsubscribe()
+    }
   }
 }

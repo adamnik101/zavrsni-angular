@@ -38,7 +38,7 @@ export class ArtistDetailComponent implements OnInit {
     this.getArtist()
   }
   getArtist() {
-    this.initSub = this._route.paramMap.subscribe({
+    this.subs.push(this._route.paramMap.subscribe({
       next: (response) => {
         this.loaded = false
         document.documentElement.style.setProperty('--header', `var(--primary-black)`)
@@ -83,7 +83,7 @@ export class ArtistDetailComponent implements OnInit {
       error: (response) => {
         //
       }
-    })
+    }))
   }
   followArtist(artist: Artist) {
     this.subs.push(this._userService.followArtist(artist).subscribe({

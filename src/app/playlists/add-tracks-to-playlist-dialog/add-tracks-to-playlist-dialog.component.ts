@@ -57,10 +57,12 @@ export class AddTracksToPlaylistDialogComponent {
       next: (response) => {
         this._snackbarService.showSuccessMessage(response.message)
 
-        this.subs.push(this._userService.playlists$.subscribe({
+        this.subs.push(this._playlistService.playlists$.subscribe({
           next: (playlists) => {
             let playlist = playlists.filter(p => p.id === playlistId)[0]
             if(playlist) {
+              this._playlistService.trackCount.update(value => Number(value) + Number(response.addedCount))
+
               playlist.tracks_count = Number(playlist.tracks_count) + response.addedCount!
               this.closeDialog()
             }

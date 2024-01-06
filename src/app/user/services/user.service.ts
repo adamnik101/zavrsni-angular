@@ -50,6 +50,11 @@ export class UserService extends BaseService{
   }
   public deleteUserPlaylist(playlist: Playlist) {
     let newUserPlaylists = this._playlistsSubject.value.filter(pl => pl.id !== playlist.id)
+    this.user$.subscribe({
+      next: (user) => {
+        user.playlists_count--
+      }
+    })
     this._playlistsSubject.next(newUserPlaylists)
   }
   getUser(navigateToProfile = false) {

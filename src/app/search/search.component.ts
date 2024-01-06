@@ -15,6 +15,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class SearchComponent implements OnInit, OnDestroy{
   public response : SearchResult = {} as SearchResult
+  subs: Subscription[] = []
   private _sub1!: Subscription
   public from!: From;
   genres: Genre[] = [];
@@ -26,12 +27,12 @@ export class SearchComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this._title.setTitle('Search - TREBLE')
-    this.genreSub = this._genreService.getGenres().subscribe({
+    this.subs.push(this._genreService.getGenres().subscribe({
       next: (genres) => {
         this.genres = genres
       }
-    })
-    this._sub1 =  this._searchService.result$.subscribe({
+    }))
+    this.subs.push(this._searchService.result$.subscribe({
       next: (result) => {
         this.response = result
         this.query = this._searchService.querySignal()
@@ -42,12 +43,13 @@ export class SearchComponent implements OnInit, OnDestroy{
           id: ''
         }
       }
-    })
+    }))
   }
 
   ngOnDestroy() {
-    this._sub1.unsubscribe()
-    this.genreSub.unsubscribe()
+    for(let sub of this.subs) {
+      sub.unsubscribe()
+    }
   }
 
   goToNextPaginatedPageTrack(nextPageUrl: string) {

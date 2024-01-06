@@ -29,15 +29,6 @@ export class PlaylistCardComponent {
   }
 
   deletePlaylist(playlist: Playlist) {
-    this._playlistService.deletePlaylist(playlist).subscribe({
-      next: (response) => {
-        if(response == null) {
-          this._userService.deleteUserPlaylist(playlist)
-        }
-      },
-      error: (response) => {
-        console.log(response.error.message)
-      }
-    })
+    this._playlistService.deletePlaylist(playlist)
   }
 }

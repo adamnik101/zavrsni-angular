@@ -1,4 +1,4 @@
-import {Injectable, signal} from '@angular/core';
+import {ChangeDetectorRef, inject, Injectable, signal} from '@angular/core';
 import {BaseService} from "../../core/services/base.service";
 import {CreatePlaylist} from "../interfaces/create-playlist";
 import {Playlist} from "../interfaces/playlist";
@@ -6,6 +6,7 @@ import {Track} from "../../shared/interfaces/track";
 import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {BehaviorSubject, Observable} from "rxjs";
 import {AddTracksToPlaylistResponse} from "../../shared/interfaces/add-tracks-to-playlist-response";
+import {SnackbarService} from "../../shared/services/snackbar.service";
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,25 @@ export class PlaylistService extends BaseService{
   private playlistSubject = new BehaviorSubject<Playlist>({} as Playlist)
   public playlist$ = this.playlistSubject.asObservable()
 
+  private playlistsSubject = new BehaviorSubject<Playlist[]>([])
+  public playlists$ = this.playlistsSubject.asObservable()
+
   private tracksSubject = new BehaviorSubject<Track[]>([])
   public tracks$ = this.tracksSubject.asObservable()
+
   private tracks: Track[] = []
   playlist: Playlist = {} as Playlist
   totalDuration = signal<number>(0)
+  trackCount = signal<number>(0)
   page = 1
+  #snackbar = inject(SnackbarService)
+  updatePlaylistsSubject(playlists: Playlist[]) {
+    this.playlistsSubject.next(playlists)
+  }
+  updatePlaylistTracksSubject(tracks: Track[]) {
+    this.tracksSubject.next(tracks)
+  }
   createPlaylist(playlistToCreate: FormData) {
-
     return this.post<FormData, null>('playlists', playlistToCreate)
   }
 
@@ -34,11 +46,44 @@ export class PlaylistService extends BaseService{
   }
 
   removeTrackFromPlaylist(track: Track, playlistId: string) {
-    return this.delete(`playlists/${playlistId}/track/${track.id}/delete/${track.pivot?.id}`)
+    return this.delete(`playlists/${playlistId}/track/${track.id}/delete/${track.pivot?.id}`).subscribe({
+      next: (response: any) => {
+        if (response == null){
+          const playlistToDeleteFrom = this.playlistsSubject.value.find(pl => pl.id == playlistId)
+          if(playlistToDeleteFrom) {
+            let without = this.tracksSubject.value.filter(tr => tr.pivot?.id !== track.pivot?.id)
+            this.tracksSubject.next(without)
+            playlistToDeleteFrom.tracks_count--
+            this.trackCount.update(value => {
+              return value - 1
+            })
+            this.totalDuration.update((value) => {
+              return value - (Math.floor(track.duration) - Math.floor(track.duration % 1000))
+            })
+          }
+          this.#snackbar.showSuccessMessage('Removed track from playlist.')
+        }
+      },
+      error: (response) => {
+        this.#snackbar.showFailedMessage(response.error.message)
+      }
+    })
   }
 
   deletePlaylist(playlist: Playlist) {
-    return this.delete(`playlists/${playlist.id}/delete`)
+    return this.delete(`playlists/${playlist.id}/delete`).subscribe({
+      next: (response) => {
+        let without = this.playlistsSubject.value.filter(p => p.id !== playlist.id)
+        this.playlistsSubject.next(without)
+        this.#snackbar.showDefaultMessage(`Removed '${playlist.title}' from library`)
+        // this.playlists$.subscribe({
+        //   next: (playlists) => {
+        //     let withoutDeleted = playlists.filter(p => p.id !== playlist.id)
+        //     this.playlistsSubject.next(withoutDeleted)
+        //   }
+        // })
+      }
+    })
   }
 
   loadMoreTracks(id: string) {
@@ -56,5 +101,13 @@ export class PlaylistService extends BaseService{
 
   addAllTracksToPlaylistConfirm(id: string, tracks?: Track[]) {
     return
+  }
+
+  getPlaylists() {
+    return this.get<Playlist[]>('actor/playlists').subscribe({
+      next: (playlists) => {
+        this.updatePlaylistsSubject(playlists)
+      }
+    })
   }
 }

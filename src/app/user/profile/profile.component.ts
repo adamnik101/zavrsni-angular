@@ -7,6 +7,7 @@ import {Title} from "@angular/platform-browser";
 import {Track} from "../../shared/interfaces/track";
 import {From} from "../../shared/interfaces/from";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
+import {PlaylistService} from "../../playlists/services/playlist.service";
 
 @Component({
   selector: 'app-profile',
@@ -26,11 +27,10 @@ export class ProfileComponent{
     id: ''
   }
   load: boolean = true
-  constructor(public userService: UserService, private _titleService: Title, private _colorService: ColorThiefService, private _renderer: Renderer2) { }
+  constructor(public userService: UserService, private _playlistService: PlaylistService, private _titleService: Title, private _colorService: ColorThiefService, private _renderer: Renderer2) { }
 
   ngOnInit() {
     this._titleService.setTitle('My Profile - TREBLE')
-
     this._userSubscription = this.userService.user$.subscribe({
       next: (user) => {
         this.user = user
@@ -40,7 +40,7 @@ export class ProfileComponent{
 
       }
     })
-    this.userService.playlists$.subscribe({
+    this._playlistService.playlists$.subscribe({
       next: (playlists) => {
         this.playlists = playlists
       }

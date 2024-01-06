@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, inject, OnInit} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {Track} from "../../shared/interfaces/track";
-import {from} from "rxjs";
+import {from, Subscription} from "rxjs";
 import {From} from "../../shared/interfaces/from";
 import {Title} from "@angular/platform-browser";
 
@@ -26,15 +26,15 @@ export class LikedComponent implements OnInit{
   private page = 1
   private size = 10
   public loading: boolean = false;
+  likedSub!: Subscription
   ngOnInit() {
-    this._userService.getUserLikedTracks(this.page, this.size).subscribe({
+    this.likedSub = this._userService.getUserLikedTracks(this.page, this.size).subscribe({
       next: (tracks) => {
         //this._likedTracksSubject.next(tracks)
         this._userService.likedTracks.set(tracks)
         this.likedTracks = this._userService.likedTracks()
+        this.loaded = true
       }
-    }).add(() => {
-      this.loaded = true
     })
     /*this._userService.likedTracks$.subscribe({
       next: (tracks) => {
@@ -42,6 +42,9 @@ export class LikedComponent implements OnInit{
         this._title.setTitle('Liked tracks - TREBLE')
       }
     })*/
+  }
+  ngOnDestroy() {
+    this.likedSub.unsubscribe()
   }
   filterLiked(query: string) {
     const q = query.toLowerCase().trim()
