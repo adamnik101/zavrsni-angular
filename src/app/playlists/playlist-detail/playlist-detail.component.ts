@@ -29,6 +29,7 @@ export class PlaylistDetailComponent implements OnInit{
       next: (params) => {
         this.isLoaded = false
         document.documentElement.style.setProperty('--header', 'var(--primary-black)')
+        document.documentElement.style.setProperty('--playlist', 'linear-gradient(#212121, #000)')
         const id = params.get('id')
         if(id) {
           /*this._playlistService.loadMoreTracks(id).add(() => {

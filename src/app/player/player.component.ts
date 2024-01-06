@@ -14,7 +14,6 @@ import {Subscription} from "rxjs";
 })
 export class PlayerComponent {
   shuffle1 = false
-  currentTrack : Track = {} as Track
   currSub! : Subscription
   currentImage: string = ''
   @ViewChild('player') player!: ElementRef
@@ -26,13 +25,7 @@ export class PlayerComponent {
     return this.audioService.currentlyPlayingTrack
   }
   */
-  ngOnInit() {
-    this.currSub = this._queueService.currentTrack$.subscribe({
-      next: (track) => {
-        this.currentTrack = track
-      }
-    })
-  }
+
   ngOnDestroy() {
     this.currSub.unsubscribe()
   }
