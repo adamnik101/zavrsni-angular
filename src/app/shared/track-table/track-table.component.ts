@@ -26,6 +26,7 @@ import {CurrentTrackInfo} from "../interfaces/current-track-info";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TrackTableComponent {
+  isCurrentT = signal<boolean>(false)
   selectedTrack: Track = { } as Track
   @Input('tracks') tracks: Track[] = []
   @Input('from') from: From = {} as From
@@ -68,6 +69,7 @@ export class TrackTableComponent {
 
   }
   playAllFromIndex(tracks: Track[], index: number, from: From) {
+    this._queueService.currentQueueIndexSignal.set(index)
     this._queueService.currentQueueIndex = index
     this._queueService.addTracks(tracks, from)
     this._queueService.playAtIndex(this._queueService.currentQueueIndex)
@@ -306,6 +308,14 @@ export class TrackTableComponent {
     this._cdr.markForCheck()
   }
   isCurrentTrack(track: Track, index: number, from : From): boolean {
+      console.log('isCurrentTrack')
       return this._queueService.currentTrackInfo()?.track === track.id && index === this._queueService.currentTrackInfo()?.index && from.id === this._queueService.currentTrackInfo()?.from
+  }
+
+  isFromSameSection(from: From) {
+      if(this._queueService.currentTrackInfo() !== null ) {
+        return from.id === this._queueService.currentTrackInfo()!.from
+      }
+      return false
   }
 }

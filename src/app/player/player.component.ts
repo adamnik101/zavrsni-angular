@@ -1,18 +1,16 @@
-import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import {AudioService} from "../audio/audio.service";
 import {Track} from "../shared/interfaces/track";
 import {From} from "../shared/interfaces/from";
-import {formatDate} from "@angular/common";
 import {QueueService} from "../queue/services/queue.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {QueueComponent} from "../queue/queue.component";
 import {Subscription} from "rxjs";
-import {ColorThiefService} from "../shared/services/color-thief.service";
 
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss']
+  styleUrls: ['./player.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayerComponent {
   shuffle1 = false
@@ -20,7 +18,10 @@ export class PlayerComponent {
   currSub! : Subscription
   currentImage: string = ''
   @ViewChild('player') player!: ElementRef
-  constructor(public audioService: AudioService, private _queueService: QueueService, private _router: Router, private _route: ActivatedRoute) { }
+  constructor(public audioService: AudioService,
+              protected _queueService: QueueService,
+              private _router: Router,
+              private _route: ActivatedRoute) { }
   /*get currentTrack() : Track {
     return this.audioService.currentlyPlayingTrack
   }
@@ -54,9 +55,24 @@ export class PlayerComponent {
     this.audioService.seekToTime(value)
   }
   continue() {
+    this._queueService.currentTrackInfo.update((tr) => {
+      if(tr) {
+        tr.isBeingPlayed = true
+      }
+      return tr
+    })
+    console.log(this._queueService.currentTrackInfo())
+
     this.audioService.continue()
   }
   pause() {
+    this._queueService.currentTrackInfo.update((tr) => {
+      if(tr) {
+        tr.isBeingPlayed = false
+      }
+      return tr
+    })
+    console.log(this._queueService.currentTrackInfo())
     this.audioService.pause()
   }
   toggleRepeat() {
@@ -93,10 +109,10 @@ export class PlayerComponent {
     if(event.key === " ") {
       event.preventDefault()
       if(!this.audioService.audio.paused) {
-        this.audioService.pause()
+        this.pause()
         return
       }
-      this.audioService.continue()
+      this.continue()
     }
   }
 }

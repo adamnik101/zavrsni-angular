@@ -19,7 +19,7 @@
     </thead>
   }
   <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
-    @for (track of tracks; track track; let index = $index) {
+    @for (track of tracks; track track.id; let index = $index;) {
       @defer(on viewport){
       <tr cdkDrag (cdkDragDropped)="onDragDropped($event)" (cdkDragStarted)="onDragStarted($event)" class="item"
         [ngClass]="{'selected' : selectedTracks.has(index)}" (click)="selectTrack($event, index,track)"
@@ -28,14 +28,14 @@
           <p *cdkDragPreview class="preview">{{selectedTracks.size}} tracks selected</p>
         } @else {
           <p *cdkDragPreview class="preview">{{track.title}} <app-divider></app-divider>
-          {{track.owner.name}}@for (feature of track.features; track feature) {
+          {{track.owner.name}}
+            @for (feature of track.features; track feature) {
           , {{feature.name}}
-        }
+          }
       </p>
     }
     <td class="cover-title">
-<!--      fix this-->
-      @if (_queueService.currentTrackInfo() !== null && isCurrentTrack(track, index, from)) {
+      @if (_queueService.currentTrackInfo() | isCurrentTrack:track:index:from) {
         @if (_queueService.currentTrackInfo()?.isBeingPlayed) {
           <button class="play" (click)="pause()">
             <img src="assets/icons-svg/pause.svg" />
@@ -45,19 +45,19 @@
             <img src="assets/icons-svg/play.svg" />
           </button>
         }
-      } @else if(track.id !== _queueService.currentTrackInfo()?.track) {
+      } @else {
         <button class="play" (click)="playAllFromIndex(tracks, index, from)">
           <img src="assets/icons-svg/play.svg" />
         </button>
       }
 
       @if (!from.url.includes('albums/')) {
-        @if (isCurrentTrack(track, index, from)) {
+        @if (_queueService.currentTrackInfo() | isCurrentTrack:track:index:from) {
           <div class="playing-now">
             <mat-icon>volume_up</mat-icon>
           </div>
         }
-        <div class="image" [ngClass]="{'opacity-05' : isCurrentTrack(track, index, from)}">
+        <div class="image" [ngClass]="{'opacity-05' : _queueService.currentTrackInfo() | isCurrentTrack:track:index:from}">
           @if (track.cover) {
             <img src="{{track.cover}}">
           } @else {
@@ -71,7 +71,7 @@
         </div>
       }
       @if (from.url.includes('albums/')) {
-        @if (isCurrentTrack(track, index, from)) {
+        @if (_queueService.currentTrackInfo() !== null && (_queueService.currentTrackInfo() | isCurrentTrack:track:index:from)) {
           <div class="index">
             <mat-icon>volume_up</mat-icon>
           </div>
@@ -83,8 +83,8 @@
       }
       <div class="info">
         <div class="title">
-          @if (_queueService.currentTrackInfo() != null) {
-            <p [ngClass]="track.id === _queueService.currentTrackInfo()!.track && index === _queueService.currentTrackInfo()!.index && from.id === this._queueService.currentTrackInfo()!.from  ? 'playing' : ''">{{track.title}}</p>
+          @if (_queueService.currentTrackInfo() !== null) {
+            <p [ngClass]="(_queueService.currentTrackInfo() | isCurrentTrack:track:index:from)  ? 'playing' : ''">{{track.title}}</p>
           } @else {
             <p>{{track.title}}</p>
           }
@@ -103,7 +103,7 @@
     </div>
   </div>
 </td>
-<!--<td>{{track.plays | number}}</td>-->
+<td>{{track.plays | number}}</td>
 @if (!from.url.includes('albums/')) {
   <td class="album">
     @if (track.album) {

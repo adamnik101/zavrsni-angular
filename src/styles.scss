@@ -278,8 +278,6 @@ form{
   color: var(--primary-text);
   font-size: 15px ;
   text-align: center;
-
-  text-shadow: .5px .5px var(--light-black), 0 0 5px var(--light-black);
 }
 .mdc-snackbar__surface{
   width: auto;
@@ -301,6 +299,19 @@ form{
   }
   .mdc-snackbar__surface{
     background-color:  var(--failed) !important;
+  }
+}
+.default-snack{
+  background-color: var(--light) !important;
+  .mat-mdc-snack-bar-container{
+    background-color:  var(--light) !important;
+  }
+  .mdc-snackbar__surface{
+    background-color:  var(--light) !important;
+  }
+  .mdc-snackbar__label{
+    color: var(--black) !important;
+    font-weight: bold;
   }
 }
 input[type=email], input[type=password], input[type=text], textarea{

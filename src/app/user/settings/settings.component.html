@@ -20,7 +20,7 @@
       <div class="row-preference">
         <div class="left">
           <p>Explicit content</p>
-          <p>Allow or restrict explicit content labeled with E tag. </p>
+          <p>Allow explicit content labeled with E tag. </p>
         </div>
         <div class="right">
           <mat-slide-toggle [checked]="this.user.settings.explicit"></mat-slide-toggle>
@@ -30,7 +30,7 @@
       <div class="row-preference">
         <div class="left">
           <p>History</p>
-          <p>Enable or disable saving history. </p>
+          <p>Enable saving history. </p>
         </div>
         <div class="right">
           <mat-slide-toggle [checked]="this.user.settings.history" (change)="update($event.checked)" #history></mat-slide-toggle>

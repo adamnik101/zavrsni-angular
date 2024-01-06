@@ -10,10 +10,11 @@ import {QueueService} from "../queue/services/queue.service";
 export class AudioService extends BaseService{
   public currentTrack = signal<Track>({} as Track)
 
-  currentlyPlayingTrack: Track = {} as Track
   //private _queueService = inject(QueueService)
   from: From = { } as From
   audio : HTMLAudioElement = new Audio()
+  currTime = signal<number>(0)
+  dur = signal<number>(0)
   currentTime = 0
   duration = 0
   isPlaying: boolean = false
@@ -29,7 +30,6 @@ export class AudioService extends BaseService{
    // this._queueService.setCurrentTrack(track)
     this.audio.src = track.path
     this.from = from
-    this.currentlyPlayingTrack = track
 
     this.get(`tracks/${track.id}`).subscribe({
       next: (response) => {
@@ -40,10 +40,12 @@ export class AudioService extends BaseService{
     })
     this.audio.play().then(() => {
       this.audio.oncanplaythrough = () => {
-        this.duration = this.audio.duration * 1000
+        this.dur.set(this.audio.duration * 1000)
+        //this.duration = this.audio.duration * 1000
         this.isPlaying = true
         this.audio.ontimeupdate = () => {
-          this.currentTime = this.audio.currentTime * 1000
+          this.currTime.set(this.audio.currentTime * 1000)
+          //this.currentTime = this.audio.currentTime * 1000
         }
         this.audio.onended = () => {
           switch (this.repeatIndex) {

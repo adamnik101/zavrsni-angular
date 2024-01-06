@@ -19,11 +19,20 @@ export class SnackbarService {
     duration: 5000,
     panelClass: ['failed-snack']
   }
+  private defaultSnackbarConfig: MatSnackBarConfig = {
+    horizontalPosition: "center",
+    verticalPosition: "bottom",
+    duration: 5000,
+    panelClass: ['default-snack']
+  }
 
   showSuccessMessage(message: string) {
     this._snackbar.open(message, undefined, this.successSnackbarConfig)
   }
   showFailedMessage(message: string) {
     this._snackbar.open(message, undefined, this.failedSnackbarConfig)
+  }
+  showDefaultMessage(message: string) {
+    this._snackbar.open(message, undefined, this.defaultSnackbarConfig)
   }
 }

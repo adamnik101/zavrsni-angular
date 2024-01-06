@@ -1,5 +1,5 @@
 <app-sidenav></app-sidenav>
-@if ((queueService.currentTrack$ | async)?.id) {
+@if (queueService.currentTrackInfo()) {
   <div class="player" [@slideInOut]="'in'">
     <app-player ></app-player>
   </div>

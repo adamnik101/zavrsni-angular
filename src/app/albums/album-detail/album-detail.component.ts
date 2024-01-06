@@ -92,12 +92,12 @@ export class AlbumDetailComponent {
         this._userService.updateLikedAlbums(response.albums)
       }
     }))
-    this._snackbar.showSuccessMessage(`Added '${this.album.name}' to library`)
+    this._snackbar.showDefaultMessage(`Added '${this.album.name}' to library.`)
   }
 
   removeAlbumFromLiked(id: string) {
     this.isAlbumLiked = false
-    this._snackbar.showSuccessMessage(`Removed '${this.album.name}' from library`)
+    this._snackbar.showDefaultMessage(`Removed '${this.album.name}' from library.`)
     this.subs.push(this._albumService.removeFromLiked(id).subscribe({
       next: (response) => {
         if(response === null) {

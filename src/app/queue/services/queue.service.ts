@@ -10,10 +10,10 @@ import {CurrentTrackInfo} from "../../shared/interfaces/current-track-info";
   providedIn: 'root'
 })
 export class QueueService implements Queue {
-
   private currentTrackSubject = new BehaviorSubject<Track>({} as Track)
   public currentTrack$ = this.currentTrackSubject.asObservable()
 
+  currentTrackSignal = signal<Track>({} as Track)
   private _audioService = inject(AudioService)
   shuffleQueue: boolean = false
   shuffleQueueIndex: number = 0
@@ -21,12 +21,14 @@ export class QueueService implements Queue {
   currentQueueIndex: number = 0
   queueOpened: boolean = false;
   from: From = {} as From
+  currentQueueIndexSignal = signal<number>(0)
   currentTrackInfo = signal<CurrentTrackInfo | null>(null)
   public setCurrentTrack(track: Track) {
+    this.currentTrackSignal.set(track)
     this.currentTrackSubject.next(track)
     this.currentTrackInfo.set({
-      index : this.currentQueueIndex,
-      track : this.queue[this.currentQueueIndex].id,
+      index : this.currentQueueIndexSignal(),
+      track : this.queue[this.currentQueueIndexSignal()].id,
       from: this.from.id,
       isBeingPlayed: true
     })
@@ -61,6 +63,7 @@ export class QueueService implements Queue {
   }
 
   playAtIndex(index: number): void {
+    this.currentQueueIndexSignal.set(index)
     this.currentQueueIndex = index
     const track = this.queue[this.currentQueueIndex]
     this.setCurrentTrack(track)

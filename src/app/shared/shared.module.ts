@@ -14,6 +14,7 @@ import {MatIconModule} from "@angular/material/icon";
 import { DividerComponent } from './components/divider/divider.component';
 import { FormatDurationPipe } from './pipes/format-duration.pipe';
 import {MatListModule} from "@angular/material/list";
+import {IsCurrentTrackPipe} from "./track-table/pipes/is-current-track.pipe";
 
 
 
@@ -34,7 +35,8 @@ import {MatListModule} from "@angular/material/list";
     NoResultsComponent,
     HumanizeDatePipe,
     LoadingComponent,
-    FormatDurationPipe
+    FormatDurationPipe,
+    DividerComponent
 
   ],
   imports: [
@@ -49,7 +51,8 @@ import {MatListModule} from "@angular/material/list";
     CdkDropList,
     CdkDragPreview,
     CdkDragPlaceholder,
-    MatListModule
+    MatListModule,
+    IsCurrentTrackPipe
   ]
 })
 export class SharedModule { }

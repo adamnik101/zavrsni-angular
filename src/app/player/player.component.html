@@ -1,39 +1,38 @@
 <div class="player"  #player>
   <div class="left">
     <div class="image">
-      @if (currentTrack.cover) {
-        <img src="{{currentTrack.cover}}" alt="cover">
+      @if (_queueService.currentTrackSignal().cover) {
+        <img src="{{_queueService.currentTrackSignal().cover}}" alt="cover">
       } @else {
-        @if (currentTrack.album) {
-          <img src="{{currentTrack.album?.cover}}" alt="cover">
+        @if (_queueService.currentTrackSignal().album) {
+          <img src="{{_queueService.currentTrackSignal().album?.cover}}" alt="cover">
         }
-        @if (!currentTrack.album) {
-          <img src="{{currentTrack.owner.cover}}" alt="cover">
+        @if (!_queueService.currentTrackSignal().album) {
+          <img src="{{_queueService.currentTrackSignal().owner.cover}}" alt="cover">
         }
       }
       <ng-template #other>
-        @if (currentTrack.album) {
-          <img src="{{currentTrack.album?.cover}}" alt="cover">
-        }
-        @if (!currentTrack.album) {
-          <img src="{{currentTrack.owner.cover}}" alt="cover">
+        @if (_queueService.currentTrackSignal().album) {
+          <img src="{{_queueService.currentTrackSignal().album?.cover}}" alt="cover">
+        } @else {
+          <img src="{{_queueService.currentTrackSignal().owner.cover}}" alt="cover">
         }
       </ng-template>
 
     </div>
     <div class="info">
-      <p class="title">{{currentTrack.title}}
-        @if (currentTrack.explicit) {
+      <p class="title">{{_queueService.currentTrackSignal().title}}
+        @if (_queueService.currentTrackSignal().explicit) {
           <img src="assets/icons-svg/explicit.svg" width="15" height="15"/>
         }
       </p>
       <div class="other">
-        <a routerLink="/artists/{{currentTrack.owner.id}}">{{currentTrack.owner.name}}</a>
-        @if (currentTrack.features.length > 0) {
+        <a routerLink="/artists/{{_queueService.currentTrackSignal().owner.id}}">{{_queueService.currentTrackSignal().owner.name}}</a>
+        @if (_queueService.currentTrackSignal().features.length > 0) {
           ft.
-          @for (feature of currentTrack.features; track feature; let index = $index) {
+          @for (feature of _queueService.currentTrackSignal().features; track feature; let index = $index) {
             <a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>
-            @if (index !== currentTrack.features.length - 1) {
+            @if (index !== _queueService.currentTrackSignal().features.length - 1) {
               ,&nbsp;
             }
           }
@@ -64,7 +63,7 @@
       <button class="action-button" (click)="goPrevious()">
         <mat-icon [style.color]="'#fff'" class="smaller">skip_previous</mat-icon>
       </button>
-      @if (!audioService.isPlaying) {
+      @if (!this._queueService.currentTrackInfo()?.isBeingPlayed) {
         <button class="action-button play" (click)="continue()">
           <mat-icon [style.color]="'#fff'" class="bigger">play_circle_filled</mat-icon>
         </button>
@@ -94,11 +93,11 @@
       }
     </div>
     <div class="bottom">
-      <p>{{audioService.currentTime | duration}}</p>
-      <mat-slider class="slider" discrete [displayWith]="formatTime" step="0" [max]="audioService.duration" [min]="0">
-        <input #slider matSliderThumb [value]="audioService.currentTime" [min]="0" [max]="audioService.duration" type="range" (change)="seekTo(slider.value)" class="slider">
+      <p>{{audioService.currTime() | duration}}</p>
+      <mat-slider class="slider" discrete [displayWith]="formatTime" step="0" [max]="audioService.dur()" [min]="0">
+        <input #slider matSliderThumb [value]="audioService.currTime()" [min]="0" [max]="audioService.dur()" type="range" (change)="seekTo(slider.value)" class="slider">
       </mat-slider>
-      <p>{{audioService.duration | duration}}</p>
+      <p>{{audioService.dur() | duration}}</p>
     </div>
   </div>
   <div class="right">
