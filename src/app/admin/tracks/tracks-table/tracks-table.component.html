@@ -1,5 +1,5 @@
 
-<div class="container-padding">
+<div class="container-padding admin">
   <div class="info">
     <p>Showing {{pagedResponse.from}} - {{pagedResponse.to}} of {{pagedResponse.total}}</p>
     <button matRipple >Add track</button>
@@ -35,7 +35,7 @@
           }
         </td>
         <td>{{track.album?.name}}</td>
-        <td>{{track.explicit}}</td>
+        <td>{{track.explicit | humanizeBoolean}}</td>
         <td>{{track.track_plays_count | number}}</td>
         <td>{{track.formatted_created_at }}</td>
         <td>{{track.formatted_updated_at }}</td>

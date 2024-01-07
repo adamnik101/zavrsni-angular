@@ -163,6 +163,7 @@ mat-dialog-container{
   --primary-black: #090909;
   --black: #000;
   --light: #ffffff;
+  --lighter: #eaeaea;
   --light-black: #1f1f1f;
   --secondary-black: #101010;
   --gray: #7a7a7a;
@@ -417,12 +418,14 @@ input[type=email], input[type=password], input[type=text], textarea{
   width: 100%;
   border-spacing: 0;
   font-size: 14px;
+  border-collapse: collapse;
   thead{
     height: 50px;
     width: 100%;
     tr{
       height: 100%;
       th{
+        color: var(--light-black);
         height: 100%;
         &:nth-child(1) {
           width: 50px;
@@ -435,10 +438,12 @@ input[type=email], input[type=password], input[type=text], textarea{
   tbody{
     width: 100%;
     tr{
-      height: 50px;
-      &:nth-child(odd) {
-        background: var(--secondary-black);
+      &:hover{
+        background: var(--lighter);
+
       }
+      height: 50px;
+
       .cover-text{
         display: flex;
         flex-direction: row;
@@ -457,22 +462,26 @@ input[type=email], input[type=password], input[type=text], textarea{
           margin-right: 10px;
           padding: 10px 15px;
           background: var(--light-black);
-          color: var(--primary-text);
+          color: var(--light);
           border: none;
           border-radius: 5px;
           cursor: pointer;
         }
         .delete{
+
           background: #ec1b1b;
         }
       }
       td{
+        color: var(--secondary-black);
         height: 100%;
+        font-family: "Rubik Regular";
+
         &:nth-child(1) {
           text-align: center;
         }
       }
-
+      border-top: 2px solid var(--lighter) !important;
     }
   }
 }
@@ -531,10 +540,14 @@ input[type=email], input[type=password], input[type=text], textarea{
   .button{
     width: 40px;
     height: 50px;
-    background: var(--light-black);
+    background: var(--lighter);
     white-space: nowrap;
+    span{
+      color: var(--light-black);
+    }
   }
   .mdc-button{
+
     min-width: fit-content;
   }
 }
@@ -556,4 +569,7 @@ input[type=email], input[type=password], input[type=text], textarea{
 }
 .white{
   color: var(--light) !important;
+}
+.admin{
+  background: var(--light);
 }

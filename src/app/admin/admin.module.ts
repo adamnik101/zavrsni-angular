@@ -25,6 +25,7 @@ import { GenresComponent } from './genres/genres.component';
 import { GenreTableComponent } from './genres/genre-table/genre-table.component';
 import { UsersComponent } from './users/users.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
+import {HumanizeBooleanPipe} from "./pipes/humanize-boolean.pipe";
 
 @NgModule({
   declarations: [
@@ -43,19 +44,20 @@ import { UsersTableComponent } from './users/users-table/users-table.component';
     UsersComponent,
     UsersTableComponent,
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatMenuModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRippleModule,
-    FormsModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        AdminRoutingModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatMenuModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSelectModule,
+        MatRippleModule,
+        FormsModule,
+        SharedModule,
+        HumanizeBooleanPipe
+    ]
 })
 export class AdminModule { }
