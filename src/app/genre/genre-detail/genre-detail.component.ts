@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
-import {GenreService} from "../../genre/services/genre.service";
+import {GenreService} from "../services/genre.service";
 import {Playlist} from "../../playlists/interfaces/playlist";
-import {Genre} from "../../genre/interfaces/genre";
+import {Genre} from "../interfaces/genre";
 
 @Component({
   selector: 'app-genre-detail',

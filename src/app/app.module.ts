@@ -12,7 +12,6 @@ import {SharedModule} from "./shared/shared.module";
 import { PlayerComponent } from './player/player.component';
 import {MatSliderModule} from "@angular/material/slider";
 import {FormsModule} from "@angular/forms";
-import { GenreDetailComponent } from './genres/genre-detail/genre-detail.component';
 import {HomeModule} from "./home/home.module";
 import {QueueModule} from "./queue/queue.module";
 import {MatIconModule} from "@angular/material/icon";
@@ -21,8 +20,7 @@ import {DurationPipe} from "./shared/pipes/duration.pipe";
 @NgModule({
   declarations: [
     AppComponent,
-    PlayerComponent,
-    GenreDetailComponent
+    PlayerComponent
   ],
     imports: [
         BrowserModule,
