@@ -8,6 +8,7 @@ import {TokenService} from "../services/token.service";
 import {UserService} from "../../user/services/user.service";
 import {Router} from "@angular/router";
 import {User} from "../../user/interfaces/user";
+import {PlaylistService} from "../../playlists/services/playlist.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,7 +24,8 @@ export class LoginComponent {
   constructor(private _authService: AuthService,
               private _tokenService: TokenService,
               private _userService: UserService,
-              private _router: Router) {
+              private _router: Router,
+              private _playlistService: PlaylistService) {
   }
   ngOnInit() {
 
@@ -39,6 +41,7 @@ export class LoginComponent {
         if (response.token) {
           this._tokenService.setToken(response.token)
           this._userService.getUser(true)
+          this._playlistService.getPlaylists()
         }
       },
       error: (response) => {
