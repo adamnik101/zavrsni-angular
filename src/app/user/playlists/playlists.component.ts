@@ -9,7 +9,7 @@ import {Subscription} from "rxjs";
   selector: 'app-playlists',
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush // manual
+  changeDetection: ChangeDetectionStrategy.Default // manual
 })
 export class PlaylistsComponent implements OnInit{
   filtered : Playlist[] = []

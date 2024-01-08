@@ -10,9 +10,10 @@
         <img style="padding-right: 20px" class="default" src="assets/icons-svg/note.svg"/>
       </ng-template>
     </a>
+
   </div>
   <button class="delete" matRipple [matMenuTriggerFor]="more">
-    <img src="assets/icons-svg/more.svg" alt="more,icon">
+    <mat-icon class="white">more_vert</mat-icon>
   </button>
 
   <mat-menu #more="matMenu">
@@ -21,9 +22,19 @@
     </button>
   </mat-menu>
   @if (playlist.tracks_count > 0) {
-    <button  class="play" matRipple (click)="playQueue(playlist.tracks.data)">
-      <img src="assets/icons-svg/play.svg" alt="play,icon">
-    </button>
+    @if(this._queueService.from.id === playlist.id && this._queueService.currentTrackInfo()?.isBeingPlayed) {
+      <button  class="showing" matRipple (click)="pause()">
+        <mat-icon class="white">pause</mat-icon>
+      </button>
+    } @else if(this._queueService.currentTrackInfo()?.from === from.id && !this._queueService.currentTrackInfo()?.isBeingPlayed) {
+      <button  class="showing" matRipple (click)="continue()">
+        <mat-icon class="white">play_arrow</mat-icon>
+      </button>
+    } @else {
+      <button  class="play" matRipple (click)="playTracks()">
+        <mat-icon class="white">play_arrow</mat-icon>
+      </button>
+    }
   }
   <div class="info">
     <a routerLink="/playlists/{{playlist.id}}">{{playlist.title}}</a>

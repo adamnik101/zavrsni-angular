@@ -94,7 +94,8 @@
           }
         </div>
         <div class="artists">
-          <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a>@if (track.features.length > 0) {
+          <a routerLink="/artists/{{track.owner.id}}">{{track.owner.name}}</a>
+          @if (track.features.length > 0) {
           @for (feature of track.features; track feature.id; let index = $index) {
             , <a
           routerLink="/artists/{{feature.id}}">{{feature.name}}</a>

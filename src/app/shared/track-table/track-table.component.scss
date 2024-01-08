@@ -46,6 +46,11 @@ table{
           .image{
             opacity: .5;
           }
+          .artists{
+            a{
+              color: var(--light) !important;
+            }
+          }
         }
         .more{
           opacity: 1;

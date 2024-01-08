@@ -7,7 +7,7 @@
        opacity: .6;
     }
     .play{
-      bottom: 100px;
+      bottom: 110px;
       opacity: 1;
     }
     .delete{
@@ -64,12 +64,12 @@
     transition: .2s ease-in-out;
     opacity: 0;
     position: absolute;
-    bottom: 50px;
-    right: 20px;
+    bottom: 80px;
+    right: 10px;
     background: var(--main-color);
     border: none;
     border-radius: 50%;
-    padding: 15px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -77,9 +77,11 @@
       cursor: pointer;
       transform: scale(1.1);
     }
-    img{
-      width: 20px;
 
+    .mat-icon{
+      font-size: 30px;
+      width: 30px;
+      height: 30px;
     }
   }
   .delete {
@@ -92,16 +94,41 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    top: 50px;
-    right: 20px;
+    top: 20px;
+    right: 10px;
     background: none;
     border: none;
     &:hover {
       background: var(--secondary-black);
       cursor: pointer;
     }
-    img{
+    .mat-icon{
       width: 20px;
+      height: 20px;
+      font-size: 20px;
     }
+  }
+}
+.showing{
+  transition: .2s ease-in-out;
+  background: var(--main-color);
+  border-radius: 50%;
+  padding: 10px;
+  position: absolute;
+  bottom: 110px;
+  right: 10px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+
+  .mat-icon{
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
   }
 }

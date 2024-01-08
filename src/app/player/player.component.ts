@@ -99,13 +99,15 @@ export class PlayerComponent {
   }
   @HostListener('window:keydown', ["$event"])
   handleSpaceDown(event: KeyboardEvent) {
-    if(event.key === " ") {
-      event.preventDefault()
-      if(!this.audioService.audio.paused) {
-        this.pause()
-        return
+    if(this._queueService.currentTrackInfo()?.isBeingPlayed) {
+      if(event.key === " ") {
+        event.preventDefault()
+        if(!this.audioService.audio.paused) {
+          this.pause()
+          return
+        }
+        this.continue()
       }
-      this.continue()
     }
   }
 

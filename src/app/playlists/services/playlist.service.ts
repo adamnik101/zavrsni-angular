@@ -75,13 +75,10 @@ export class PlaylistService extends BaseService{
       next: (response) => {
         let without = this.playlistsSubject.value.filter(p => p.id !== playlist.id)
         this.playlistsSubject.next(without)
-        this.#snackbar.showDefaultMessage(`Removed '${playlist.title}' from library`)
-        // this.playlists$.subscribe({
-        //   next: (playlists) => {
-        //     let withoutDeleted = playlists.filter(p => p.id !== playlist.id)
-        //     this.playlistsSubject.next(withoutDeleted)
-        //   }
-        // })
+        this.#snackbar.showDefaultMessage(`Removed '${playlist.title}' from your library`)
+      },
+      error: (err) => {
+        this.#snackbar.showDefaultMessage(err.error.message)
       }
     })
   }
@@ -109,5 +106,9 @@ export class PlaylistService extends BaseService{
         this.updatePlaylistsSubject(playlists)
       }
     })
+  }
+
+  getPlaylistTracks(id: string) {
+    return this.get(`playlists/${id}/tracks`)
   }
 }

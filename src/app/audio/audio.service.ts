@@ -1,4 +1,4 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {ChangeDetectorRef, inject, Injectable, signal} from '@angular/core';
 import {Track} from "../shared/interfaces/track";
 import {From} from "../shared/interfaces/from";
 import {BaseService} from "../core/services/base.service";
@@ -24,13 +24,11 @@ export class AudioService extends BaseService{
   shuffle: boolean = false;
   volumeValue: number = 0.5;
   private muted: boolean = false;
-
   playTrack(track: Track, from: From) {
     this.currentTrack.set(track)
    // this._queueService.setCurrentTrack(track)
     this.audio.src = track.path
     this.from = from
-
     this.get(`tracks/${track.id}`).subscribe({
       next: (response) => {
         console.log(response)
@@ -57,13 +55,6 @@ export class AudioService extends BaseService{
       }
     })
   }
-  playQueue(tracks: Track[], from: From) {
-
-    /*this._queueService.addTrack(tracks)
-    console.log(this.queue)
-    this.playTrack(this.queue.peek(0), from)*/
-  }
-
   continue() {
     this.audio.play().then(() => {
       this.isPlaying = true

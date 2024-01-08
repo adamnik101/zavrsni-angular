@@ -1,1 +1,10 @@
-<p>confirm-playlist-delete-dialog works!</p>
+<h2 mat-dialog-title>Delete from your Library?</h2>
+<div mat-dialog-content>
+  <p>This will delete <span>{{data.title}}</span> from your library.</p>
+  <p>This action cannot be undone.</p>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button matDialogClose>Cancel</button>
+  <button mat-button (click)="confirmDelete()" class="delete">Delete</button>
+</div>

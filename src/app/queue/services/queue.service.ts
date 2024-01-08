@@ -44,6 +44,7 @@ export class QueueService implements Queue {
     this.queue = []
     this.queue.push(...tracks)
     this.from = from
+    console.log(this.from)
   }
 
   clear(): void {
