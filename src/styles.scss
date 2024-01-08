@@ -573,3 +573,9 @@ input[type=email], input[type=password], input[type=text], textarea{
 .admin{
   background: var(--light);
 }
+.opacity-1 {
+  opacity: 1 !important;
+}
+.opacity-05 {
+  opacity: .5 !important;
+}

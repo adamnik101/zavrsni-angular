@@ -7,6 +7,9 @@
   border-radius: 5px;
   border: 3px solid transparent;
   &:hover{
+    .showing{
+      opacity: 1;
+    }
     background: var(--secondary-black);
     .info{
       .title{
@@ -75,4 +78,18 @@
 
 .drop-to{
   border: 3px solid var(--main-color);
+}
+.showing{
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 30px;
+  height: 30px;
+  background: none;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  opacity: 0;
 }
