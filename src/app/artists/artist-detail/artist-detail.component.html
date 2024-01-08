@@ -32,7 +32,7 @@
     <div class="bottom" #bottom>
       <div class="section">
         <div class="play">
-          <button>
+          <button (click)="playPopularTracks(artist.own_tracks)">
             <img src="assets/icons-svg/play.svg">
           </button>
           <h2>Popular</h2>
@@ -41,7 +41,7 @@
       </div>
       <div class="section">
         <div class="play">
-          <button>
+          <button (click)="playFeaturedTracks(artist.feature_tracks)">
             <img src="assets/icons-svg/play.svg">
           </button>
           <h2>Features</h2>

@@ -8,6 +8,8 @@ import {SnackbarService} from "../../shared/services/snackbar.service";
 import {Title} from "@angular/platform-browser";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {Subscription} from "rxjs";
+import {Track} from "../../shared/interfaces/track";
+import {QueueService} from "../../queue/services/queue.service";
 
 @Component({
   selector: 'app-artist-detail',
@@ -31,7 +33,8 @@ export class ArtistDetailComponent implements OnInit {
               private _snackbarService: SnackbarService,
               private _title: Title,
               private _renderer: Renderer2,
-              private _colorService: ColorThiefService) {
+              private _colorService: ColorThiefService,
+              private _queueService: QueueService) {
   }
   ngOnInit() {
     this.loaded = false
@@ -120,5 +123,14 @@ export class ArtistDetailComponent implements OnInit {
       sub.unsubscribe()
     }
     this.initSub?.unsubscribe()
+  }
+
+  playFeaturedTracks(tracks: Track[]) {
+    this._queueService.playAllFromIndex(tracks, 0, this.fromFeatures)
+  }
+
+  playPopularTracks(tracks: Track[]) {
+    this._queueService.playAllFromIndex(tracks, 0, this.fromPopular)
+
   }
 }

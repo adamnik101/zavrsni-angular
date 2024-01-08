@@ -106,4 +106,10 @@ export class QueueService implements Queue {
     }
     this.playAtIndex(this.currentQueueIndex)
   }
+
+  playAllFromIndex(tracks: Track[], index: number, from: From) {
+    this.currentQueueIndexSignal.set(index)
+    this.addTracks(tracks, from)
+    this.playAtIndex(index)
+  }
 }

@@ -70,10 +70,11 @@ export class TrackTableComponent {
 
   }
   playAllFromIndex(tracks: Track[], index: number, from: From) {
-    this._queueService.currentQueueIndexSignal.set(index)
+    this._queueService.playAllFromIndex(tracks, index, from)
+    /*this._queueService.currentQueueIndexSignal.set(index)
     this._queueService.currentQueueIndex = index
     this._queueService.addTracks(tracks, from)
-    this._queueService.playAtIndex(this._queueService.currentQueueIndex)
+    this._queueService.playAtIndex(this._queueService.currentQueueIndex)*/
 
     //this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], from)
   }

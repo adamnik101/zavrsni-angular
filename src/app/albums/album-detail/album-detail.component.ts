@@ -82,8 +82,7 @@ export class AlbumDetailComponent {
   }
 
   playAlbum(tracks: Track[]) {
-    this._queueService.addTracks(tracks, this.from)
-    this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], this.from)
+    this._queueService.playAllFromIndex(tracks, 0, this.from)
   }
   likeAlbum(id: string) {
     this.isAlbumLiked = true
