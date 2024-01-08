@@ -62,11 +62,11 @@
       }
       .left{
         .play{
-          width: 100px;
-          background: var(--primary-text);
-          color: var(--primary-black);
-          padding: 15px 20px;
-          border-radius: 10px;
+          background: var(--main-color);
+          color: var(--light);
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
           display: flex;
           align-items: center;
           flex-direction: row;
@@ -74,11 +74,8 @@
           gap: 5px;
           font-weight: bold;
           transition: .1s ease-in-out;
-          &:hover{
-            background: var(--light-text);
-          }
-          img{
-            width: 20px;
+          .mat-icon{
+            font-size: 25px;
           }
         }
       }

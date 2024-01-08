@@ -108,4 +108,12 @@ export class PlayerComponent {
       this.continue()
     }
   }
+
+  goSecondsForward(seconds: number) {
+    this.audioService.audio.currentTime += seconds
+  }
+
+  goSecondsBack(seconds: number) {
+    this.audioService.audio.currentTime -= seconds
+  }
 }

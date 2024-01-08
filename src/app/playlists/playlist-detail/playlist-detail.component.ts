@@ -18,6 +18,7 @@ import {Title} from "@angular/platform-browser";
 import {Track} from "../../shared/interfaces/track";
 import {formatDate} from "@angular/common";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
+import {QueueService} from "../../queue/services/queue.service";
 
 @Component({
   selector: 'app-playlist-detail',
@@ -33,7 +34,12 @@ export class PlaylistDetailComponent implements OnInit{
   playlist = computed(this.#playlist)
   private subs: Subscription[] = []
 
-  constructor(private _route: ActivatedRoute, public playlistService: PlaylistService, private _title: Title, private _renderer: Renderer2, private _colorService: ColorThiefService) {
+  constructor(private _route: ActivatedRoute,
+              public playlistService: PlaylistService,
+              private _title: Title,
+              private _renderer: Renderer2,
+              private _colorService: ColorThiefService,
+              private _queueService: QueueService) {
   }
   ngOnInit(): void {
 
@@ -108,4 +114,9 @@ export class PlaylistDetailComponent implements OnInit{
   private loadMore() {
     this._playlistService.loadMoreTracks(this.playlist.id)
   }*/
+  playTracks() {
+    if(this.playlist() !== null) {
+      this._queueService.playAllFromIndex(this.playlist()!.tracks.data, 0, this.fromInfo)
+    }
+  }
 }

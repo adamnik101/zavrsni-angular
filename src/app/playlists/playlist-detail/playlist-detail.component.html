@@ -23,16 +23,12 @@
       @if (playlist()!.tracks_count > 0) {
         <div class="actions">
           <div class="left">
-            <button class="play">
-              <img src="assets/icons-svg/play-black.svg" alt="play, icon"/>
-              Play
+            <button class="play" (click)="playTracks()">
+              <mat-icon>play_arrow</mat-icon>
             </button>
           </div>
           <div class="right">
-            <button class="add">
-              <img src="assets/icons-svg/heart.svg" alt="heart, icon"/>
-              Add
-            </button>
+
           </div>
         </div>
       }

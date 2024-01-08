@@ -63,6 +63,9 @@
       <button class="action-button" (click)="goPrevious()">
         <mat-icon [style.color]="'#fff'" class="smaller">skip_previous</mat-icon>
       </button>
+      <button class="action-button" (click)="goSecondsBack(10)">
+        <mat-icon [style.color]="'#fff'" class="smaller">replay_10</mat-icon>
+      </button>
       @if (!this._queueService.currentTrackInfo()?.isBeingPlayed) {
         <button class="action-button play" (click)="continue()">
           <mat-icon [style.color]="'#fff'" class="bigger">play_circle_filled</mat-icon>
@@ -73,6 +76,9 @@
         </button>
       }
 
+      <button class="action-button" (click)="goSecondsForward(10)">
+        <mat-icon [style.color]="'#fff'" class="smaller">forward_10</mat-icon>
+      </button>
       <button class="action-button" (click)="goForward()">
         <mat-icon [style.color]="'#fff'" class="smaller">skip_next</mat-icon>
       </button>
