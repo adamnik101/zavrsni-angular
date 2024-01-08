@@ -34,7 +34,6 @@ import {DurationPipe} from "./shared/pipes/duration.pipe";
         HttpClientModule,
         MatSliderModule,
         FormsModule,
-        HomeModule,
         QueueModule,
         MatIconModule,
         DurationPipe
