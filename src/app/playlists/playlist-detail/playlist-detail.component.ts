@@ -19,11 +19,24 @@ import {Track} from "../../shared/interfaces/track";
 import {formatDate} from "@angular/common";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {QueueService} from "../../queue/services/queue.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-playlist-detail',
   templateUrl: './playlist-detail.component.html',
-  styleUrls: ['./playlist-detail.component.scss']
+  styleUrls: ['./playlist-detail.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({ transform: 'translateY(0)', opacity: 1})),
+      transition('void => *', [
+        style({  transform: 'translateY(-200px)', opacity: 0}),
+        animate('0.3s ease-in-out')
+      ]),
+      transition('* => void', [
+        animate('0.3s ease-in-out', style({  transform: 'translateY(-200px)', opacity: 0}))
+      ])
+    ])
+  ]
 })
 export class PlaylistDetailComponent implements OnInit{
   isLoaded:boolean = false
@@ -33,13 +46,14 @@ export class PlaylistDetailComponent implements OnInit{
   #playlist = signal<Playlist | null>(null)
   playlist = computed(this.#playlist)
   private subs: Subscription[] = []
-
+  showSmallHeader: boolean = false
   constructor(private _route: ActivatedRoute,
               public playlistService: PlaylistService,
               private _title: Title,
               private _renderer: Renderer2,
               private _colorService: ColorThiefService,
-              private _queueService: QueueService) {
+              private _queueService: QueueService,
+              private el: ElementRef) {
   }
   ngOnInit(): void {
 
@@ -118,5 +132,10 @@ export class PlaylistDetailComponent implements OnInit{
     if(this.playlist() !== null) {
       this._queueService.playAllFromIndex(this.playlist()!.tracks.data, 0, this.fromInfo)
     }
+  }
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    const distanceToTop = this.el.nativeElement.getBoundingClientRect().top
+    this.showSmallHeader = distanceToTop < -200
   }
 }

@@ -1,6 +1,7 @@
 .playlist{
   padding: 20px;
   background: var(--playlist);
+  position: relative;
   .top{
     display: flex;
     flex-direction: column;
@@ -112,4 +113,13 @@
 }
 .loading{
   height: 300px;
+}
+.slide{
+  position: fixed;
+  top: 0;
+  transform: translateY(-100px);
+  right: 0;
+  left: 0;
+  background: #464646;
+  z-index: 1;
 }

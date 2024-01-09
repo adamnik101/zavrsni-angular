@@ -14,6 +14,7 @@ import {SharedModule} from "../shared/shared.module";
 import {MatRippleModule} from "@angular/material/core";
 import { PublicPlaylistCardComponent } from './public-playlist-card/public-playlist-card.component';
 import {MatIconModule} from "@angular/material/icon";
+import {SmallHeaderComponent} from "../core/header/small-header/small-header.component";
 
 
 @NgModule({
@@ -27,18 +28,19 @@ import {MatIconModule} from "@angular/material/icon";
     PlaylistCardComponent,
     PublicPlaylistCardComponent
   ],
-  imports: [
-    CommonModule,
-    PlaylistsRoutingModule,
-    MatDialogModule,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    ReactiveFormsModule,
-    MatMenuModule,
-    SharedModule,
-    MatRippleModule,
-    MatIconModule,
-  ]
+    imports: [
+        CommonModule,
+        PlaylistsRoutingModule,
+        MatDialogModule,
+        FormsModule,
+        MatInputModule,
+        MatButtonModule,
+        ReactiveFormsModule,
+        MatMenuModule,
+        SharedModule,
+        MatRippleModule,
+        MatIconModule,
+        SmallHeaderComponent,
+    ]
 })
 export class PlaylistsModule { }

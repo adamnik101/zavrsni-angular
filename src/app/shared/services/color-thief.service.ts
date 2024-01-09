@@ -44,6 +44,9 @@ export class ColorThiefService {
         case "profile" : {
           document.documentElement.style.setProperty('--profile', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
         } break;
+        case "small-header" : {
+          document.documentElement.style.setProperty('--small-header', newBackgroundDarker);
+        }
       }
 
 

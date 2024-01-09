@@ -1,0 +1,31 @@
+.small-header{
+  position: fixed;
+  left: 0;
+  right: 0;
+  background:var(--small-header);
+  padding-left: calc(var(--sidenav-width) + 20px);
+  top: 60px;
+  height: 80px;
+  z-index: 2;
+  transform: translateY(0);
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  .left{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: inherit;
+    gap: 20px;
+    .image{
+      height: 60px;
+      opacity: 0;
+      img{
+        width: auto;
+        height: inherit;
+        box-shadow: 5px 5px 15px rgba(9, 9, 9, 0.28);
+      }
+    }
+    .title{
+      opacity: 0;
+    }
+  }
+}
