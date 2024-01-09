@@ -38,7 +38,7 @@
     <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
     @for (page of pagedResponse.links; track page) {
       @if (page.url) {
-        <button (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
+        <button class="button" (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
           <span [innerHTML]="page.label"></span>
         </button>
       }

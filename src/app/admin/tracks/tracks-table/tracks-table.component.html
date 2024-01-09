@@ -1,8 +1,7 @@
 
 <div class="container-padding admin">
-  <div class="info">
-    <p>Showing {{pagedResponse.from}} - {{pagedResponse.to}} of {{pagedResponse.total}}</p>
-    <button matRipple >Add track</button>
+  <div class="admin-actions">
+    <button mat-button (click)="openAddTrackDialog()">Add track</button>
   </div>
   <table class="admin-table">
     <thead>
@@ -48,7 +47,9 @@
   </tbody>
 </table>
 <div class="pagination">
-
+  <div class="info">
+    <p>Showing {{pagedResponse.from}} - {{pagedResponse.to}} of {{pagedResponse.total}}</p>
+  </div>
   <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
   @for (page of pagedResponse.links; track page) {
     @if (page.url) {

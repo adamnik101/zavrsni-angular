@@ -165,6 +165,7 @@ mat-dialog-container{
   --black: #000;
   --light: #ffffff;
   --lighter: #eaeaea;
+  --lightest: #f8f8f8;
   --light-black: #1f1f1f;
   --secondary-black: #101010;
   --gray: #7a7a7a;
@@ -440,7 +441,7 @@ input[type=email], input[type=password], input[type=text], textarea{
     width: 100%;
     tr{
       &:hover{
-        background: var(--lighter);
+        background: var(--lightest);
 
       }
       height: 50px;
@@ -462,8 +463,8 @@ input[type=email], input[type=password], input[type=text], textarea{
           display: inline-block;
           margin-right: 10px;
           padding: 10px 15px;
-          background: var(--light-black);
-          color: var(--light);
+          background: var(--lighter);
+          color: var(--secondary-black);
           border: none;
           border-radius: 5px;
           cursor: pointer;
@@ -537,6 +538,9 @@ input[type=email], input[type=password], input[type=text], textarea{
     position: absolute;
     top: 0;
     left: 0;
+    p{
+      color: var(--secondary-black);
+    }
   }
   .button{
     width: 40px;
@@ -573,6 +577,11 @@ input[type=email], input[type=password], input[type=text], textarea{
 }
 .admin{
   background: var(--light);
+  .admin-actions{
+    button{
+      background: var(--main-color);
+    }
+  }
 }
 .opacity-1 {
   opacity: 1 !important;
@@ -588,4 +597,17 @@ input[type=email], input[type=password], input[type=text], textarea{
   left: 0;
   background: #464646;
   z-index: 2;
+}
+.dialog{
+  width: 500px;
+  background: var(--light);
+  padding: 20px;
+  border-radius: 5px;
+  h1, p, span{
+    color: var(--light-black) !important;
+  }
+
+}
+.mdc-list-item__primary-text{
+  color: var(--light-black);
 }

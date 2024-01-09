@@ -1,0 +1,25 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Add track</h1>
+  <div mat-dialog-content>
+<!--    title-->
+    <mat-select [(ngModel)]="selectedOwner">
+      @for (artist of artists; track artist.id) {
+        <mat-option [value]="artist">{{artist.name}}</mat-option>
+      }
+    </mat-select>
+    @if(selectedOwner) {
+      <mat-select [(ngModel)]="selectedAlbum">
+        @for (album of selectedOwner.albums; track album.id) {
+          <mat-option [value]="album">{{album.name}}</mat-option>
+        }
+      </mat-select>
+    }
+
+<!--    features-->
+<!--    explicit-->
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button class="confirm">Add</button>
+    <button mat-button class="close">Cancel</button>
+  </div>
+</div>

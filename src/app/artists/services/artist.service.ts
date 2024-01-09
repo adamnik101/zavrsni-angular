@@ -10,4 +10,8 @@ export class ArtistService extends BaseService{
   getArtist(id: string) {
     return this.get<Artist>(`artists/${id}`)
   }
+
+  getArtists() {
+    return this.get<Artist[]>('artists')
+  }
 }
