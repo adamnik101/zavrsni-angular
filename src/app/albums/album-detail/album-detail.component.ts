@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
 import {AlbumService} from "../services/album.service";
 import {ActivatedRoute} from "@angular/router";
 import {Album} from "../interfaces/album";
@@ -10,11 +10,24 @@ import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {UserService} from "../../user/services/user.service";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {Subscription} from "rxjs";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-album-detail',
   templateUrl: './album-detail.component.html',
-  styleUrls: ['./album-detail.component.scss']
+  styleUrls: ['./album-detail.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({ transform: 'translateY(0)', opacity: 1})),
+      transition('void => *', [
+        style({  transform: 'translateY(-200px)', opacity: 0}),
+        animate('0.3s ease-in-out')
+      ]),
+      transition('* => void', [
+        animate('0.3s ease-in-out', style({  transform: 'translateY(-200px)', opacity: 0}))
+      ])
+    ])
+  ]
 })
 export class AlbumDetailComponent {
   private _albumService = inject(AlbumService)
@@ -24,6 +37,7 @@ export class AlbumDetailComponent {
   private _userService = inject(UserService)
   private _route = inject(ActivatedRoute)
   private _snackbar = inject(SnackbarService)
+  private el = inject(ElementRef)
   public album: Album = {} as Album
   public from : From = {} as From
   public isAlbumLiked: boolean = false
@@ -31,6 +45,7 @@ export class AlbumDetailComponent {
   private likedAlbums: Album[] = []
   @ViewChild('background') background!: ElementRef
   private subs: Subscription[] = []
+  shouldShowHeader: boolean = false;
   ngOnInit() {
 
     this.getAlbum()
@@ -111,6 +126,11 @@ export class AlbumDetailComponent {
         }
       }
     }))
+  }
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    const distanceToTop = this.el.nativeElement.getBoundingClientRect().top
+    this.shouldShowHeader = distanceToTop < -200
   }
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')

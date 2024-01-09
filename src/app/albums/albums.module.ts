@@ -6,6 +6,7 @@ import { AlbumDetailComponent } from './album-detail/album-detail.component';
 import {SharedModule} from "../shared/shared.module";
 import { AlbumCardComponent } from './album-card/album-card.component';
 import {MatIconModule} from "@angular/material/icon";
+import {SmallHeaderComponent} from "../core/header/small-header/small-header.component";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {MatIconModule} from "@angular/material/icon";
         CommonModule,
         AlbumsRoutingModule,
         SharedModule,
-        MatIconModule
+        MatIconModule,
+        SmallHeaderComponent
     ]
 })
 export class AlbumsModule { }

@@ -1,4 +1,12 @@
-
+@if(shouldShowHeader) {
+  <div class="slide" [@slideInOut]="'in'">
+    <app-small-header [tracks]="album.tracks"
+                      [title]="album.name"
+                      [from]="from"
+                      [shouldShow]="shouldShowHeader"
+                      [image]="album.cover"></app-small-header>
+  </div>
+}
 <div class="album">
 
   <div class="top" #background>

@@ -1,13 +1,32 @@
 <div class="small-header"  [@fade]="'in'">
   <div class="left" >
     <div class="image" [ngClass]="{'opacity-1' : shouldShow}" >
-      <img src="{{image}}" />
+      @if(image) {
+        <img src="{{image}}" />
+      } @else {
+        <div class="default">
+          <img src="assets/icons-svg/note.svg"/>
+        </div>
+      }
     </div>
     <div class="title" [ngClass]="{'opacity-1' : shouldShow}">
       <h1>{{title}}</h1>
     </div>
   </div>
   <div class="right">
+    @if (queueService.from.id === from.id && this.queueService.currentTrackInfo()?.isBeingPlayed) {
+      <button class="play white" (click)="pause()">
+        <mat-icon>pause</mat-icon>
+      </button>
+    } @else if (this.queueService.from.id === from.id && !this.queueService.currentTrackInfo()?.isBeingPlayed) {
+      <button class="play white" (click)="continue()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    } @else {
+      <button class="play white" (click)="playTracks()">
+        <mat-icon>play_arrow</mat-icon>
+      </button>
+    }
 
   </div>
 

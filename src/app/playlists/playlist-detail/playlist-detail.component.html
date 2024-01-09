@@ -1,6 +1,13 @@
 @if(playlist() && showSmallHeader){
   <div class="slide" [@slideInOut]="'in'">
-    <app-small-header [title]="playlist()!.title" [image]="playlist()!.image_url" [shouldShow]="showSmallHeader"></app-small-header>
+    <app-small-header
+      [tracks]="playlist()!.tracks.data"
+      [title]="playlist()!.title"
+      [image]="playlist()!.image_url"
+      [shouldShow]="showSmallHeader"
+      [from]="fromInfo"
+      >
+    </app-small-header>
   </div>
 }
 @if (this.playlist() !== null) {
