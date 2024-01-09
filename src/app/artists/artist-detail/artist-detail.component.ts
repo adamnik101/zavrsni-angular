@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {ArtistService} from "../services/artist.service";
 import {ActivatedRoute} from "@angular/router";
 import {Artist} from "../interfaces/artist";
@@ -10,13 +10,27 @@ import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {Subscription} from "rxjs";
 import {Track} from "../../shared/interfaces/track";
 import {QueueService} from "../../queue/services/queue.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-artist-detail',
   templateUrl: './artist-detail.component.html',
-  styleUrls: ['./artist-detail.component.scss']
+  styleUrls: ['./artist-detail.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({ transform: 'translateY(0)', opacity: 1})),
+      transition('void => *', [
+        style({  transform: 'translateY(-200px)', opacity: 0}),
+        animate('0.3s ease-in-out')
+      ]),
+      transition('* => void', [
+        animate('0.3s ease-in-out', style({  transform: 'translateY(-200px)', opacity: 0}))
+      ])
+    ])
+  ]
 })
 export class ArtistDetailComponent implements OnInit {
+  showSmallHeader: boolean = false
   artist: Artist = {} as Artist
   @ViewChild('top') top!: ElementRef
   @ViewChild('bottom') bottom!: ElementRef
@@ -34,7 +48,8 @@ export class ArtistDetailComponent implements OnInit {
               private _title: Title,
               private _renderer: Renderer2,
               private _colorService: ColorThiefService,
-              private _queueService: QueueService) {
+              private _queueService: QueueService,
+              private el: ElementRef) {
   }
   ngOnInit() {
     this.loaded = false
@@ -132,5 +147,11 @@ export class ArtistDetailComponent implements OnInit {
   playPopularTracks(tracks: Track[]) {
     this._queueService.playAllFromIndex(tracks, 0, this.fromPopular)
 
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    const distanceToTop = this.el.nativeElement.getBoundingClientRect().top
+    this.showSmallHeader = distanceToTop < -200
   }
 }

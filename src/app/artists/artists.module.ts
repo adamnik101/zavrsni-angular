@@ -8,6 +8,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {AlbumsModule} from "../albums/albums.module";
 import { ArtistCardComponent } from './artist-card/artist-card.component';
 import { ArtistRoundCardComponent } from './artist-round-card/artist-round-card.component';
+import {SmallHeaderComponent} from "../core/header/small-header/small-header.component";
 
 
 @NgModule({
@@ -20,12 +21,13 @@ import { ArtistRoundCardComponent } from './artist-round-card/artist-round-card.
         ArtistCardComponent,
         ArtistRoundCardComponent
     ],
-  imports: [
-    CommonModule,
-    ArtistsRoutingModule,
-    SharedModule,
-    MatTabsModule,
-    AlbumsModule,
-  ]
+    imports: [
+        CommonModule,
+        ArtistsRoutingModule,
+        SharedModule,
+        MatTabsModule,
+        AlbumsModule,
+        SmallHeaderComponent,
+    ]
 })
 export class ArtistsModule { }

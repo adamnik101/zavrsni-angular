@@ -1,3 +1,8 @@
+@if(showSmallHeader){
+  <div class="slide" [@slideInOut]="'in'">
+    <app-small-header [title]="artist.name" [image]="artist.cover" [shouldShow]="showSmallHeader"></app-small-header>
+  </div>
+}
 <div class="artist">
   @if(loaded){
 

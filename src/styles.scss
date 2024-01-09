@@ -580,3 +580,12 @@ input[type=email], input[type=password], input[type=text], textarea{
 .opacity-05 {
   opacity: .5 !important;
 }
+.slide{
+  position: fixed;
+  top: 0;
+  transform: translateY(-100px);
+  right: 0;
+  left: 0;
+  background: #464646;
+  z-index: 1;
+}
