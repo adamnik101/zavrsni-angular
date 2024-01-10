@@ -7,8 +7,11 @@ import {Artist} from "../../artists/interfaces/artist";
 })
 export class IsSelectedInFeaturesPipe implements PipeTransform {
 
-  transform(value: Artist, features: Artist[]): boolean {
-    return features.some(feature => feature.id === value.id);
+  transform(value: Artist, features: Artist[] | null): boolean {
+    if(features !== null) {
+      return features.some(feature => feature.id === value.id);
+    }
+    return false
   }
 
 }

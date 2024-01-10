@@ -2,49 +2,69 @@
   <h1 mat-dialog-title>Add track</h1>
   <div mat-dialog-content>
 <!--    title-->
-    <mat-grid-list [cols]="2" [rowHeight]="70">
-      <mat-grid-tile>
-        <mat-form-field>
-          <mat-label>Select owner of track</mat-label>
-          <mat-select [(ngModel)]="selectedOwner">
-            @for (artist of artists; track artist.id) {
-              <mat-option [value]="artist" [disabled]="artist | isSelectedInFeatures:selectedFeatures">{{artist.name}}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        @if(selectedOwner) {
+    <form [formGroup]="track">
+      <mat-grid-list [cols]="2" [rowHeight]="70">
+        <mat-grid-tile>
           <mat-form-field>
-            <mat-label>Select album to insert</mat-label>
-            <mat-select [(ngModel)]="selectedAlbum">
-              @for (album of selectedOwner.albums; track album.id) {
-                <mat-option [value]="album">{{album.name}}</mat-option>
+            <mat-label>Select owner of track</mat-label>
+            <mat-select formControlName="owner">
+              @for (artist of artists; track artist.id) {
+                <mat-option [value]="artist"  [disabled]="artist | isSelectedInFeatures:track.get('features')?.value">{{artist.name}}</mat-option>
+              }
+            </mat-select>
+            @if (track.get('owner')?.hasError('required')){
+              <mat-error>Owner is required</mat-error>
+            }
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <mat-label>Select album</mat-label>
+            <mat-select formControlName="album" [disabled]="track.get('owner')?.value === null || track.get('owner')?.value!.albums.length === 0">
+              @if(track.get('owner')?.value) {
+                @for (album of track.get('owner')?.value!.albums; track album.id) {
+                  <mat-option [value]="album">{{album.name}}</mat-option>
+                }
               }
             </mat-select>
           </mat-form-field>
-        }
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-form-field>
-          <mat-label>Select features</mat-label>
-          <mat-select [multiple]="true" [(ngModel)]="selectedFeatures">
-            @for(feature of artists; track feature.id) {
-              @if(feature.id === selectedOwner?.id) {
-                <mat-option [disabled]="true" [value]="feature">{{feature.name}}</mat-option>
-              } @else {
-                <mat-option [value]="feature">{{feature.name}}</mat-option>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <mat-label>Select features</mat-label>
+            <mat-select [multiple]="true" formControlName="features">
+              @for(feature of artists; track feature.id) {
+                @if(feature.id === track.get('owner')?.value?.id) {
+                  <mat-option [disabled]="true" [value]="feature">{{feature.name}}</mat-option>
+                } @else {
+                  <mat-option [value]="feature">{{feature.name}}</mat-option>
+                }
               }
+            </mat-select>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-form-field>
+            <mat-label>Select genre</mat-label>
+            <mat-select formControlName="genre">
+              @for (genre of genres; track genre.id) {
+                <mat-option [value]="genre">{{genre.name}}</mat-option>
+              }
+            </mat-select>
+            @if (track.get('genre')?.hasError('required')){
+              <mat-error>Is required</mat-error>
             }
-          </mat-select>
-        </mat-form-field>
-      </mat-grid-tile>
-      <mat-grid-tile [colspan]="1">
-        <mat-checkbox>
-          Is explicit
-        </mat-checkbox>
-      </mat-grid-tile>
-    </mat-grid-list>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <mat-checkbox>
+            Is explicit
+          </mat-checkbox>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <button mat-button (click)="track.reset()">Reset</button>
+    </form>
+
 
 
 <!--    features-->
