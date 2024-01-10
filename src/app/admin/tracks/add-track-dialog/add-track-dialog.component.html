@@ -2,18 +2,50 @@
   <h1 mat-dialog-title>Add track</h1>
   <div mat-dialog-content>
 <!--    title-->
-    <mat-select [(ngModel)]="selectedOwner">
-      @for (artist of artists; track artist.id) {
-        <mat-option [value]="artist">{{artist.name}}</mat-option>
-      }
-    </mat-select>
-    @if(selectedOwner) {
-      <mat-select [(ngModel)]="selectedAlbum">
-        @for (album of selectedOwner.albums; track album.id) {
-          <mat-option [value]="album">{{album.name}}</mat-option>
+    <mat-grid-list [cols]="2" [rowHeight]="70">
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>Select owner of track</mat-label>
+          <mat-select [(ngModel)]="selectedOwner">
+            @for (artist of artists; track artist.id) {
+              <mat-option [value]="artist" [disabled]="artist | isSelectedInFeatures:selectedFeatures">{{artist.name}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        @if(selectedOwner) {
+          <mat-form-field>
+            <mat-label>Select album to insert</mat-label>
+            <mat-select [(ngModel)]="selectedAlbum">
+              @for (album of selectedOwner.albums; track album.id) {
+                <mat-option [value]="album">{{album.name}}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
         }
-      </mat-select>
-    }
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field>
+          <mat-label>Select features</mat-label>
+          <mat-select [multiple]="true" [(ngModel)]="selectedFeatures">
+            @for(feature of artists; track feature.id) {
+              @if(feature.id === selectedOwner?.id) {
+                <mat-option [disabled]="true" [value]="feature">{{feature.name}}</mat-option>
+              } @else {
+                <mat-option [value]="feature">{{feature.name}}</mat-option>
+              }
+            }
+          </mat-select>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="1">
+        <mat-checkbox>
+          Is explicit
+        </mat-checkbox>
+      </mat-grid-tile>
+    </mat-grid-list>
+
 
 <!--    features-->
 <!--    explicit-->

@@ -8,6 +8,9 @@ import {Subscription} from "rxjs";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule} from "@angular/forms";
 import {Album} from "../../../albums/interfaces/album";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {IsSelectedInFeaturesPipe} from "../../pipes/is-selected-in-features.pipe";
 
 @Component({
   selector: 'app-add-track-dialog',
@@ -17,7 +20,10 @@ import {Album} from "../../../albums/interfaces/album";
     MatButtonModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatCheckboxModule,
+    MatGridListModule,
+    IsSelectedInFeaturesPipe
   ],
   templateUrl: './add-track-dialog.component.html',
   styleUrl: './add-track-dialog.component.scss'
@@ -27,6 +33,7 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
   private _subs: Subscription[] = []
   selectedOwner: Artist | null = null;
   selectedAlbum: Album | null = null;
+  selectedFeatures: Artist[] = []
   constructor(private _artistService: ArtistService) { }
 
   ngOnInit() {
