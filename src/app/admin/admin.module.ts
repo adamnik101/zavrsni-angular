@@ -26,6 +26,7 @@ import { GenreTableComponent } from './genres/genre-table/genre-table.component'
 import { UsersComponent } from './users/users.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
 import {HumanizeBooleanPipe} from "./pipes/humanize-boolean.pipe";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import {HumanizeBooleanPipe} from "./pipes/humanize-boolean.pipe";
         MatRippleModule,
         FormsModule,
         SharedModule,
-        HumanizeBooleanPipe
+        HumanizeBooleanPipe,
+        MatCheckboxModule
     ]
 })
 export class AdminModule { }

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
@@ -13,6 +13,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {IsSelectedInFeaturesPipe} from "../../pipes/is-selected-in-features.pipe";
 import {GenreService} from "../../../genre/services/genre.service";
 import {Genre} from "../../../genre/interfaces/genre";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-add-track-dialog',
@@ -26,7 +27,8 @@ import {Genre} from "../../../genre/interfaces/genre";
     MatCheckboxModule,
     MatGridListModule,
     IsSelectedInFeaturesPipe,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ],
   templateUrl: './add-track-dialog.component.html',
   styleUrl: './add-track-dialog.component.scss'
@@ -35,11 +37,15 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
   artists: Artist[] = []
   genres: Genre[] = []
   private _subs: Subscription[] = []
-  selectedOwner: Artist | null = null;
+  @ViewChild('image') image!: ElementRef
+  @ViewChild('inputTrack') inputTrack!: ElementRef
+  trackInfo: any
   track: FormGroup = new FormGroup({
+    cover: new FormControl(null),
+    track: new FormControl(null),
     owner : new FormControl(null, [Validators.required]),
     features : new FormControl([]),
-    album : new FormControl(null),
+    album : new FormControl({value: null, disabled: true}),
     genre : new FormControl(null, [Validators.required])
   })
   constructor(private _artistService: ArtistService,
@@ -56,6 +62,26 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
         this.genres = genres
       }
     }))
+  }
+  onFileSelected(event: any, control: string) {
+    this.track.get(control)?.setValue(event.target.files[0] ?? null)
+
+    if (this.track.get(control)?.value) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.track.get(control)?.value);
+
+      reader.onload = (e) => {
+        console.log(e.target)
+        if(control === 'track') {
+          this.trackInfo = this.inputTrack.nativeElement.value.split('\\')[2]
+        } else if(control === 'cover') {
+          this.image.nativeElement.src = e.target?.result;
+        }
+      };
+    }
+
+
+
   }
   ngOnDestroy() {
     for (let sub of this._subs) {

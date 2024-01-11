@@ -6,6 +6,7 @@
   <table class="admin-table">
     <thead>
       <tr>
+        <th></th>
         <th>#</th>
         <th>Title</th>
         <th>Owner</th>
@@ -22,6 +23,7 @@
     <tbody>
       @for (track of pagedResponse.data; track track; let index = $index) {
         <tr>
+          <td><mat-checkbox></mat-checkbox></td>
           <td>{{pagedResponse.from + index}}</td>
           <td>{{track.title}}</td>
           <td>

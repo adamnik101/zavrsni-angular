@@ -3,6 +3,34 @@
   <div mat-dialog-content>
 <!--    title-->
     <form [formGroup]="track">
+      <div class="form-layout">
+        <div class="col-2">
+          <div class="image mr-18">
+            <input type="file" #inputImage [hidden]="true" accept="image/jpeg,image/png,image/jpg" (change)="onFileSelected($event, 'cover')">
+            <button mat-button (click)="inputImage.click()">
+              <div class="cover">
+                @if(track.get('cover')?.value) {
+                  Cover: <img #image class="track-cover"/>
+                } @else {
+                  Select cover image <mat-icon>perm_media</mat-icon>
+                }
+              </div>
+            </button>
+          </div>
+          <div class="image ml-18">
+            <input type="file" #inputTrack [hidden]="true" accept="audio/mp4,audio/mp3" (change)="onFileSelected($event, 'track')">
+            <button mat-button (click)="inputTrack.click()">
+              <div class="cover">
+                @if(track.get('track')?.value) {
+                  <mat-icon>music_note</mat-icon> <p>{{trackInfo}}</p>
+                } @else {
+                  <mat-icon>music_note</mat-icon> Select track file
+                }
+              </div>
+            </button>
+          </div>
+        </div>
+        <div class="col-2">
           <mat-form-field>
             <mat-label>Select owner of track</mat-label>
             <mat-select formControlName="owner">
@@ -17,7 +45,7 @@
 
           <mat-form-field>
             <mat-label>Select album</mat-label>
-            <mat-select formControlName="album" [disabled]="track.get('owner')?.value === null || track.get('owner')?.value!.albums.length === 0">
+            <mat-select formControlName="album" [disabled]="track.get('owner')?.value === null || !track.get('owner')?.value!.albums.length">
               @if(track.get('owner')?.value) {
                 @for (album of track.get('owner')?.value!.albums; track album.id) {
                   <mat-option [value]="album">{{album.name}}</mat-option>
@@ -25,7 +53,9 @@
               }
             </mat-select>
           </mat-form-field>
+        </div>
 
+        <div class="col-2">
           <mat-form-field>
             <mat-label>Select features</mat-label>
             <mat-select [multiple]="true" formControlName="features">
@@ -50,12 +80,14 @@
               <mat-error>Is required</mat-error>
             }
           </mat-form-field>
+        </div>
 
-          <mat-checkbox>
-            Is explicit
-          </mat-checkbox>
+        <mat-checkbox>
+          Is explicit
+        </mat-checkbox>
+        <button mat-button (click)="track.reset()">Reset</button>
+      </div>
 
-      <button mat-button (click)="track.reset()">Reset</button>
     </form>
 
 
