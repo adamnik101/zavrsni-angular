@@ -15,6 +15,8 @@ import {GenreService} from "../../../genre/services/genre.service";
 import {Genre} from "../../../genre/interfaces/genre";
 import {MatIconModule} from "@angular/material/icon";
 import {AdminTracksService} from "../services/admin-tracks.service";
+import {DialogRef} from "@angular/cdk/dialog";
+import {SnackbarService} from "../../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-add-track-dialog',
@@ -42,6 +44,7 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
   @ViewChild('inputTrack') inputTrack!: ElementRef
   trackInfo: any
   trackForm: FormGroup = new FormGroup({
+    title: new FormControl('', [Validators.required]),
     cover: new FormControl(null, [Validators.required]),
     track: new FormControl(null, [Validators.required]),
     owner : new FormControl(null, [Validators.required]),
@@ -52,7 +55,9 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
   })
   constructor(private _artistService: ArtistService,
               private _genreService: GenreService,
-              private _trackService: AdminTracksService) { }
+              private _trackService: AdminTracksService,
+              private _dialogRef: DialogRef<AddTrackDialogComponent>,
+              private _snackbar: SnackbarService) { }
 
   ngOnInit() {
     this._subs.push(this._artistService.getArtists().subscribe({
@@ -93,6 +98,7 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
     let formData = new FormData()
 
     if(this.trackForm.valid) {
+      formData.append('title', this.trackForm.get('title')?.value)
       formData.append('cover', this.trackForm.get('cover')?.value)
       formData.append('track', this.trackForm.get('track')?.value)
       formData.append('owner', (this.trackForm.get('owner')!.value as Artist).id)
@@ -103,19 +109,21 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
         formData.append('album', (this.trackForm.get('album')?.value as Album).id)
       }
       if(this.trackForm.get('features')?.value) {
-        let features: string[] = []
         for(let feature of (this.trackForm.get('features')!.value) as Artist[] ) {
-          features.push(feature.id)
+          formData.append('features[]', feature.id)
         }
-        formData.append('features', features.toString())
+
       }
 
       this._trackService.addTrack(formData).subscribe({
         next: (response) => {
           console.log(response)
+          this._dialogRef.close()
+          this._snackbar.showSuccessMessage(response as string)
         },
         error: (errResponse) => {
           console.log(errResponse)
+          this._snackbar.showFailedMessage(errResponse as string)
         }
       })
 

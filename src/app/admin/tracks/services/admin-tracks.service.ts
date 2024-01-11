@@ -24,6 +24,6 @@ export class AdminTracksService extends BaseService{
   }
 
   addTrack(formData: FormData) {
-    return this.post('tracks/add', formData)
+    return this.post('admin/tracks/add', formData)
   }
 }

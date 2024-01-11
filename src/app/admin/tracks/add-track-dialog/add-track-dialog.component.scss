@@ -1,0 +1,16 @@
+.container{
+
+}
+
+.button-image{
+  width: 100%;
+  height: 140px;
+  background: var(--lighter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img{
+    width: 100%;
+    border-radius: 5px;
+  }
+}

@@ -1,42 +1,24 @@
 <div class="dialog">
   <h1 mat-dialog-title>Add track</h1>
   <div mat-dialog-content>
-<!--    title-->
     <form [formGroup]="trackForm" [enctype]="'multipart/form-data'">
-      <div class="form-layout">
-        <div class="col-2">
-          <div class="image mr-18">
+      <mat-grid-list [rowHeight]="80" [cols]="8" gutterSize="5">
+        <mat-grid-tile [rowspan]="2" [colspan]="3" class="tile">
+          <div class="container">
             <input type="file" #inputImage [hidden]="true" accept="image/jpeg,image/png,image/jpg" (change)="onFileSelected($event, 'cover')">
-            <button mat-button (click)="inputImage.click()">
-              <div class="cover">
-                @if(trackForm.get('cover')?.value) {
-                  Cover: <img #image class="track-cover"/>
-                } @else {
-                  Select cover image <mat-icon>perm_media</mat-icon>
-                }
-              </div>
+            <button class="button-image" mat-button (click)="inputImage.click()">
+              @if(trackForm.get('cover')?.value){
+                <img #image alt="track,cover,song"/>
+              } @else {
+                <mat-icon>add_a_photo</mat-icon>
+              }
             </button>
-            @if (trackForm.get('cover')?.hasError('required')) {
-              <mat-error>Cover image is required</mat-error>
+            @if(trackForm.get('cover')?.hasError('required')){
+              <mat-error>Cover is required</mat-error>
             }
           </div>
-          <div class="image ml-18">
-            <input type="file" #inputTrack [hidden]="true" accept="audio/mp4,audio/mp3" (change)="onFileSelected($event, 'track')">
-            <button mat-button (click)="inputTrack.click()">
-              <div class="cover">
-                @if(trackForm.get('track')?.value) {
-                  <mat-icon>music_note</mat-icon> <p>{{trackInfo}}</p>
-                } @else {
-                  <mat-icon>music_note</mat-icon> Select track file
-                }
-              </div>
-            </button>
-            @if (trackForm.get('track')?.hasError('required')) {
-              <mat-error>Track file is required</mat-error>
-            }
-          </div>
-        </div>
-        <div class="col-2">
+        </mat-grid-tile>
+        <mat-grid-tile [rowspan]="1" [colspan]="5">
           <mat-form-field>
             <mat-label>Select owner of track</mat-label>
             <mat-select formControlName="owner">
@@ -49,25 +31,14 @@
             }
           </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Select album</mat-label>
-            <mat-select formControlName="album" [disabled]="trackForm.get('owner')?.value === null || !trackForm.get('owner')?.value!.albums.length">
-              @if(trackForm.get('owner')?.value) {
-                @for (album of trackForm.get('owner')?.value!.albums; track album.id) {
-                  <mat-option [value]="album">{{album.name}}</mat-option>
-                }
-              }
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <div class="col-2">
+        </mat-grid-tile>
+        <mat-grid-tile [rowspan]="1" [colspan]="5">
           <mat-form-field>
             <mat-label>Select features</mat-label>
-            <mat-select [multiple]="true" formControlName="features">
-              @for(feature of artists; track feature.id) {
-                @if(feature.id === trackForm.get('owner')?.value?.id) {
-                  <mat-option [disabled]="true" [value]="feature">{{feature.name}}</mat-option>
+            <mat-select formControlName="features" [multiple]="true">
+              @for (feature of artists; track feature.id) {
+                @if (trackForm.get('owner')?.value && feature.id === trackForm.get('owner')?.value.id) {
+                  <mat-option [value]="feature" [disabled]="true">{{feature.name}}</mat-option>
                 } @else {
                   <mat-option [value]="feature">{{feature.name}}</mat-option>
                 }
@@ -75,6 +46,36 @@
             </mat-select>
           </mat-form-field>
 
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="8" class="track-tile">
+          <input type="file" #inputTrack [hidden]="true" accept="audio/mp4,audio/mp3" (change)="onFileSelected($event, 'track')">
+          <button mat-button (click)="inputTrack.click()">
+            @if(trackForm.get('track')?.value) {
+              <mat-icon>music_note</mat-icon> <p>{{trackInfo}}</p>
+            } @else {
+              <mat-icon> attach_file</mat-icon> <p>Select track file</p>
+            }
+          </button>
+          @if (trackForm.get('track')?.hasError('required')) {
+            <mat-error>Track file is required</mat-error>
+          }
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="4">
+          <mat-form-field>
+            <mat-label>Select album</mat-label>
+            <mat-select formControlName="album" [disabled]="!trackForm.get('owner')?.value || trackForm.get('owner')?.value!.albums.length === 0">
+              @if(trackForm.get('owner')?.value) {
+                @for (album of trackForm.get('owner')?.value!.albums; track album.id) {
+                  <mat-option [value]="album">{{album.name}}</mat-option>
+                }
+              }
+            </mat-select>
+            @if (trackForm.get('album')?.hasError('required')){
+              <mat-error>Album is required</mat-error>
+            }
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="4">
           <mat-form-field>
             <mat-label>Select genre</mat-label>
             <mat-select formControlName="genre">
@@ -83,18 +84,79 @@
               }
             </mat-select>
             @if (trackForm.get('genre')?.hasError('required')){
-              <mat-error>Is required</mat-error>
+              <mat-error>Genre is required</mat-error>
             }
           </mat-form-field>
-        </div>
-
-        <mat-checkbox formControlName="explicit">
-          Is explicit
-        </mat-checkbox>
-        <button mat-button (click)="trackForm.reset()">Reset</button>
-      </div>
-
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="3">
+          <mat-checkbox formControlName="explicit">Is Explicit</mat-checkbox>
+        </mat-grid-tile>
+      </mat-grid-list>
     </form>
+<!--    title-->
+<!--    <form [formGroup]="trackForm" [enctype]="'multipart/form-data'">-->
+<!--      <div class="container-form">-->
+<!--        <div class="form-field row">-->
+<!--          <input type="file" #inputImage [hidden]="true" accept="image/jpeg,image/png,image/jpg" (change)="onFileSelected($event, 'cover')">-->
+<!--          <button mat-button (click)="inputImage.click()" class="cover">-->
+<!--              @if(trackForm.get('cover')?.value) {-->
+<!--                <img #image class="track-cover"/>-->
+<!--              } @else {-->
+<!--               <mat-icon>perm_media</mat-icon>-->
+<!--              }-->
+<!--          </button>-->
+<!--          @if (trackForm.get('cover')?.hasError('required')) {-->
+<!--            <mat-error>Cover image is required</mat-error>-->
+<!--          }-->
+<!--        </div>-->
+<!--        <div class="form-field">-->
+
+<!--        </div>-->
+<!--      </div>-->
+<!--      <mat-grid-list rowHeight="70" [cols]="2">-->
+<!--        <mat-grid-tile [rowspan]="2">-->
+
+<!--        </mat-grid-tile>-->
+<!--        <mat-grid-tile>-->
+
+
+<!--        </mat-grid-tile>-->
+
+<!--        <mat-grid-tile>-->
+
+<!--        </mat-grid-tile>-->
+<!--      </mat-grid-list>-->
+<!--      <div class="form-layout">-->
+<!--        <div class="col-1">-->
+
+<!--        </div>-->
+<!--        <div class="col-2">-->
+<!--          <div class="image mr-18">-->
+
+<!--          </div>-->
+<!--          <div class="image ml-18">-->
+
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="col-2">-->
+
+
+
+<!--        </div>-->
+
+<!--        <div class="col-2">-->
+
+
+
+<!--        </div>-->
+
+<!--        <mat-checkbox formControlName="explicit">-->
+<!--          Is explicit-->
+<!--        </mat-checkbox>-->
+<!--        <button mat-button (click)="trackForm.reset()">Reset</button>-->
+<!--      </div>-->
+
+<!--    </form>-->
 
 
 

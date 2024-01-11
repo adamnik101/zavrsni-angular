@@ -74,7 +74,7 @@ div,html{
 }
 html, body { height: 100%;}
 body { margin: 0;  }
-a,h1,p,span, input[type=text]{
+a,h1,p,span{
   color: var(--primary-text);
   font-size: 14px;
   letter-spacing: .5px;
@@ -164,7 +164,7 @@ mat-dialog-container{
   --primary-black: #090909;
   --black: #000;
   --light: #ffffff;
-  --lighter: #eaeaea;
+  --lighter: #f5f5f5;
   --lightest: #f8f8f8;
   --light-black: #1f1f1f;
   --secondary-black: #101010;
@@ -317,7 +317,7 @@ form{
     font-weight: bold;
   }
 }
-input[type=email], input[type=password], input[type=text], textarea{
+input[type=email], input[type=password], textarea{
   width: 100%;
   border: none;
   padding: 10px 20px;
@@ -599,7 +599,7 @@ input[type=email], input[type=password], input[type=text], textarea{
   z-index: 2;
 }
 .dialog{
-  width: 500px;
+  min-width: 400px;
   background: var(--light);
   padding: 20px;
   border-radius: 5px;
@@ -620,6 +620,9 @@ input[type=email], input[type=password], input[type=text], textarea{
     width: 100%;
     display: flex;
     flex-direction: row;
+    .mat-mdc-form-field{
+      flex: 1;
+    }
   }
   .col-2{
     width: 100%;
@@ -685,3 +688,29 @@ input[type=email], input[type=password], input[type=text], textarea{
   }
 }
 
+.break-row {
+  flex-basis: 100%;
+  height: 0;
+}
+.break-column {
+  flex-basis: 100%;
+  width: 0;
+}
+.track-tile{
+  .mat-grid-tile-content{
+    display: flex;
+    flex-direction: column;
+    button{
+      background: var(--lighter);
+      height: 70px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+    }
+  }
+}
+.tile{
+  .mat-grid-tile-content{
+    display: block !important;
+  }
+}
