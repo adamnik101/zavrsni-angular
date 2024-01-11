@@ -3,8 +3,6 @@
   <div mat-dialog-content>
 <!--    title-->
     <form [formGroup]="track">
-      <mat-grid-list [cols]="2" [rowHeight]="70">
-        <mat-grid-tile>
           <mat-form-field>
             <mat-label>Select owner of track</mat-label>
             <mat-select formControlName="owner">
@@ -16,8 +14,7 @@
               <mat-error>Owner is required</mat-error>
             }
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+
           <mat-form-field>
             <mat-label>Select album</mat-label>
             <mat-select formControlName="album" [disabled]="track.get('owner')?.value === null || track.get('owner')?.value!.albums.length === 0">
@@ -28,8 +25,7 @@
               }
             </mat-select>
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+
           <mat-form-field>
             <mat-label>Select features</mat-label>
             <mat-select [multiple]="true" formControlName="features">
@@ -42,8 +38,7 @@
               }
             </mat-select>
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+
           <mat-form-field>
             <mat-label>Select genre</mat-label>
             <mat-select formControlName="genre">
@@ -55,13 +50,11 @@
               <mat-error>Is required</mat-error>
             }
           </mat-form-field>
-        </mat-grid-tile>
-        <mat-grid-tile>
+
           <mat-checkbox>
             Is explicit
           </mat-checkbox>
-        </mat-grid-tile>
-      </mat-grid-list>
+
       <button mat-button (click)="track.reset()">Reset</button>
     </form>
 
