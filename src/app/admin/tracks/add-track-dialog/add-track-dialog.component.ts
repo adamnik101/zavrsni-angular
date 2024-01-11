@@ -14,6 +14,7 @@ import {IsSelectedInFeaturesPipe} from "../../pipes/is-selected-in-features.pipe
 import {GenreService} from "../../../genre/services/genre.service";
 import {Genre} from "../../../genre/interfaces/genre";
 import {MatIconModule} from "@angular/material/icon";
+import {AdminTracksService} from "../services/admin-tracks.service";
 
 @Component({
   selector: 'app-add-track-dialog',
@@ -40,16 +41,18 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
   @ViewChild('image') image!: ElementRef
   @ViewChild('inputTrack') inputTrack!: ElementRef
   trackInfo: any
-  track: FormGroup = new FormGroup({
-    cover: new FormControl(null),
-    track: new FormControl(null),
+  trackForm: FormGroup = new FormGroup({
+    cover: new FormControl(null, [Validators.required]),
+    track: new FormControl(null, [Validators.required]),
     owner : new FormControl(null, [Validators.required]),
     features : new FormControl([]),
     album : new FormControl({value: null, disabled: true}),
-    genre : new FormControl(null, [Validators.required])
+    genre : new FormControl(null, [Validators.required]),
+    explicit: new FormControl(false)
   })
   constructor(private _artistService: ArtistService,
-              private _genreService: GenreService) { }
+              private _genreService: GenreService,
+              private _trackService: AdminTracksService) { }
 
   ngOnInit() {
     this._subs.push(this._artistService.getArtists().subscribe({
@@ -64,11 +67,11 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
     }))
   }
   onFileSelected(event: any, control: string) {
-    this.track.get(control)?.setValue(event.target.files[0] ?? null)
+    this.trackForm.get(control)?.setValue(event.target.files[0] ?? null)
 
-    if (this.track.get(control)?.value) {
+    if (this.trackForm.get(control)?.value) {
       const reader = new FileReader();
-      reader.readAsDataURL(this.track.get(control)?.value);
+      reader.readAsDataURL(this.trackForm.get(control)?.value);
 
       reader.onload = (e) => {
         console.log(e.target)
@@ -79,13 +82,44 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
         }
       };
     }
-
-
-
   }
   ngOnDestroy() {
     for (let sub of this._subs) {
       sub.unsubscribe()
+    }
+  }
+
+  confirm() {
+    let formData = new FormData()
+
+    if(this.trackForm.valid) {
+      formData.append('cover', this.trackForm.get('cover')?.value)
+      formData.append('track', this.trackForm.get('track')?.value)
+      formData.append('owner', (this.trackForm.get('owner')!.value as Artist).id)
+      formData.append('explicit', this.trackForm.get('explicit')?.value)
+      formData.append('genre', (this.trackForm.get('genre')?.value as Genre).id)
+
+      if(this.trackForm.get('album')?.value) {
+        formData.append('album', (this.trackForm.get('album')?.value as Album).id)
+      }
+      if(this.trackForm.get('features')?.value) {
+        let features: string[] = []
+        for(let feature of (this.trackForm.get('features')!.value) as Artist[] ) {
+          features.push(feature.id)
+        }
+        formData.append('features', features.toString())
+      }
+
+      this._trackService.addTrack(formData).subscribe({
+        next: (response) => {
+          console.log(response)
+        },
+        error: (errResponse) => {
+          console.log(errResponse)
+        }
+      })
+
+      console.log(formData)
     }
   }
 }

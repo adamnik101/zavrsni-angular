@@ -22,4 +22,8 @@ export class AdminTracksService extends BaseService{
     const part = url.split('api/')[1]
     return this.get<PagedResponse<Track[]>>(part)
   }
+
+  addTrack(formData: FormData) {
+    return this.post('tracks/add', formData)
+  }
 }
