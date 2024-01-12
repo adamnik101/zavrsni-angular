@@ -709,8 +709,15 @@ input[type=email], input[type=password], textarea{
     }
   }
 }
+.title-tile{
+  .mat-grid-tile-content{
+    justify-content: unset !important;
+    display: inline-grid !important;
+  }
+}
 .tile{
   .mat-grid-tile-content{
     display: block !important;
   }
 }
+

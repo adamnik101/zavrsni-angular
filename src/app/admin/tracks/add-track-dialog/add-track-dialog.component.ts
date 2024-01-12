@@ -118,7 +118,7 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
       this._trackService.addTrack(formData).subscribe({
         next: (response) => {
           console.log(response)
-          this._dialogRef.close()
+          //this._dialogRef.close()
           this._snackbar.showSuccessMessage(response as string)
         },
         error: (errResponse) => {
