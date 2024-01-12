@@ -5,8 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class FormatDurationPipe implements PipeTransform {
 
-  transform(ms: number, ...args: unknown[]): string {
-    const seconds: number = Math.floor(ms / 1000);
+  transform(originalSeconds: number, ...args: unknown[]): string {
+    const seconds: number = originalSeconds
     const minutes: number = Math.floor(seconds / 60);
     const hours: number = Math.floor(minutes / 60);
     const days: number = Math.floor(hours / 24);
