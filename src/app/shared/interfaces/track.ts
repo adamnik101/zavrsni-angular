@@ -6,7 +6,6 @@ export interface Track {
   title: string
   cover: string
   duration: number
-  plays: number
   path: string
   explicit: boolean
   track_plays_count: number
