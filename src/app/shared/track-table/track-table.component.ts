@@ -81,7 +81,7 @@ export class TrackTableComponent {
   addTrackToPlaylist(trackId: string, playlistId: string) {
     this.subs.push(this._playlistService.addTracksToPlaylist([trackId], playlistId).subscribe({
       next: (response: AddTracksToPlaylistResponse) => {
-        this._snackbarService.showSuccessMessage(response.message)
+        this._snackbarService.showDefaultMessage(response.message)
         const playlist = this.playlists.find(playlist => playlist.id === playlistId)
         if(playlist) {
           this._playlistService.trackCount.update(value => value + 1)
@@ -99,7 +99,7 @@ export class TrackTableComponent {
   likeTrack(track: Track) {
     this.subs.push(this._userService.likeTrack(track.id).subscribe({
       next: (response: any) => {
-        this._snackbarService.showSuccessMessage(response.message)
+        this._snackbarService.showDefaultMessage(response.message)
         this.likedMap.set(track.id, track)
         //this._userService.getUserLikedTracks(1, 10)
         this._cdr.markForCheck()
@@ -114,7 +114,7 @@ export class TrackTableComponent {
     this.subs.push(this._userService.removeFromLiked(track).subscribe({
       next: (response) => {
         console.log(response)
-        this._snackbarService.showSuccessMessage('Successfully removed track from liked.')
+        this._snackbarService.showDefaultMessage('Removed from liked.')
         this.likedMap.delete(track)
         let tracks = []
         for (let track of this.likedMap.values()){

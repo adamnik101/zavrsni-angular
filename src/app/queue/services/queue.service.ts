@@ -83,9 +83,20 @@ export class QueueService implements Queue {
     if(this.shuffleQueue) {
       console.log('shuffle from queue')
       const queueLength = this.queue.length
-      this.shuffleQueueIndex = Math.floor(Math.random() * queueLength)
+      let generateIndex = (upTo: number) => {
+        let random;
+
+        do {
+          random = Math.floor(Math.random() * upTo);
+        } while (random === this.shuffleQueueIndex);
+
+        return random
+      }
+
+      this.shuffleQueueIndex = generateIndex(queueLength)
       console.log(this.shuffleQueueIndex)
     }
+
   }
 
   goForward(): void {
