@@ -1,5 +1,5 @@
 import {ElementRef, inject, Injectable, Renderer2, RendererFactory2, signal} from '@angular/core';
-import {MatCheckboxChange} from "@angular/material/checkbox";
+import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class SelectionService {
     this.selectedItems.update(items => {
       for(let i = 0; i < items.length; i++) {
         if(items[i] === item) {
-          this._renderer2.setProperty(element, 'checked', false)
+          this.uncheck(element)
           items.splice(i, 1)
         }
       }
@@ -63,7 +63,11 @@ export class SelectionService {
     })
   }
 
-  removeAll() {
+  removeAll(checkbox: ElementRef) {
     this.selectedItems.set([])
+    this.uncheck(checkbox)
+  }
+  uncheck(checkbox: ElementRef) {
+    this._renderer2.setProperty(checkbox, 'checked', false)
   }
 }

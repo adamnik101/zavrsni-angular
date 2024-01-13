@@ -583,10 +583,27 @@ input[type=email], input[type=password], textarea{
     gap: 20px;
     button{
       background: var(--lighter);
-
+      &:disabled{
+        background: var(--lightest);
+        .mat-icon{
+          color: var(--gray);
+        }
+      }
+    }
+    .add{
+      background: #86a1b4;
+    }
+    .default{
+      background: #86a1b4;
+    }
+    .delete{
+      background: #ef3a3a;
     }
     .mdc-button__label{
       color: var(--secondary-black);
+    }
+    .mat-icon{
+      color: var(--light);
     }
   }
 }

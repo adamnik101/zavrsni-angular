@@ -5,7 +5,7 @@ import {AdminTracksService} from "../services/admin-tracks.service";
 import {Dialog, DialogRef} from "@angular/cdk/dialog";
 import {AddTrackDialogComponent} from "../add-track-dialog/add-track-dialog.component";
 import {FormControl, FormGroup} from "@angular/forms";
-import {MatCheckboxChange} from "@angular/material/checkbox";
+import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {SelectionService} from "../../services/selection.service";
 
 @Component({
@@ -30,7 +30,7 @@ export class TracksTableComponent {
     return this._adminTrackService.navigateTo(url).subscribe({
       next: (pagedResponse) => {
         this._adminTrackService.setPagedResponse(pagedResponse)
-        this.renderer2.setProperty(this.selectAllCheckbox, 'checked', false)
+        this.checkIfAllAreSelected(pagedResponse.data)
       }
     })
   }
@@ -85,6 +85,20 @@ export class TracksTableComponent {
   }
 
   unselectAll() {
-    this._selectionService.removeAll()
+    this._selectionService.removeAll(this.selectAllCheckbox)
+  }
+
+  private checkIfAllAreSelected(data: any[]) {
+    let countOfCurrentPageSelection = 0
+    for(let item of data) {
+      if(this._selectionService.selectedItems().includes(item.id)) {
+        countOfCurrentPageSelection++
+      }
+    }
+    if(countOfCurrentPageSelection === 10) {
+      this.renderer2.setProperty(this.selectAllCheckbox, 'checked', true)
+    } else{
+      this.renderer2.setProperty(this.selectAllCheckbox, 'checked', false)
+    }
   }
 }
