@@ -4,9 +4,10 @@ import {Track} from "../../../shared/interfaces/track";
 import {AdminTracksService} from "../services/admin-tracks.service";
 import {Dialog, DialogRef} from "@angular/cdk/dialog";
 import {AddTrackDialogComponent} from "../add-track-dialog/add-track-dialog.component";
-import {FormControl, FormGroup} from "@angular/forms";
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {SelectionService} from "../../services/selection.service";
+import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
+import {DeleteDialogGenericComponent} from "../../delete-dialog-generic/delete-dialog-generic.component";
 
 @Component({
   selector: 'app-tracks-table',
@@ -24,6 +25,7 @@ export class TracksTableComponent {
               protected _selectionService: SelectionService) {
   }
   deleteSelectedTracks(){
+    this._dialog.open(DeleteDialogGenericComponent)
     console.log(this._selectionService.selectedItems())
   }
   navigateTo(url: string) {

@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Confirm action</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to delete {{selectionService.selectedItems().length}} selected items?</p>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="cancel()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="confirm()">Confirm</button>
+</div>
