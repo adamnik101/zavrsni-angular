@@ -578,8 +578,15 @@ input[type=email], input[type=password], textarea{
 .admin{
   background: var(--light);
   .admin-actions{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
     button{
-      background: var(--main-color);
+      background: var(--lighter);
+
+    }
+    .mdc-button__label{
+      color: var(--secondary-black);
     }
   }
 }

@@ -27,6 +27,7 @@ import { UsersComponent } from './users/users.component';
 import { UsersTableComponent } from './users/users-table/users-table.component';
 import {HumanizeBooleanPipe} from "./pipes/humanize-boolean.pipe";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
         FormsModule,
         SharedModule,
         HumanizeBooleanPipe,
-        MatCheckboxModule
+        MatCheckboxModule,
+        MatBadgeModule
     ]
 })
 export class AdminModule { }

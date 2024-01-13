@@ -15,6 +15,7 @@ import { DividerComponent } from './components/divider/divider.component';
 import { FormatDurationPipe } from './pipes/format-duration.pipe';
 import {MatListModule} from "@angular/material/list";
 import {IsCurrentTrackPipe} from "./track-table/pipes/is-current-track.pipe";
+import {DurationPipe} from "./pipes/duration.pipe";
 
 
 
@@ -39,20 +40,21 @@ import {IsCurrentTrackPipe} from "./track-table/pipes/is-current-track.pipe";
     DividerComponent
 
   ],
-  imports: [
-    CommonModule,
-    MatSnackBarModule,
-    RouterLink,
-    MatRippleModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    CdkDrag,
-    MatIconModule,
-    CdkDropList,
-    CdkDragPreview,
-    CdkDragPlaceholder,
-    MatListModule,
-    IsCurrentTrackPipe
-  ]
+    imports: [
+        CommonModule,
+        MatSnackBarModule,
+        RouterLink,
+        MatRippleModule,
+        MatMenuModule,
+        MatProgressSpinnerModule,
+        CdkDrag,
+        MatIconModule,
+        CdkDropList,
+        CdkDragPreview,
+        CdkDragPlaceholder,
+        MatListModule,
+        IsCurrentTrackPipe,
+        DurationPipe
+    ]
 })
 export class SharedModule { }

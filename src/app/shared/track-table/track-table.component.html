@@ -119,7 +119,7 @@
     >
   {{track.pivot?.created_at | humanizeDate}}</td>
 }
-<td class="time">{{track.duration | formatDuration}}</td>
+<td class="time">{{track.duration | duration:true}}</td>
 <td class="like">
   @if (!likedMap.has(track.id)) {
     <button (click)="likeTrack(track)" class="like-icon">

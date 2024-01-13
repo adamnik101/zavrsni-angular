@@ -1,12 +1,16 @@
 
 <div class="container-padding admin">
   <div class="admin-actions">
-    <button mat-button (click)="openAddTrackDialog()">Add track</button>
+    <button mat-raised-button (click)="openAddTrackDialog()">Add track</button>
+    <button mat-raised-button (click)="unselectAll()" [disabled]="_selectionService.selectedItems().length === 0">Unselect all</button>
+    <button mat-raised-button (click)="deleteSelectedTracks()" [disabled]="_selectionService.selectedItems().length === 0" matBadge="{{_selectionService.selectedItems().length}}" matBadgeSize="medium">Delete selected tracks</button>
   </div>
   <table class="admin-table">
     <thead>
       <tr>
-        <th></th>
+        <th>
+          <mat-checkbox (change)="onSelectAll($event)" #selectAll></mat-checkbox>
+        </th>
         <th>#</th>
         <th>Title</th>
         <th>Owner</th>
@@ -23,7 +27,9 @@
     <tbody>
       @for (track of pagedResponse.data; track track; let index = $index) {
         <tr>
-          <td><mat-checkbox></mat-checkbox></td>
+          <td>
+            <mat-checkbox (change)="onSelectChange($event, track)" [checked]="_selectionService.selectedItems().includes(track.id)"></mat-checkbox>
+          </td>
           <td>{{pagedResponse.from + index}}</td>
           <td>{{track.title}}</td>
           <td>
@@ -42,7 +48,6 @@
         <td>{{track.formatted_updated_at }}</td>
         <td class="actions">
           <button (click)="openEditDialog(track)">Edit</button>
-          <button (click)="openDeleteDialog(track.id,track.title, 'tracks', pagedResponse.current_page)" class="delete">Delete</button>
         </td>
       </tr>
     }
