@@ -8,6 +8,9 @@ import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {SelectionService} from "../../services/selection.service";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {DeleteDialogGenericComponent} from "../../delete-dialog-generic/delete-dialog-generic.component";
+import {MatDialog} from "@angular/material/dialog";
+import {AdminOperationsService} from "../../services/admin-operations.service";
+import {SnackbarService} from "../../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-tracks-table',
@@ -20,12 +23,32 @@ export class TracksTableComponent {
   selected = signal<string[]>([])
 
   constructor(private _adminTrackService: AdminTracksService,
-              private _dialog: Dialog,
+              private _adminOperations: AdminOperationsService,
+              private _dialog: MatDialog,
               private renderer2: Renderer2,
-              protected _selectionService: SelectionService) {
+              protected _selectionService: SelectionService,
+              private _snackbar: SnackbarService) {
   }
   deleteSelectedTracks(){
-    this._dialog.open(DeleteDialogGenericComponent)
+    let dialogRef = this._dialog.open(DeleteDialogGenericComponent)
+    dialogRef.afterClosed().subscribe({
+      next: (response) => {
+        if(response === true) {
+          this._adminOperations.deleteItems(this._selectionService.selectedItems(), 'tracks').subscribe({
+            next: (response) => {
+              this._snackbar.showSuccessMessage('Deleted')
+            }
+          })
+          console.log('To Delete: ',this._selectionService.selectedItems())
+        }
+        else if(response === false) {
+          console.log('To Delete: Nothing..')
+        }
+        else {
+          console.log('undefined response')
+        }
+      }
+    })
     console.log(this._selectionService.selectedItems())
   }
   navigateTo(url: string) {
