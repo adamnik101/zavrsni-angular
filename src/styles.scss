@@ -593,6 +593,7 @@ input[type=email], input[type=password], textarea{
 }
 .admin{
   background: var(--light);
+  min-height: 100vh;
   h1{
     color: var(--secondary-black);
     margin-bottom: 20px;

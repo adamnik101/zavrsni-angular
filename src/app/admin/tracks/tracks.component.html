@@ -1,1 +1,6 @@
-<app-tracks-table [pagedResponse]="(adminTrackService.tracks$ | async)!"></app-tracks-table>
+<!--<app-tracks-table [pagedResponse]="(adminTrackService.tracks$ | async)!"></app-tracks-table>-->
+<app-table-admin
+  [title]="'Tracks'"
+  [data]="adminTrackService.tracks$ | async"
+  [columns]="['Title', 'Owner', 'Featuring', 'Album', 'Explicit', 'Plays', 'Created at', 'Updated at']"
+></app-table-admin>

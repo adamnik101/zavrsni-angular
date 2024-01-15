@@ -1,1 +1,81 @@
-<p>table-admin works!</p>
+<div class="container-padding admin">
+  <h1>Manage {{title}}</h1>
+  <div class="admin-actions">
+    <button mat-icon-button class="add" (click)="openAddDialog()"><mat-icon>create</mat-icon></button>
+    <button mat-icon-button class="default" (click)="unselectAll()" [disabled]="_selectionService.selectedItems().length === 0"><mat-icon>indeterminate_check_box</mat-icon></button>
+    <button mat-icon-button class="delete" (click)="deleteSelected()" [disabled]="_selectionService.selectedItems().length === 0" matBadge="{{_selectionService.selectedItems().length}}" matBadgeSize="medium"><mat-icon>delete_sweep</mat-icon></button>
+  </div>
+
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>
+          <mat-checkbox (change)="onSelectAll($event)" #selectAll></mat-checkbox>
+        </th>
+        <th>#</th>
+        @for (column of columns; track column) {
+          <th>{{column}}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of data?.data; track item.id; let index = $index) {
+        <tr>
+          <td>
+            <mat-checkbox (change)="onSelectChange($event, item)" [checked]="_selectionService.selectedItems().includes(item.id)"></mat-checkbox>
+          </td>
+          <td>{{data!.from + index}}</td>
+          @for (column of columns; track column) {
+            @switch (column) {
+              @case ('Title') {
+                <td>{{item.title}}</td>
+              }
+              @case ('Name') {
+                <td>{{item.name}}</td>
+              }
+              @case ('Owner') {
+                <td>{{item.owner.name}}</td>
+              }
+              @case ('Featuring') {
+                <td>
+                  @for (feature of item.features; track feature.id; let fIndex = $index) {
+                    {{feature.name}}@if(fIndex != item.features.length - 1) {,}
+                  }
+              }
+              @case ('Album') {
+                <td>{{item.album ? item.album.name : '/'}}</td>
+              }
+              @case ('Explicit') {
+                <td>{{item.explicit | humanizeBoolean}}</td>
+              }
+              @case ('Created at') {
+                <td>{{item.created_at | date}}</td>
+              }
+              @case ('Updated at') {
+                <td>{{item.updated_at | date}}</td>
+              }
+              @default {
+                <td>/</td>
+              }
+            }
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <div class="info">
+      <p>Showing {{data?.from}} - {{data?.to}} of {{data?.total}}</p>
+    </div>
+    <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
+    @for (page of data?.links; track page) {
+      @if (page.url) {
+        <button class="button" (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
+          <span [innerHTML]="page.label"></span>
+        </button>
+      }
+    }
+    <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
+  </div>
+</div>

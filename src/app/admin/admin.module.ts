@@ -29,6 +29,7 @@ import {HumanizeBooleanPipe} from "./pipes/humanize-boolean.pipe";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatBadgeModule} from "@angular/material/badge";
 import {MatIconModule} from "@angular/material/icon";
+import {TableAdminComponent} from "./table-admin/table-admin.component";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import {MatIconModule} from "@angular/material/icon";
         HumanizeBooleanPipe,
         MatCheckboxModule,
         MatBadgeModule,
-        MatIconModule
+        MatIconModule,
+        TableAdminComponent
     ]
 })
 export class AdminModule { }
