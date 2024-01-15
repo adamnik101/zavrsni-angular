@@ -6,7 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
 import {MatCheckboxChange} from "@angular/material/checkbox";
 import {SelectionService} from "../../services/selection.service";
-import {DeleteDialogGenericComponent} from "../../delete-dialog-generic/delete-dialog-generic.component";
+import {DeleteMultipleEntitiesDialog} from "../../delete-multiple-entities-dialog/delete-multiple-entities-dialog.component";
 
 @Component({
   selector: 'app-genre-table',
@@ -57,7 +57,7 @@ export class GenreTableComponent {
   }
 
   deleteSelected() {
-    this._matDialog.open(DeleteDialogGenericComponent)
+    this._matDialog.open(DeleteMultipleEntitiesDialog)
     console.log(this._selectionService.selectedItems())
   }
 }

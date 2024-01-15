@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteDialogGenericComponent } from './delete-dialog-generic.component';
+import { DeleteMultipleEntitiesDialog } from './delete-multiple-entities-dialog.component';
 
 describe('DeleteDialogGenericComponent', () => {
-  let component: DeleteDialogGenericComponent;
-  let fixture: ComponentFixture<DeleteDialogGenericComponent>;
+  let component: DeleteMultipleEntitiesDialog;
+  let fixture: ComponentFixture<DeleteMultipleEntitiesDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeleteDialogGenericComponent]
+      imports: [DeleteMultipleEntitiesDialog]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(DeleteDialogGenericComponent);
+
+    fixture = TestBed.createComponent(DeleteMultipleEntitiesDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

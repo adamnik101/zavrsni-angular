@@ -1,1 +1,6 @@
-<app-users-table [pagedResponse]="(adminUserService.users$ | async)!"></app-users-table>
+<!--<app-users-table [pagedResponse]="(adminUserService.users$ | async)!"></app-users-table>-->
+<app-table-admin
+  [title]="'Users'"
+  [data]="adminUserService.users$ | async"
+  [columns]="['First Name', 'Last Name', 'Email', 'Active', 'Created at', 'Updated at']"
+></app-table-admin>

@@ -7,7 +7,7 @@ import {AddTrackDialogComponent} from "../add-track-dialog/add-track-dialog.comp
 import {MatCheckbox, MatCheckboxChange} from "@angular/material/checkbox";
 import {SelectionService} from "../../services/selection.service";
 import {DeleteDialogComponent} from "../../delete-dialog/delete-dialog.component";
-import {DeleteDialogGenericComponent} from "../../delete-dialog-generic/delete-dialog-generic.component";
+import {DeleteMultipleEntitiesDialog} from "../../delete-multiple-entities-dialog/delete-multiple-entities-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AdminOperationsService} from "../../services/admin-operations.service";
 import {SnackbarService} from "../../../shared/services/snackbar.service";
@@ -30,7 +30,7 @@ export class TracksTableComponent {
               private _snackbar: SnackbarService) {
   }
   deleteSelectedTracks(){
-    let dialogRef = this._dialog.open(DeleteDialogGenericComponent)
+    let dialogRef = this._dialog.open(DeleteMultipleEntitiesDialog)
     dialogRef.afterClosed().subscribe({
       next: (response) => {
         if(response === true) {

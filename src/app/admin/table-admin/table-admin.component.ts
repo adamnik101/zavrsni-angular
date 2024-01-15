@@ -7,8 +7,12 @@ import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {MatCheckboxChange, MatCheckboxModule} from "@angular/material/checkbox";
 import {NameColumnPipe} from "../pipes/name-column.pipe";
 import {HumanizeBooleanPipe} from "../pipes/humanize-boolean.pipe";
-import {DatePipe, NgClass} from "@angular/common";
+import {DatePipe, DecimalPipe, NgClass} from "@angular/common";
 import {AdminTracksService} from "../tracks/services/admin-tracks.service";
+import {MatDialog} from "@angular/material/dialog";
+import {DeleteMultipleEntitiesDialog} from "../delete-multiple-entities-dialog/delete-multiple-entities-dialog.component";
+import {AddTrackDialogComponent} from "../tracks/add-track-dialog/add-track-dialog.component";
+import {AdminUserService} from "../users/services/admin-user.service";
 
 @Component({
   selector: 'app-table-admin',
@@ -21,7 +25,8 @@ import {AdminTracksService} from "../tracks/services/admin-tracks.service";
     NameColumnPipe,
     HumanizeBooleanPipe,
     DatePipe,
-    NgClass
+    NgClass,
+    DecimalPipe
   ],
   templateUrl: './table-admin.component.html',
   styleUrl: './table-admin.component.scss'
@@ -34,9 +39,17 @@ export class TableAdminComponent<T extends  {}> {
   @ViewChild('selectAll') selectAllCheckbox!: ElementRef
   constructor(protected _selectionService: SelectionService,
               private _adminTrackService: AdminTracksService,
-              private _renderer2: Renderer2) { }
+              private _adminUserService: AdminUserService,
+              private _renderer2: Renderer2,
+              private _dialog: MatDialog) { }
   openAddDialog() {
-
+    switch (this.title.toLowerCase()) {
+      case 'tracks' : {
+        this._dialog.open(AddTrackDialogComponent)
+      } break
+      case 'genres' : {
+      }
+    }
   }
 
   unselectAll() {
@@ -44,7 +57,9 @@ export class TableAdminComponent<T extends  {}> {
   }
 
   deleteSelected() {
-
+    this._dialog.open(DeleteMultipleEntitiesDialog, {
+      data: this.title.toLowerCase()
+    })
   }
 
   onSelectAll(event: MatCheckboxChange) {
@@ -61,6 +76,14 @@ export class TableAdminComponent<T extends  {}> {
           }
         })
       } break
+      case 'users': {
+        return this._adminUserService.navigateTo(url).subscribe({
+          next: (pagedResponse) => {
+            this._adminUserService.setPagedResponse(pagedResponse)
+            this.checkIfAllAreSelected(pagedResponse.data)
+          }
+        })
+      }
       default : {
         return
       }

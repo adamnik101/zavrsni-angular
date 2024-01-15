@@ -36,14 +36,31 @@
               @case ('Owner') {
                 <td>{{item.owner.name}}</td>
               }
+              @case ('First Name') {
+                <td>{{item.first_name}}</td>
+              }
+              @case ('Last Name') {
+                <td>{{item.last_name}}</td>
+              }
+              @case ('Email') {
+                <td>{{item.email}}</td>
+              }
+              @case ('Active') {
+                <td>{{item.active}}</td>
+              }
               @case ('Featuring') {
                 <td>
                   @for (feature of item.features; track feature.id; let fIndex = $index) {
                     {{feature.name}}@if(fIndex != item.features.length - 1) {,}
+                  } @empty {
+                    /
                   }
               }
               @case ('Album') {
                 <td>{{item.album ? item.album.name : '/'}}</td>
+              }
+              @case ('Plays') {
+                <td>{{item.track_plays_count | number}}</td>
               }
               @case ('Explicit') {
                 <td>{{item.explicit | humanizeBoolean}}</td>
@@ -55,7 +72,7 @@
                 <td>{{item.updated_at | date}}</td>
               }
               @default {
-                <td>/</td>
+                <td></td>
               }
             }
           }
