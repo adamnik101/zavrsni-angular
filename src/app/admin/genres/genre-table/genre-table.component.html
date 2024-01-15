@@ -1,39 +1,52 @@
-<table class="admin-table admin">
-  <thead>
+<div class="container-padding admin">
+  <h1>Manage genres</h1>
+  <div class="admin-actions">
+    <button mat-icon-button class="add" (click)="openAddDialog()"><mat-icon>create</mat-icon></button>
+    <button mat-icon-button class="default" (click)="unselectAll()" [disabled]="_selectionService.selectedItems().length === 0"><mat-icon>indeterminate_check_box</mat-icon></button>
+    <button mat-icon-button class="delete" (click)="deleteSelected()" [disabled]="_selectionService.selectedItems().length === 0" matBadge="{{_selectionService.selectedItems().length}}" matBadgeSize="medium"><mat-icon>delete_sweep</mat-icon></button>
+  </div>
+  <table class="admin-table">
+    <thead>
     <tr>
+      <th><mat-checkbox (change)="onSelectAll($event)" #selectAll></mat-checkbox></th>
       <th>#</th>
       <th>Name</th>
       <th>Created at</th>
       <th>Updated at</th>
       <th></th>
     </tr>
-  </thead>
-  <tbody>
-    @for (genre of pagedResponse.data; track genre; let index = $index) {
-      <tr>
-        <td>{{pagedResponse.from + index}}</td>
-        <td class="cover-text">
-          <img src="{{genre.cover}}">
-        {{genre.name}}</td>
-        <td>{{genre.formatted_created_at}}</td>
-        <td>{{genre.formatted_updated_at}}</td>
-        <td class="actions">
-          <button (click)="openEditDialog(genre)">Edit</button>
-          <button (click)="openDeleteDialog(genre.id,genre.name, 'genres', pagedResponse.current_page)" class="delete">Delete</button>
-        </td>
-      </tr>
-    }
-  </tbody>
-</table>
-<div class="pagination">
+    </thead>
+    <tbody>
+      @for (genre of pagedResponse.data; track genre; let index = $index) {
+        <tr>
+          <td>
+            <mat-checkbox (change)="onSelectChange($event, genre)" [checked]="_selectionService.selectedItems().includes(genre.id)"></mat-checkbox>
+          </td>
+          <td>{{pagedResponse.from + index}}</td>
+          <td class="cover-text">
+            <img src="{{genre.cover}}">
+            {{genre.name}}</td>
+          <td>{{genre.formatted_created_at}}</td>
+          <td>{{genre.formatted_updated_at}}</td>
+          <td class="actions">
+            <button (click)="openEditDialog(genre)">Edit</button>
+            <button (click)="openDeleteDialog(genre.id,genre.name, 'genres', pagedResponse.current_page)" class="delete">Delete</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+  <div class="pagination">
 
-  <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
-  @for (page of pagedResponse.links; track page) {
-    @if (page.url) {
-      <button class="button" (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
-        <span [innerHTML]="page.label"></span>
-      </button>
+    <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
+    @for (page of pagedResponse.links; track page) {
+      @if (page.url) {
+        <button class="button" (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
+          <span [innerHTML]="page.label"></span>
+        </button>
+      }
     }
-  }
-  <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
+    <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
+  </div>
+
 </div>

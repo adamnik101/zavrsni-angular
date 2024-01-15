@@ -645,12 +645,18 @@ input[type=email], input[type=password], textarea{
 .dialog{
   min-width: 400px;
   background: var(--light);
-  padding: 20px;
   border-radius: 5px;
-  h1, p, span{
-    color: var(--light-black) !important;
+  .mdc-dialog__title{
+    font-weight: bold !important;
   }
-
+  h1, p, span{
+    color: var(--light-black);
+  }
+  .button{
+    span{
+      color: var(--primary-text)
+    }
+  }
 }
 .mdc-list-item__primary-text{
   color: var(--light-black);
