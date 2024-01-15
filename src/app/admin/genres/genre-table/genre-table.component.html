@@ -30,7 +30,6 @@
           <td>{{genre.formatted_updated_at}}</td>
           <td class="actions">
             <button (click)="openEditDialog(genre)">Edit</button>
-            <button (click)="openDeleteDialog(genre.id,genre.name, 'genres', pagedResponse.current_page)" class="delete">Delete</button>
           </td>
         </tr>
       }
