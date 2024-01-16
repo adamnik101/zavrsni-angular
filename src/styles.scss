@@ -423,7 +423,6 @@ input[type=email], input[type=password], textarea{
   border-spacing: 0;
   font-size: 14px;
   border-collapse: collapse;
-  margin-top: 20px;
   thead{
 
     background: var(--lighter);
@@ -597,6 +596,16 @@ input[type=email], input[type=password], textarea{
   h1{
     color: var(--secondary-black);
     margin-bottom: 20px;
+  }
+  .actions{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .search{
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
   }
   .admin-actions{
     display: flex;

@@ -15,7 +15,7 @@ import {AddTrackDialogComponent} from "../tracks/add-track-dialog/add-track-dial
 import {AdminUserService} from "../users/services/admin-user.service";
 import {AdminArtistService} from "../services/admin-artist.service";
 import {AdminAlbumService} from "../albums/services/admin-album.service";
-import {BaseService} from "../../core/services/base.service";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-table-admin',
@@ -29,7 +29,8 @@ import {BaseService} from "../../core/services/base.service";
     HumanizeBooleanPipe,
     DatePipe,
     NgClass,
-    DecimalPipe
+    DecimalPipe,
+    MatInputModule
   ],
   templateUrl: './table-admin.component.html',
   styleUrl: './table-admin.component.scss'
@@ -117,5 +118,9 @@ export class TableAdminComponent<T extends  {}> {
 
   onSelectChange(event: MatCheckboxChange, item: any) {
     this._selectionService.onSingleSelectChange(event, item.id, this.selectAllCheckbox)
+  }
+
+  search() {
+
   }
 }
