@@ -33,6 +33,22 @@
               @case ('Name') {
                 <td>{{item.name}}</td>
               }
+              @case ('Artist') {
+                <td class="cover-text">
+                  <img src="{{item.cover}}"/>
+                  {{item.name}}
+                </td>
+              }
+              @case ('No. of Tracks') {
+                @if (item.hasOwnProperty('own_tracks_count')) {
+                  <td>{{item.own_tracks_count}}</td>
+                } @else {
+                  <td>{{item.tracks_count}}</td>
+                }
+              }
+              @case ('Release Year') {
+                <td>{{item.release_year}}</td>
+              }
               @case ('Owner') {
                 <td>{{item.owner.name}}</td>
               }

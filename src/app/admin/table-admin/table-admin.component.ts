@@ -13,6 +13,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {DeleteMultipleEntitiesDialog} from "../delete-multiple-entities-dialog/delete-multiple-entities-dialog.component";
 import {AddTrackDialogComponent} from "../tracks/add-track-dialog/add-track-dialog.component";
 import {AdminUserService} from "../users/services/admin-user.service";
+import {AdminArtistService} from "../services/admin-artist.service";
+import {AdminAlbumService} from "../albums/services/admin-album.service";
+import {BaseService} from "../../core/services/base.service";
 
 @Component({
   selector: 'app-table-admin',
@@ -40,6 +43,8 @@ export class TableAdminComponent<T extends  {}> {
   constructor(protected _selectionService: SelectionService,
               private _adminTrackService: AdminTracksService,
               private _adminUserService: AdminUserService,
+              private _adminArtistService: AdminArtistService,
+              private _adminAlbumService: AdminAlbumService,
               private _renderer2: Renderer2,
               private _dialog: MatDialog) { }
   openAddDialog() {
@@ -67,26 +72,32 @@ export class TableAdminComponent<T extends  {}> {
   }
 
   navigateTo(url: string) {
+    let service : any = null
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
-        return this._adminTrackService.navigateTo(url).subscribe({
-          next: (pagedResponse) => {
-            this._adminTrackService.setPagedResponse(pagedResponse)
-            this.checkIfAllAreSelected(pagedResponse.data)
-          }
-        })
-      } break
+        service = this._adminTrackService
+      } break;
       case 'users': {
-        return this._adminUserService.navigateTo(url).subscribe({
-          next: (pagedResponse) => {
-            this._adminUserService.setPagedResponse(pagedResponse)
-            this.checkIfAllAreSelected(pagedResponse.data)
-          }
-        })
-      }
+        service = this._adminUserService
+      } break;
+      case 'artists' : {
+        service = this._adminArtistService
+      } break;
+      case 'albums' : {
+        service = this._adminAlbumService
+      } break;
       default : {
-        return
+        service = null
       }
+    }
+
+    if(service) {
+      service.navigateTo(url).subscribe({
+        next: (pagedResponse: PagedResponse<any>) => {
+          service.setPagedResponse(pagedResponse)
+          this.checkIfAllAreSelected(pagedResponse.data)
+        }
+      })
     }
   }
 

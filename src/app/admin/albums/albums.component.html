@@ -1,1 +1,6 @@
-<app-album-table [pagedResponse]="(this.adminAlbumService.albums$ | async)!"></app-album-table>
+<!--<app-album-table [pagedResponse]="(this.adminAlbumService.albums$ | async)!"></app-album-table>-->
+<app-table-admin
+  [title]="'Albums'"
+  [data]="adminAlbumService.albums$ | async"
+  [columns]="['Name', 'No. of Tracks', 'Release Year', 'Created at', 'Updated at']"
+></app-table-admin>

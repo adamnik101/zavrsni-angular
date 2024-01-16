@@ -1,1 +1,6 @@
-<app-artists-table [pagedResponse]="(adminArtistsService.pagedResponse$  | async)!"></app-artists-table>
+<!--<app-artists-table [pagedResponse]="(adminArtistsService.pagedResponse$  | async)!"></app-artists-table>-->
+<app-table-admin
+  [title]="'Artists'"
+  [data]="adminArtistsService.pagedResponse$ | async"
+  [columns]="['Artist', 'No. of Tracks', 'Created at', 'Updated at']"
+></app-table-admin>
