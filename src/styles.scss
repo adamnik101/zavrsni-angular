@@ -456,7 +456,10 @@ input[type=email], input[type=password], textarea{
     tr{
       &:hover{
         background: var(--lightest);
-
+        .more{
+          opacity: 1;
+          transform: translateX(-10px);
+        }
       }
       height: 50px;
       border-bottom: 1px solid var(--lighter);
@@ -495,6 +498,11 @@ input[type=email], input[type=password], textarea{
 
         &:nth-child(1) {
           text-align: center;
+        }
+        .more{
+          opacity:0;
+          transform: translateX(20px);
+          transition: .1s ease-in-out;
         }
       }
       //border-bottom: 2px solid var(--lightest) !important;
@@ -601,6 +609,7 @@ input[type=email], input[type=password], textarea{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     .search{
       display: flex;
       gap: 20px;
@@ -614,26 +623,33 @@ input[type=email], input[type=password], textarea{
     button{
       background: var(--lighter);
       &:disabled{
-        background: var(--lightest);
+        opacity: .6;
+        background: #b9b9b9;
         .mat-icon{
           color: var(--gray);
         }
       }
     }
-    .add{
-      background: #86a1b4;
+    .button{
+
+      span{
+        color: var(--secondary-black);
+      }
     }
-    .default{
-      background: #86a1b4;
-    }
+
     .delete{
+      &:not(:disabled) {
+        span{
+          color: var(--primary-text);
+        }
+      }
       background: #ef3a3a;
     }
     .mdc-button__label{
       color: var(--secondary-black);
     }
     .mat-icon{
-      color: var(--light);
+      color: var(--primary-black);
     }
   }
 }

@@ -16,6 +16,7 @@ import {AdminUserService} from "../users/services/admin-user.service";
 import {AdminArtistService} from "../services/admin-artist.service";
 import {AdminAlbumService} from "../albums/services/admin-album.service";
 import {MatInputModule} from "@angular/material/input";
+import {MatMenuModule} from "@angular/material/menu";
 
 @Component({
   selector: 'app-table-admin',
@@ -30,7 +31,8 @@ import {MatInputModule} from "@angular/material/input";
     DatePipe,
     NgClass,
     DecimalPipe,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule
   ],
   templateUrl: './table-admin.component.html',
   styleUrl: './table-admin.component.scss'
