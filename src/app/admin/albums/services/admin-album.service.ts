@@ -3,6 +3,7 @@ import {BaseService} from "../../../core/services/base.service";
 import {BehaviorSubject} from "rxjs";
 import {PagedResponse} from "../../../shared/interfaces/paged-response";
 import {Album} from "../../../albums/interfaces/album";
+import {BehaviorSubjectService} from "../../../core/services/behavior-subject.service";
 
 @Injectable({
   providedIn: 'root'

@@ -6,6 +6,7 @@ import {TracksComponent} from "./tracks/tracks.component";
 import {AlbumsComponent} from "./albums/albums.component";
 import {GenresComponent} from "./genres/genres.component";
 import {UsersComponent} from "./users/users.component";
+import {RolesComponent} from "./roles/roles.component";
 
 const routes: Routes = [
   {path: '', component: DashboardComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent},
   {path: 'tracks', component: TracksComponent},
   {path: 'albums', component: AlbumsComponent},
-  {path: 'genres', component: GenresComponent}
+  {path: 'genres', component: GenresComponent},
+  {path: 'roles', component: RolesComponent}
 ];
 
 @NgModule({

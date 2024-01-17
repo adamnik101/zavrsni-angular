@@ -62,12 +62,29 @@ export class SelectionService {
       return items
     })
   }
-
+  removeDeleted(data: string[]) {
+    console.log(data, this.selectedItems())
+    this.selectedItems.update(items => {
+      for (let id of data) {
+        for(let item of items) {
+          if(id === item) {
+            let indexOf = items.indexOf(item)
+            items.splice(indexOf, 1)
+          }
+        }
+      }
+      return items
+    })
+  }
   removeAll(checkbox: ElementRef) {
     this.selectedItems.set([])
     this.uncheck(checkbox)
   }
   uncheck(checkbox: ElementRef) {
     this._renderer2.setProperty(checkbox, 'checked', false)
+  }
+
+  removeAllFromSelected() {
+    this.selectedItems.set([])
   }
 }

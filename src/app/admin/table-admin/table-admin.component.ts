@@ -17,6 +17,8 @@ import {AdminArtistService} from "../services/admin-artist.service";
 import {AdminAlbumService} from "../albums/services/admin-album.service";
 import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from "@angular/material/menu";
+import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
+import {AdminService} from "../services/admin.service";
 
 @Component({
   selector: 'app-table-admin',
@@ -44,6 +46,7 @@ export class TableAdminComponent<T extends  {}> {
 
   @ViewChild('selectAll') selectAllCheckbox!: ElementRef
   constructor(protected _selectionService: SelectionService,
+              private _adminService: AdminService,
               private _adminTrackService: AdminTracksService,
               private _adminUserService: AdminUserService,
               private _adminArtistService: AdminArtistService,
@@ -75,6 +78,7 @@ export class TableAdminComponent<T extends  {}> {
   }
 
   navigateTo(url: string) {
+    this._adminService.navigateTo(url)
     let service : any = null
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
@@ -124,5 +128,16 @@ export class TableAdminComponent<T extends  {}> {
 
   search() {
 
+  }
+
+  deleteItem(item: any) {
+    this._dialog.open(DeleteDialogComponent,{
+      data : {
+        id: item.id,
+        name: item.name ? item.name : item.title,
+        path: this.title.toLowerCase(),
+        page: this.data?.current_page
+      }
+    })
   }
 }

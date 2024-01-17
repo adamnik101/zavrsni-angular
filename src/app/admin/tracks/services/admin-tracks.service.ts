@@ -10,11 +10,20 @@ import {BehaviorSubject} from "rxjs";
 export class AdminTracksService extends BaseService{
   private tracksSubject = new BehaviorSubject<PagedResponse<Track[]>>( {} as PagedResponse<Track[]>)
   public tracks$ = this.tracksSubject.asObservable();
+
+  private softDeletedSubject = new BehaviorSubject<PagedResponse<Track[]>>({} as PagedResponse<Track[]>)
+  public softTracks$ = this.softDeletedSubject.asObservable()
   getTracks() {
     return this.get<PagedResponse<Track[]>>('admin/tracks')
   }
-
-  setPagedResponse(pagedResponse: PagedResponse<Track[]>) {
+  getSoftDeletedTracks() {
+    return this.get<PagedResponse<Track[]>>('admin/tracks/soft-deleted')
+  }
+  setPagedResponse(pagedResponse: PagedResponse<Track[]>, soft?: boolean) {
+    if(soft) {
+      this.softDeletedSubject.next(pagedResponse)
+      return
+    }
     this.tracksSubject.next(pagedResponse)
   }
 
