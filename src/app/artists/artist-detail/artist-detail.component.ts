@@ -106,7 +106,7 @@ export class ArtistDetailComponent implements OnInit {
   followArtist(artist: Artist) {
     this.subs.push(this._userService.followArtist(artist).subscribe({
       next: (response) => {
-        this._snackbarService.showSuccessMessage(response as string)
+        this._snackbarService.showDefaultMessage(response as string)
         this.followings.unshift(artist)
         this._userService.updateFollowing(this.followings)
 
@@ -119,7 +119,7 @@ export class ArtistDetailComponent implements OnInit {
   unfollowArtist(artist: Artist) {
     this.subs.push(this._userService.unfollowArtist(artist).subscribe({
       next: (response) => {
-        this._snackbarService.showSuccessMessage('Unfollowed')
+        this._snackbarService.showDefaultMessage('Removed from your followings.')
         const artistToDelete = this.followings.findIndex(ar => ar.id === artist.id)
         if(artistToDelete != -1) {
           this.followings.splice(artistToDelete, 1)

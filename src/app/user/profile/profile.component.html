@@ -29,7 +29,7 @@
                 <app-playlist-card [playlist]="playlist"></app-playlist-card>
               }
             } @empty {
-              You did not create any playlists yet..
+              <p>You did not create any playlists yet..</p>
             }
         </div>
       </div>
@@ -47,7 +47,7 @@
                 <app-artist-round-card [artist]="artist"></app-artist-round-card>
               }
             } @empty {
-              You are not following any artist yet..
+              <p>You are not following any artist yet..</p>
             }
           </div>
       </div>
@@ -64,14 +64,18 @@
               <app-album-card [album]="album"></app-album-card>
             }
           } @empty {
-            You did not like any albums yet.. Tap heart icon to like
+            <p>You did not like any albums yet.. Tap heart icon to like</p>
           }
         </div>
       </div>
       <div class="section favorite">
         <h1>Your favorite tracks last 7 days</h1>
-        <p>Only visible to you</p>
-        <app-track-table [tracks]="favoriteTracks" [from]="from"></app-track-table>
+        @if (favoriteTracks.length > 0) {
+          <p>Only visible to you</p>
+          <app-track-table [tracks]="favoriteTracks" [from]="from"></app-track-table>
+        } @else {
+          <p>Your favorite tracks will appear here</p>
+        }
       </div>
     </div>
   </div>

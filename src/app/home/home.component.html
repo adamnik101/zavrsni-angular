@@ -2,7 +2,11 @@
   <div class="container">
     <h1>Recently played</h1>
     <div class="cards">
-      <app-track-table [tracks]="recentTracks" [from]="from"></app-track-table>
+      @if (recentTracks.length > 0) {
+        <app-track-table [tracks]="recentTracks" [from]="from"></app-track-table>
+      } @else {
+        <p>Your recently played tracks will appear here.</p>
+      }
     </div>
   </div>
 }
