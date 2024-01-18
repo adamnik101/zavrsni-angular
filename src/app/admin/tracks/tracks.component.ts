@@ -12,7 +12,7 @@ export class TracksComponent {
   }
 
   ngOnInit() {
-    this.adminTrackService.getTracks().subscribe({
+    this.adminTrackService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
         this.adminTrackService.setPagedResponse(pagedResponse)
       }

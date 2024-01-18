@@ -10,7 +10,7 @@ export class AlbumsComponent {
   constructor(public adminAlbumService: AdminAlbumService) {
   }
   ngOnInit() {
-    this.adminAlbumService.getAlbums().subscribe({
+    this.adminAlbumService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
         this.adminAlbumService.setPagedResponse(pagedResponse)
       }

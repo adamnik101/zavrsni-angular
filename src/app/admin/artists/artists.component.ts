@@ -18,7 +18,7 @@ export class ArtistsComponent {
   public adminArtistsService = inject(AdminArtistService)
 
   ngOnInit() {
-    this.adminArtistsService.getArtists().subscribe({
+    this.adminArtistsService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
         this.adminArtistsService.setPagedResponse(pagedResponse)
       }

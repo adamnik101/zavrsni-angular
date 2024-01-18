@@ -3,6 +3,7 @@ import {BaseService} from "../../../core/services/base.service";
 import {PagedResponse} from "../../../shared/interfaces/paged-response";
 import {Track} from "../../../shared/interfaces/track";
 import {BehaviorSubject} from "rxjs";
+import {HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,9 @@ export class AdminTracksService extends BaseService{
 
   private softDeletedSubject = new BehaviorSubject<PagedResponse<Track[]>>({} as PagedResponse<Track[]>)
   public softTracks$ = this.softDeletedSubject.asObservable()
-  getTracks(searchValue?: string) {
+  getPagedResponse(options?: HttpParams) {
     let path = 'admin/tracks'
-    if(searchValue) {
-      path += `?search=${searchValue}`
-    }
-    return this.get<PagedResponse<Track[]>>(path)
+    return this.get<PagedResponse<Track[]>>(path, {params: options})
   }
   getSoftDeletedTracks() {
     return this.get<PagedResponse<Track[]>>('admin/tracks/soft-deleted')
@@ -31,11 +29,9 @@ export class AdminTracksService extends BaseService{
     this.tracksSubject.next(pagedResponse)
   }
 
-  navigateTo(url: string, searchValue?: string) {
+  navigateTo(url: string, queryParams: HttpParams) {
     let part = url.split('api/')[1]
-    if(searchValue) part += `?search=${searchValue}`
-
-    return this.get<PagedResponse<Track[]>>(part)
+    return this.get<PagedResponse<Track[]>>(part, {params: queryParams})
   }
 
   addTrack(formData: FormData) {

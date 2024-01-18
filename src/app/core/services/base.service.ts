@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
 import {Observable} from "rxjs";
 
@@ -13,7 +13,7 @@ export class BaseService {
     this.baseUrl = _configService.getBaseApiUrl()
   }
 
-  protected get<T>(endpoint: string, options?: {headers: HttpHeaders}) : Observable<T> {
+  protected get<T>(endpoint: string, options?: {headers?: HttpHeaders, params?: HttpParams}) : Observable<T> {
     return this._http.get<T>(this.baseUrl + endpoint, options);
   }
   protected post<TRequest, TResponse>(endpoint: string, data: TRequest, options? : {headers: HttpHeaders}) {

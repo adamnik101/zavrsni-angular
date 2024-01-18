@@ -22,7 +22,7 @@ export class DeleteDialogComponent {
       next: (response) => {
         console.log(response)
         this._dialogRef.close()
-        this._adminArtistService.getArtists(this.data.page).subscribe({
+        this._adminArtistService.getPagedResponse().subscribe({
           next: (pagedResponse) => {
             this._adminArtistService.setPagedResponse(pagedResponse)
           }

@@ -53,7 +53,7 @@ export class CreateArtistDialogComponent {
       this._adminArtistService.storeArtist(formData).subscribe({
         next: (response) => {
           this._dialogRef.close()
-          this._adminArtistService.getArtists().subscribe({
+          this._adminArtistService.getPagedResponse().subscribe({
             next:(pagedResponse) => {
               this._adminArtistService.setPagedResponse(pagedResponse)
             }

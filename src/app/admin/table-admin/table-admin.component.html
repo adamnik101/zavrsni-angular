@@ -1,5 +1,8 @@
 <div class="container-padding admin">
   <h1>Manage {{title}}</h1>
+  @if(title.toLowerCase() === 'tracks') {
+    <app-tracks-search-form></app-tracks-search-form>
+  }
   <div class="actions">
     <div class="search">
       <mat-form-field>
@@ -14,9 +17,9 @@
       <button mat-raised-button class="button delete" (click)="deleteSelected()" [disabled]="_selectionService.selectedItems().length === 0" matBadge="{{_selectionService.selectedItems().length}}" matBadgeSize="medium"><mat-icon>delete_sweep</mat-icon> Delete selected</button>
     </div>
   </div>
-
-  <table class="admin-table">
-    <thead>
+  @if(data && data.total > 0) {
+    <table class="admin-table">
+      <thead>
       <tr>
         <th>
           <mat-checkbox (change)="onSelectAll($event)" #selectAll></mat-checkbox>
@@ -27,113 +30,119 @@
         }
         <th></th>
       </tr>
-    </thead>
-    <tbody>
-      @for (item of data?.data; track item.id; let index = $index) {
-        <tr>
-          <td>
-            <mat-checkbox (change)="onSelectChange($event, item)" [checked]="_selectionService.selectedItems().includes(item.id)"></mat-checkbox>
-          </td>
-          <td>{{data!.from + index}}</td>
-          @for (column of columns; track column) {
-            @switch (column) {
-              @case ('Title') {
-                <td>{{item.title}}</td>
-              }
-              @case ('Name') {
-                <td>{{item.name}}</td>
-              }
-              @case ('Artist') {
-                <td class="cover-text">
-                  <img src="{{item.cover}}"/>
-                  {{item.name}}
-                </td>
-              }
-              @case ('No. of Tracks') {
-                @if (item.hasOwnProperty('own_tracks_count')) {
-                  <td>{{item.own_tracks_count}}</td>
-                } @else {
-                  <td>{{item.tracks_count}}</td>
+      </thead>
+      <tbody>
+        @for (item of data?.data; track item.id; let index = $index) {
+          <tr>
+            <td>
+              <mat-checkbox (change)="onSelectChange($event, item)" [checked]="_selectionService.selectedItems().includes(item.id)"></mat-checkbox>
+            </td>
+            <td>{{data!.from + index}}</td>
+            @for (column of columns; track column) {
+              @switch (column) {
+                @case ('Title') {
+                  <td>{{item.title}}</td>
+                }
+                @case ('Name') {
+                  <td>{{item.name}}</td>
+                }
+                @case ('Artist') {
+                  <td class="cover-text">
+                    <img src="{{item.cover}}"/>
+                    {{item.name}}
+                  </td>
+                }
+                @case ('No. of Tracks') {
+                  @if (item.hasOwnProperty('own_tracks_count')) {
+                    <td>{{item.own_tracks_count}}</td>
+                  } @else {
+                    <td>{{item.tracks_count}}</td>
+                  }
+                }
+                @case ('Release Year') {
+                  <td>{{item.release_year}}</td>
+                }
+                @case ('Owner') {
+                  <td>{{item.owner.name}}</td>
+                }
+                @case ('First Name') {
+                  <td>{{item.first_name}}</td>
+                }
+                @case ('Last Name') {
+                  <td>{{item.last_name}}</td>
+                }
+                @case ('Email') {
+                  <td>{{item.email}}</td>
+                }
+                @case ('Active') {
+                  <td>{{item.active}}</td>
+                }
+                @case ('Featuring') {
+                  <td>
+                    @for (feature of item.features; track feature.id; let fIndex = $index) {
+                      {{feature.name}}@if(fIndex != item.features.length - 1) {,}
+                    } @empty {
+                      /
+                    }
+                    }
+                @case ('Album') {
+                  <td>{{item.album ? item.album.name : '/'}}</td>
+                }
+                @case ('Plays') {
+                  <td>{{item.track_plays_count | number}}</td>
+                }
+                @case ('Explicit') {
+                  <td>{{item.explicit | humanizeBoolean}}</td>
+                }
+                @case ('Created at') {
+                  <td>{{item.created_at | date}}</td>
+                }
+                @case ('Updated at') {
+                  <td>{{item.updated_at | date}}</td>
+                }
+                @default {
+                  <td></td>
                 }
               }
-              @case ('Release Year') {
-                <td>{{item.release_year}}</td>
-              }
-              @case ('Owner') {
-                <td>{{item.owner.name}}</td>
-              }
-              @case ('First Name') {
-                <td>{{item.first_name}}</td>
-              }
-              @case ('Last Name') {
-                <td>{{item.last_name}}</td>
-              }
-              @case ('Email') {
-                <td>{{item.email}}</td>
-              }
-              @case ('Active') {
-                <td>{{item.active}}</td>
-              }
-              @case ('Featuring') {
-                <td>
-                  @for (feature of item.features; track feature.id; let fIndex = $index) {
-                    {{feature.name}}@if(fIndex != item.features.length - 1) {,}
-                  } @empty {
-                    /
-                  }
-              }
-              @case ('Album') {
-                <td>{{item.album ? item.album.name : '/'}}</td>
-              }
-              @case ('Plays') {
-                <td>{{item.track_plays_count | number}}</td>
-              }
-              @case ('Explicit') {
-                <td>{{item.explicit | humanizeBoolean}}</td>
-              }
-              @case ('Created at') {
-                <td>{{item.created_at | date}}</td>
-              }
-              @case ('Updated at') {
-                <td>{{item.updated_at | date}}</td>
-              }
-              @default {
-                <td></td>
-              }
             }
-          }
-          <td>
-            <button mat-icon-button [matMenuTriggerFor]="moreMenu" class="more">
-              <mat-icon>more_horizontal</mat-icon>
-            </button>
-          </td>
-          <mat-menu #moreMenu=matMenu>
-            <button mat-menu-item>
-              <mat-icon>edit</mat-icon>
-              Edit
-            </button>
-            <button mat-menu-item (click)="deleteItem(item)">
-              <mat-icon>delete</mat-icon>
-              Delete
-            </button>
-          </mat-menu>
-        </tr>
-      }
-    </tbody>
-  </table>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="moreMenu" class="more">
+                <mat-icon>more_horizontal</mat-icon>
+              </button>
+            </td>
+            <mat-menu #moreMenu=matMenu>
+              <button mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                Edit
+              </button>
+              <button mat-menu-item (click)="deleteItem(item)">
+                <mat-icon>delete</mat-icon>
+                Delete
+              </button>
+            </mat-menu>
+          </tr>
+        }
+      </tbody>
+    </table>
 
-  <div class="pagination">
-    <div class="info">
-      <p>Showing {{data?.from}} - {{data?.to}} of {{data?.total}}</p>
-    </div>
-    <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
-    @for (page of data?.links; track page) {
-      @if (page.url) {
-        <button class="button" (click)="navigateTo(page.url, searchValue.value)" mat-button [ngClass]="{'active-pagination' : page.active}">
-          <span [innerHTML]="page.label"></span>
-        </button>
+    <div class="pagination">
+      <div class="info">
+        <p>Showing {{data?.from}} - {{data?.to}} of {{data?.total}}</p>
+      </div>
+      <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
+      @for (page of data?.links; track page) {
+        @if (page.url) {
+          <button class="button" (click)="navigateTo(page.url, searchValue.value)" mat-button [ngClass]="{'active-pagination' : page.active}">
+            <span [innerHTML]="page.label"></span>
+          </button>
+        }
       }
-    }
-    <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
-  </div>
+      <!-- <button matRipple (click)="navigateToNextPage()" *ngIf="pagedResponse.next_page_url">Next page</button>-->
+    </div>
+  } @else {
+    <div class="no-results">
+      <img src="assets/icons-svg/sad.svg"/>
+      <p>No results matching your criteria.</p>
+    </div>
+  }
 </div>

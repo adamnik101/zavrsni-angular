@@ -19,6 +19,10 @@ import {MatInputModule} from "@angular/material/input";
 import {MatMenuModule} from "@angular/material/menu";
 import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
 import {AdminService} from "../services/admin.service";
+import {HttpParams} from "@angular/common/http";
+import {ActivatedRoute} from "@angular/router";
+import {AdminGenreService} from "../genres/services/admin-genre.service";
+import {TracksSearchFormComponent} from "../tracks/tracks-search-form/tracks-search-form.component";
 
 @Component({
   selector: 'app-table-admin',
@@ -34,7 +38,8 @@ import {AdminService} from "../services/admin.service";
     NgClass,
     DecimalPipe,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    TracksSearchFormComponent
   ],
   templateUrl: './table-admin.component.html',
   styleUrl: './table-admin.component.scss'
@@ -43,7 +48,7 @@ export class TableAdminComponent<T extends  {}> {
   @Input() title: string = ''
   @Input() data: PagedResponse<any[]> | null = null
   @Input() columns: string[] = []
-
+  service : any
   @ViewChild('selectAll') selectAllCheckbox!: ElementRef
   constructor(protected _selectionService: SelectionService,
               private _adminService: AdminService,
@@ -51,8 +56,12 @@ export class TableAdminComponent<T extends  {}> {
               private _adminUserService: AdminUserService,
               private _adminArtistService: AdminArtistService,
               private _adminAlbumService: AdminAlbumService,
+              private _adminGenreService: AdminGenreService,
               private _renderer2: Renderer2,
               private _dialog: MatDialog) { }
+  ngOnInit() {
+    this.service = this.serviceForCurrentPage()
+  }
   openAddDialog() {
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
@@ -78,11 +87,22 @@ export class TableAdminComponent<T extends  {}> {
   }
 
   navigateTo(url: string, searchValue?: string) {
-    //this._adminService.navigateTo(url)
+    let queryParams = {}
     if(searchValue) {
-      url += `&search=${searchValue}`
+      queryParams = new HttpParams().set('search', searchValue)
     }
-    let service : any = null
+
+    if(this.service) {
+      this.service.navigateTo(url, queryParams).subscribe({
+        next: (pagedResponse: PagedResponse<any>) => {
+          this.service.setPagedResponse(pagedResponse)
+          this.checkIfAllAreSelected(pagedResponse.data)
+        }
+      })
+    }
+  }
+  serviceForCurrentPage() {
+    let service: any
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
         service = this._adminTrackService
@@ -96,21 +116,15 @@ export class TableAdminComponent<T extends  {}> {
       case 'albums' : {
         service = this._adminAlbumService
       } break;
+      case 'genres' : {
+        service = this._adminGenreService
+      } break;
       default : {
         service = null
       }
     }
-
-    if(service) {
-      service.navigateTo(url).subscribe({
-        next: (pagedResponse: PagedResponse<any>) => {
-          service.setPagedResponse(pagedResponse)
-          this.checkIfAllAreSelected(pagedResponse.data)
-        }
-      })
-    }
+    return service
   }
-
   private checkIfAllAreSelected(data: any[]) {
     let countOfCurrentPageSelection = 0
     for(let item of data) {
@@ -130,11 +144,27 @@ export class TableAdminComponent<T extends  {}> {
   }
 
   search(searchValue: string) {
-    this._adminTrackService.getTracks(searchValue).subscribe({
-      next: (pagedResponse) => {
-        this._adminTrackService.setPagedResponse(pagedResponse)
-      }
-    })
+    searchValue = searchValue.trim()
+    let options = null
+    let page = this.title.toLowerCase()
+    if(page === 'albums') {
+      //options.set('release_year', 1900)
+      options = new HttpParams().appendAll({search: searchValue, release_year: 1900})
+    }
+    else if(page === 'tracks'){
+      options = new HttpParams().appendAll({search: searchValue})
+    }
+    else if(page === 'users') {
+      options = new HttpParams().appendAll({search: searchValue})
+    }
+
+    if(this.service && options) {
+      this.service.getPagedResponse(options).subscribe({
+        next: (pagedResponse: PagedResponse<any>) => {
+          this.service.setPagedResponse(pagedResponse)
+        }
+      })
+    }
   }
 
   deleteItem(item: any) {
@@ -147,4 +177,5 @@ export class TableAdminComponent<T extends  {}> {
       }
     })
   }
+
 }
