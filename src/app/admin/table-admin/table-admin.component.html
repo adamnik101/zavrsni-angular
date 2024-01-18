@@ -4,9 +4,9 @@
     <div class="search">
       <mat-form-field>
         <mat-label>Search {{title}}</mat-label>
-        <input matInput />
+        <input matInput #searchValue/>
       </mat-form-field>
-      <button mat-raised-button color="primary" (click)="search()">Search</button>
+      <button mat-raised-button color="primary" (click)="search(searchValue.value)">Search</button>
     </div>
     <div class="admin-actions">
       <button mat-raised-button class="button add" (click)="openAddDialog()"><mat-icon>create</mat-icon> Add new</button>
@@ -129,7 +129,7 @@
     <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
     @for (page of data?.links; track page) {
       @if (page.url) {
-        <button class="button" (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
+        <button class="button" (click)="navigateTo(page.url, searchValue.value)" mat-button [ngClass]="{'active-pagination' : page.active}">
           <span [innerHTML]="page.label"></span>
         </button>
       }

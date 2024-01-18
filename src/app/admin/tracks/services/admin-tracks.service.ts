@@ -13,8 +13,12 @@ export class AdminTracksService extends BaseService{
 
   private softDeletedSubject = new BehaviorSubject<PagedResponse<Track[]>>({} as PagedResponse<Track[]>)
   public softTracks$ = this.softDeletedSubject.asObservable()
-  getTracks() {
-    return this.get<PagedResponse<Track[]>>('admin/tracks')
+  getTracks(searchValue?: string) {
+    let path = 'admin/tracks'
+    if(searchValue) {
+      path += `?search=${searchValue}`
+    }
+    return this.get<PagedResponse<Track[]>>(path)
   }
   getSoftDeletedTracks() {
     return this.get<PagedResponse<Track[]>>('admin/tracks/soft-deleted')
@@ -27,8 +31,10 @@ export class AdminTracksService extends BaseService{
     this.tracksSubject.next(pagedResponse)
   }
 
-  navigateTo(url: string) {
-    const part = url.split('api/')[1]
+  navigateTo(url: string, searchValue?: string) {
+    let part = url.split('api/')[1]
+    if(searchValue) part += `?search=${searchValue}`
+
     return this.get<PagedResponse<Track[]>>(part)
   }
 

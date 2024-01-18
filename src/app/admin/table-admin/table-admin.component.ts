@@ -77,8 +77,11 @@ export class TableAdminComponent<T extends  {}> {
     this._selectionService.onAllSelectChange(event, this.data!.data)
   }
 
-  navigateTo(url: string) {
-    this._adminService.navigateTo(url)
+  navigateTo(url: string, searchValue?: string) {
+    //this._adminService.navigateTo(url)
+    if(searchValue) {
+      url += `&search=${searchValue}`
+    }
     let service : any = null
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
@@ -126,8 +129,12 @@ export class TableAdminComponent<T extends  {}> {
     this._selectionService.onSingleSelectChange(event, item.id, this.selectAllCheckbox)
   }
 
-  search() {
-
+  search(searchValue: string) {
+    this._adminTrackService.getTracks(searchValue).subscribe({
+      next: (pagedResponse) => {
+        this._adminTrackService.setPagedResponse(pagedResponse)
+      }
+    })
   }
 
   deleteItem(item: any) {
