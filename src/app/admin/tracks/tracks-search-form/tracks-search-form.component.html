@@ -1,58 +1,66 @@
 <form [formGroup]="trackFormGroup" class="search-form">
-  <mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Title</mat-label>
-    <input matInput formControlName="title"/>
+    <input matInput formControlName="title" placeholder="Search by title"/>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Owner</mat-label>
-    <input matInput formControlName="owner"/>
+    <input matInput formControlName="owner" placeholder="Search by owner name"/>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Featuring</mat-label>
     <input matInput formControlName="featuring" placeholder="ex: Artist1, Artist 2, Artist3"/>
   </mat-form-field>
 
 
-  <mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Album</mat-label>
-    <input matInput formControlName="album"/>
+    <input matInput formControlName="album" placeholder="Search by album name"/>
   </mat-form-field>
 
-  <mat-radio-group aria-label="Select an option" formControlName="explicit">
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Explicit</mat-label>
-    <mat-radio-button [value]="true">Yes</mat-radio-button>
-    <mat-radio-button [value]="false">No</mat-radio-button>
-  </mat-radio-group>
-  <mat-form-field>
+    <mat-select formControlName="explicit" placeholder="Yes or no">
+      <mat-option [value]="true">Yes</mat-option>
+      <mat-option [value]="false">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Plays from</mat-label>
-    <input type="number" matInput formControlName="playsFrom"/>
+    <input type="number" matInput formControlName="playsFrom" placeholder="Enter starting value"/>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Plays to</mat-label>
-    <input type="number" matInput formControlName="playsTo"/>
+    <input type="number" matInput formControlName="playsTo" placeholder="Enter ending value"/>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Created from - to</mat-label>
     <mat-date-range-input [rangePicker]="picker">
       <input matStartDate placeholder="Start date" formControlName="createdFrom">
       <input matEndDate placeholder="End date" formControlName="createdTo">
     </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-date-range-picker #picker></mat-date-range-picker>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
     <mat-label>Updated from - to</mat-label>
     <mat-date-range-input [rangePicker]="pickerUpdated">
       <input matStartDate placeholder="Start date" formControlName="updatedFrom">
       <input matEndDate placeholder="End date" formControlName="updatedTo">
     </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="pickerUpdated"></mat-datepicker-toggle>
     <mat-date-range-picker #pickerUpdated></mat-date-range-picker>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="search()">Search</button>
-  <button mat-raised-button color="primary" (click)="reset()">Reset</button>
 </form>
+<div class="buttons">
+  <button mat-raised-button color="primary" (click)="search()">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
+  <button mat-raised-button color="primary" (click)="reset()">
+    <mat-icon> clear_all</mat-icon>
+    Reset
+  </button>
+</div>

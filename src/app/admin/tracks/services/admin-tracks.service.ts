@@ -14,6 +14,8 @@ export class AdminTracksService extends BaseService{
 
   private softDeletedSubject = new BehaviorSubject<PagedResponse<Track[]>>({} as PagedResponse<Track[]>)
   public softTracks$ = this.softDeletedSubject.asObservable()
+
+  public params = new HttpParams()
   getPagedResponse(options?: HttpParams) {
     let path = 'admin/tracks'
     return this.get<PagedResponse<Track[]>>(path, {params: options})
@@ -29,9 +31,9 @@ export class AdminTracksService extends BaseService{
     this.tracksSubject.next(pagedResponse)
   }
 
-  navigateTo(url: string, queryParams: HttpParams) {
+  navigateTo(url: string) {
     let part = url.split('api/')[1]
-    return this.get<PagedResponse<Track[]>>(part, {params: queryParams})
+    return this.get<PagedResponse<Track[]>>(part, {params: this.params})
   }
 
   addTrack(formData: FormData) {

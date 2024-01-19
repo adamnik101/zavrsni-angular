@@ -86,14 +86,10 @@ export class TableAdminComponent<T extends  {}> {
     this._selectionService.onAllSelectChange(event, this.data!.data)
   }
 
-  navigateTo(url: string, searchValue?: string) {
-    let queryParams = {}
-    if(searchValue) {
-      queryParams = new HttpParams().set('search', searchValue)
-    }
+  navigateTo(url: string) {
 
     if(this.service) {
-      this.service.navigateTo(url, queryParams).subscribe({
+      this.service.navigateTo(url).subscribe({
         next: (pagedResponse: PagedResponse<any>) => {
           this.service.setPagedResponse(pagedResponse)
           this.checkIfAllAreSelected(pagedResponse.data)

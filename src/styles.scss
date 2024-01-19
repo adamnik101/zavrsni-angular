@@ -74,7 +74,7 @@ div,html{
 }
 html, body { height: 100%;}
 body { margin: 0;  }
-a,h1,p,span{
+a,h1,p{
   color: var(--primary-text);
   font-size: 14px;
   letter-spacing: .5px;
@@ -606,6 +606,7 @@ input[type=email], input[type=password], textarea{
     margin-bottom: 20px;
   }
   .actions{
+    margin-bottom: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -796,4 +797,5 @@ input[type=email], input[type=password], textarea{
     display: block !important;
   }
 }
+
 

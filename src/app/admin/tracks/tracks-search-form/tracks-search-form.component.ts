@@ -9,6 +9,8 @@ import {MatNativeDateModule} from "@angular/material/core";
 import {HttpParams} from "@angular/common/http";
 import {AdminTracksService} from "../services/admin-tracks.service";
 import {MatRadioModule} from "@angular/material/radio";
+import {MatSelectModule} from "@angular/material/select";
+import {MatIconModule} from "@angular/material/icon";
 
 @Component({
   selector: 'app-tracks-search-form',
@@ -21,7 +23,9 @@ import {MatRadioModule} from "@angular/material/radio";
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSelectModule,
+    MatIconModule
   ],
   templateUrl: './tracks-search-form.component.html',
   styleUrl: './tracks-search-form.component.scss'
@@ -50,36 +54,48 @@ export class TracksSearchFormComponent {
     let explicit = this.trackFormGroup.get('explicit')?.value
     let featuring = this.trackFormGroup.get('featuring')?.value?.trim()
     let createdFrom = this.trackFormGroup.get('createdFrom')?.value
+    let createdTo = this.trackFormGroup.get('createdTo')?.value
+    let updatedFrom = this.trackFormGroup.get('updatedFrom')?.value
+    let updatedTo = this.trackFormGroup.get('updatedTo')?.value
     let playsFrom = this.trackFormGroup.get('playsFrom')?.value
     let playsTo = this.trackFormGroup.get('playsTo')?.value
 
-    let params = new HttpParams()
+    this._adminTrackService.params = new HttpParams()
 
     if(title) {
-      params = params.append('title', title)
+      this._adminTrackService.params = this._adminTrackService.params.append('title', title)
     }
     if(owner) {
-      params = params.append('owner', owner)
+      this._adminTrackService.params = this._adminTrackService.params.append('owner', owner)
     }
     if(album) {
-      params = params.append('album', album)
+      this._adminTrackService.params = this._adminTrackService.params.append('album', album)
     }
     if(featuring) {
-      params = params.append('featuring', featuring)
+      this._adminTrackService.params = this._adminTrackService.params.append('featuring', featuring)
     }
     if(explicit !== null && explicit !== undefined) {
-      params = params.append('explicit', explicit)
+      this._adminTrackService.params = this._adminTrackService.params.append('explicit', explicit)
     }
     if(playsFrom) {
-      params = params.append('playsFrom', playsFrom)
+      this._adminTrackService.params = this._adminTrackService.params.append('playsFrom', playsFrom)
     }
     if(playsTo) {
-      params = params.append('playsTo', playsTo)
+      this._adminTrackService.params = this._adminTrackService.params.append('playsTo', playsTo)
     }
     if(createdFrom) {
-      params = params.append('createdFrom', createdFrom)
+      this._adminTrackService.params = this._adminTrackService.params.append('createdFrom', createdFrom)
     }
-    this._adminTrackService.getPagedResponse(params).subscribe({
+    if(createdTo) {
+      this._adminTrackService.params = this._adminTrackService.params.append('createdTo', createdTo)
+    }
+    if(updatedFrom) {
+      this._adminTrackService.params = this._adminTrackService.params.append('updatedFrom', updatedFrom)
+    }
+    if(updatedTo) {
+      this._adminTrackService.params = this._adminTrackService.params.append('updatedTo', updatedTo)
+    }
+    this._adminTrackService.getPagedResponse(this._adminTrackService.params).subscribe({
       next: (pagedResponse) => {
         this._adminTrackService.setPagedResponse(pagedResponse)
       }
