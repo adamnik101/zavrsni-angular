@@ -23,6 +23,7 @@ import {HttpParams} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {AdminGenreService} from "../genres/services/admin-genre.service";
 import {TracksSearchFormComponent} from "../tracks/tracks-search-form/tracks-search-form.component";
+import {AlbumsSearchFormComponent} from "../albums/albums-search-form/albums-search-form.component";
 
 @Component({
   selector: 'app-table-admin',
@@ -39,7 +40,8 @@ import {TracksSearchFormComponent} from "../tracks/tracks-search-form/tracks-sea
     DecimalPipe,
     MatInputModule,
     MatMenuModule,
-    TracksSearchFormComponent
+    TracksSearchFormComponent,
+    AlbumsSearchFormComponent
   ],
   templateUrl: './table-admin.component.html',
   styleUrl: './table-admin.component.scss'

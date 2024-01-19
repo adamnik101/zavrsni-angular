@@ -1,0 +1,56 @@
+<form class="search-form" [formGroup]="albumFormGroup">
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>Name</mat-label>
+    <input type="text" matInput placeholder="Search by name" formControlName="name"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>No. of tracks from</mat-label>
+    <input type="number" matInput placeholder="Enter starting value" formControlName="tracksCountFrom"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>No. of tracks to</mat-label>
+    <input type="number" matInput placeholder="Enter ending value" formControlName="tracksCountTo"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>Release year</mat-label>
+    <mat-select formControlName="releaseYear" placeholder="Select release year">
+      @for(year of years; track year) {
+        <mat-option value="{{year}}">{{year}}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>Created from - to</mat-label>
+    <mat-date-range-input [rangePicker]="created">
+      <input matStartDate placeholder="Start date" formControlName="createdFrom">
+      <input matEndDate placeholder="End date" formControlName="createdTo">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="created"></mat-datepicker-toggle>
+    <mat-date-range-picker #created></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>Updated from - to</mat-label>
+    <mat-date-range-input [rangePicker]="updated">
+      <input matStartDate placeholder="Start date" formControlName="updatedFrom">
+      <input matEndDate placeholder="End date" formControlName="updatedTo">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="updated"></mat-datepicker-toggle>
+    <mat-date-range-picker #updated></mat-date-range-picker>
+  </mat-form-field>
+</form>
+<div class="buttons">
+  <button mat-raised-button color="primary" (click)="search()">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
+  <button mat-raised-button color="primary" (click)="reset()">
+    <mat-icon> clear_all</mat-icon>
+    Reset
+  </button>
+</div>

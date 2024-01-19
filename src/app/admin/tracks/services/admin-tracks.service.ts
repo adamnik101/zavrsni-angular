@@ -16,9 +16,9 @@ export class AdminTracksService extends BaseService{
   public softTracks$ = this.softDeletedSubject.asObservable()
 
   public params = new HttpParams()
-  getPagedResponse(options?: HttpParams) {
+  getPagedResponse(params?: HttpParams) {
     let path = 'admin/tracks'
-    return this.get<PagedResponse<Track[]>>(path, {params: options})
+    return this.get<PagedResponse<Track[]>>(path, {params: params})
   }
   getSoftDeletedTracks() {
     return this.get<PagedResponse<Track[]>>('admin/tracks/soft-deleted')

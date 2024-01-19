@@ -13,7 +13,7 @@ import {Artist} from "../../../artists/interfaces/artist";
 export class AdminAlbumService extends BaseService{
   private albumsSubject = new BehaviorSubject<PagedResponse<Album[]>>({} as PagedResponse<Album[]>)
   public albums$ = this.albumsSubject.asObservable();
-
+  public params = new HttpParams()
   getPagedResponse(queryParams? : HttpParams) {
     return this.get<PagedResponse<Album[]>>('admin/albums', {params: queryParams})
   }
@@ -21,8 +21,8 @@ export class AdminAlbumService extends BaseService{
     this.albumsSubject.next(pagedResponse)
   }
 
-  navigateTo(url: string, queryParams: HttpParams) {
+  navigateTo(url: string) {
     let part = url.split('api/')[1]
-    return this.get<PagedResponse<Album[]>>(part, {params: queryParams})
+    return this.get<PagedResponse<Album[]>>(part, {params: this.params})
   }
 }

@@ -799,3 +799,21 @@ input[type=email], input[type=password], textarea{
 }
 
 
+.search-form{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 0;
+  mat-form-field{
+    flex: 1 25%;
+  }
+}
+.buttons {
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 32.5%;
+}
+

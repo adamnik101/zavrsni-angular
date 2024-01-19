@@ -1,8 +1,14 @@
 <div class="container-padding admin">
   <h1>Manage {{title}}</h1>
-  @if(title.toLowerCase() === 'tracks') {
-    <app-tracks-search-form></app-tracks-search-form>
+  @switch (title.toLowerCase()) {
+    @case ('tracks') {
+      <app-tracks-search-form></app-tracks-search-form>
+    }
+    @case ('albums') {
+      <app-albums-search-form></app-albums-search-form>
+    }
   }
+
   <div class="actions">
     <div class="admin-actions">
       <button mat-raised-button class="button add" (click)="openAddDialog()"><mat-icon>create</mat-icon> Add new</button>
