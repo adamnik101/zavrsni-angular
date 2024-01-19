@@ -13,6 +13,7 @@ export class AdminArtistService extends BaseService{
   private pagedResponseSubject = new BehaviorSubject<PagedResponse<Artist[]>>({} as PagedResponse<Artist[]>)
   public pagedResponse$ = this.pagedResponseSubject.asObservable();
   currentPage : number = 1
+  params: HttpParams = new HttpParams()
   getPagedResponse(queryParams?: HttpParams): Observable<PagedResponse<Artist[]>> {
     return this.get<PagedResponse<Artist[]>>(`admin/artists`, {params: queryParams})
   }
@@ -36,8 +37,8 @@ export class AdminArtistService extends BaseService{
     return this.post<FormData, null>('admin/artists', formData)
   }
 
-  navigateTo(url: string, queryParams: HttpParams) {
+  navigateTo(url: string) {
     let part = url.split('api/')[1]
-    return this.get<PagedResponse<Artist[]>>(part, {params: queryParams})
+    return this.get<PagedResponse<Artist[]>>(part, {params: this.params})
   }
 }

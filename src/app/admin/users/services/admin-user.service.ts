@@ -12,6 +12,7 @@ import {Track} from "../../../shared/interfaces/track";
 export class AdminUserService extends BaseService{
   private usersSubject = new BehaviorSubject<PagedResponse<User[]>>({} as PagedResponse<User[]>)
   public users$ = this.usersSubject.asObservable()
+  params: HttpParams = new HttpParams();
 
   getPagedResponse(queryParams? : HttpParams) {
     return this.get<PagedResponse<User[]>>('admin/actors', {params: queryParams})
@@ -21,8 +22,8 @@ export class AdminUserService extends BaseService{
     this.usersSubject.next(pagedResponse)
   }
 
-  navigateTo(url: string, queryParams: HttpParams) {
+  navigateTo(url: string) {
     let part = url.split('api/')[1]
-    return this.get<PagedResponse<Track[]>>(part, {params: queryParams})
+    return this.get<PagedResponse<Track[]>>(part, {params: this.params})
   }
 }

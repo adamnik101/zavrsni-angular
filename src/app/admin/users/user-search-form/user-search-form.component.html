@@ -1,0 +1,51 @@
+<form [formGroup]='userFormGroup' class="search-form">
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>First name</mat-label>
+    <input matInput type="text" placeholder="Search by first name" formControlName="firstName"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>Last name</mat-label>
+    <input matInput type="text" placeholder="Search by last name" formControlName="lastName"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>Email</mat-label>
+    <input matInput type="text" placeholder="Search by email" formControlName="email"/>
+  </mat-form-field>
+  <mat-form-field appearance="outline" floatLabel="always">
+    <mat-label>Active</mat-label>
+    <mat-select formControlName="active" placeholder="Active or not">
+      <mat-option [value]="true">Yes</mat-option>
+      <mat-option [value]="false">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
+    <mat-label>Created from - to</mat-label>
+    <mat-date-range-input [rangePicker]="picker">
+      <input matStartDate placeholder="Start date" formControlName="createdFrom">
+      <input matEndDate placeholder="End date" formControlName="createdTo">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+  </mat-form-field>
+  <mat-form-field appearance="outline" [floatLabel]="'always'">
+    <mat-label>Updated from - to</mat-label>
+    <mat-date-range-input [rangePicker]="pickerUpdated">
+      <input matStartDate placeholder="Start date" formControlName="updatedFrom">
+      <input matEndDate placeholder="End date" formControlName="updatedTo">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matIconSuffix [for]="pickerUpdated"></mat-datepicker-toggle>
+    <mat-date-range-picker #pickerUpdated></mat-date-range-picker>
+  </mat-form-field>
+</form>
+<div class="buttons">
+  <button mat-raised-button color="primary" (click)="search()">
+    <mat-icon>search</mat-icon>
+    Search
+  </button>
+  <button mat-raised-button color="primary" (click)="reset()">
+    <mat-icon> clear_all</mat-icon>
+    Reset
+  </button>
+</div>

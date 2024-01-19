@@ -7,6 +7,15 @@
     @case ('albums') {
       <app-albums-search-form></app-albums-search-form>
     }
+    @case ('genres') {
+      <app-genre-search-form></app-genre-search-form>
+    }
+    @case ('users') {
+      <app-user-search-form></app-user-search-form>
+    }
+    @case ('artists') {
+      <app-artist-search-form></app-artist-search-form>
+    }
   }
 
   <div class="actions">
@@ -74,7 +83,7 @@
                   <td>{{item.email}}</td>
                 }
                 @case ('Active') {
-                  <td>{{item.active}}</td>
+                  <td>{{item.active | humanizeBoolean}}</td>
                 }
                 @case ('Featuring') {
                   <td>

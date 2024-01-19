@@ -12,6 +12,7 @@ import {Album} from "../../../albums/interfaces/album";
 export class AdminGenreService extends BaseService{
   private genreSubject = new BehaviorSubject<PagedResponse<Genre[]>>({} as PagedResponse<Genre[]>)
   public genres$ = this.genreSubject.asObservable()
+  params: HttpParams = new HttpParams()
   getPagedResponse(queryParams?: HttpParams) {
     return this.get<PagedResponse<Genre[]>>('admin/genres', {params: queryParams})
   }

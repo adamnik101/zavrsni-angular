@@ -24,6 +24,9 @@ import {ActivatedRoute} from "@angular/router";
 import {AdminGenreService} from "../genres/services/admin-genre.service";
 import {TracksSearchFormComponent} from "../tracks/tracks-search-form/tracks-search-form.component";
 import {AlbumsSearchFormComponent} from "../albums/albums-search-form/albums-search-form.component";
+import {GenreSearchFormComponent} from "../genres/genre-search-form/genre-search-form.component";
+import {UserSearchFormComponent} from "../users/user-search-form/user-search-form.component";
+import {ArtistSearchFormComponent} from "../artists/artist-search-form/artist-search-form.component";
 
 @Component({
   selector: 'app-table-admin',
@@ -41,7 +44,10 @@ import {AlbumsSearchFormComponent} from "../albums/albums-search-form/albums-sea
     MatInputModule,
     MatMenuModule,
     TracksSearchFormComponent,
-    AlbumsSearchFormComponent
+    AlbumsSearchFormComponent,
+    GenreSearchFormComponent,
+    UserSearchFormComponent,
+    ArtistSearchFormComponent
   ],
   templateUrl: './table-admin.component.html',
   styleUrl: './table-admin.component.scss'
