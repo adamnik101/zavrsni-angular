@@ -2,11 +2,11 @@
   <h1 mat-dialog-title>Add track</h1>
   <div mat-dialog-content>
     <form [formGroup]="trackForm" [enctype]="'multipart/form-data'">
-      <mat-grid-list [rowHeight]="80" [cols]="8" gutterSize="5">
+      <mat-grid-list [rowHeight]="90" [cols]="8" gutterSize="5">
         <mat-grid-tile [colspan]="8" class="title-tile">
-          <mat-form-field>
+          <mat-form-field appearance="outline" floatLabel="always">
             <mat-label>Title</mat-label>
-            <input matInput type="text" class="title" formControlName="title">
+            <input matInput type="text" class="title" formControlName="title" placeholder="Enter track title">
             @if (trackForm.get('title')?.hasError('required')) {
               <mat-error>Title is required</mat-error>
             }

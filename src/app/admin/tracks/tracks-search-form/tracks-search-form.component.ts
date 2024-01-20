@@ -77,10 +77,10 @@ export class TracksSearchFormComponent {
     if(explicit !== null && explicit !== undefined) {
       this._adminTrackService.params = this._adminTrackService.params.append('explicit', explicit)
     }
-    if(playsFrom) {
+    if(playsFrom !== null && playsFrom !== undefined) {
       this._adminTrackService.params = this._adminTrackService.params.append('playsFrom', playsFrom)
     }
-    if(playsTo) {
+    if(playsTo !== null && playsTo !== undefined) {
       this._adminTrackService.params = this._adminTrackService.params.append('playsTo', playsTo)
     }
     if(createdFrom) {
