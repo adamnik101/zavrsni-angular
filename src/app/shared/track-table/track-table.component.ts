@@ -17,6 +17,7 @@ import {
 } from "../../playlists/add-tracks-to-playlist-dialog/add-tracks-to-playlist-dialog.component";
 import {Subscription} from "rxjs";
 import {CurrentTrackInfo} from "../interfaces/current-track-info";
+import {LoaderService} from "../../core/services/loader.service";
 
 
 @Component({
@@ -44,7 +45,8 @@ export class TrackTableComponent {
               private _snackbarService: SnackbarService,
               private _cdr: ChangeDetectorRef,
               private _dragDropService: DragDropService,
-              private _matDialog: MatDialog) {
+              private _matDialog: MatDialog,
+              private _loaderService: LoaderService) {
   }
   ngOnInit() {
     this.subs.push(this._playlistService.playlists$.subscribe({
@@ -70,6 +72,7 @@ export class TrackTableComponent {
 
   }
   playAllFromIndex(tracks: Track[], index: number, from: From) {
+    this._loaderService.hideLoader()
     this._queueService.playAllFromIndex(tracks, index, from)
     /*this._queueService.currentQueueIndexSignal.set(index)
     this._queueService.currentQueueIndex = index

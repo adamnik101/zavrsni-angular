@@ -1,0 +1,15 @@
+<div class="dialog">
+  <h1 mat-dialog-title>Add new artist</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="artistGroup">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Artist name</mat-label>
+        <input matInput type="text" placeholder="Enter artist name" formControlName="name"/>
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button>Create</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</div>

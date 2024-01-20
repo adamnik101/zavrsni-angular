@@ -27,6 +27,10 @@ import {AlbumsSearchFormComponent} from "../albums/albums-search-form/albums-sea
 import {GenreSearchFormComponent} from "../genres/genre-search-form/genre-search-form.component";
 import {UserSearchFormComponent} from "../users/user-search-form/user-search-form.component";
 import {ArtistSearchFormComponent} from "../artists/artist-search-form/artist-search-form.component";
+import {AddGenreDialogComponent} from "../genres/add-genre-dialog/add-genre-dialog.component";
+import {AddArtistDialogComponent} from "../artists/add-artist-dialog/add-artist-dialog.component";
+import {AddUserDialogComponent} from "../users/add-user-dialog/add-user-dialog.component";
+import {AddAlbumDialogComponent} from "../albums/add-album-dialog/add-album-dialog.component";
 
 @Component({
   selector: 'app-table-admin',
@@ -76,7 +80,17 @@ export class TableAdminComponent<T extends  {}> {
         this._dialog.open(AddTrackDialogComponent)
       } break
       case 'genres' : {
-      }
+        this._dialog.open(AddGenreDialogComponent)
+      } break
+      case 'artists' : {
+        this._dialog.open(AddArtistDialogComponent)
+      } break
+      case 'albums' : {
+        this._dialog.open(AddAlbumDialogComponent)
+      } break
+      case 'users' : {
+        this._dialog.open(AddUserDialogComponent)
+      } break
     }
   }
 

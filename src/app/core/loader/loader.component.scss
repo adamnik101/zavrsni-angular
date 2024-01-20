@@ -1,0 +1,72 @@
+.loader-container{
+  position: fixed;
+  top: 60px;
+  bottom: 100px;
+  right: 0;
+  left: var(--sidenav-width);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  backdrop-filter: blur(10px);
+}
+.loader{
+  width: 12px;
+  height: 4px;
+  border-radius: 10px;
+  background-color: #fff;
+  animation: musicloader 1s ease-in-out infinite;
+
+}
+
+@keyframes musicloader {
+
+  0%{height: 4px;}
+  50%{height: 90px;}
+  100%{height: 4px;}
+
+}
+
+.loader:nth-child(1){
+  background-color: #d715d7;
+  animation-delay: 0.7s;
+}
+.loader:nth-child(2){
+  background-color: #d71515;
+  animation-delay: 0.5s;
+}
+.loader:nth-child(3){
+  background-color: #d71579;
+  animation-delay: 0.3s;
+}
+.loader:nth-child(4){
+  background-color: #d76715;
+  animation-delay: 0.2s;
+}
+.loader:nth-child(5){
+  background-color: #d76415;
+  animation-delay: 0.1s;
+}
+.loader:nth-child(6){
+  background-color: #d70415;
+  animation-delay: 0.2s;
+}
+
+.loader:nth-child(7){
+  background-color: #d76715;
+  animation-delay: 0.2s;
+}
+
+.loader:nth-child(8){
+  background-color: #d71579;
+  animation-delay: 0.3s;
+}
+.loader:nth-child(9){
+  background-color: #d71515;
+  animation-delay: 0.5s;
+}
+.loader:nth-child(10){
+  background-color: #d715d7;
+  animation-delay: 0.7s;
+}

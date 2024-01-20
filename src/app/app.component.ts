@@ -4,6 +4,7 @@ import {Title} from "@angular/platform-browser";
 import {QueueService} from "./queue/services/queue.service";
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {PlaylistService} from "./playlists/services/playlist.service";
+import {LoaderService} from "./core/services/loader.service";
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit {
   private _titleService = inject(Title)
   private _playlistService = inject(PlaylistService)
   public queueService = inject(QueueService)
+  public loaderService = inject(LoaderService)
   ngOnInit() {
     this._userService.getUser()
     this._playlistService.getPlaylists()

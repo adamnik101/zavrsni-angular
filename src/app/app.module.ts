@@ -16,6 +16,8 @@ import {HomeModule} from "./home/home.module";
 import {QueueModule} from "./queue/queue.module";
 import {MatIconModule} from "@angular/material/icon";
 import {DurationPipe} from "./shared/pipes/duration.pipe";
+import {LoaderComponent} from "./core/loader/loader.component";
+import {HttpLoaderInterceptor} from "./interceptors/http-loader.interceptor";
 
 @NgModule({
   declarations: [
@@ -34,12 +36,18 @@ import {DurationPipe} from "./shared/pipes/duration.pipe";
         FormsModule,
         QueueModule,
         MatIconModule,
-        DurationPipe
+        DurationPipe,
+        LoaderComponent
     ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpLoaderInterceptor,
       multi: true
     }
   ],
