@@ -121,7 +121,7 @@
               </button>
             </td>
             <mat-menu #moreMenu=matMenu>
-              <button mat-menu-item>
+              <button mat-menu-item (click)="openEditDialog(item)">
                 <mat-icon>edit</mat-icon>
                 Edit
               </button>

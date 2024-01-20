@@ -31,6 +31,8 @@ import {AddGenreDialogComponent} from "../genres/add-genre-dialog/add-genre-dial
 import {AddArtistDialogComponent} from "../artists/add-artist-dialog/add-artist-dialog.component";
 import {AddUserDialogComponent} from "../users/add-user-dialog/add-user-dialog.component";
 import {AddAlbumDialogComponent} from "../albums/add-album-dialog/add-album-dialog.component";
+import {ArtistFormDialogComponent} from "../artists/artist-form-dialog/artist-form-dialog.component";
+import {TracksFormDialogComponent} from "../tracks/tracks-form-dialog/tracks-form-dialog.component";
 
 @Component({
   selector: 'app-table-admin',
@@ -75,15 +77,20 @@ export class TableAdminComponent<T extends  {}> {
     this.service = this.serviceForCurrentPage()
   }
   openAddDialog() {
+    let config = {
+      data: {
+        isEdit: false
+      }
+    }
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
-        this._dialog.open(AddTrackDialogComponent)
+        this._dialog.open(TracksFormDialogComponent, config)
       } break
       case 'genres' : {
         this._dialog.open(AddGenreDialogComponent)
       } break
       case 'artists' : {
-        this._dialog.open(AddArtistDialogComponent)
+        this._dialog.open(ArtistFormDialogComponent, config)
       } break
       case 'albums' : {
         this._dialog.open(AddAlbumDialogComponent)
@@ -196,4 +203,37 @@ export class TableAdminComponent<T extends  {}> {
     })
   }
 
+  openEditDialog(item: any) {
+    switch (this.title.toLowerCase()) {
+      case 'tracks' : {
+        //this._dialog.open()
+        this._dialog.open(TracksFormDialogComponent, {
+          data: {
+            isEdit: true,
+            item: item
+          }
+        })
+      } break;
+      case 'users': {
+
+      } break;
+      case 'artists' : {
+        this._dialog.open(ArtistFormDialogComponent, {
+          data: {
+            isEdit: true,
+            item: item
+          }
+        })
+      } break;
+      case 'albums' : {
+
+      } break;
+      case 'genres' : {
+
+      } break;
+      default : {
+
+      }
+    }
+  }
 }

@@ -1,0 +1,11 @@
+.artist-form{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  img{
+    height: 150px;
+    width: auto;
+    border-radius: 50%;
+  }
+}

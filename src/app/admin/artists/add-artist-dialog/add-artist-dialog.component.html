@@ -6,6 +6,10 @@
         <mat-label>Artist name</mat-label>
         <input matInput type="text" placeholder="Enter artist name" formControlName="name"/>
       </mat-form-field>
+
+        <input type="file" hidden formControlName="image" #imageInput (change)="onSelectedImage($event)"/>
+        <button mat-button (click)="imageInput.click()">Select image</button>
+        <p>{{this.selectedFile?.name}}</p>
     </form>
   </div>
   <div mat-dialog-actions>
