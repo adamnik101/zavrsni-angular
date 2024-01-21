@@ -19,6 +19,8 @@ import {OwnerValue} from "../../interfaces/owner-value";
 import {Genre} from "../../../genre/interfaces/genre";
 import {GenreService} from "../../../genre/services/genre.service";
 import {AdminTracksService} from "../services/admin-tracks.service";
+import {ImageFormFieldComponent} from "../../components/image-form-field/image-form-field.component";
+import {SnackbarService} from "../../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-tracks-form-dialog',
@@ -32,7 +34,8 @@ import {AdminTracksService} from "../services/admin-tracks.service";
     IsSelectedInFeaturesPipe,
     MatOptionModule,
     MatSelectModule,
-    AsyncPipe
+    AsyncPipe,
+    ImageFormFieldComponent
   ],
   templateUrl: './tracks-form-dialog.component.html',
   styleUrl: './tracks-form-dialog.component.scss'
@@ -40,6 +43,7 @@ import {AdminTracksService} from "../services/admin-tracks.service";
 export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     group: FormGroup = new FormGroup({
       title: new FormControl('', [Validators.required]),
+      cover: new FormControl(null, [Validators.required]),
       owner : new FormControl(null, [Validators.required]),
       features : new FormControl([]),
       explicit: new FormControl(null, [Validators.required]),
@@ -52,10 +56,14 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     genres : Genre[] = []
     subscriptions: Subscription[] = []
     owner = signal<Artist | undefined>(undefined)
+    imageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
+    maxImageSize = 2000000 //2MB
+    selectedImageSrc = ''
     constructor(@Inject(MAT_DIALOG_DATA) public data: FormData<Track>,
                 private _artistService: ArtistService,
                 private _genreService: GenreService,
-                private _adminTrackService: AdminTracksService){
+                private _adminTrackService: AdminTracksService,
+                private _snackbar: SnackbarService){
     }
 
     ngOnInit() {
@@ -88,6 +96,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
         this.group.get('title')?.setValue(item.title)
         this.group.get('owner')?.setValue(item.owner)
         this.group.get('explicit')?.setValue(item.explicit)
+        this.group.get('cover')?.setValue(item.cover)
         this.group.get('genre')?.setValue(item.genre_id)
         if(this.group.get('owner')?.value) {
           if(item.owner.albums.length > 0) {
@@ -125,10 +134,14 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
 
     finish() {
         if(this.data.isEdit && this.group.valid) {
+          console.log(this.group)
           console.log('update')
           this._adminTrackService.updateTrack(this.data.item.id,this.group).subscribe({
             next: (response) => {
               console.log(response)
+            },
+            error: (err) => {
+              console.log(err.error.msg)
             }
           })
           return
@@ -139,5 +152,36 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
 
   compareOwners(o1: any, o2: any) {
     return o1 && o2 ? o1.id === o2.id : o1 === o2
+  }
+  onFileSelected(event: any, control: string) {
+      let file = event.target.files[0] ?? null
+    if(file) {
+      if(!this.imageTypes.includes(file.type)) {
+        this._snackbar.showFailedMessage('You must provide an image!')
+        return
+      }
+      if(file.size > this.maxImageSize) {
+        this._snackbar.showFailedMessage('Image size cannot exceed 2MB!')
+        return
+      }
+    }
+    this.group.get(control)?.setValue(event.target.files[0] ?? null)
+
+    if (this.group.get(control)?.value) {
+      const reader = new FileReader()
+      reader.readAsDataURL(this.group.get(control)?.value)
+
+      reader.onload = (e) => {
+        console.log(e.target)
+        if(control === 'track') {
+          //this.trackInfo = this.inputTrack.nativeElement.value.split('\\')[2]
+        } else if(control === 'cover') {
+          console.log(this.group.get('cover')?.value)
+          this.group.get('cover')?.setValue(file)
+          this.selectedImageSrc = e.target?.result as string
+          //this.image.nativeElement.src = e.target?.result;
+        }
+      };
+    }
   }
 }
