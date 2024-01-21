@@ -691,6 +691,15 @@ input[type=email], input[type=password], textarea{
       color: var(--primary-text)
     }
   }
+  .track-form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 0;
+    .mat-mdc-form-field{
+      flex: 1 290px;
+    }
+  }
 }
 .mdc-list-item__primary-text{
   color: var(--light-black);

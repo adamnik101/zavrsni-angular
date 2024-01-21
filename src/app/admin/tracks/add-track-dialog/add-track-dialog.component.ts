@@ -110,7 +110,7 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
       }
       if(this.trackForm.get('features')?.value) {
         for(let feature of (this.trackForm.get('features')!.value) as Artist[] ) {
-          formData.append('features[]', feature.id)
+            formData.append('features[]', feature.id)
         }
 
       }

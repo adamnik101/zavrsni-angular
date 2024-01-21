@@ -4,6 +4,8 @@ import {PagedResponse} from "../../../shared/interfaces/paged-response";
 import {Track} from "../../../shared/interfaces/track";
 import {BehaviorSubject} from "rxjs";
 import {HttpParams} from "@angular/common/http";
+import {FormGroup} from "@angular/forms";
+import {Artist} from "../../../artists/interfaces/artist";
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +40,24 @@ export class AdminTracksService extends BaseService{
 
   addTrack(formData: FormData) {
     return this.post('admin/tracks/add', formData)
+  }
+
+  updateTrack(id: string, group: FormGroup) {
+     let formData = new FormData()
+
+      formData.append('cover', 'test')
+      formData.append('track', 'test')
+      formData.append('title', group.get('title')?.value)
+      formData.append('owner', group.get('owner')?.value.id)
+      formData.append('album', group.get('album')?.value)
+      formData.append('explicit', group.get('explicit')?.value)
+      formData.append('genre', group.get('genre')?.value)
+      if(group.get('features')?.value) {
+        for(let id of group.get('features')!.value) {
+          formData.append('features[]', id)
+        }
+
+      }
+      return this.post(`admin/tracks/${id}/update`, formData)
   }
 }

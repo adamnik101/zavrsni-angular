@@ -16,6 +16,9 @@ import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {AsyncPipe} from "@angular/common";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {OwnerValue} from "../../interfaces/owner-value";
+import {Genre} from "../../../genre/interfaces/genre";
+import {GenreService} from "../../../genre/services/genre.service";
+import {AdminTracksService} from "../services/admin-tracks.service";
 
 @Component({
   selector: 'app-tracks-form-dialog',
@@ -41,14 +44,18 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
       features : new FormControl([]),
       explicit: new FormControl(null, [Validators.required]),
       album : new FormControl({value: null, disabled: true}),
+      genre: new FormControl(null, [Validators.required])
     })
     private artistsSubject = new BehaviorSubject<Artist[]>([])
     artists$ = this.artistsSubject.asObservable()
     artists : Artist[] = []
+    genres : Genre[] = []
     subscriptions: Subscription[] = []
     owner = signal<Artist | undefined>(undefined)
     constructor(@Inject(MAT_DIALOG_DATA) public data: FormData<Track>,
-                private _artistService: ArtistService){
+                private _artistService: ArtistService,
+                private _genreService: GenreService,
+                private _adminTrackService: AdminTracksService){
     }
 
     ngOnInit() {
@@ -63,6 +70,13 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
           }
         })
       )
+      this.subscriptions.push(
+        this._genreService.getGenres().subscribe({
+          next: (genres) => {
+            this.genres = genres
+          }
+        })
+      )
 
       if(this.data.isEdit) {
         this.fillForm(this.data.item)
@@ -74,6 +88,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
         this.group.get('title')?.setValue(item.title)
         this.group.get('owner')?.setValue(item.owner)
         this.group.get('explicit')?.setValue(item.explicit)
+        this.group.get('genre')?.setValue(item.genre_id)
         if(this.group.get('owner')?.value) {
           if(item.owner.albums.length > 0) {
             this.group.get('album')?.setValue(item.album?.id)
@@ -109,12 +124,17 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     }
 
     finish() {
-        if(this.data.isEdit) {
-          console.log(this.group, {trackToUpdate :this.data.item})
+        if(this.data.isEdit && this.group.valid) {
+          console.log('update')
+          this._adminTrackService.updateTrack(this.data.item.id,this.group).subscribe({
+            next: (response) => {
+              console.log(response)
+            }
+          })
           return
         }
 
-      console.log(this.group)
+      console.log('insert')
     }
 
   compareOwners(o1: any, o2: any) {

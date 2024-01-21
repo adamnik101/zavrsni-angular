@@ -8,7 +8,7 @@
     track
   </h3>
   <div mat-dialog-content>
-    <form [formGroup]="group">
+    <form [formGroup]="group" class="track-form">
       <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Title</mat-label>
         <input matInput type="text" class="title" formControlName="title" placeholder="Enter track title">
@@ -53,6 +53,17 @@
         </mat-select>
         @if (group.get('album')?.hasError('required')){
           <mat-error>Album is required</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Select genre</mat-label>
+        <mat-select formControlName="genre" [placeholder]="'Select genre'">
+          @for (genre of genres; track genre.id) {
+              <mat-option [value]="genre.id">{{genre.name}}</mat-option>
+          }
+        </mat-select>
+        @if (group.get('genre')?.hasError('required')){
+          <mat-error>Genre is required</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" floatLabel="always">

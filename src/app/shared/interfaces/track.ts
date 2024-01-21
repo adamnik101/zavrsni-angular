@@ -22,4 +22,5 @@ export interface Track {
   count: number
   formatted_created_at: string
   formatted_updated_at: string
+  genre_id: string
 }
