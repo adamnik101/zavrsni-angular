@@ -19,7 +19,6 @@ import {OwnerValue} from "../../interfaces/owner-value";
 import {Genre} from "../../../genre/interfaces/genre";
 import {GenreService} from "../../../genre/services/genre.service";
 import {AdminTracksService} from "../services/admin-tracks.service";
-import {ImageFormFieldComponent} from "../../components/image-form-field/image-form-field.component";
 import {SnackbarService} from "../../../shared/services/snackbar.service";
 
 @Component({
@@ -35,7 +34,6 @@ import {SnackbarService} from "../../../shared/services/snackbar.service";
     MatOptionModule,
     MatSelectModule,
     AsyncPipe,
-    ImageFormFieldComponent
   ],
   templateUrl: './tracks-form-dialog.component.html',
   styleUrl: './tracks-form-dialog.component.scss'
