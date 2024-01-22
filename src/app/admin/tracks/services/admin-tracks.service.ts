@@ -4,7 +4,7 @@ import {PagedResponse} from "../../../shared/interfaces/paged-response";
 import {Track} from "../../../shared/interfaces/track";
 import {BehaviorSubject} from "rxjs";
 import {HttpParams} from "@angular/common/http";
-import {FormGroup} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {Artist} from "../../../artists/interfaces/artist";
 
 @Injectable({
@@ -18,6 +18,7 @@ export class AdminTracksService extends BaseService{
   public softTracks$ = this.softDeletedSubject.asObservable()
 
   public params = new HttpParams()
+  private _formData: FormData = new FormData()
   getPagedResponse(params?: HttpParams) {
     let path = 'admin/tracks'
     return this.get<PagedResponse<Track[]>>(path, {params: params})
@@ -38,14 +39,14 @@ export class AdminTracksService extends BaseService{
     return this.get<PagedResponse<Track[]>>(part, {params: this.params})
   }
 
-  addTrack(formData: FormData) {
-    return this.post('admin/tracks/add', formData)
+  addTrack() {
+    return this.post('admin/tracks/add', this._formData)
   }
 
   updateTrack(id: string, group: FormGroup) {
      let formData = new FormData()
 
-      formData.append('cover', 'test')
+      formData.append('cover', group.get('cover')?.value)
       formData.append('track', 'test')
       formData.append('title', group.get('title')?.value)
       formData.append('owner', group.get('owner')?.value.id)
@@ -59,5 +60,20 @@ export class AdminTracksService extends BaseService{
 
       }
       return this.post(`admin/tracks/${id}/update`, formData)
+  }
+  addToFormData(group: FormGroup) {
+    this._formData = new FormData()
+    this._formData.append('cover', group.get('cover')?.value)
+    this._formData.append('track', 'test')
+    this._formData.append('title', group.get('title')?.value)
+    this._formData.append('owner', group.get('owner')?.value.id)
+    this._formData.append('album', group.get('album')?.value)
+    this._formData.append('explicit', group.get('explicit')?.value)
+    this._formData.append('genre', group.get('genre')?.value)
+    if(group.get('features')?.value) {
+      for(let id of group.get('features')!.value) {
+        this._formData.append('features[]', id)
+      }
+    }
   }
 }

@@ -35,7 +35,16 @@
             </div>
             <button mat-stroked-button (click)="imageFile.click()">Change image</button>
           } @else {
-            <p>Choose cover image</p>
+            <div class="image">
+              <p>Image:</p>
+              @if (group.get('cover')?.value) {
+                <img src="{{selectedImageSrc}}"/>
+              } @else {
+                None
+              }
+            </div>
+
+
             <button mat-stroked-button (click)="imageFile.click()">Select</button>
           }
         </div>

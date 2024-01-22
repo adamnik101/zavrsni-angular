@@ -145,7 +145,16 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
           return
         }
 
-      console.log('insert')
+        if(this.group.valid) {
+          console.log('insert')
+          this._adminTrackService.addToFormData(this.group)
+          this._adminTrackService.addTrack().subscribe({
+            next: (response) => {
+              console.log(response)
+            }
+          })
+        }
+
     }
 
   compareOwners(o1: any, o2: any) {
