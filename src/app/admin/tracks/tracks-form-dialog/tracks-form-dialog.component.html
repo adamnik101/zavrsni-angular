@@ -58,10 +58,10 @@
             <div class="image">
               <p>Current track: </p>
               @if (data.item.path) {
-                {{data.item.path}}
+                <p class="track-info">{{data.item.path}}</p>
               } @else {
                 @if (group.get('track')?.value) {
-                  some value
+                  <p class="track-info">{{trackInfo}}</p>
                 } @else {
                   None
                 }
@@ -71,8 +71,8 @@
           } @else {
             <div class="image">
               <p>Track:</p>
-              @if (group.get('cover')?.value) {
-                {{selectedTrack}}
+              @if (group.get('track')?.value) {
+                <p class="track-info">{{trackInfo}}</p>
               } @else {
                 None
               }

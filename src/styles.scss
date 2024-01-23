@@ -725,6 +725,12 @@ input[type=email], input[type=password], textarea{
           flex-direction: row;
           align-items: center;
           gap: 5px;
+          .track-info {
+            width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
     }

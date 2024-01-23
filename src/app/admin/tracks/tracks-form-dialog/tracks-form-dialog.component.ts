@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, Signal, signal} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, Signal, signal, ViewChild} from '@angular/core';
 import {FormComponent} from "../../interfaces/form-component";
 import {Track} from "../../../shared/interfaces/track";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -61,6 +61,8 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     maxTrackSize = 3500000 // 3.5MB
     trackTypes = ['audio/mpeg'];
     selectedTrack = null
+    @ViewChild('trackFile') trackFile!: ElementRef
+    trackInfo: string = ''
     constructor(@Inject(MAT_DIALOG_DATA) public data: FormData<Track>,
                 private _artistService: ArtistService,
                 private _genreService: GenreService,
@@ -195,9 +197,9 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
       reader.readAsDataURL(this.group.get(control)?.value)
 
       reader.onload = (e) => {
-        console.log(e.target)
+        console.log(e.target?.result)
         if(control === 'track') {
-          //this.trackInfo = this.inputTrack.nativeElement.value.split('\\')[2]
+          this.trackInfo = this.trackFile.nativeElement.value.split('\\')[2]
         } else if(control === 'cover') {
           console.log(this.group.get('cover')?.value)
           this.group.get('cover')?.setValue(file)
