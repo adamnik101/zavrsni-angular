@@ -58,6 +58,9 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     imageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
     maxImageSize = 2000000 //2MB
     selectedImageSrc = ''
+    maxTrackSize = 3500000 // 3.5MB
+    trackTypes = ['audio/mpeg'];
+    selectedTrack = null
     constructor(@Inject(MAT_DIALOG_DATA) public data: FormData<Track>,
                 private _artistService: ArtistService,
                 private _genreService: GenreService,
@@ -163,16 +166,28 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
   }
   onFileSelected(event: any, control: string) {
       let file = event.target.files[0] ?? null
-    if(file) {
-      if(!this.imageTypes.includes(file.type)) {
-        this._snackbar.showFailedMessage('You must provide an image!')
+    console.log(file.type)
+    if(control === 'image' && file) {
+        if(!this.imageTypes.includes(file.type)) {
+          this._snackbar.showFailedMessage('You must provide an image!')
+          return
+        }
+        if(file.size > this.maxImageSize) {
+          this._snackbar.showFailedMessage('Image size cannot exceed 2MB!')
+          return
+        }
+    }
+    else if(control === 'track' && file) {
+      if(!this.trackTypes.includes(file.type)) {
+        this._snackbar.showFailedMessage('You must provide a track file!')
         return
       }
-      if(file.size > this.maxImageSize) {
-        this._snackbar.showFailedMessage('Image size cannot exceed 2MB!')
+      if(file.size > this.maxTrackSize) {
+        this._snackbar.showFailedMessage('Track size cannot exceed 3.5MBs!');
         return
       }
     }
+
     this.group.get(control)?.setValue(event.target.files[0] ?? null)
 
     if (this.group.get(control)?.value) {

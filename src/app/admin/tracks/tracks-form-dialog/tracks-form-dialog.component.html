@@ -51,7 +51,39 @@
 
       </div>
 
+      <div class="file-input">
+        <div class="input">
+          <input type="file" hidden #trackFile (change)="onFileSelected($event, 'track')" [accept]="trackTypes"/>
+          @if (this.group.get('track') && data.isEdit) {
+            <div class="image">
+              <p>Current track: </p>
+              @if (data.item.path) {
+                {{data.item.path}}
+              } @else {
+                @if (group.get('track')?.value) {
+                  some value
+                } @else {
+                  None
+                }
+              }
+            </div>
+            <button mat-stroked-button (click)="trackFile.click()">Change track</button>
+          } @else {
+            <div class="image">
+              <p>Track:</p>
+              @if (group.get('cover')?.value) {
+                {{selectedTrack}}
+              } @else {
+                None
+              }
+            </div>
 
+
+            <button mat-stroked-button (click)="trackFile.click()">Select</button>
+          }
+        </div>
+
+      </div>
       <!--      <app-image-form-field [data]="data" [style.flex]="'1 290px'"></app-image-form-field>-->
       <!--<div class="file-input">
         <div class="input">
