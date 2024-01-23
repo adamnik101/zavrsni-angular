@@ -41,6 +41,7 @@ import {SnackbarService} from "../../../shared/services/snackbar.service";
 export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     group: FormGroup = new FormGroup({
       title: new FormControl('', [Validators.required]),
+      track: new FormControl(null, [Validators.required]),
       cover: new FormControl(null, [Validators.required]),
       owner : new FormControl(null, [Validators.required]),
       features : new FormControl([]),
