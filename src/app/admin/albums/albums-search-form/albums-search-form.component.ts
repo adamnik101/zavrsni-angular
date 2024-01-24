@@ -28,6 +28,7 @@ export class AlbumsSearchFormComponent {
   }
   albumFormGroup = new FormGroup({
     name: new FormControl(''),
+    master: new FormControl(''),
     tracksCountFrom: new FormControl(null),
     tracksCountTo: new FormControl(null),
     releaseYear: new FormControl(null),
@@ -49,6 +50,7 @@ export class AlbumsSearchFormComponent {
   search() {
     let group = this.albumFormGroup
     let name = group.get('name')?.value?.trim()
+    let master = group.get('master')?.value?.trim()
     let tracksCountFrom = group.get('tracksCountFrom')?.value
     let tracksCountTo = group.get('tracksCountTo')?.value
     let releaseYear = group.get('releaseYear')?.value
@@ -61,6 +63,9 @@ export class AlbumsSearchFormComponent {
 
     if(name) {
       this._adminAlbumService.params = this._adminAlbumService.params.append('name', name)
+    }
+    if(master) {
+      this._adminAlbumService.params = this._adminAlbumService.params.append('master', master)
     }
     if(tracksCountFrom) {
       this._adminAlbumService.params = this._adminAlbumService.params.append('tracksCountFrom', tracksCountFrom)
