@@ -61,7 +61,7 @@
               <div class="image">
                 <p>Track: </p>
                 @if (data.item.path) {
-                  <p class="track-info">{{data.item.path}}</p>
+                  <p class="track-info">{{trackInfo}}</p>
                 } @else {
                   @if (group.get('track')?.value) {
                     <p class="track-info">{{trackInfo}}</p>
@@ -169,6 +169,7 @@
         }
         track
       </button>
+      <button mat-button (click)="resetToDefaultValues()">Reset</button>
       <button mat-button mat-dialog-close>Cancel</button>
     </div>
   }

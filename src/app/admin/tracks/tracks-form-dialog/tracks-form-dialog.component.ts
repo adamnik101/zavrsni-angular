@@ -102,6 +102,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
 
     fillForm(item: Track): void {
       console.log(item.owner.albums)
+        this.trackInfo = item.path
         this.group.get('title')?.setValue(item.title)
         this.group.get('owner')?.setValue(item.owner)
         this.group.get('explicit')?.setValue(item.explicit)
@@ -168,7 +169,13 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
         }
 
     }
-
+  resetToDefaultValues() {
+      if(this.data.isEdit) {
+        this.fillForm(this.data.item)
+        return
+      }
+      this.group.reset()
+  }
   compareOwners(o1: any, o2: any) {
     return o1 && o2 ? o1.id === o2.id : o1 === o2
   }
