@@ -20,6 +20,7 @@ import {Genre} from "../../../genre/interfaces/genre";
 import {GenreService} from "../../../genre/services/genre.service";
 import {AdminTracksService} from "../services/admin-tracks.service";
 import {SnackbarService} from "../../../shared/services/snackbar.service";
+import {DialogLoadingComponent} from "../../dialog-loading/dialog-loading.component";
 
 @Component({
   selector: 'app-tracks-form-dialog',
@@ -34,6 +35,7 @@ import {SnackbarService} from "../../../shared/services/snackbar.service";
     MatOptionModule,
     MatSelectModule,
     AsyncPipe,
+    DialogLoadingComponent,
   ],
   templateUrl: './tracks-form-dialog.component.html',
   styleUrl: './tracks-form-dialog.component.scss'
@@ -63,6 +65,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     selectedTrack = null
     @ViewChild('trackFile') trackFile!: ElementRef
     trackInfo: string = ''
+    dataLoading = true
     constructor(@Inject(MAT_DIALOG_DATA) public data: FormData<Track>,
                 private _artistService: ArtistService,
                 private _genreService: GenreService,
@@ -79,6 +82,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
             if(this.data.isEdit) {
               this.getOwnerAlbums(artists)
             }
+
           }
         })
       )
@@ -86,6 +90,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
         this._genreService.getGenres().subscribe({
           next: (genres) => {
             this.genres = genres
+            this.dataLoading = false
           }
         })
       )
@@ -130,6 +135,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
           next: (response) => {
             console.log(response)
             console.log(this.group.get('owner')?.value, this.owner())
+
           }
         })
       }

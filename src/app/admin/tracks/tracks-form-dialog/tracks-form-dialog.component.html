@@ -1,174 +1,175 @@
 <div class="dialog">
-  <h3 mat-dialog-title>
-    @if(data.isEdit) {
-      Edit
-    } @else {
-      Add
-    }
-    track
-  </h3>
-  <div mat-dialog-content>
-    <form [formGroup]="group" class="track-form">
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Title</mat-label>
-        <input matInput type="text" class="title" formControlName="title" placeholder="Enter track title">
-        @if (group.get('title')?.hasError('required')) {
-          <mat-error>Title is required</mat-error>
-        }
-      </mat-form-field>
+  @if (dataLoading) {
+    <app-dialog-loading></app-dialog-loading>
+  } @else {
+    <h3 mat-dialog-title>
+      @if(data.isEdit) {
+        Edit
+      } @else {
+        Add
+      }
+      track
+    </h3>
+    <div mat-dialog-content>
+      <form [formGroup]="group" class="track-form">
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Title</mat-label>
+          <input matInput type="text" class="title" formControlName="title" placeholder="Enter track title">
+          @if (group.get('title')?.hasError('required')) {
+            <mat-error>Title is required</mat-error>
+          }
+        </mat-form-field>
 
-      <div class="file-input">
-        <div class="input">
-          <input type="file" hidden #imageFile (change)="onFileSelected($event, 'cover')" [accept]="imageTypes"/>
-          @if (this.group.get('cover') && data.isEdit) {
-            <div class="image">
-              <p>Current image: </p>
-              @if (data.item.cover) {
-                <img src="{{data.item.cover}}"/>
-              } @else {
+        <div class="file-input">
+          <div class="input">
+            <input type="file" hidden #imageFile (change)="onFileSelected($event, 'cover')" [accept]="imageTypes"/>
+            @if (this.group.get('cover') && data.isEdit) {
+              <div class="image">
+                <p>Current image: </p>
+                @if (data.item.cover) {
+                  <img src="{{data.item.cover}}"/>
+                } @else {
+                  @if (group.get('cover')?.value) {
+                    <img src="{{selectedImageSrc}}"/>
+                  } @else {
+                    None
+                  }
+                }
+              </div>
+              <button mat-stroked-button (click)="imageFile.click()">Change image</button>
+            } @else {
+              <div class="image">
+                <p>Image:</p>
                 @if (group.get('cover')?.value) {
                   <img src="{{selectedImageSrc}}"/>
                 } @else {
                   None
                 }
-              }
-            </div>
-            <button mat-stroked-button (click)="imageFile.click()">Change image</button>
-          } @else {
-            <div class="image">
-              <p>Image:</p>
-              @if (group.get('cover')?.value) {
-                <img src="{{selectedImageSrc}}"/>
-              } @else {
-                None
-              }
-            </div>
+              </div>
 
 
-            <button mat-stroked-button (click)="imageFile.click()">Select</button>
-          }
+              <button mat-stroked-button (click)="imageFile.click()">Select</button>
+            }
+          </div>
+
         </div>
 
-      </div>
-
-      <div class="file-input">
-        <div class="input">
-          <input type="file" hidden #trackFile (change)="onFileSelected($event, 'track')" [accept]="trackTypes"/>
-          @if (this.group.get('track') && data.isEdit) {
-            <div class="image">
-              <p>Current track: </p>
-              @if (data.item.path) {
-                <p class="track-info">{{data.item.path}}</p>
-              } @else {
+        <div class="file-input">
+          <div class="input">
+            <input type="file" hidden #trackFile (change)="onFileSelected($event, 'track')" [accept]="trackTypes"/>
+            @if (this.group.get('track') && data.isEdit) {
+              <div class="image">
+                <p>Track: </p>
+                @if (data.item.path) {
+                  <p class="track-info">{{data.item.path}}</p>
+                } @else {
+                  @if (group.get('track')?.value) {
+                    <p class="track-info">{{trackInfo}}</p>
+                  } @else {
+                    None
+                  }
+                }
+              </div>
+            } @else {
+              <div class="image">
+                <p>Track:</p>
                 @if (group.get('track')?.value) {
                   <p class="track-info">{{trackInfo}}</p>
                 } @else {
                   None
                 }
-              }
-            </div>
-            <button mat-stroked-button (click)="trackFile.click()">Change track</button>
-          } @else {
-            <div class="image">
-              <p>Track:</p>
-              @if (group.get('track')?.value) {
-                <p class="track-info">{{trackInfo}}</p>
-              } @else {
-                None
-              }
-            </div>
-
-
+              </div>
+            }
             <button mat-stroked-button (click)="trackFile.click()">Select</button>
-          }
-        </div>
+          </div>
 
-      </div>
-      <!--      <app-image-form-field [data]="data" [style.flex]="'1 290px'"></app-image-form-field>-->
-      <!--<div class="file-input">
-        <div class="input">
-          @if (data.isEdit) {
-            <img src="{{data.item.cover}}"/>
-            <button>Change image</button>
-          } @else {
-            <p>Choose cover image</p>
-            <button>Select</button>
-          }
         </div>
-
-      </div>-->
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Owner</mat-label>
-        <mat-select formControlName="owner" placeholder="Select owner of the track" [compareWith]="compareOwners">
-          @for (artist of artists; track artist.id) {
-            <mat-option [value]="artist" [disabled]="artist | isSelectedInFeatures:group.get('features')?.value">{{artist.name}}</mat-option>
-          }
-        </mat-select>
-        @if (group.get('owner')?.hasError('required')){
-          <mat-error>Owner is required</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Select features</mat-label>
-        <mat-select formControlName="features" [multiple]="true" [placeholder]="'[Optional]'">
-          @for (feature of artists; track feature.id) {
-            @if (group.get('owner')?.value && feature.id === group.get('owner')?.value!.id) {
-              <mat-option [value]="feature.id" [disabled]="true">{{feature.name}}</mat-option>
+        <!--      <app-image-form-field [data]="data" [style.flex]="'1 290px'"></app-image-form-field>-->
+        <!--<div class="file-input">
+          <div class="input">
+            @if (data.isEdit) {
+              <img src="{{data.item.cover}}"/>
+              <button>Change image</button>
             } @else {
-              <mat-option [value]="feature.id">{{feature.name}}</mat-option>
+              <p>Choose cover image</p>
+              <button>Select</button>
             }
-          }
-        </mat-select>
-        @if (group.get('owner')?.hasError('required')){
-          <mat-error>Owner is required</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Select album</mat-label>
-        <mat-select formControlName="album" [placeholder]="'[Optional]'" [disabled]="!group.get('owner')?.value || group.get('owner')?.value!.albums?.length === 0">
-          @if(group.get('owner')?.value) {
-            @for (album of group.get('owner')?.value!.albums; track album.id) {
-              <mat-option [value]="album.id">{{album.name}}</mat-option>
-            }
-          }
-        </mat-select>
-        @if (group.get('album')?.hasError('required')){
-          <mat-error>Album is required</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Select genre</mat-label>
-        <mat-select formControlName="genre" [placeholder]="'Select genre'">
-          @for (genre of genres; track genre.id) {
-              <mat-option [value]="genre.id">{{genre.name}}</mat-option>
-          }
-        </mat-select>
-        @if (group.get('genre')?.hasError('required')){
-          <mat-error>Genre is required</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Explicit</mat-label>
-        <mat-select formControlName="explicit" placeholder="Explicit">
-          <mat-option [value]="true">Yes</mat-option>
-          <mat-option [value]="false">No</mat-option>
-        </mat-select>
-        @if (group.get('explicit')?.hasError('required')) {
-          <mat-error>Explicit is required</mat-error>
-        }
-      </mat-form-field>
-    </form>
-  </div>
+          </div>
 
-  <div mat-dialog-actions>
-    <button mat-button (click)="finish()">
-      @if (data.isEdit) {
-        Update
-      } @else {
-        Add
-      }
-      track
-    </button>
-    <button mat-button mat-dialog-close>Cancel</button>
-  </div>
+        </div>-->
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Owner</mat-label>
+          <mat-select formControlName="owner" placeholder="Select owner of the track" [compareWith]="compareOwners">
+            @for (artist of artists; track artist.id) {
+              <mat-option [value]="artist" [disabled]="artist | isSelectedInFeatures:group.get('features')?.value">{{artist.name}}</mat-option>
+            }
+          </mat-select>
+          @if (group.get('owner')?.hasError('required')){
+            <mat-error>Owner is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Select features</mat-label>
+          <mat-select formControlName="features" [multiple]="true" [placeholder]="'[Optional]'">
+            @for (feature of artists; track feature.id) {
+              @if (group.get('owner')?.value && feature.id === group.get('owner')?.value!.id) {
+                <mat-option [value]="feature.id" [disabled]="true">{{feature.name}}</mat-option>
+              } @else {
+                <mat-option [value]="feature.id">{{feature.name}}</mat-option>
+              }
+            }
+          </mat-select>
+          @if (group.get('owner')?.hasError('required')){
+            <mat-error>Owner is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Select album</mat-label>
+          <mat-select formControlName="album" [placeholder]="'[Optional]'" [disabled]="!group.get('owner')?.value || group.get('owner')?.value!.albums?.length === 0">
+            @if(group.get('owner')?.value) {
+              @for (album of group.get('owner')?.value!.albums; track album.id) {
+                <mat-option [value]="album.id">{{album.name}}</mat-option>
+              }
+            }
+          </mat-select>
+          @if (group.get('album')?.hasError('required')){
+            <mat-error>Album is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Select genre</mat-label>
+          <mat-select formControlName="genre" [placeholder]="'Select genre'">
+            @for (genre of genres; track genre.id) {
+              <mat-option [value]="genre.id">{{genre.name}}</mat-option>
+            }
+          </mat-select>
+          @if (group.get('genre')?.hasError('required')){
+            <mat-error>Genre is required</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Explicit</mat-label>
+          <mat-select formControlName="explicit" placeholder="Explicit">
+            <mat-option [value]="true">Yes</mat-option>
+            <mat-option [value]="false">No</mat-option>
+          </mat-select>
+          @if (group.get('explicit')?.hasError('required')) {
+            <mat-error>Explicit is required</mat-error>
+          }
+        </mat-form-field>
+      </form>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="finish()">
+        @if (data.isEdit) {
+          Update
+        } @else {
+          Add
+        }
+        track
+      </button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </div>
+  }
 </div>
