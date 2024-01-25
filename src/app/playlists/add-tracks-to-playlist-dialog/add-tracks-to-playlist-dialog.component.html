@@ -1,22 +1,25 @@
-<h2 mat-dialog-title>{{ data.message }}</h2>
-<div mat-dialog-content>
-  <p>{{ data.content }}</p>
-</div>
+<div class="dialog">
+  <h2 mat-dialog-title>{{ data.message }}</h2>
+  <div mat-dialog-content>
+    <p>{{ data.content }}</p>
+  </div>
 
-<div mat-dialog-actions>
-  @for(btn of data.actions; track btn) {
-    @if(data.status === 'warning-all') {
-      @if (btn === 'Add anyway') {
-        <button mat-button (click)="addAnyway(data.playlistId, data.tracksAlreadyInPlaylist)">{{ btn }}</button>
-      } @else if (btn === 'Don\'t add') {
-        <button mat-button (click)="closeDialog()">{{ btn }}</button>
-      }
-    } @else if (data.status === 'warning-some') {
-      @if (btn === 'Add all') {
-        <button mat-button (click)="addAll(data.playlistId, data.allTracksIds)">{{ btn }}</button>
-      } @else if (btn === 'Add new ones') {
-        <button mat-button (click)="addNewOnes()">{{ btn }}</button>
+  <div mat-dialog-actions>
+    @for(btn of data.actions; track btn) {
+      @if(data.status === 'warning-all') {
+        @if (btn === 'Add anyway') {
+          <button mat-button (click)="addAnyway(data.playlistId, data.tracksAlreadyInPlaylist)">{{ btn }}</button>
+        } @else if (btn === 'Don\'t add') {
+          <button mat-button (click)="closeDialog()">{{ btn }}</button>
+        }
+      } @else if (data.status === 'warning-some') {
+        @if (btn === 'Add all') {
+          <button mat-button (click)="addAll(data.playlistId, data.allTracksIds)">{{ btn }}</button>
+        } @else if (btn === 'Add new ones') {
+          <button mat-button (click)="addNewOnes()">{{ btn }}</button>
+        }
       }
     }
-  }
+  </div>
+
 </div>
