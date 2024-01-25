@@ -115,6 +115,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
             this.group.get('album')?.enable()
           }
         }
+        this.group.get('features')?.setValue([])
         if(item.features.length > 0) {
           let featureIds = []
           for(let feature of item.features) {
@@ -181,24 +182,23 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     return o1 && o2 ? o1.id === o2.id : o1 === o2
   }
   onFileSelected(event: any, control: string) {
-      let file = event.target.files[0] ?? null
+    let file = event.target.files[0] ?? null
     console.log(file.type)
-    if(control === 'image' && file) {
-        if(!this.imageTypes.includes(file.type)) {
-          this._snackbar.showFailedMessage('You must provide an image!')
-          return
-        }
-        if(file.size > this.maxImageSize) {
-          this._snackbar.showFailedMessage('Image size cannot exceed 2MB!')
-          return
-        }
-    }
-    else if(control === 'track' && file) {
-      if(!this.trackTypes.includes(file.type)) {
+    if (control === 'image' && file) {
+      if (!this.imageTypes.includes(file.type)) {
+        this._snackbar.showFailedMessage('You must provide an image!')
+        return
+      }
+      if (file.size > this.maxImageSize) {
+        this._snackbar.showFailedMessage('Image size cannot exceed 2MB!')
+        return
+      }
+    } else if (control === 'track' && file) {
+      if (!this.trackTypes.includes(file.type)) {
         this._snackbar.showFailedMessage('You must provide a track file!')
         return
       }
-      if(file.size > this.maxTrackSize) {
+      if (file.size > this.maxTrackSize) {
         this._snackbar.showFailedMessage('Track size cannot exceed 3.5MBs!');
         return
       }
@@ -212,9 +212,9 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
 
       reader.onload = (e) => {
         console.log(e.target?.result)
-        if(control === 'track') {
+        if (control === 'track') {
           this.trackInfo = this.trackFile.nativeElement.value.split('\\')[2]
-        } else if(control === 'cover') {
+        } else if (control === 'cover') {
           console.log(this.group.get('cover')?.value)
           this.group.get('cover')?.setValue(file)
           this.selectedImageSrc = e.target?.result as string

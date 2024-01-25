@@ -64,7 +64,7 @@ export class AdminTracksService extends BaseService{
   addToFormData(group: FormGroup) {
     this._formData = new FormData()
     this._formData.append('cover', group.get('cover')?.value)
-    this._formData.append('track', 'test')
+    this._formData.append('track', group.get('track')?.value)
     this._formData.append('title', group.get('title')?.value)
     this._formData.append('owner', group.get('owner')?.value.id)
     this._formData.append('album', group.get('album')?.value)
