@@ -14,6 +14,7 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {ArtistsModule} from "../artists/artists.module";
 import {AlbumsModule} from "../albums/albums.module";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {AlbumsModule} from "../albums/albums.module";
         MatDividerModule,
         MatSlideToggleModule,
         ArtistsModule,
-        AlbumsModule
+        AlbumsModule,
+        MatInputModule
     ]
 })
 export class UserModule { }

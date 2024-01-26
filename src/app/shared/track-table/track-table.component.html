@@ -196,7 +196,7 @@
   <mat-menu #playlist="matMenu">
     <ng-template matMenuContent>
       @for (playlist of playlists; track playlist) {
-        <button mat-menu-item (click)="addTrackToPlaylist(track.id, playlist.id)">{{playlist.title}}</button>
+        <button mat-menu-item (click)="addTrackToPlaylist(playlist.id)">{{playlist.title}}</button>
       }
     </ng-template>
   </mat-menu>

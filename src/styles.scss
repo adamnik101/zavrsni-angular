@@ -140,7 +140,7 @@ mat-dialog-container{
     justify-content: flex-end;
     gap: 10px;
     .cancel{
-      background: var(--main-color);
+
     }
     .create{
       background: var(--primary-text);
@@ -323,7 +323,6 @@ input[type=email], input[type=password], textarea{
   padding: 10px 20px;
   font-size: 15px;
   background: none ;
-  outline: 1px solid var(--light-black);;
   color: var(--primary-text);
   border-radius: 5px;
   caret-color: var(--primary-text);
@@ -681,10 +680,13 @@ input[type=email], input[type=password], textarea{
   background: var(--light);
   border-radius: 5px;
   .mdc-dialog__title{
-    font-weight: bold !important;
+    //font-weight: bold !important;
   }
-  h1, p, span{
-    color: var(--light-black);
+  p, span{
+    color: var(--light-black) !important;
+  }
+  h2{
+    color: var(--primary-black) !important;
   }
   .button{
     span{
@@ -868,4 +870,21 @@ input[type=email], input[type=password], textarea{
   gap: 20px;
   width: 32.5%;
 }
+.user-ui {
+  mat-label{
+    color: var(--light);
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing {
+    border-color: var(--gray) !important;
+  }
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: var(--primary-text) !important;
+    caret-color: var(--primary-text) !important;
+    &::placeholder{
+      color: var(--light-text) !important;
+    }
+  }
 
+}

@@ -24,13 +24,19 @@
           }
         </div>
         <div class="info">
+          <p>Playlist</p>
           <h1>{{playlist()!.title}}</h1>
-          <p>{{playlistService.trackCount()}} tracks</p>
           @if (playlist()!.description) {
             <p class="desc">{{playlist()!.description}}</p>
           }
           <p>Last updated {{playlist()!.latest_added | humanizeDate}}</p>
-          <p>{{playlistService.totalDuration() | formatDuration}}</p>
+
+          <div class="with-divider">
+            <p>{{playlistService.trackCount()}} tracks</p>
+            <app-divider></app-divider>
+            <p>{{playlistService.totalDuration() | formatDuration}}</p>
+          </div>
+
         </div>
       </div>
       @if (playlist()!.tracks_count > 0) {

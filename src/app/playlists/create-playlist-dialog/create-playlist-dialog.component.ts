@@ -49,7 +49,7 @@ export class CreatePlaylistDialogComponent {
       this._playlistService.createPlaylist(formData).subscribe({
         next: (response) => {
           this._playlistService.getPlaylists()
-          this._snackbarService.showSuccessMessage('Successfully created a new playlist!')
+          this._snackbarService.showDefaultMessage("Added to your library.")
           this._dialog.close()
         }
       })

@@ -81,7 +81,10 @@ export class TrackTableComponent {
 
     //this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], from)
   }
-  addTrackToPlaylist(trackId: string, playlistId: string) {
+  addTrackToPlaylist(playlistId: string, trackId?: string) {
+    if(!trackId) {
+      trackId = this.selectedTrack.id
+    }
     this.subs.push(this._playlistService.addTracksToPlaylist([trackId], playlistId).subscribe({
       next: (response: AddTracksToPlaylistResponse) => {
         this._snackbarService.showDefaultMessage(response.message)
@@ -161,7 +164,7 @@ export class TrackTableComponent {
           const currIndex = event.currentIndex
           const trackToDrop = this.tracks[currIndex]
 
-          this.addTrackToPlaylist(trackToDrop.id, this.dropToPlaylistId)
+          this.addTrackToPlaylist(this.dropToPlaylistId, trackToDrop.id)
         }
       }
     }

@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Create new playlist</h2>
-<div mat-dialog-content >
+<div mat-dialog-content class="user-ui">
   <form class="form" [formGroup]="playlist" enctype="multipart/form-data">
     <div class="form-group top">
       <div class="right">
@@ -37,33 +37,31 @@
               </mat-error>
             }
           </mat-form-field>
+        </div>
+        <div class="textarea">
+          <mat-form-field appearance="outline" floatLabel="always" [style.width]="'350px'">
+            <mat-label>Description</mat-label>
+            <textarea matInput [maxLength]="maxLength" formControlName="description"  [rows]="3" [cols]="60" id="description" name="description" [placeholder]="'[Optional description]'"></textarea>
+            @if (playlist.get('description')?.hasError('maxlength')) {
+              <mat-error>
+                Max length is 300 characters
+              </mat-error>
+            }
+          </mat-form-field>
+          <p><span [ngClass]="{'orange' : maxLength - numberOfLetters <= 100 && numberOfLetters < maxLength, 'red' : maxLength === numberOfLetters}">{{numberOfLetters}}</span>/{{maxLength}}</p>
 
         </div>
-        <div class="form-group">
-          <label class="label" for="description">Description</label>
-          <div class="textarea">
-            <textarea  [maxLength]="maxLength" formControlName="description"  rows="5" cols="50" id="description" name="description" placeholder="[Optional]"></textarea>
-            <p><span [ngClass]="{'orange' : maxLength - numberOfLetters <= 100 && numberOfLetters < maxLength, 'red' : maxLength === numberOfLetters}">{{numberOfLetters}}</span>/{{maxLength}}</p>
-          </div>
-          @if (playlist.controls.description.hasError('maxlength')) {
-            <mat-error>
-              Max length is 500 characters
-            </mat-error>
-          }
-        </div>
+
       </div>
 
 
 
 
     </div>
-    <div class="form-group">
-
-    </div>
 
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close class="cancel">Cancel</button>
-  <button mat-button cdkFocusInitial  (click)="confirm()" class="create">Create</button>
+  <button mat-button mat-dialog-close class="white cancel">Cancel</button>
+  <button mat-button cdkFocusInitial  (click)="confirm()" class="white create">Create</button>
 </div>
