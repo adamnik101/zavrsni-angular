@@ -54,6 +54,13 @@
             transform: scale(1.1);
           }
         }
+        .artist-info{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 10px;
+        }
       }
       .lower-section{
 

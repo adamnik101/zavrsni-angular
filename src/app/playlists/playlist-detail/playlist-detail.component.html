@@ -33,8 +33,10 @@
 
           <div class="with-divider">
             <p>{{playlistService.trackCount()}} tracks</p>
-            <app-divider></app-divider>
-            <p>{{playlistService.totalDuration() | formatDuration}}</p>
+            @if(playlistService.totalDuration()) {
+              <app-divider></app-divider>
+              <p>{{playlistService.totalDuration() | formatDuration}}</p>
+            }
           </div>
 
         </div>

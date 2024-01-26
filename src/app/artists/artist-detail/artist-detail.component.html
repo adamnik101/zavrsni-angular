@@ -13,9 +13,16 @@
     @if (loaded) {
       <div class="info">
         <div class="top-section">
+
           <img src="{{artist.cover}}"/>
-          <div class="actions">
+          <div class="">
+            <p>Artist</p>
             <h1>{{artist.name}}</h1>
+            <div class="artist-info">
+              <p>{{artist.followed_by_count | number}} Followers</p>
+              <app-divider></app-divider>
+              <p>{{artist.monthly_listeners | number}} Monthly listeners</p>
+            </div>
             @if (!isFollowing) {
               <button (click)="followArtist(artist)">
                 <img src="assets/icons-svg/plus.svg" alt="plus,icon"/>

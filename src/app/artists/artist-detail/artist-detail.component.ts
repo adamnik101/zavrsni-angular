@@ -109,6 +109,7 @@ export class ArtistDetailComponent implements OnInit {
         this._snackbarService.showDefaultMessage(response as string)
         this.followings.unshift(artist)
         this._userService.updateFollowing(this.followings)
+        this.artist.followed_by_count++
 
       }, error: (response) => {
         this._snackbarService.showFailedMessage(response.error)
@@ -123,6 +124,7 @@ export class ArtistDetailComponent implements OnInit {
         const artistToDelete = this.followings.findIndex(ar => ar.id === artist.id)
         if(artistToDelete != -1) {
           this.followings.splice(artistToDelete, 1)
+          this.artist.followed_by_count--
         }
         this._userService.updateFollowing(this.followings)
         this.isFollowing = false
