@@ -9,6 +9,8 @@ import {UserService} from "../../user/services/user.service";
 import {Router} from "@angular/router";
 import {User} from "../../user/interfaces/user";
 import {PlaylistService} from "../../playlists/services/playlist.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Subscription} from "rxjs";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,38 +22,42 @@ export class LoginComponent {
   password: string = ''
   remember: boolean = false
   error: string = ''
+  loginGroup = new FormGroup({
+    email: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
+    remember: new FormControl(null)
+  })
+  private subscribe!: Subscription;
 
   constructor(private _authService: AuthService,
               private _tokenService: TokenService,
               private _userService: UserService,
-              private _router: Router,
               private _playlistService: PlaylistService) {
   }
-  ngOnInit() {
-
-  }
   onLogin() {
-    const loginData: LoginRequest = {
-      email: this.email,
-      password: this.password,
-      remember: this.remember
-    }
-    const subscribe = this._authService.login(loginData).subscribe({
-      next: (response) => {
-        if (response.token) {
-          this._tokenService.setToken(response.token)
-          this._userService.getUser(true)
-          this._playlistService.getPlaylists()
-        }
-      },
-      error: (response) => {
-        const res = response.error as LoginResponseError
-        this.error = res.message
-      },
-      complete: () =>  {
-
-        subscribe.unsubscribe()
+    if(this.loginGroup.valid) {
+      const loginData: LoginRequest = {
+        email: this.loginGroup.get('email')?.value?.trim()!,
+        password: this.loginGroup.get('password')?.value?.trim()!,
+        remember: this.loginGroup.get('remember')?.value
       }
-    })
+      this.subscribe = this._authService.login(loginData).subscribe({
+        next: (response) => {
+          if (response.token) {
+            this._tokenService.setToken(response.token)
+            this._userService.getUser(true)
+            this._playlistService.getPlaylists()
+          }
+        },
+        error: (response) => {
+          const res = response.error as LoginResponseError
+          this.error = res.message
+        }
+      })
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscribe.unsubscribe()
   }
 }

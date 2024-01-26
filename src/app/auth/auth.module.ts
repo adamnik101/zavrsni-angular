@@ -6,6 +6,8 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatRippleModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import {MatRippleModule} from "@angular/material/core";
     AuthRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    MatRippleModule
+    MatRippleModule,
+    MatInputModule,
+    MatButtonModule
   ]
 })
 export class AuthModule { }

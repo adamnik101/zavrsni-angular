@@ -42,13 +42,14 @@
           <mat-form-field appearance="outline" floatLabel="always" [style.width]="'350px'">
             <mat-label>Description</mat-label>
             <textarea matInput [maxLength]="maxLength" formControlName="description"  [rows]="3" [cols]="60" id="description" name="description" [placeholder]="'[Optional description]'"></textarea>
+            <mat-hint align="end">{{numberOfLetters}}/ {{maxLength}}</mat-hint>
             @if (playlist.get('description')?.hasError('maxlength')) {
               <mat-error>
                 Max length is 300 characters
               </mat-error>
             }
           </mat-form-field>
-          <p><span [ngClass]="{'orange' : maxLength - numberOfLetters <= 100 && numberOfLetters < maxLength, 'red' : maxLength === numberOfLetters}">{{numberOfLetters}}</span>/{{maxLength}}</p>
+<!--          <p><span [ngClass]="{'orange' : maxLength - numberOfLetters <= 100 && numberOfLetters < maxLength, 'red' : maxLength === numberOfLetters}">{{numberOfLetters}}</span>/{{maxLength}}</p>-->
 
         </div>
 

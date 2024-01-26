@@ -1,0 +1,22 @@
+.register{
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  .header{
+
+  }
+}
+.register-form{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  column-gap: 25px;
+  row-gap: 5px;
+  max-width: 500px;
+
+  mat-form-field{
+  }
+  .register-button{
+  }
+}
