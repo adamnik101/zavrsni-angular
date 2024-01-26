@@ -72,10 +72,10 @@ export class UserService extends BaseService{
         if(navigateToProfile) this._router.navigate(['user/profile'])
       },
       error: (response):void => {
-        if (response.status === 401) {
-          this._authService.isLoggedIn = false
-          this._router.navigate(['auth/login'])
-        }
+        // if (response.status === 401) {
+        //   this._authService.isLoggedIn = false
+        //   this._router.navigate(['auth/login'])
+        // }
         console.log(response.error.message)
       },
       complete () :void {

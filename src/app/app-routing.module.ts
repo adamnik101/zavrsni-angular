@@ -12,7 +12,7 @@ import {ArtistsModule} from "./artists/artists.module";
 import {AlbumsModule} from "./albums/albums.module";
 
 const routes: Routes = [
-  {path : '', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule), pathMatch: "full"},
+  {path : '', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
   {path : 'explore', component: ExploreComponent, loadChildren: () => import('./explore/explore.module').then(m => m.ExploreModule)},
   {path : 'trending', loadChildren: () => import('./trending/trending.module').then(m => m.TrendingModule)},
   {path : 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
@@ -20,7 +20,7 @@ const routes: Routes = [
   {path : 'playlists', loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsModule)},
   {path : 'artists', loadChildren: () => import('./artists/artists.module').then(m => m.ArtistsModule)},
   {path : 'albums', loadChildren: () => import('./albums/albums.module').then(m => m.AlbumsModule)},
-  {path : 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [authGuard]},
+  {path : 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule)},
   {path : 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
   {path : 'queue', loadChildren: () => import('./queue/queue.module').then(m => m.QueueModule)},
   {path : 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},

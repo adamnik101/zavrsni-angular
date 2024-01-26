@@ -13,14 +13,7 @@ import {Router} from "@angular/router";
   providedIn: 'root'
 })
 export class AuthService extends BaseService{
-  private userSubject: BehaviorSubject<User> = new BehaviorSubject<User>({} as User)
-  private _router = inject(Router)
-  public user$ = this.userSubject.asObservable()
-  UserSig = signal<User | undefined | null>(undefined)
   public isLoggedIn = false
-  setLoggedInUser(user: User) {
-    this.userSubject.next(user)
-  }
 
   login(data: LoginRequest) : Observable<LoginResponse> {
     return this.post<LoginRequest, LoginResponse>('auth/login', data )
@@ -31,6 +24,7 @@ export class AuthService extends BaseService{
   }
 
   logout() {
+
     this.isLoggedIn = false
   }
 }
