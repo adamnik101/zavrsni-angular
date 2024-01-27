@@ -1,13 +1,18 @@
 
 <div class="following" >
-  @for (artist of following; track artist) {
-    <a class="row" routerLinkActive="active" routerLink="/artists/{{artist.id}}" >
-      <div class="left">
-        <img src="{{artist.cover}}"/>
-        <p>{{artist.name}}</p>
-      </div>
-    </a>
-  } @empty {
-    Follow artists to see them here
+  @if (following.length) {
+    @for (artist of following; track artist) {
+      <a class="row" routerLinkActive="active" routerLink="/artists/{{artist.id}}" >
+        <div class="left">
+          <img src="{{artist.cover}}"/>
+          <p>{{artist.name}}</p>
+        </div>
+      </a>
+    }
+  } @else {
+    <div class="no-artists-followed">
+      <mat-icon>microphone</mat-icon>
+      <p>You aren't following any artists. Tap the heart icon on any artist to add them to your collection.</p>
+    </div>
   }
 </div>

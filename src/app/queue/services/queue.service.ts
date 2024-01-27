@@ -38,6 +38,10 @@ export class QueueService implements Queue {
 
   addTrack(track: Track, from: From): void {
     this.queue.push(track)
+    this.from = from
+    if(this.currentTrackInfo() == null) {
+      this.setCurrentTrack(track)
+    }
   }
 
   addTracks(tracks: Track[], from: From): void {

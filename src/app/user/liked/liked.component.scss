@@ -12,3 +12,18 @@
     justify-content: center;
   }
 }
+.no-liked-tracks{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 200px);
+  text-align: center;
+  mat-icon{
+    font-size: 100px;
+    height: 100px;
+    width: 100px;
+    color: var(--light-gray);
+  }
+}

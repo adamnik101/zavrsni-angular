@@ -31,3 +31,17 @@
     }
   }
 }
+.no-artists-followed{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 200px);
+  text-align: center;
+  mat-icon{
+    font-size: 100px;
+    height: 100px;
+    width: 100px;
+  }
+}

@@ -4,6 +4,8 @@ import {Playlist} from "../../playlists/interfaces/playlist";
 import {Title} from "@angular/platform-browser";
 import {PlaylistService} from "../../playlists/services/playlist.service";
 import {Subscription} from "rxjs";
+import {CreatePlaylistDialogComponent} from "../../playlists/create-playlist-dialog/create-playlist-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-playlists',
@@ -15,7 +17,11 @@ export class PlaylistsComponent implements OnInit{
   filtered : Playlist[] = []
   playlists: Playlist[] = []
   subs: Subscription[] = []
-  constructor(public userService: UserService,private _playlistService: PlaylistService, private _cdr: ChangeDetectorRef, private _title: Title) {
+  constructor(public userService: UserService,
+              private _playlistService: PlaylistService,
+              private _cdr: ChangeDetectorRef,
+              private _title: Title,
+              private _dialog: MatDialog) {
 
   }
   ngOnInit(){
@@ -41,5 +47,9 @@ export class PlaylistsComponent implements OnInit{
     for(let sub of this.subs) {
       sub.unsubscribe()
     }
+  }
+
+  openCreatePlaylistDialog() {
+    this._dialog.open(CreatePlaylistDialogComponent)
   }
 }

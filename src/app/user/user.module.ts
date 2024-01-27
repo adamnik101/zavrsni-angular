@@ -15,6 +15,8 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {ArtistsModule} from "../artists/artists.module";
 import {AlbumsModule} from "../albums/albums.module";
 import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 
 @NgModule({
@@ -28,17 +30,19 @@ import {MatInputModule} from "@angular/material/input";
     exports: [
         FollowingComponent
     ],
-    imports: [
-        CommonModule,
-        UserRoutingModule,
-        PlaylistsModule,
-        SharedModule,
-        MatProgressSpinnerModule,
-        MatDividerModule,
-        MatSlideToggleModule,
-        ArtistsModule,
-        AlbumsModule,
-        MatInputModule
-    ]
+  imports: [
+    CommonModule,
+    UserRoutingModule,
+    PlaylistsModule,
+    SharedModule,
+    MatProgressSpinnerModule,
+    MatDividerModule,
+    MatSlideToggleModule,
+    ArtistsModule,
+    AlbumsModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule
+  ]
 })
 export class UserModule { }

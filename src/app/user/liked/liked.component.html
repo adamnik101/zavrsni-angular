@@ -1,9 +1,9 @@
 
 @if (loaded) {
   <div class="liked">
-    <h1>Liked tracks</h1>
     <!--  <input type="text" placeholder="Filter liked tracks by title, artists and albums" (input)="filterLiked(input.value)" #input>-->
     @if (likedTracks.length) {
+      <h1>Liked tracks</h1>
       <!--<ng-container *ngIf="filteredTracks.length > 0">
       <app-track-table [tracks]="filteredTracks" [from]="fromInfo"></app-track-table>
     </ng-container>-->
@@ -19,7 +19,10 @@
   <app-no-results></app-no-results>
 </ng-container>-->
 } @else {
-  <p>Start by tapping the heart icon on your favorite songs to create your personal playlist.</p>
+      <div class="no-liked-tracks">
+        <mat-icon>favorite</mat-icon>
+        <p>Start by tapping the heart icon on your favorite songs to create your personal playlist.</p>
+      </div>
 }
 </div>
 } @else {

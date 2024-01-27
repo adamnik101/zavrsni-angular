@@ -1,7 +1,7 @@
 @if (userService.userLoaded()) {
   <div class="playlists">
-    <h1>My playlists</h1>
     @if (playlists.length) {
+      <h1>My playlists</h1>
       <div class="user-ui">
         <mat-form-field appearance="outline" floatLabel="always" [style.width]="'400px'">
           <mat-label>Search playlists</mat-label>
@@ -26,7 +26,11 @@
         }
       </div>
     } @else {
-      <p>No playlists created</p>
+      <div class="no-playlists-created">
+        <mat-icon>queue_music</mat-icon>
+        <p>You haven't added any playlists yet.</p>
+        <button mat-raised-button (click)="openCreatePlaylistDialog()">Create new playlist</button>
+      </div>
     }
   </div>
 } @else {
