@@ -12,7 +12,7 @@ import {ArtistsModule} from "./artists/artists.module";
 import {AlbumsModule} from "./albums/albums.module";
 
 const routes: Routes = [
-  {path : '', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule)},
+  {path : '', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule), pathMatch: "full"},
   {path : 'explore', component: ExploreComponent, loadChildren: () => import('./explore/explore.module').then(m => m.ExploreModule)},
   {path : 'trending', loadChildren: () => import('./trending/trending.module').then(m => m.TrendingModule)},
   {path : 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},

@@ -21,18 +21,23 @@
       }
     </div>
   </div>
-  <div class="container">
-    <h1>Other similiar users also listen to</h1>
-    <div class="cards">
-      @for (artist of recommendedArtists; track artist) {
-        <app-artist-round-card [artist]="artist"></app-artist-round-card>
-      }
+  @if(recommendedArtists.length){
+    <div class="container">
+      <h1>Other similiar users also listen to</h1>
+      <div class="cards">
+        @for (artist of recommendedArtists; track artist) {
+          <app-artist-round-card [artist]="artist"></app-artist-round-card>
+        }
+      </div>
     </div>
-  </div>
-  <div class="container">
-    <h1>Recommended tracks</h1>
-    <div class="cards">
-      <app-track-table [tracks]="recommendedTracks" [from]="from"></app-track-table>
+  }
+
+  @if(recommendedTracks.length) {
+    <div class="container">
+      <h1>Recommended tracks</h1>
+      <div class="cards">
+        <app-track-table [tracks]="recommendedTracks" [from]="from"></app-track-table>
+      </div>
     </div>
-  </div>
+  }
 }
