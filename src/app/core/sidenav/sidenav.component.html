@@ -40,7 +40,9 @@
           <mat-tab label="Artists">
             <ng-template matTabContent>
               <div class="following">
-                <app-following [following]="following"></app-following>
+                @for (artist of following; track artist.id) {
+                  <app-user-following-list-item [artist]="artist"></app-user-following-list-item>
+                }
               </div>
             </ng-template>
           </mat-tab>

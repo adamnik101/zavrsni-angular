@@ -1,10 +1,10 @@
 .playlists{
   display: flex;
   flex-direction: column;
-  gap: 20px;
   padding: 20px;
   h1{
     font-family: Bold;
+    margin-bottom: 20px;
   }
   .search-bar{
     width: 420px;

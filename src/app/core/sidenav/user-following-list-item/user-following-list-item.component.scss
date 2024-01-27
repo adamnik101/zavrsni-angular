@@ -1,17 +1,24 @@
 .item{
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
-  flex-direction: row;
   padding: 5px;
-  color: var(--light);
+  height: 55px;
+  border-radius: 27.5px 0 0 27.5px;
   &:hover{
     background: var(--secondary-black);
+    p{
+      color: var(--primary-text);
+    }
   }
   img{
-    border-radius: 3px;
-    width: 40px;
+    height: 100%;
+    border-radius: 50%;
+  }
+  p{
+    color: var(--light-text);
   }
 }
 .active{

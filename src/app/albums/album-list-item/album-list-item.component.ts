@@ -1,12 +1,13 @@
 import {Component, Input} from '@angular/core';
 import {Album} from "../interfaces/album";
-import {RouterLink} from "@angular/router";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-album-list-item',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './album-list-item.component.html',
   styleUrl: './album-list-item.component.scss'

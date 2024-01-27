@@ -14,6 +14,7 @@ import {CdkDragPlaceholder, CdkDropList} from "@angular/cdk/drag-drop";
 import {AlbumListItemComponent} from "../../albums/album-list-item/album-list-item.component";
 import {SharedModule} from "../../shared/shared.module";
 import {MatIconModule} from "@angular/material/icon";
+import {UserFollowingListItemComponent} from "./user-following-list-item/user-following-list-item.component";
 
 
 
@@ -42,7 +43,8 @@ import {MatIconModule} from "@angular/material/icon";
     CdkDragPlaceholder,
     AlbumListItemComponent,
     SharedModule,
-    MatIconModule
+    MatIconModule,
+    UserFollowingListItemComponent,
   ]
 })
 export class SidenavModule { }

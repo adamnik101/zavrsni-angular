@@ -237,7 +237,7 @@ export class TrackTableComponent {
           this._playlistService.trackCount.update(value => value + Number(response.addedCount))
           playlist.tracks_count = Number(playlist.tracks_count) + Number(response.addedCount)
           this._cdr.markForCheck()
-          this._snackbarService.showSuccessMessage(response.message)
+          this._snackbarService.showDefaultMessage(response.message)
           this._matDialog.closeAll()
           this.selectedTracks.clear()
           this.tracksToAdd = []
