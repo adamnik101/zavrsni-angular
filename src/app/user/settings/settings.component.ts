@@ -32,7 +32,12 @@ export class SettingsComponent {
     })
   }
 
-  update(value: any) {
+  update(value: any, setting: string) {
+    this.userService.updateSettings(value, setting).subscribe({
+      next: (response) => {
+        console.log(response)
+      }
+    })
     console.log(value)
   }
 }

@@ -131,4 +131,8 @@ export class UserService extends BaseService{
   getRecentlyPlayedTracks() : Observable<Track[]> {
     return this.get<Track[]>('actor/recent/tracks')
   }
+
+  updateSettings(value: any, setting: string) {
+    return this.post('actor/settings/update', {value,setting})
+  }
 }

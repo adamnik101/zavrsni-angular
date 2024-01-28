@@ -23,7 +23,7 @@
           <p>Allow explicit content labeled with E tag. </p>
         </div>
         <div class="right">
-          <mat-slide-toggle [checked]="this.user.settings.explicit"></mat-slide-toggle>
+          <mat-slide-toggle [checked]="this.user.settings.explicit" (change)="update($event.checked, 'explicit')"></mat-slide-toggle>
         </div>
       </div>
       <mat-divider></mat-divider>
@@ -33,7 +33,7 @@
           <p>Enable saving history. </p>
         </div>
         <div class="right">
-          <mat-slide-toggle [checked]="this.user.settings.history" (change)="update($event.checked)" #history></mat-slide-toggle>
+          <mat-slide-toggle [checked]="this.user.settings.history" (change)="update($event.checked, 'history')" #history></mat-slide-toggle>
         </div>
       </div>
     </div>
