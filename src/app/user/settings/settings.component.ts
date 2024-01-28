@@ -34,8 +34,10 @@ export class SettingsComponent {
 
   update(value: any, setting: string) {
     this.userService.updateSettings(value, setting).subscribe({
-      next: (response) => {
+      next: (response: Settings) => {
         console.log(response)
+        this.userService.settings.set(response)
+        this.userService.updateUserSettings(response)
       }
     })
     console.log(value)

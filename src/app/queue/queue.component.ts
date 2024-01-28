@@ -26,6 +26,7 @@ import { transitionAnimation } from '../animations';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import {Track} from "../shared/interfaces/track";
 import {Artist} from "../artists/interfaces/artist";
+import {UserService} from "../user/services/user.service";
 
 @Component({
   selector: 'app-queue',
@@ -58,7 +59,8 @@ export class QueueComponent {
     private _renderer2: Renderer2,
     private _colorThiefService: ColorThiefService,
     private _cdr: ChangeDetectorRef,
-    private _breakpointObserver: BreakpointObserver
+    private _breakpointObserver: BreakpointObserver,
+    protected userService: UserService
   ) {}
 
   @ViewChild('trackList') trackList!: ElementRef;
@@ -73,7 +75,7 @@ export class QueueComponent {
     console.log(window.innerWidth);
   }
   @HostListener('document:keydown.escape', ['$event'])
-  closeQueue(event: KeyboardEvent) {
+  closeQueue(event?: KeyboardEvent) {
     this.queueService.queueOpened = false
   }
   ngOnInit() {

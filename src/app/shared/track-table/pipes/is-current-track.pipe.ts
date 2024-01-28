@@ -13,7 +13,7 @@ export class IsCurrentTrackPipe implements PipeTransform {
     console.log('c')
     if(currentTrackInfo !== null && currentTrackInfo.track === track.id && from.id === currentTrackInfo.from) {
 
-      return currentTrackInfo.index === index
+      return true
     }
     return false
   }

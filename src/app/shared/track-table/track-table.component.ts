@@ -18,6 +18,7 @@ import {
 import {Subscription} from "rxjs";
 import {CurrentTrackInfo} from "../interfaces/current-track-info";
 import {LoaderService} from "../../core/services/loader.service";
+import {User} from "../../user/interfaces/user";
 
 
 @Component({
@@ -38,8 +39,9 @@ export class TrackTableComponent {
   likedTracks : Track[] = []
   dropToPlaylistId: string = ''
   private subs: Subscription[] = []
+  user: User = { } as User
   constructor(protected _audioService: AudioService,
-              private _userService: UserService,
+              protected _userService: UserService,
               protected _queueService: QueueService,
               private _playlistService: PlaylistService,
               private _snackbarService: SnackbarService,
@@ -72,7 +74,7 @@ export class TrackTableComponent {
 
   }
   playAllFromIndex(tracks: Track[], index: number, from: From) {
-    this._loaderService.hideLoader()
+
     this._queueService.playAllFromIndex(tracks, index, from)
     /*this._queueService.currentQueueIndexSignal.set(index)
     this._queueService.currentQueueIndex = index

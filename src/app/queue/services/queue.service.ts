@@ -5,6 +5,8 @@ import {From} from "../../shared/interfaces/from";
 import {AudioService} from "../../audio/audio.service";
 import {BehaviorSubject} from "rxjs";
 import {CurrentTrackInfo} from "../../shared/interfaces/current-track-info";
+import {UserService} from "../../user/services/user.service";
+import {SnackbarService} from "../../shared/services/snackbar.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,8 @@ export class QueueService implements Queue {
 
   currentTrackSignal = signal<Track>({} as Track)
   private _audioService = inject(AudioService)
+  private _userService = inject(UserService)
+  private _snackbar = inject(SnackbarService)
   shuffleQueue: boolean = false
   shuffleQueueIndex: number = 0
   queue: Track[] = []
@@ -68,12 +72,22 @@ export class QueueService implements Queue {
   }
 
   playAtIndex(index: number): void {
-    this.currentQueueIndexSignal.set(index)
-    this.currentQueueIndex = index
-    const track = this.queue[this.currentQueueIndex]
-    this.setCurrentTrack(track)
-    this._audioService.playTrack(track, this.from)
-
+    const track = this.queue[index]
+        if(!track.explicit) {
+          this.currentQueueIndexSignal.set(index)
+          this.currentQueueIndex = index
+          this.setCurrentTrack(track)
+          this._audioService.playTrack(track, this.from)
+        }
+        else if(this._userService.settings().explicit && track.explicit) {
+          this.currentQueueIndexSignal.set(index)
+          this.currentQueueIndex = index
+          this.setCurrentTrack(track)
+          this._audioService.playTrack(track, this.from)
+        }
+        else if(!this._userService.settings().explicit && track.explicit) {
+          this._snackbar.showDefaultMessage("Content not available.")
+        }
   }
 
   remove(index: number): Track[] {
@@ -109,14 +123,38 @@ export class QueueService implements Queue {
       this.playAtIndex(this.shuffleQueueIndex)
       return
     }
-    this.currentQueueIndex++
+    let addToIndex = 1
+
+    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex + addToIndex].explicit) {
+      console.log(this.currentQueueIndex, addToIndex, this.queue.length)
+      if(this.currentQueueIndex + addToIndex == this.queue.length - 1) {
+        addToIndex = 1
+        this.currentQueueIndex = 0
+        continue
+      }
+      addToIndex++
+    }
+
+    this.currentQueueIndex += addToIndex
+
     if(this.currentQueueIndex > this.queue.length - 1) {
       this.currentQueueIndex = 0
     }
     this.playAtIndex(this.currentQueueIndex)
   }
   goPrevious(): void {
-    this.currentQueueIndex--
+    let amount = 1
+
+    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex - amount].explicit) {
+      if(this.currentQueueIndex - amount == 0) {
+        amount = 1
+        this.currentQueueIndex = this.queue.length - 1
+        continue
+      }
+      amount++
+    }
+
+    this.currentQueueIndex -= amount
     if(this.currentQueueIndex == -1) {
       this.currentQueueIndex = this.queue.length - 1
     }
@@ -124,6 +162,7 @@ export class QueueService implements Queue {
   }
 
   playAllFromIndex(tracks: Track[], index: number, from: From) {
+    console.log(tracks, index, from)
     this.currentQueueIndexSignal.set(index)
     this.addTracks(tracks, from)
     this.playAtIndex(index)

@@ -42,6 +42,7 @@ export class UserService extends BaseService{
 
   private _playlistTracks : Map<Playlist, Track[]> = new Map<Playlist, Track[]>()
   public following : Artist[] = []
+  settings = signal<Settings>({} as Settings);
   constructor(private http: HttpClient, private config: ConfigService, private _router: Router, private _authService: AuthService) {
     super(http, config);
   }
@@ -69,6 +70,7 @@ export class UserService extends BaseService{
         this._authService.isLoggedIn = true
         this.likedTracks.set(user.liked_tracks)
         this.userLoaded.set(true)
+        this.settings.set(user.settings)
         if(navigateToProfile) this._router.navigate(['user/profile'])
       },
       error: (response):void => {
@@ -116,6 +118,9 @@ export class UserService extends BaseService{
   updateLikedAlbums(albums: Album[]) {
     this._likedAlbumSubject.next(albums)
   }
+  updateUserSettings(settings: Settings) {
+    this._settingsSubject.next(settings)
+  }
 
   getRecommendedArtists() {
     return this.get<Artist[]>('actor/recommend/artists')
@@ -133,6 +138,6 @@ export class UserService extends BaseService{
   }
 
   updateSettings(value: any, setting: string) {
-    return this.post('actor/settings/update', {value,setting})
+    return this.post<{value: boolean, setting: string}, Settings>('actor/settings/update', {value,setting})
   }
 }

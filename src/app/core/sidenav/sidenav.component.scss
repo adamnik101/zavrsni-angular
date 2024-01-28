@@ -60,8 +60,7 @@
   }
 }
 .playlists{
-  max-height: 200px;
-  overflow: scroll;
+  height: 200px;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -80,32 +79,11 @@
   }
 }
 .following{
-  max-height: 200px;
-  overflow: scroll;
+  height: 200px;
   overflow-x: hidden;
 }
 .albums{
   height: 200px;
-  .empty{
-    border-radius: 10px;
-    background: var(--secondary-black);
-    height: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 20px;
-    color: var(--light);
-    p{
-      text-align: center;
-      width: 50%;
-    }
-    .mat-icon{
-      font-size: 40px;
-      width: 50px;
-      height: 50px;
-    }
-  }
 }
 .tabs{
 
@@ -113,4 +91,20 @@
 .no-result{
   text-align: center;
   font-size: 12px;
+}
+
+.empty{
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  mat-icon{
+    font-size: 50px;
+    width: 50px;
+    height: 50px;
+    color: var(--light-text);
+  }
 }

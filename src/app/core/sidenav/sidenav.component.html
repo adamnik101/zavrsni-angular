@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="tabs" (mouseenter)="openPlaylistsTab($event)">
-        <mat-tab-group animationDuration=".2s" disablePagination [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+        <mat-tab-group class="tab-group" animationDuration=".2s" disablePagination [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
           <mat-tab label="Playlists">
             <ng-template matTabContent>
               <div class="playlists">
@@ -30,7 +30,11 @@
                     <app-loading></app-loading>
                   }
                 } @empty {
-                  <p class="no-result">Create playlists to see them here</p>
+                  <div class="empty">
+                    <mat-icon>queue_music</mat-icon>
+                    <p>You don't have any playlists.</p>
+
+                  </div>
                 }
                 <!-- <input type="text" placeholder="Search playlists"/>-->
               </div>
@@ -42,11 +46,15 @@
               <div class="following">
                 @for (artist of following; track artist.id) {
                   <app-user-following-list-item [artist]="artist"></app-user-following-list-item>
+                } @empty {
+                  <div class="empty">
+                    <mat-icon>sentiment_dissatisfied</mat-icon>
+                    <p>You don't follow any artists.</p>
+                  </div>
                 }
               </div>
             </ng-template>
           </mat-tab>
-          @if (albums.length > 0){
             <mat-tab label="Albums">
               <ng-template matTabContent>
                 <div class="albums">
@@ -54,15 +62,14 @@
                     <app-album-list-item [album]="album"></app-album-list-item>
                   } @empty {
                     <div class="empty">
-                      <p>Like albums to see them here</p>
-                      <mat-icon>sentiment_very_dissatisfied</mat-icon>
+                      <mat-icon>album</mat-icon>
+                      <p>You didn't like any albums.</p>
                     </div>
 
                   }
                 </div>
               </ng-template>
             </mat-tab>
-          }
         </mat-tab-group>
       </div>
       <mat-divider></mat-divider>

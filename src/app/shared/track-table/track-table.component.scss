@@ -25,7 +25,7 @@ table{
       padding: 0;
       position: sticky;
 
-      &:hover{
+      &:hover:not(.disabled){
         .index{
           .mat-icon{
             display: none;
@@ -66,6 +66,12 @@ table{
         padding: 7.5px;
         height: 100%;
         font-size: 14px;
+        .explicit{
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+          color: var(--light-text);
+        }
       }
 
       .cover-title{
@@ -252,6 +258,9 @@ table{
 
 .selected{
   background: var(--light-black);
+}
+.disabled{
+  opacity: .5;
 }
 .preview{
   display: flex;

@@ -6,18 +6,20 @@ import { TrendingComponent } from './trending.component';
 import {SharedModule} from "../shared/shared.module";
 import {AlbumsModule} from "../albums/albums.module";
 import {ArtistsModule} from "../artists/artists.module";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
   declarations: [
     TrendingComponent
   ],
-  imports: [
-    CommonModule,
-    TrendingRoutingModule,
-    SharedModule,
-    AlbumsModule,
-    ArtistsModule
-  ]
+    imports: [
+        CommonModule,
+        TrendingRoutingModule,
+        SharedModule,
+        AlbumsModule,
+        ArtistsModule,
+        MatIconModule
+    ]
 })
 export class TrendingModule { }
