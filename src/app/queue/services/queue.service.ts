@@ -41,6 +41,10 @@ export class QueueService implements Queue {
   }
 
   addTrack(track: Track, from: From): void {
+    if(!this._userService.settings().explicit && track.explicit) {
+      this._snackbar.showDefaultMessage('Content not available.')
+      return
+    }
     this.queue.push(track)
     this.from = from
     if(this.currentTrackInfo() == null) {
