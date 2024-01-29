@@ -18,6 +18,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {DurationPipe} from "./shared/pipes/duration.pipe";
 import {LoaderComponent} from "./core/loader/loader.component";
 import {HttpLoaderInterceptor} from "./interceptors/http-loader.interceptor";
+import {UnauthorizedStatusCodeInterceptor} from "./interceptors/unauthorized-status-code.interceptor";
+import {ServerErrorInterceptor} from "./interceptors/server-error.interceptor";
 
 @NgModule({
   declarations: [
@@ -48,6 +50,16 @@ import {HttpLoaderInterceptor} from "./interceptors/http-loader.interceptor";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLoaderInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: UnauthorizedStatusCodeInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorInterceptor,
       multi: true
     }
   ],

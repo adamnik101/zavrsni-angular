@@ -10,6 +10,9 @@ import {restrictAuthorizedGuard} from "./guards/restrict-authorized.guard";
 import {PlaylistsModule} from "./playlists/playlists.module";
 import {ArtistsModule} from "./artists/artists.module";
 import {AlbumsModule} from "./albums/albums.module";
+import {DashboardComponent} from "./admin/dashboard/dashboard.component";
+import {GenresComponent} from "./admin/genres/genres.component";
+import {ServerErrorComponent} from "./server-error/server-error.component";
 
 const routes: Routes = [
   {path : '', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule), pathMatch: "full"},
@@ -24,8 +27,8 @@ const routes: Routes = [
   {path : 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
   {path : 'queue', loadChildren: () => import('./queue/queue.module').then(m => m.QueueModule)},
   {path : 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
-
- // {path : '**', pathMatch: 'full', redirectTo: 'explore'}
+  {path : 'error', component: ServerErrorComponent, pathMatch: "full"},
+ // {path : '**', pathMatch: 'full', redirectTo: 'explore'},
 ];
 
 @NgModule({
