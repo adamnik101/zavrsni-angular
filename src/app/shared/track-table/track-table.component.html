@@ -56,6 +56,9 @@
           </button>
         }
         @else if (!this._userService.settings().explicit && track.explicit){
+            <div class="disabled-icon">
+              <mat-icon>block</mat-icon>
+            </div>
         }
       }
 

@@ -18,15 +18,6 @@
         <p>Album</p>
         <div class="name">
           <h1>{{album.name}}</h1>
-          @if (!isAlbumLiked) {
-            <button (click)="likeAlbum(album.id)" class="center">
-              <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
-            </button>
-          } @else {
-            <button class="center" (click)="removeAlbumFromLiked(album.id)">
-              <mat-icon class="custom-icon-color">favorite</mat-icon>
-            </button>
-          }
 
         </div>
         <p>{{album.tracks_count}} tracks</p>
@@ -46,9 +37,20 @@
   </div>
   @if (isLoaded;) {
     <div class="bottom">
-      <button class="play" (click)="playAlbum(album.tracks)">
-        <img src="assets/icons-svg/play.svg" alt="play,icon">
-      </button>
+      <div class="buttons">
+        <button class="play" (click)="playAlbum(album.tracks)">
+          <mat-icon>play_arrow</mat-icon>
+        </button>
+        @if (!isAlbumLiked) {
+          <button (click)="likeAlbum(album.id)" class="like">
+            <mat-icon>favorite_outline</mat-icon>
+          </button>
+        } @else {
+          <button class="like liked" (click)="removeAlbumFromLiked(album.id)">
+            <mat-icon>favorite</mat-icon>
+          </button>
+        }
+      </div>
       <app-track-table [tracks]="album.tracks" [from]="from"></app-track-table>
     </div>
   }

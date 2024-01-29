@@ -39,7 +39,7 @@ table{
           .playing-now{
             display: none;
           }
-          .play{
+          .play,.disabled-icon {
             opacity: 1;
           }
 
@@ -119,6 +119,21 @@ table{
             height: 18px;
             opacity: 1 !important;
 
+          }
+        }
+        .disabled-icon{
+          position: absolute;
+          z-index: 8;
+          left: 18px;
+          top: 20px;
+          opacity: 0;
+          transition: .05s ease-in-out;
+          mat-icon{
+            color: var(--light);
+            opacity: .5;
+            font-size: 19px;
+            width: 19px;
+            height: 19px;
           }
         }
         .image{

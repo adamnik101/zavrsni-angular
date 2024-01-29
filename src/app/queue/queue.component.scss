@@ -28,8 +28,20 @@
       justify-content: space-between;
       width: 100%;
       padding: 0 100px;
-      h4{
-        color: var(--primary-text);
+      .title{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        h4{
+          color: var(--primary-text);
+        }
+        mat-icon{
+          font-size: 40px;
+          width: 40px;
+          height: 40px;
+          color: var(--light);
+        }
       }
       button{
         background: rgba(255, 255, 255, 0.27);
