@@ -16,7 +16,6 @@
     padding: 20px;
     display: flex;
     flex-direction: row;
-    align-items: center;
     gap: 20px;
     height: 300px;
     background: var(--profile);
@@ -25,6 +24,47 @@
         width: 250px;
         border-radius: 50%;
         box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      }
+      .no-profile-image{
+        border-radius: 50%;
+        width: 250px;
+        height: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--secondary-black);
+        box-shadow: 0 8px 24px rgba(0,0,0,.5);
+        .no-image{
+          width: 100px;
+          height: 100px;
+          font-size: 100px;
+          color: var(--light-text);
+        }
+        .choose{
+          display: none;
+        }
+        &:hover{
+          .no-image{
+            display: none;
+          }
+          .choose{
+            width: 100%;
+            height: 100%;
+            clip-path: circle();
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 10px;
+            text-align: center;
+            mat-icon{
+              color: var(--light);
+              width: 75px;
+              height: 75px;
+              font-size: 75px;
+            }
+          }
+        }
       }
     }
     .right{

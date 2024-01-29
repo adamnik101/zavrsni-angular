@@ -24,7 +24,6 @@ export class AuthService extends BaseService{
   }
 
   logout() {
-
     this.isLoggedIn = false
   }
 }

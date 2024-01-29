@@ -15,6 +15,7 @@ import {AlbumListItemComponent} from "../../albums/album-list-item/album-list-it
 import {SharedModule} from "../../shared/shared.module";
 import {MatIconModule} from "@angular/material/icon";
 import {UserFollowingListItemComponent} from "./user-following-list-item/user-following-list-item.component";
+import {MatButtonModule} from "@angular/material/button";
 
 
 
@@ -27,24 +28,25 @@ import {UserFollowingListItemComponent} from "./user-following-list-item/user-fo
   exports: [
     SidenavComponent
   ],
-  imports: [
-    CommonModule,
-    HeaderModule,
-    MatSidenavModule,
-    NgOptimizedImage,
-    RouterOutlet,
-    MatListModule,
-    MatRippleModule,
-    RouterLink,
-    RouterLinkActive,
-    MatTabsModule,
-    UserModule,
-    CdkDropList,
-    CdkDragPlaceholder,
-    AlbumListItemComponent,
-    SharedModule,
-    MatIconModule,
-    UserFollowingListItemComponent,
-  ]
+    imports: [
+        CommonModule,
+        HeaderModule,
+        MatSidenavModule,
+        NgOptimizedImage,
+        RouterOutlet,
+        MatListModule,
+        MatRippleModule,
+        RouterLink,
+        RouterLinkActive,
+        MatTabsModule,
+        UserModule,
+        CdkDropList,
+        CdkDragPlaceholder,
+        AlbumListItemComponent,
+        SharedModule,
+        MatIconModule,
+        UserFollowingListItemComponent,
+        MatButtonModule,
+    ]
 })
 export class SidenavModule { }

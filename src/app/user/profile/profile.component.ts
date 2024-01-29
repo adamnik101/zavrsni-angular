@@ -8,6 +8,7 @@ import {Track} from "../../shared/interfaces/track";
 import {From} from "../../shared/interfaces/from";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {PlaylistService} from "../../playlists/services/playlist.service";
+import {Artist} from "../../artists/interfaces/artist";
 
 @Component({
   selector: 'app-profile',
@@ -16,6 +17,7 @@ import {PlaylistService} from "../../playlists/services/playlist.service";
 })
 export class ProfileComponent{
   user : User = {} as User
+  followings: Artist[] = []
   @ViewChild('cover') cover!: ElementRef
   playlists : Playlist[] = []
   favoriteTracks:Track[] = []
@@ -45,10 +47,14 @@ export class ProfileComponent{
         this.playlists = playlists
       }
     })
+    this.userService.following$.subscribe({
+      next: (artists) => {
+        this.followings = artists
+      }
+    })
     this.userService.getFavoriteTracksInLast7Days().subscribe({
       next: (tracks) => {
         this.favoriteTracks = tracks
-
       }
     })
   }

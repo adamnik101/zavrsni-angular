@@ -30,6 +30,9 @@
       @if(registerGroup.get('password')?.hasError('required')) {
         <mat-error>Password is required.</mat-error>
       }
+      @if(registerGroup.get('password')?.hasError('minlength')) {
+        <mat-error>Minimum length is 8 characters.</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="outline" floatLabel="always"  >
       <mat-label>Confirm password</mat-label>

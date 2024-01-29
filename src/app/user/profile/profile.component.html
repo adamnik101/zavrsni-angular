@@ -3,27 +3,38 @@
   <div class="profile">
     <div class="top" #cover>
       <div class="left">
-        <img src="{{user.cover}}"/>
+        @if(user.cover) {
+          <img src="{{user.cover}}"/>
+        } @else {
+          <div class="no-profile-image">
+            <mat-icon class="no-image">person_outline</mat-icon>
+            <button mat-button class="choose">
+              <mat-icon>edit</mat-icon>
+              <p>Choose photo</p>
+            </button>
+          </div>
+        }
       </div>
       <div class="right">
         <p>Profile</p>
         <h1>{{user.first_name}} {{user.last_name}}</h1>
         <div class="row">
-          <p>{{user.following_count}} Following</p>
+          <p>{{followings.length}} Following</p>
           <div class="divider-h"></div>
           <p>{{playlists.length}} Playlists</p>
         </div>
       </div>
     </div>
     <div class="bottom">
-      <div class="section">
-        <div class="top-section">
-          <h1>Playlists</h1>
-          @if (user.playlists_count > 5) {
-            <a routerLink="/user/playlists">See more</a>
-          }
-        </div>
-        <div class="row">
+      @if (playlists.length) {
+        <div class="section">
+          <div class="top-section">
+            <h1>Playlists</h1>
+            @if (user.playlists_count > 5) {
+              <a routerLink="/user/playlists">See more</a>
+            }
+          </div>
+          <div class="row">
             @for (playlist of playlists; track playlist; let i = $index) {
               @if (i < 6) {
                 <app-playlist-card [playlist]="playlist"></app-playlist-card>
@@ -31,15 +42,17 @@
             } @empty {
               <p>You did not create any playlists yet..</p>
             }
+          </div>
         </div>
-      </div>
-      <div class="section">
-        <div class="top-section">
-          <h1>Following</h1>
-          @if (user.following_count > 6) {
-            <a routerLink="/user/followings">See more</a>
-          }
-        </div>
+      }
+      @if(followings.length) {
+        <div class="section">
+          <div class="top-section">
+            <h1>Following</h1>
+            @if (user.following_count > 6) {
+              <a routerLink="/user/followings">See more</a>
+            }
+          </div>
           <!--<app-following [following]="user.following"></app-following>-->
           <div class="row">
             @for (artist of user.following; track artist; let i = $index) {
@@ -50,24 +63,28 @@
               <p>You are not following any artist yet..</p>
             }
           </div>
-      </div>
-      <div class="section">
-        <div class="top-section">
-          <h1>Liked albums</h1>
-          @if ((userService.likedAlbums$ | async )?.length! > 6) {
-            <a routerLink="/user/followings">See more</a>
-          }
         </div>
-        <div class="row">
-          @for(album of (userService.likedAlbums$ | async); track album; let index = $index) {
-            @if(index < 6) {
-              <app-album-card [album]="album"></app-album-card>
+      }
+      @if ((userService.likedAlbums$ | async )?.length!) {
+        <div class="section">
+          <div class="top-section">
+            <h1>Liked albums</h1>
+            @if ((userService.likedAlbums$ | async )?.length! > 6) {
+              <a routerLink="/user/followings">See more</a>
             }
-          } @empty {
-            <p>You did not like any albums yet.. Tap heart icon to like</p>
-          }
+          </div>
+          <div class="row">
+            @for(album of (userService.likedAlbums$ | async); track album; let index = $index) {
+              @if(index < 6) {
+                <app-album-card [album]="album"></app-album-card>
+              }
+            } @empty {
+              <p>You did not like any albums yet.. Tap heart icon to like</p>
+            }
+          </div>
         </div>
-      </div>
+
+      }
       <div class="section favorite">
         <h1>Your favorite tracks last 7 days</h1>
         @if (favoriteTracks.length > 0) {

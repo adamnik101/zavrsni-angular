@@ -77,6 +77,7 @@
       background: var(--light-black);
     }
   }
+
 }
 .following{
   height: 200px;
@@ -92,7 +93,14 @@
   text-align: center;
   font-size: 12px;
 }
-
+.no-created{
+  border-radius: 10px;
+  padding: 15px;
+  background: var(--light-black);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .empty{
   height: inherit;
   display: flex;
