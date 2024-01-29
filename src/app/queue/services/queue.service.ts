@@ -125,7 +125,7 @@ export class QueueService implements Queue {
     }
     let addToIndex = 1
 
-    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex + addToIndex].explicit) {
+    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex + addToIndex]?.explicit) {
       console.log(this.currentQueueIndex, addToIndex, this.queue.length)
       if(this.currentQueueIndex + addToIndex == this.queue.length - 1) {
         addToIndex = 1
@@ -140,12 +140,14 @@ export class QueueService implements Queue {
     if(this.currentQueueIndex > this.queue.length - 1) {
       this.currentQueueIndex = 0
     }
+    console.log(this.currentQueueIndex)
+
     this.playAtIndex(this.currentQueueIndex)
   }
   goPrevious(): void {
     let amount = 1
 
-    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex - amount].explicit) {
+    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex - amount]?.explicit) {
       if(this.currentQueueIndex - amount == 0) {
         amount = 1
         this.currentQueueIndex = this.queue.length - 1
@@ -153,7 +155,7 @@ export class QueueService implements Queue {
       }
       amount++
     }
-
+    console.log(this.currentQueueIndex)
     this.currentQueueIndex -= amount
     if(this.currentQueueIndex == -1) {
       this.currentQueueIndex = this.queue.length - 1

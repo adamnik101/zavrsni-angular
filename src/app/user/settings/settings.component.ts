@@ -3,6 +3,7 @@ import {Settings} from "../../settings/interfaces/settings";
 import {User} from "../interfaces/user";
 import {UserService} from "../services/user.service";
 import {Title} from "@angular/platform-browser";
+import {SnackbarService} from "../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-settings',
@@ -16,6 +17,7 @@ export class SettingsComponent {
   public userService = inject(UserService)
   private _titleService = inject(Title)
   private _cdr = inject(ChangeDetectorRef)
+  private _snackbar = inject(SnackbarService)
   ngOnInit() {
     this._titleService.setTitle('My Settings - TREBLE')
     this.userService.user$.subscribe({
@@ -38,6 +40,9 @@ export class SettingsComponent {
         console.log(response)
         this.userService.settings.set(response)
         this.userService.updateUserSettings(response)
+        if(setting === 'explicit') {
+          this._snackbar.showDefaultMessage(`Explicit content ${response.explicit ? "enabled" : "disabled"}`)
+        }
       }
     })
     console.log(value)

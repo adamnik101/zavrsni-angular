@@ -22,7 +22,7 @@
     @for (track of tracks; track track.id; let index = $index;) {
       @defer(on viewport){
       <tr cdkDrag (cdkDragDropped)="onDragDropped($event)" (cdkDragStarted)="onDragStarted($event)" class="item"
-          [ngClass]="{'selected' : selectedTracks.has(index), 'disabled' : track.explicit && !(_userService.settings$ | async)?.explicit}" (click)="selectTrack($event, index,track)"
+          [ngClass]="{'selected' : selectedTracks.has(index), 'disabled' : track.explicit && !_userService.settings().explicit}" (click)="selectTrack($event, index,track)"
           (contextmenu)="openMenuOnRightClick($event, track)" (dblclick)="playAllFromIndex(tracks, index, from)">
         @if (selectedTracks.size > 0) {
           <p *cdkDragPreview class="preview">{{selectedTracks.size}} tracks selected</p>
@@ -50,12 +50,12 @@
           <button class="play" (click)="playAllFromIndex(tracks, index, from)">
             <img src="assets/icons-svg/play.svg" />
           </button>
-        } @else if ((this._userService.settings$ | async)?.explicit && track.explicit) {
+        } @else if (this._userService.settings().explicit && track.explicit) {
           <button class="play" (click)="playAllFromIndex(tracks, index, from)">
             <img src="assets/icons-svg/play.svg" />
           </button>
         }
-        @else if (!(this._userService.settings$ | async)?.explicit && track.explicit){
+        @else if (!this._userService.settings().explicit && track.explicit){
         }
       }
 
