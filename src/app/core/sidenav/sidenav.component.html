@@ -33,7 +33,7 @@
                   <div class="no-created">
                     <p>Create your first playlist</p>
                     <p>It's easy, we'll help you</p>
-                    <button mat-raised-button>Create playlist</button>
+                    <button mat-raised-button (click)="openDialog()">Create playlist</button>
 
                   </div>
                 }
@@ -50,8 +50,6 @@
                 } @empty {
                   <div class="no-created">
                     <p>Find your favorite artists</p>
-                    <p>Press "Follow"</p>
-                    <button mat-raised-button>Explore</button>
                   </div>
                 }
               </div>
@@ -63,8 +61,7 @@
                   @for (album of albums; track album.id) {
                     <app-album-list-item [album]="album"></app-album-list-item>
                   } @empty {
-                    <div class="empty">
-                      <mat-icon>album</mat-icon>
+                    <div class="no-created">
                       <p>You didn't like any albums.</p>
                     </div>
 
