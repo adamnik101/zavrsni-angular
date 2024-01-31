@@ -20,14 +20,12 @@ export class ChartService {
             data: data[0],
             backgroundColor: 'rgb(199,199,199)',
             borderColor: 'rgb(199,199,199)',
-            tension: 0.2,
           },
           {
             label: "Created playlists",
             data: data[1],
             backgroundColor: 'rgb(239,12,12)',
             borderColor: 'rgb(227,27,27)',
-            tension: 0.2
           }
         ]
       },
