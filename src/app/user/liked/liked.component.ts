@@ -12,7 +12,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class LikedComponent implements OnInit{
 
-  private _userService = inject(UserService)
+  protected _userService = inject(UserService)
   private _cdr = inject(ChangeDetectorRef)
   private _title = inject(Title)
   public likedTracks: Track[] = []

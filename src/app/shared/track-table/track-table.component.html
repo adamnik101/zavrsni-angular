@@ -155,7 +155,7 @@
         <mat-icon class="custom-icon-color">playlist_add</mat-icon>
         <span>Add to queue</span>
       </button>
-      <button mat-menu-item [matMenuTriggerFor]="playlist">
+      <button mat-menu-item [matMenuTriggerFor]="playlist" [disabled]="playlists.length === 0">
         <mat-icon class="custom-icon-color">add</mat-icon>
         <span>Add to playlist</span>
       </button>

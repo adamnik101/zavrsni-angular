@@ -3,12 +3,13 @@
   <div class="profile">
     <div class="top" #cover>
       <div class="left">
+        <input type="file" hidden #image>
         @if(user.cover) {
           <img src="{{user.cover}}"/>
         } @else {
           <div class="no-profile-image">
             <mat-icon class="no-image">person_outline</mat-icon>
-            <button mat-button class="choose">
+            <button mat-button class="choose" (click)="image.click()">
               <mat-icon>edit</mat-icon>
               <p>Choose photo</p>
             </button>

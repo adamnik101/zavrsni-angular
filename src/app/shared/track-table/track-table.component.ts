@@ -178,6 +178,9 @@ export class TrackTableComponent {
     clickedElement : HTMLElement | null = null
     closestRow : HTMLTableRowElement | null = null
   openMenuOnRightClick(event: MouseEvent, track: Track) {
+      if(this.selectedTracks.size > 1 && event.button === 2) {
+        console.log('multiple')
+      }
     if(event.button === 2) { // right click, secondary
       this.updateMenu(event, track)
     }

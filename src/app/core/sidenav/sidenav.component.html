@@ -76,14 +76,14 @@
       }
 
     </div>
-    <div class="bottom">
+    <div class="bottom" [ngClass]="{'padding-player' : queueService.currentTrackInfo()?.track}">
       <div class="copyright">
         <mat-icon>copyright</mat-icon>
         <p>2024 Visoka ICT - Adam Nikolić 101/19</p>
       </div>
     </div>
   </mat-sidenav>
-  <mat-sidenav-content class="main-content">
+  <mat-sidenav-content class="main-content" [ngClass]="{'padding-player': queueService.currentTrackInfo()}">
     <app-header></app-header>
     <router-outlet></router-outlet>
   </mat-sidenav-content>

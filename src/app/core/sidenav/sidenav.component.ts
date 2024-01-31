@@ -9,6 +9,7 @@ import {Album} from "../../albums/interfaces/album";
 import {DragDropService} from "../../shared/services/drag-drop.service";
 import {FormControl} from "@angular/forms";
 import {PlaylistService} from "../../playlists/services/playlist.service";
+import {QueueService} from "../../queue/services/queue.service";
 
 @Component({
   selector: 'app-sidenav',
@@ -25,7 +26,7 @@ export class SidenavComponent {
               private _matDialog: MatDialog,
               public authService: AuthService,
               public dragDropService: DragDropService,
-              private renderer: Renderer2) {
+              protected queueService: QueueService) {
 
   }
   ngOnInit() {
