@@ -121,28 +121,31 @@ export class QueueService implements Queue {
 
   }
 
+  private checkExplicitForNext(addToIndex: number) {
+    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex + addToIndex]?.explicit) {
+      if(this.currentQueueIndex + addToIndex == this.queue.length - 1) {
+        addToIndex = 1
+        this.currentQueueIndex = -1
+        continue
+      }
+      addToIndex++
+    }
+    this.currentQueueIndex += addToIndex
+  }
   goForward(): void {
     if(this.shuffleQueue) {
       this.shuffle()
       this.playAtIndex(this.shuffleQueueIndex)
       return
     }
-    let addToIndex = 1
-
-    while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex + addToIndex]?.explicit) {
-      console.log(this.currentQueueIndex, addToIndex, this.queue.length)
-      if(this.currentQueueIndex + addToIndex == this.queue.length - 1) {
-        addToIndex = 1
-        this.currentQueueIndex = 0
-        continue
-      }
-      addToIndex++
-    }
-
-    this.currentQueueIndex += addToIndex
+    let amount = 1
+    this.checkExplicitForNext(amount)
 
     if(this.currentQueueIndex > this.queue.length - 1) {
       this.currentQueueIndex = 0
+      if(this.queue[this.currentQueueIndex].explicit && !this._userService.settings().explicit) {
+        this.checkExplicitForNext(amount)
+      }
     }
     console.log(this.currentQueueIndex)
 
@@ -150,21 +153,29 @@ export class QueueService implements Queue {
   }
   goPrevious(): void {
     let amount = 1
+    this.checkExplicitForPrevious(amount)
 
+    if(this.currentQueueIndex <= -1) {
+      console.log('repeat')
+      this.currentQueueIndex = this.queue.length - 1
+      if(this.queue[this.currentQueueIndex].explicit && !this._userService.settings().explicit) {
+        this.checkExplicitForPrevious(amount)
+      }
+    }
+    this.playAtIndex(this.currentQueueIndex)
+  }
+
+  private checkExplicitForPrevious(amount: number) {
     while (!this._userService.settings().explicit && this.queue[this.currentQueueIndex - amount]?.explicit) {
       if(this.currentQueueIndex - amount == 0) {
         amount = 1
-        this.currentQueueIndex = this.queue.length - 1
+        this.currentQueueIndex = this.queue.length
         continue
       }
       amount++
     }
-    console.log(this.currentQueueIndex)
     this.currentQueueIndex -= amount
-    if(this.currentQueueIndex == -1) {
-      this.currentQueueIndex = this.queue.length - 1
-    }
-    this.playAtIndex(this.currentQueueIndex)
+    console.log("Current index:", this.currentQueueIndex)
   }
 
   playAllFromIndex(tracks: Track[], index: number, from: From) {
