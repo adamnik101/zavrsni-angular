@@ -1,60 +1,61 @@
 <mat-sidenav-container class="container">
   <mat-sidenav mode="side" opened="true" class="left" [fixedInViewport]="true">
-    <div class="logo">
-      <img ngSrc="assets/logo.svg" alt="home,icon" width="50" height="50"/>
-      <h1>TREBLE</h1>
-    </div>
-    <app-nav-links></app-nav-links>
-    <mat-divider></mat-divider>
-    @if (authService.isLoggedIn) {
-      <div class="my-collection">
-        <div class="left-collection">
-          <img ngSrc="assets/icons-svg/playlist.svg" width="20" height="20" alt="playlist icon"/>
-          <a routerLink="/user/playlists">My collection</a>
-        </div>
-        <div class="right-collection">
-          <button matRipple (click)="openDialog()">
-            <img ngSrc="assets/icons-svg/plus.svg" alt="plus,icon" height="20" width="20"/>
-          </button>
-        </div>
+    <div class="top">
+      <div class="logo">
+        <img ngSrc="assets/logo.svg" alt="home,icon" width="50" height="50"/>
+        <h1>TREBLE</h1>
       </div>
-      <div class="tabs" (mouseenter)="openPlaylistsTab($event)">
-        <mat-tab-group class="tab-group" animationDuration=".2s" disablePagination [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
-          <mat-tab label="Playlists">
-            <ng-template matTabContent>
-              <div class="playlists">
-                @for(playlist of playlists; track playlist.id){
-                  @defer (on viewport; prefetch on idle){
-                    <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
-                  } @placeholder{
-                    <app-loading></app-loading>
+      <app-nav-links></app-nav-links>
+      <mat-divider></mat-divider>
+      @if (authService.isLoggedIn) {
+        <div class="my-collection">
+          <div class="left-collection">
+            <img ngSrc="assets/icons-svg/playlist.svg" width="20" height="20" alt="playlist icon"/>
+            <a routerLink="/user/playlists">My collection</a>
+          </div>
+          <div class="right-collection">
+            <button matRipple (click)="openDialog()">
+              <img ngSrc="assets/icons-svg/plus.svg" alt="plus,icon" height="20" width="20"/>
+            </button>
+          </div>
+        </div>
+        <div class="tabs" (mouseenter)="openPlaylistsTab($event)">
+          <mat-tab-group class="tab-group" animationDuration=".2s" disablePagination [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+            <mat-tab label="Playlists">
+              <ng-template matTabContent>
+                <div class="playlists">
+                  @for(playlist of playlists; track playlist.id){
+                    @defer (on viewport; prefetch on idle){
+                      <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
+                    } @placeholder{
+                      <app-loading></app-loading>
+                    }
+                  } @empty {
+                    <div class="no-created">
+                      <p>Create your first playlist</p>
+                      <p>It's easy, we'll help you</p>
+                      <button mat-raised-button (click)="openDialog()">Create playlist</button>
+
+                    </div>
                   }
-                } @empty {
-                  <div class="no-created">
-                    <p>Create your first playlist</p>
-                    <p>It's easy, we'll help you</p>
-                    <button mat-raised-button (click)="openDialog()">Create playlist</button>
+                  <!-- <input type="text" placeholder="Search playlists"/>-->
+                </div>
+              </ng-template>
 
-                  </div>
-                }
-                <!-- <input type="text" placeholder="Search playlists"/>-->
-              </div>
-            </ng-template>
-
-          </mat-tab>
-          <mat-tab label="Artists">
-            <ng-template matTabContent>
-              <div class="following">
-                @for (artist of following; track artist.id) {
-                  <app-user-following-list-item [artist]="artist"></app-user-following-list-item>
-                } @empty {
-                  <div class="no-created">
-                    <p>Find your favorite artists</p>
-                  </div>
-                }
-              </div>
-            </ng-template>
-          </mat-tab>
+            </mat-tab>
+            <mat-tab label="Artists">
+              <ng-template matTabContent>
+                <div class="following">
+                  @for (artist of following; track artist.id) {
+                    <app-user-following-list-item [artist]="artist"></app-user-following-list-item>
+                  } @empty {
+                    <div class="no-created">
+                      <p>Find your favorite artists</p>
+                    </div>
+                  }
+                </div>
+              </ng-template>
+            </mat-tab>
             <mat-tab label="Albums">
               <ng-template matTabContent>
                 <div class="albums">
@@ -69,11 +70,18 @@
                 </div>
               </ng-template>
             </mat-tab>
-        </mat-tab-group>
+          </mat-tab-group>
+        </div>
+
+      }
+
+    </div>
+    <div class="bottom">
+      <div class="copyright">
+        <mat-icon>copyright</mat-icon>
+        <p>2024 Visoka ICT - Adam Nikolić 101/19</p>
       </div>
-
-    }
-
+    </div>
   </mat-sidenav>
   <mat-sidenav-content class="main-content">
     <app-header></app-header>

@@ -4,6 +4,28 @@
     padding: 10px;
     width: var(--sidenav-width);
     background: var(--primary-black);
+
+    .top{
+
+    }
+    .bottom{
+      .copyright{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        color: var(--light-text);
+        mat-icon{
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
+        }
+        p{
+          color: var(--light-text);
+          font-size: 11px;
+        }
+      }
+    }
     .logo{
       margin-left: 10px;
       display: flex;
