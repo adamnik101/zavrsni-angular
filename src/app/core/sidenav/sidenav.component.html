@@ -22,26 +22,25 @@
         <div class="tabs" (mouseenter)="openPlaylistsTab($event)">
           <mat-tab-group class="tab-group" animationDuration=".2s" disablePagination [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
             <mat-tab label="Playlists">
-              <ng-template matTabContent>
-                <div class="playlists">
-                  @for(playlist of playlists; track playlist.id){
-                    @defer (on viewport; prefetch on idle){
-                      <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
-                    } @placeholder{
-                      <app-loading></app-loading>
+                <ng-template matTabContent>
+                  <div class="playlists">
+                    @for(playlist of playlists; track playlist.id){
+                      @defer (on viewport; prefetch on idle){
+                        <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
+                      } @placeholder{
+                        <app-loading></app-loading>
+                      }
+                    } @empty {
+                      <div class="no-created">
+                        <p>Create your first playlist</p>
+                        <p>It's easy, we'll help you</p>
+                        <button mat-raised-button (click)="openDialog()">Create playlist</button>
+
+                      </div>
                     }
-                  } @empty {
-                    <div class="no-created">
-                      <p>Create your first playlist</p>
-                      <p>It's easy, we'll help you</p>
-                      <button mat-raised-button (click)="openDialog()">Create playlist</button>
-
-                    </div>
-                  }
-                  <!-- <input type="text" placeholder="Search playlists"/>-->
-                </div>
-              </ng-template>
-
+                    <!-- <input type="text" placeholder="Search playlists"/>-->
+                  </div>
+                </ng-template>
             </mat-tab>
             <mat-tab label="Artists">
               <ng-template matTabContent>

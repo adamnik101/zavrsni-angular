@@ -3,17 +3,17 @@
   <div class="profile">
     <div class="top" #cover>
       <div class="left">
-        <input type="file" hidden #image>
-        @if(user.cover) {
-          <img src="{{user.cover}}"/>
-        } @else {
-          <div class="no-profile-image">
-            <mat-icon class="no-image">person_outline</mat-icon>
-            <button mat-button class="choose" (click)="image.click()">
-              <mat-icon>edit</mat-icon>
-              <p>Choose photo</p>
-            </button>
+        <input type="file" hidden #image (change)="onFileSelected($event)">
+          <div class="profile-image" #profileImage [style.background-image]="profileImageSrc">
           </div>
+        @if (!profileImageSrc) {
+            <div class="no-profile-image">
+              <mat-icon class="no-image">person_outline</mat-icon>
+              <button mat-button class="choose" (click)="image.click()">
+                <mat-icon>edit</mat-icon>
+                <p>Choose photo</p>
+              </button>
+            </div>
         }
       </div>
       <div class="right">

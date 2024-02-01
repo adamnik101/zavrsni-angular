@@ -19,10 +19,13 @@ export class ProfileComponent{
   user : User = {} as User
   followings: Artist[] = []
   @ViewChild('cover') cover!: ElementRef
+  @ViewChild('profileImage') profileImage!: ElementRef
   playlists : Playlist[] = []
   favoriteTracks:Track[] = []
   private _userSubscription: Subscription = new Subscription()
   private _recentlySub: Subscription = new Subscription()
+  selectedFile: any | null = null
+  profileImageSrc: string = ''
   from: From = {
     name : 'Favorite tracks',
     url: '/user/profile',
@@ -39,7 +42,9 @@ export class ProfileComponent{
         this._colorService.getRgbColorsFromImage(this.user.cover, "profile", true)
         console.log(user)
         this.load = !this.load
-
+        if(user.cover) {
+          this.profileImageSrc = `url(${user.cover})`
+        }
       }
     })
     this._playlistService.playlists$.subscribe({
@@ -57,6 +62,18 @@ export class ProfileComponent{
         this.favoriteTracks = tracks
       }
     })
+  }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0] ?? null
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.readAsDataURL(this.selectedFile);
+
+      reader.onload = (e) => {
+        console.log(e)
+        this.profileImage.nativeElement.style.backgroundImage = `url(${e.target?.result})`
+      };
+    }
   }
   ngAfterViewInit() {
 
