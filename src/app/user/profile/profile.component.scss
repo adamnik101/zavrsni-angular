@@ -131,6 +131,10 @@
 
       }
       .username{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
         .edit{
           position: absolute;
           top: 0;
@@ -149,9 +153,6 @@
           }
         }
         mat-icon{
-          position: absolute;
-          top: 0;
-          right: -30px;
           opacity: 0;
           transition: .2s ease-in-out;
         }
