@@ -20,18 +20,62 @@
     height: 300px;
     background: var(--profile);
     .left{
-      .profile-image{
+      .profile-image-overlay{
         width: 250px;
         height: 250px;
-        clip-path: circle();
+        position: relative;
+        box-shadow: 0 8px 24px rgba(0,0,0,.5);
         border-radius: 50%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        img{
-          height: auto;
-          width: 100%;
-          box-shadow: 0 8px 24px rgba(0,0,0,.5);
+
+        .shadow-circle{
+          clip-path: circle();
+        }
+        .profile-image{
+          border-radius: 50%;
+        }
+        &:hover{
+          .change-image{
+            .choose{
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              flex-direction: column;
+              gap: 10px;
+              text-align: center;
+              background: rgba(0, 0, 0, 0.72);
+              mat-icon{
+                color: var(--light);
+                width: 75px;
+                height: 75px;
+                font-size: 75px;
+              }
+            }
+          }
+        }
+        .profile-image{
+          width: 250px;
+          height: 250px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+          img{
+            height: auto;
+            width: 100%;
+          }
+        }
+        .change-image {
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 2;
+          .choose{
+            display: none;
+          }
         }
       }
       .no-profile-image{
@@ -85,6 +129,32 @@
       }
       .row{
 
+      }
+      .username{
+        .edit{
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: transparent;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+        position: relative;
+        &:hover{
+          mat-icon{
+            opacity: 1;
+          }
+        }
+        mat-icon{
+          position: absolute;
+          top: 0;
+          right: -30px;
+          opacity: 0;
+          transition: .2s ease-in-out;
+        }
       }
     }
   }

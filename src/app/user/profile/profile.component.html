@@ -4,21 +4,26 @@
     <div class="top" #cover>
       <div class="left">
         <input type="file" hidden #image (change)="onFileSelected($event)">
-          <div class="profile-image" #profileImage [style.background-image]="profileImageSrc">
-          </div>
-        @if (!profileImageSrc) {
-            <div class="no-profile-image">
-              <mat-icon class="no-image">person_outline</mat-icon>
+        <div class="profile-image-overlay">
+          <div class="shadow-circle">
+            <div class="profile-image" #profileImage [style.background-image]="profileImageSrc ? profileImageSrc : ''">
+            </div>
+            <div class="change-image">
               <button mat-button class="choose" (click)="image.click()">
                 <mat-icon>edit</mat-icon>
                 <p>Choose photo</p>
               </button>
             </div>
-        }
+          </div>
+        </div>
       </div>
       <div class="right">
         <p>Profile</p>
-        <h1>{{user.first_name}} {{user.last_name}}</h1>
+        <div class="username">
+          <button class="edit" (click)="openEditUsernameDialog()"></button>
+          <h1>{{user.first_name}} {{user.last_name}}</h1>
+          <mat-icon>edit</mat-icon>
+        </div>
         <div class="row">
           <p>{{followings.length}} Following</p>
           <div class="divider-h"></div>

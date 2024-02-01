@@ -85,4 +85,8 @@ export class ProfileComponent{
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')
 
   }
+
+  openEditUsernameDialog() {
+    console.log('edit username dialog!')
+  }
 }
