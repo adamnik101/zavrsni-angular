@@ -883,3 +883,13 @@ form{
   flex-direction: column;
   justify-content: space-between;
 }
+.dialog-ui{
+  border-radius: 50px;
+  .mdc-dialog__title{
+    color: var(--primary-text) !important;
+  }
+
+}
+.cdk-overlay-dark-backdrop{
+  background: rgba(0, 0, 0, .7);
+}

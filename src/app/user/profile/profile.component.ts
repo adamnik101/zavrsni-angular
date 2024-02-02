@@ -9,6 +9,8 @@ import {From} from "../../shared/interfaces/from";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {PlaylistService} from "../../playlists/services/playlist.service";
 import {Artist} from "../../artists/interfaces/artist";
+import {MatDialog} from "@angular/material/dialog";
+import {EditUserNameDialogComponent} from "./edit-user-name-dialog/edit-user-name-dialog.component";
 
 @Component({
   selector: 'app-profile',
@@ -32,7 +34,11 @@ export class ProfileComponent{
     id: ''
   }
   load: boolean = true
-  constructor(public userService: UserService, private _playlistService: PlaylistService, private _titleService: Title, private _colorService: ColorThiefService, private _renderer: Renderer2) { }
+  constructor(public userService: UserService,
+              private _playlistService: PlaylistService,
+              private _titleService: Title,
+              private _colorService: ColorThiefService,
+              private _matDialog: MatDialog) { }
 
   ngOnInit() {
     this._titleService.setTitle('My Profile - TREBLE')
@@ -88,6 +94,6 @@ export class ProfileComponent{
   }
 
   openEditUsernameDialog() {
-    console.log('edit username dialog!')
+    this._matDialog.open(EditUserNameDialogComponent)
   }
 }
