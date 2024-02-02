@@ -42,12 +42,13 @@
     justify-content: center;
     background: var(--light-black);
     border-radius: 3px;
+    overflow: hidden;
     img{
       margin-right: 3px;
       border-radius: 3px;
     }
     .has-cover{
-      width: 100%;
+      width: auto;
       height: 100%;
       margin-right: 0;
     }

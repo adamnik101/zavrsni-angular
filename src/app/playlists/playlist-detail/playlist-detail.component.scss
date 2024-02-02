@@ -21,9 +21,11 @@
         background: var(--playlist);
         box-shadow: 5px 5px 15px #090909;
         border-radius: 5px;
+        overflow: hidden;
+        background: var(--light-black);
           img{
-            width: 200px;
-            height: auto;
+            width: auto;
+            height: 200px;
             border-radius: 5px;
           }
         .note{
