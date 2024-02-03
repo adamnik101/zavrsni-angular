@@ -1,6 +1,6 @@
 
 <div class="following" >
-  @if (following.length) {
+  @if (following.length > 0) {
     @for (artist of following; track artist) {
       <a class="row" routerLinkActive="active" routerLink="/artists/{{artist.id}}" >
         <div class="left">
