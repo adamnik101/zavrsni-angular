@@ -1,6 +1,8 @@
-
-<div class="following" >
-  @if (following.length > 0) {
+@if(!loadedFollowings()){
+  <p>Loading..</p>
+}
+@else {
+  <div class="following" >
     @for (artist of following; track artist) {
       <a class="row" routerLinkActive="active" routerLink="/artists/{{artist.id}}" >
         <div class="left">
@@ -8,11 +10,11 @@
           <p>{{artist.name}}</p>
         </div>
       </a>
+    } @empty {
+      <div class="no-artists-followed">
+        <mat-icon>microphone</mat-icon>
+        <p>You aren't following any artists. Tap the heart icon on any artist to add them to your collection.</p>
+      </div>
     }
-  } @else {
-    <div class="no-artists-followed">
-      <mat-icon>microphone</mat-icon>
-      <p>You aren't following any artists. Tap the heart icon on any artist to add them to your collection.</p>
-    </div>
-  }
-</div>
+  </div>
+}
