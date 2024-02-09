@@ -34,7 +34,7 @@ export class AlbumDetailComponent {
   private _queueService = inject(QueueService)
   private _audioService = inject(AudioService)
   private _colorService = inject(ColorThiefService)
-  private _userService = inject(UserService)
+  protected _userService = inject(UserService)
   private _route = inject(ActivatedRoute)
   private _snackbar = inject(SnackbarService)
   private el = inject(ElementRef)

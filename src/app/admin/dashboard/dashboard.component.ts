@@ -26,7 +26,7 @@ export class DashboardComponent {
   progress1: number = 0
   chart1: any
   pieChart: any;
-  user: User = {} as User;
+  user: User | null = null
   ngOnInit() {
 
     this._adminService.dashboard().subscribe({

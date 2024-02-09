@@ -74,8 +74,12 @@ export class TrackTableComponent {
 
   }
   playAllFromIndex(tracks: Track[], index: number, from: From) {
-
-    this._queueService.playAllFromIndex(tracks, index, from)
+    if(this._userService.userLoaded()) {
+      this._queueService.playAllFromIndex(tracks, index, from)
+    }
+    else {
+      this._queueService.playAllFromIndexWithNoUser(tracks, index, from)
+    }
     /*this._queueService.currentQueueIndexSignal.set(index)
     this._queueService.currentQueueIndex = index
     this._queueService.addTracks(tracks, from)
@@ -302,5 +306,9 @@ export class TrackTableComponent {
         return from.id === this._queueService.currentTrackInfo()!.from
       }
       return false
+  }
+
+  playAllFromIndexWithNoUser(tracks: Track[], index: number, from: From) {
+    this._queueService.playAllFromIndexWithNoUser(tracks, index, from)
   }
 }

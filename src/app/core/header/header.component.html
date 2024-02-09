@@ -9,32 +9,35 @@
   <app-search-bar></app-search-bar>
 </div>
 <div class="right">
-  <button mat-button [matMenuTriggerFor]="menu" matRipple class="cover">
-    @if (!cover) {
-      <mat-icon>person</mat-icon>
-    }
-    @if (cover) {
-      <img src="{{cover}}"/>
-    }
-    <!--@if(cover){ // works but webstorm doesnt support it still
-    <img *ngIf="cover" src="{{cover}}"/>
-    }-->
+  @if (_userService.userLoaded()){
+    <button mat-button [matMenuTriggerFor]="menu" matRipple class="cover">
+      @if (!cover) {
+        <mat-icon>person</mat-icon>
+      }
+      @if (cover) {
+        <img src="{{cover}}"/>
+      }
+      <!--@if(cover){ // works but webstorm doesnt support it still
+      <img *ngIf="cover" src="{{cover}}"/>
+      }-->
 
-  </button>
-  <mat-menu #menu="matMenu">
-    <a routerLink="/user/profile" mat-menu-item>
-      <mat-icon>person</mat-icon>
-      <span class="white-color">Profile</span>
-    </a>
-    <a routerLink="/user/settings"  mat-menu-item>
-      <mat-icon>settings</mat-icon>
-      <span class="white-color">Settings</span>
-    </a>
-    <mat-divider></mat-divider>
-    <a mat-menu-item (click)="logout()">
-      <mat-icon>logout</mat-icon>
-      <span class="white-color">Log out</span>
-    </a>
-  </mat-menu>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a routerLink="/user/profile" mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span class="white-color">Profile</span>
+      </a>
+      <a routerLink="/user/settings"  mat-menu-item>
+        <mat-icon>settings</mat-icon>
+        <span class="white-color">Settings</span>
+      </a>
+      <mat-divider></mat-divider>
+      <a mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span class="white-color">Log out</span>
+      </a>
+    </mat-menu>
+  }
+
 </div>
 </div>

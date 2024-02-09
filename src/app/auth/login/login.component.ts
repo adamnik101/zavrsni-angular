@@ -58,6 +58,8 @@ export class LoginComponent {
   }
 
   ngOnDestroy() {
-    this.subscribe.unsubscribe()
+    if(this.loginGroup.valid) {
+      this.subscribe.unsubscribe()
+    }
   }
 }

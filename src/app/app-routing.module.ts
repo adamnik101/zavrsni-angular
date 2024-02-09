@@ -23,10 +23,10 @@ const routes: Routes = [
   {path : 'playlists', loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsModule)},
   {path : 'artists', loadChildren: () => import('./artists/artists.module').then(m => m.ArtistsModule)},
   {path : 'albums', loadChildren: () => import('./albums/albums.module').then(m => m.AlbumsModule)},
-  {path : 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule)},
+  {path : 'user', loadChildren: () => import('./user/user.module').then(m => m.UserModule), canActivate: [authGuard]},
   {path : 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule)},
   {path : 'queue', loadChildren: () => import('./queue/queue.module').then(m => m.QueueModule)},
-  {path : 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
+  {path : 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [authGuard]},
   {path : 'error', component: ServerErrorComponent, pathMatch: "full"},
  // {path : '**', pathMatch: 'full', redirectTo: 'explore'},
 ];

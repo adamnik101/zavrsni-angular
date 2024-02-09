@@ -22,7 +22,9 @@ export class SettingsComponent {
     this._titleService.setTitle('My Settings - TREBLE')
     this.userService.user$.subscribe({
       next: (user) => {
-        this.user = user
+        if(user) {
+          this.user = user
+        }
       }
     })
     this.userService.settings$.subscribe({

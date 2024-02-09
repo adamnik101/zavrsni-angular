@@ -41,14 +41,16 @@
         <button class="play" (click)="playAlbum(album.tracks)">
           <mat-icon>play_arrow</mat-icon>
         </button>
-        @if (!isAlbumLiked) {
-          <button (click)="likeAlbum(album.id)" class="like">
-            <mat-icon>favorite_outline</mat-icon>
-          </button>
-        } @else {
-          <button class="like liked" (click)="removeAlbumFromLiked(album.id)">
-            <mat-icon>favorite</mat-icon>
-          </button>
+        @if(_userService.userLoaded()){
+          @if (!isAlbumLiked) {
+            <button (click)="likeAlbum(album.id)" class="like">
+              <mat-icon>favorite_outline</mat-icon>
+            </button>
+          } @else {
+            <button class="like liked" (click)="removeAlbumFromLiked(album.id)">
+              <mat-icon>favorite</mat-icon>
+            </button>
+          }
         }
       </div>
       <app-track-table [tracks]="album.tracks" [from]="from"></app-track-table>

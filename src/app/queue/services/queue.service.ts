@@ -93,7 +93,13 @@ export class QueueService implements Queue {
           this._snackbar.showDefaultMessage("Content not available.")
         }
   }
-
+  playAtIndexWithNoUser(index: number) {
+    const track = this.queue[index]
+    this.currentQueueIndexSignal.set(index)
+    this.currentQueueIndex = index
+    this.setCurrentTrack(track)
+    this._audioService.playTrack(track, this.from)
+  }
   remove(index: number): Track[] {
     if(index < this.currentQueueIndex) {
       this.currentQueueIndex--
@@ -139,30 +145,51 @@ export class QueueService implements Queue {
       return
     }
     let amount = 1
-    this.checkExplicitForNext(amount)
+    if(this._userService.userLoaded()) {
+      this.checkExplicitForNext(amount)
 
-    if(this.currentQueueIndex > this.queue.length - 1) {
-      this.currentQueueIndex = 0
-      if(this.queue[this.currentQueueIndex].explicit && !this._userService.settings().explicit) {
-        this.checkExplicitForNext(amount)
+      if(this.currentQueueIndex > this.queue.length - 1) {
+        this.currentQueueIndex = 0
+        if(this.queue[this.currentQueueIndex].explicit && !this._userService.settings().explicit) {
+          this.checkExplicitForNext(amount)
+        }
       }
+      this.playAtIndex(this.currentQueueIndex)
     }
+    else {
+      this.currentQueueIndex++
+      if(this.currentQueueIndex > this.queue.length - 1) {
+        this.currentQueueIndex = 0
+      }
+      this.playAtIndexWithNoUser(this.currentQueueIndex)
+    }
+
     console.log(this.currentQueueIndex)
 
-    this.playAtIndex(this.currentQueueIndex)
+
   }
   goPrevious(): void {
     let amount = 1
-    this.checkExplicitForPrevious(amount)
+    if(this._userService.userLoaded()) {
+      this.checkExplicitForPrevious(amount)
 
-    if(this.currentQueueIndex <= -1) {
-      console.log('repeat')
-      this.currentQueueIndex = this.queue.length - 1
-      if(this.queue[this.currentQueueIndex].explicit && !this._userService.settings().explicit) {
-        this.checkExplicitForPrevious(amount)
+      if(this.currentQueueIndex <= -1) {
+        console.log('repeat')
+        this.currentQueueIndex = this.queue.length - 1
+        if(this.queue[this.currentQueueIndex].explicit && !this._userService.settings().explicit) {
+          this.checkExplicitForPrevious(amount)
+        }
+      }
+      this.playAtIndex(this.currentQueueIndex)
+    }
+    else {
+      this.currentQueueIndex--
+      if(this.currentQueueIndex <= -1) {
+        this.currentQueueIndex = this.queue.length - 1
       }
     }
-    this.playAtIndex(this.currentQueueIndex)
+    this.playAtIndexWithNoUser(this.currentQueueIndex)
+
   }
 
   private checkExplicitForPrevious(amount: number) {
@@ -183,5 +210,10 @@ export class QueueService implements Queue {
     this.currentQueueIndexSignal.set(index)
     this.addTracks(tracks, from)
     this.playAtIndex(index)
+  }
+  playAllFromIndexWithNoUser(tracks: Track[], index: number, from: From) {
+    this.currentQueueIndexSignal.set(index)
+    this.addTracks(tracks, from)
+    this.playAtIndexWithNoUser(index)
   }
 }

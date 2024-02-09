@@ -12,14 +12,16 @@ export class HeaderComponent {
 
   cover: string = ''
   userSub! : Subscription
-  constructor(private _userService: UserService, private _authService: AuthService) {
+  constructor(protected _userService: UserService, private _authService: AuthService) {
 
   }
 
   ngOnInit() {
     this.userSub = this._userService.user$.subscribe({
       next: (user) => {
-        this.cover = user.cover
+        if(user) {
+          this.cover = user.cover
+        }
       }
     })
   }

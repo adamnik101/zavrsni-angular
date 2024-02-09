@@ -17,7 +17,7 @@
       Trending
     </a>
   </li>
-  @if (authService.isLoggedIn) {
+  @if (userService.userLoaded()) {
     <li>
       <a routerLink="/user/liked">
         <img ngSrc="assets/icons-svg/heart.svg" alt="liked heart,icon" width="20" height="20"/>

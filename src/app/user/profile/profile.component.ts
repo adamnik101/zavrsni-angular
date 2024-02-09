@@ -44,12 +44,14 @@ export class ProfileComponent{
     this._titleService.setTitle('My Profile - TREBLE')
     this._userSubscription = this.userService.user$.subscribe({
       next: (user) => {
-        this.user = user
-        this._colorService.getRgbColorsFromImage(this.user.cover, "profile", true)
-        console.log(user)
-        this.load = !this.load
-        if(user.cover) {
-          this.profileImageSrc = `url(${user.cover})`
+        if(user) {
+          this.user = user
+          this._colorService.getRgbColorsFromImage(this.user.cover, "profile", true)
+          console.log(user)
+          this.load = !this.load
+          if(user.cover) {
+            this.profileImageSrc = `url(${user.cover})`
+          }
         }
       }
     })

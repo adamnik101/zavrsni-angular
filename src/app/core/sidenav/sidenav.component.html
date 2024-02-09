@@ -7,7 +7,7 @@
       </div>
       <app-nav-links></app-nav-links>
       <mat-divider></mat-divider>
-      @if (authService.isLoggedIn) {
+      @if (_userService.userLoaded()) {
         <div class="my-collection">
           <div class="left-collection">
             <img ngSrc="assets/icons-svg/playlist.svg" width="20" height="20" alt="playlist icon"/>

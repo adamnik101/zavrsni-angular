@@ -21,7 +21,7 @@ export class UserService extends BaseService{
   plaldsada: Playlist[] = []
   userLoaded = signal<boolean>(false)
   likedTracks = signal<Track[]>([])
-  private _userSubject : BehaviorSubject<User> = new BehaviorSubject<User>({} as User)
+  private _userSubject : BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null)
   public user$ = this._userSubject.asObservable()
 
   private _settingsSubject: BehaviorSubject<Settings> = new BehaviorSubject<Settings>({} as Settings)
@@ -53,15 +53,20 @@ export class UserService extends BaseService{
     let newUserPlaylists = this._playlistsSubject.value.filter(pl => pl.id !== playlist.id)
     this.user$.subscribe({
       next: (user) => {
-        user.playlists_count--
+        if(user) {
+          user.playlists_count--
+        }
       }
     })
     this._playlistsSubject.next(newUserPlaylists)
   }
+  setUserSubject(user: User | null) {
+    this._userSubject.next(user)
+  }
   getUser(navigateToProfile = false) {
     const subscribe: Subscription = this.get<User>('actor').subscribe({
       next: (user: User): void => {
-        this._userSubject.next(user)
+        this.setUserSubject(user)
         this._likedAlbumSubject.next(user.liked_albums)
         this._playlistsSubject.next(user.playlists)
         this._likedTracksSubject.next(user.liked_tracks)

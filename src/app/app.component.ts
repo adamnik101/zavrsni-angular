@@ -5,6 +5,7 @@ import {QueueService} from "./queue/services/queue.service";
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {PlaylistService} from "./playlists/services/playlist.service";
 import {LoaderService} from "./core/services/loader.service";
+import {TokenService} from "./auth/services/token.service";
 
 @Component({
   selector: 'app-root',
@@ -33,9 +34,19 @@ export class AppComponent implements OnInit {
   private _playlistService = inject(PlaylistService)
   public queueService = inject(QueueService)
   public loaderService = inject(LoaderService)
+  private _tokenService = inject(TokenService)
   ngOnInit() {
-    this._userService.getUser()
-    this._playlistService.getPlaylists()
+    this._tokenService.checkTokenFromApi().subscribe({
+      next: (response) => {
+        console.log(response)
+        if(response.token == null) {
+
+          return
+        }
+        this._userService.getUser()
+        this._playlistService.getPlaylists()
+      }
+    })
     this._titleService.setTitle('Treble')
   }
 }

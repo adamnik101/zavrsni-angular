@@ -11,7 +11,7 @@ import {CurrentTrackInfo} from "../../interfaces/current-track-info";
 export class IsCurrentTrackPipe implements PipeTransform {
   transform(currentTrackInfo: CurrentTrackInfo | null, track: Track, index: number, from: From): boolean {
     console.log('c')
-    if(currentTrackInfo !== null && currentTrackInfo.track === track.id && from.id === currentTrackInfo.from) {
+    if(currentTrackInfo !== null && currentTrackInfo.track === track.id && from.id === currentTrackInfo.from && index === currentTrackInfo.index) {
 
       return true
     }
