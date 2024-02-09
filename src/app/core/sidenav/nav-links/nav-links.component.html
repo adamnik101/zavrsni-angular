@@ -17,6 +17,20 @@
       Trending
     </a>
   </li>
+  @if (userService.userLoaded() === false){
+    <li>
+      <a routerLink="auth/login">
+        <img ngSrc="assets/icons-svg/trending.svg" alt="trending,icon" width="20" height="20"/>
+        Login
+      </a>
+    </li>
+    <li>
+      <a routerLink="auth/register">
+        <img ngSrc="assets/icons-svg/trending.svg" alt="trending,icon" width="20" height="20"/>
+        Register
+      </a>
+    </li>
+  }
   @if (userService.userLoaded()) {
     <li>
       <a routerLink="/user/liked">

@@ -19,7 +19,7 @@ import {Album} from "../../albums/interfaces/album";
 })
 export class UserService extends BaseService{
   plaldsada: Playlist[] = []
-  userLoaded = signal<boolean>(false)
+  userLoaded = signal<boolean | null>(null)
   likedTracks = signal<Track[]>([])
   private _userSubject : BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null)
   public user$ = this._userSubject.asObservable()
@@ -89,6 +89,13 @@ export class UserService extends BaseService{
         subscribe.unsubscribe()
       }
     })
+  }
+  unsetAllUserRelevantSubjects() {
+    this._likedAlbumSubject.next([])
+    this._playlistsSubject.next([])
+    this._likedTracksSubject.next([])
+    this._followingSubject.next([])
+    this._settingsSubject.next({} as Settings)
   }
   getUserPlaylists() {
     return this.get<Playlist[]>('actor/playlists').subscribe({

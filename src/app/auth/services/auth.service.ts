@@ -8,13 +8,13 @@ import {LoginResponse} from "../interfaces/login-response";
 import {BehaviorSubject, map, Observable} from "rxjs";
 import {User} from "../../user/interfaces/user";
 import {Router} from "@angular/router";
+import {UserService} from "../../user/services/user.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseService{
   public isLoggedIn = false
-
   login(data: LoginRequest) : Observable<LoginResponse> {
     return this.post<LoginRequest, LoginResponse>('auth/login', data )
   }

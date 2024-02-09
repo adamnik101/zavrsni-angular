@@ -17,19 +17,20 @@ export class UnauthorizedStatusCodeInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
       return next.handle(req).pipe(catchError(err => {
         if([401,403].includes(err.status)) {
-          this.cleanData()
+          this.clearData()
           this._router.navigateByUrl('/auth/login')
         }
 
         return throwError(() => err)
       }))
   }
-  cleanData() {
+  clearData() {
     this._queueService.clear()
     this._queueService.currentTrackInfo.set(null)
     this._tokenService.removeToken()
     this._userService.userLoaded.set(false)
     this._userService.setUserSubject(null)
+    this._userService.unsetAllUserRelevantSubjects()
     this._matDialog.closeAll()
   }
 }
