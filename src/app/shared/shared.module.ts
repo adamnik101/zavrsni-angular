@@ -16,6 +16,7 @@ import { FormatDurationPipe } from './pipes/format-duration.pipe';
 import {MatListModule} from "@angular/material/list";
 import {IsCurrentTrackPipe} from "./track-table/pipes/is-current-track.pipe";
 import {DurationPipe} from "./pipes/duration.pipe";
+import {IsPlaylistOwnerPipe} from "./pipes/is-playlist-owner.pipe";
 
 
 
@@ -54,7 +55,8 @@ import {DurationPipe} from "./pipes/duration.pipe";
         CdkDragPlaceholder,
         MatListModule,
         IsCurrentTrackPipe,
-        DurationPipe
+        DurationPipe,
+        IsPlaylistOwnerPipe
     ]
 })
 export class SharedModule { }

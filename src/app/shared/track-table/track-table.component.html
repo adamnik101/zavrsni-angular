@@ -169,7 +169,7 @@
           <mat-icon class="custom-icon-color">add</mat-icon>
           <span>Add to playlist</span>
         </button>
-        @if (from.url.includes('playlists/')) {
+        @if (from.url.includes('playlists/') && (_userService.playlists$ | async) | isPlaylistOwner:from) {
           <button mat-menu-item (click)="removeFromPlaylist(selectedTrack, from)">
             <mat-icon>remove_circle_outline</mat-icon>
             <span>Remove from playlist</span>
