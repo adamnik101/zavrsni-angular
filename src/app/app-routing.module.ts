@@ -13,12 +13,13 @@ import {AlbumsModule} from "./albums/albums.module";
 import {DashboardComponent} from "./admin/dashboard/dashboard.component";
 import {GenresComponent} from "./admin/genres/genres.component";
 import {ServerErrorComponent} from "./server-error/server-error.component";
+import {loggedInGuard} from "./guards/logged-in.guard";
 
 const routes: Routes = [
   {path : '', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule), pathMatch: "full"},
   {path : 'explore', component: ExploreComponent, loadChildren: () => import('./explore/explore.module').then(m => m.ExploreModule)},
   {path : 'trending', loadChildren: () => import('./trending/trending.module').then(m => m.TrendingModule)},
-  {path : 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+  {path : 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule), canActivate: [loggedInGuard]},
   {path : 'genres', loadChildren: () => import('./genre/genre.module').then(m => m.GenreModule)},
   {path : 'playlists', loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsModule)},
   {path : 'artists', loadChildren: () => import('./artists/artists.module').then(m => m.ArtistsModule)},
