@@ -1,31 +1,43 @@
-<div class="login">
-  <div class="text">
-    <h3>Login to Treble</h3>
-  </div>
-  <form [formGroup]="loginGroup" class="user-ui">
-    <mat-form-field appearance="outline" floatLabel="always">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" placeholder="Your email" formControlName="email"/>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" floatLabel="always">
-      <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="Your password" formControlName="password"/>
-    </mat-form-field>
-    <div class="form-group">
-      <div class="left">
-        <input type="checkbox" name="remember" formControlName="remember"> Remember me
+<div class="wrapper">
+  <div class="left-wrapper">
+    <div class="login">
+      <div class="text">
+        <h3>Login to Treble</h3>
       </div>
-      <div class="right">
-        <a routerLink="/auth/register">Don't have an account?</a>
-      </div>
+      <form [formGroup]="loginGroup" class="user-ui login-form">
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="Your email" formControlName="email"/>
+          </mat-form-field>
 
+          <mat-form-field appearance="outline" floatLabel="always">
+            <mat-label>Password</mat-label>
+            <input matInput type="password" placeholder="Your password" formControlName="password"/>
+          </mat-form-field>
+
+          <div class="form-group">
+            <div class="left">
+              <input type="checkbox" name="remember" formControlName="remember"> Remember me
+            </div>
+          </div>
+        <button mat-raised-button (click)="onLogin()">Login</button>
+
+      </form>
+      <div class="divider"></div>
+      <a routerLink="/auth/register">Don't have an account?</a>
     </div>
-    @if (error !== '') {
-      <p class="error">{{error}}</p>
-    }
-    <button mat-raised-button (click)="onLogin()">Login</button>
 
-  </form>
-  <div class="divider"></div>
+  </div>
+  <div class="right-wrapper">
+    <div class="content">
+      <img src="assets/logo.svg"/>
+      <h3>Welcome back to <span>TREBLE</span>!</h3>
+      <h6>Please enter your credentials to access your personalized music experience.</h6>
+      <p>New here?
+        <a routerLink="/auth/register">
+          Register here!
+        </a>
+        Join thousands of music lovers on TREBLE and create your account today!</p>
+    </div>
+  </div>
 </div>

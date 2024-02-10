@@ -36,20 +36,24 @@ export class AppComponent implements OnInit {
   public loaderService = inject(LoaderService)
   private _tokenService = inject(TokenService)
   ngOnInit() {
-    this.loaderService.showLoader()
-    this._tokenService.checkTokenFromApi().subscribe({
-      next: (response) => {
-        console.log(response)
-        if(response.token == null) {
 
-          return
+    if(this._tokenService.getToken()){
+      this.loaderService.showLoader()
+      this._tokenService.checkTokenFromApi().subscribe({
+        next: (response) => {
+          console.log(response)
+          if(response.token == null) {
+
+            return
+          }
+          this._userService.getUser()
+          this._playlistService.getPlaylists()
         }
-        this._userService.getUser()
-        this._playlistService.getPlaylists()
-      }
-    }).add(() => {
-      this.loaderService.hideLoader()
-    })
+      }).add(() => {
+        this.loaderService.hideLoader()
+      })
+    }
+
     this._titleService.setTitle('Treble')
   }
 }

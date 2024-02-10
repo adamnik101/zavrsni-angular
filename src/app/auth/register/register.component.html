@@ -1,48 +1,54 @@
-<div class="register">
-  <div class="header">
-    <h1>Register now</h1>
+<div class="wrapper">
+  <div class="register">
+    <div class="header">
+      <h1>Register now</h1>
+    </div>
+    <form [formGroup]="registerGroup" class="user-ui register-form">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>First name</mat-label>
+        <input matInput placeholder="Your first name" formControlName="firstName"/>
+        @if(registerGroup.get('firstName')?.hasError('required')) {
+          <mat-error>First name is required.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Last name</mat-label>
+        <input matInput placeholder="Your last name" formControlName="lastName"/>
+        @if(registerGroup.get('lastName')?.hasError('required')) {
+          <mat-error>Last name is required.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Your email" formControlName="email"/>
+        @if(registerGroup.get('email')?.hasError('required')) {
+          <mat-error>Email is required.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always"  >
+        <mat-label>Password</mat-label>
+        <input matInput type="password" placeholder="Your password" formControlName="password"/>
+        @if(registerGroup.get('password')?.hasError('required')) {
+          <mat-error>Password is required.</mat-error>
+        }
+        @if(registerGroup.get('password')?.hasError('minlength')) {
+          <mat-error>Minimum length is 8 characters.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always"  >
+        <mat-label>Confirm password</mat-label>
+        <input matInput type="password" placeholder="Confirm password" formControlName="confirmPassword"/>
+        @if(registerGroup.hasError('passwordMismatch')) {
+          <mat-error>Passwords do not match.</mat-error>
+        }
+      </mat-form-field>
+
+      <button mat-raised-button (click)="register()" class="register-button">Register</button>
+    </form>
+
   </div>
-  <form [formGroup]="registerGroup" class="user-ui register-form">
-    <mat-form-field appearance="outline" floatLabel="always">
-      <mat-label>First name</mat-label>
-      <input matInput placeholder="Your first name" formControlName="firstName"/>
-      @if(registerGroup.get('firstName')?.hasError('required')) {
-        <mat-error>First name is required.</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline" floatLabel="always">
-      <mat-label>Last name</mat-label>
-      <input matInput placeholder="Your last name" formControlName="lastName"/>
-      @if(registerGroup.get('lastName')?.hasError('required')) {
-        <mat-error>Last name is required.</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline" floatLabel="always">
-      <mat-label>Email</mat-label>
-      <input matInput placeholder="Your email" formControlName="email"/>
-      @if(registerGroup.get('email')?.hasError('required')) {
-        <mat-error>Email is required.</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline" floatLabel="always"  >
-      <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="Your password" formControlName="password"/>
-      @if(registerGroup.get('password')?.hasError('required')) {
-        <mat-error>Password is required.</mat-error>
-      }
-      @if(registerGroup.get('password')?.hasError('minlength')) {
-        <mat-error>Minimum length is 8 characters.</mat-error>
-      }
-    </mat-form-field>
-    <mat-form-field appearance="outline" floatLabel="always"  >
-      <mat-label>Confirm password</mat-label>
-      <input matInput type="password" placeholder="Confirm password" formControlName="confirmPassword"/>
-      @if(registerGroup.hasError('passwordMismatch')) {
-        <mat-error>Passwords do not match.</mat-error>
-      }
-    </mat-form-field>
-
-    <button mat-raised-button (click)="register()" class="register-button">Register</button>
-  </form>
-
+  <div class="info">
+    <h1>Welcome to Treble!</h1>
+    <p>Create your account below to unlock unlimited access to your favorite tunes anytime, anywhere.</p>
+  </div>
 </div>

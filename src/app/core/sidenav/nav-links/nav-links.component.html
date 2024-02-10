@@ -1,33 +1,33 @@
 <ul>
   <li>
     <a routerLink="/">
-      <img ngSrc="assets/icons-svg/home.svg" alt="home,icon" width="20" height="20"/>
+      <mat-icon>home</mat-icon>
       Home
     </a>
   </li>
   <li>
     <a routerLink="search">
-      <img ngSrc="assets/icons-svg/search.svg" alt="search,icon" width="20" height="20"/>
+      <mat-icon>search</mat-icon>
       Search
     </a>
   </li>
   <li>
     <a routerLink="trending">
-      <img ngSrc="assets/icons-svg/trending.svg" alt="trending,icon" width="20" height="20"/>
+      <mat-icon>whatshot</mat-icon>
       Trending
     </a>
   </li>
-  @if (userService.userLoaded() === false){
+  @if (userService.userLoaded() === false || userService.userLoaded() === null){
     <mat-divider></mat-divider>
     <li>
       <a routerLink="auth/login">
-        <img ngSrc="assets/icons-svg/trending.svg" alt="trending,icon" width="20" height="20"/>
+        <mat-icon>exit_to_app</mat-icon>
         Login
       </a>
     </li>
     <li>
       <a routerLink="auth/register">
-        <img ngSrc="assets/icons-svg/trending.svg" alt="trending,icon" width="20" height="20"/>
+        <mat-icon>assignment</mat-icon>
         Register
       </a>
     </li>
@@ -35,7 +35,7 @@
   @if (userService.userLoaded()) {
     <li>
       <a routerLink="/user/liked">
-        <img ngSrc="assets/icons-svg/heart.svg" alt="liked heart,icon" width="20" height="20"/>
+        <mat-icon>favorite_border</mat-icon>
         Liked tracks
       </a>
     </li>

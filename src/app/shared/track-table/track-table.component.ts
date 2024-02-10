@@ -219,18 +219,20 @@ export class TrackTableComponent {
   selectedTracks : Map<number, Track> = new Map<number, Track>()
   tracksToAdd: string[] = []
   selectTrack(event: MouseEvent, index: number, track: Track) {
-      if(event.ctrlKey) {
-        if(this.selectedTracks.has(index)) {
-          this.selectedTracks.delete(index)
+      if(this._userService.userLoaded()) {
+        if(event.ctrlKey) {
+          if(this.selectedTracks.has(index)) {
+            this.selectedTracks.delete(index)
+            console.log(this.selectedTracks)
+            return
+          }
+          this.selectedTracks.set(index,track)
           console.log(this.selectedTracks)
-          return
+          return;
         }
-        this.selectedTracks.set(index,track)
-        console.log(this.selectedTracks)
-        return;
+        this.selectedTracks.clear()
+        this.tracksToAdd = []
       }
-      this.selectedTracks.clear()
-      this.tracksToAdd = []
   }
 
   //treba preko servisa

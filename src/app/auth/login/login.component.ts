@@ -11,6 +11,7 @@ import {User} from "../../user/interfaces/user";
 import {PlaylistService} from "../../playlists/services/playlist.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
+import {SnackbarService} from "../../shared/services/snackbar.service";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -32,7 +33,8 @@ export class LoginComponent {
   constructor(private _authService: AuthService,
               private _tokenService: TokenService,
               private _userService: UserService,
-              private _playlistService: PlaylistService) {
+              private _playlistService: PlaylistService,
+              private _snackbar: SnackbarService) {
   }
   onLogin() {
     if(this.loginGroup.valid) {
@@ -51,7 +53,7 @@ export class LoginComponent {
         },
         error: (response) => {
           const res = response.error as LoginResponseError
-          this.error = res.message
+          this._snackbar.showFailedMessage(res.message)
         }
       })
     }
