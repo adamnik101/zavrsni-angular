@@ -18,6 +18,7 @@
     </a>
   </li>
   @if (userService.userLoaded() === false){
+    <mat-divider></mat-divider>
     <li>
       <a routerLink="auth/login">
         <img ngSrc="assets/icons-svg/trending.svg" alt="trending,icon" width="20" height="20"/>
