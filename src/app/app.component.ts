@@ -36,6 +36,7 @@ export class AppComponent implements OnInit {
   public loaderService = inject(LoaderService)
   private _tokenService = inject(TokenService)
   ngOnInit() {
+    this.loaderService.showLoader()
     this._tokenService.checkTokenFromApi().subscribe({
       next: (response) => {
         console.log(response)
@@ -46,6 +47,8 @@ export class AppComponent implements OnInit {
         this._userService.getUser()
         this._playlistService.getPlaylists()
       }
+    }).add(() => {
+      this.loaderService.hideLoader()
     })
     this._titleService.setTitle('Treble')
   }

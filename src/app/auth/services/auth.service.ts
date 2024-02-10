@@ -24,6 +24,6 @@ export class AuthService extends BaseService{
   }
 
   logout() {
-    this.isLoggedIn = false
+    return this.delete<never>('auth/token')
   }
 }

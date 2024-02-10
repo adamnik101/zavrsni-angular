@@ -1,15 +1,16 @@
 .loader-container{
   position: fixed;
-  top: 60px;
-  bottom: 100px;
+  top: 0px;
+  bottom: 0;
   right: 0;
-  left: var(--sidenav-width);
+  left: 0;
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
   backdrop-filter: blur(10px);
+  background: rgba(10, 10, 10, 0.84);
 }
 .loader{
   width: 12px;

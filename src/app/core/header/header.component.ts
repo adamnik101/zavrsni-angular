@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import {UserService} from "../../user/services/user.service";
 import {Subscription} from "rxjs";
 import {AuthService} from "../../auth/services/auth.service";
+import {TokenService} from "../../auth/services/token.service";
+import {Router} from "@angular/router";
+import {LoaderService} from "../services/loader.service";
 
 @Component({
   selector: 'app-header',
@@ -12,7 +15,11 @@ export class HeaderComponent {
 
   cover: string = ''
   userSub! : Subscription
-  constructor(protected _userService: UserService, private _authService: AuthService) {
+  constructor(protected _userService: UserService,
+              private _authService: AuthService,
+              private _tokenService: TokenService,
+              private _router: Router,
+              private _loaderService: LoaderService) {
 
   }
 
@@ -27,6 +34,15 @@ export class HeaderComponent {
   }
 
   logout() {
-    this._authService.logout()
+    this._loaderService.showLoader()
+    this._authService.logout().subscribe({
+      next: (response) => {
+        this._tokenService.removeToken()
+        this._userService.userLoaded.set(false)
+        this._userService.unsetAllUserRelevantSubjects()
+        this._loaderService.hideLoader()
+      }
+    })
+    this._router.navigateByUrl('/')
   }
 }

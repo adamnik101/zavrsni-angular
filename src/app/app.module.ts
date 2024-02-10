@@ -49,11 +49,6 @@ import {ServerErrorInterceptor} from "./interceptors/server-error.interceptor";
     },
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HttpLoaderInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
       useClass: UnauthorizedStatusCodeInterceptor,
       multi: true
     },

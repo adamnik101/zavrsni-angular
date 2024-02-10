@@ -24,7 +24,7 @@
             <mat-tab label="Playlists">
                 <ng-template matTabContent>
                   <div class="playlists">
-                    @for(playlist of playlists; track playlist.id){
+                    @for(playlist of (_playlistService.playlists$ | async); track playlist.id){
                       @defer (on viewport; prefetch on idle){
                         <app-user-playlist-list [playlist]="playlist"></app-user-playlist-list>
                       } @placeholder{

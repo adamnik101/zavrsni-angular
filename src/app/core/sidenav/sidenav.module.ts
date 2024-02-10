@@ -16,6 +16,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {MatIconModule} from "@angular/material/icon";
 import {UserFollowingListItemComponent} from "./user-following-list-item/user-following-list-item.component";
 import {MatButtonModule} from "@angular/material/button";
+import {LoaderComponent} from "../loader/loader.component";
 
 
 
@@ -47,6 +48,7 @@ import {MatButtonModule} from "@angular/material/button";
         MatIconModule,
         UserFollowingListItemComponent,
         MatButtonModule,
+        LoaderComponent,
     ]
 })
 export class SidenavModule { }

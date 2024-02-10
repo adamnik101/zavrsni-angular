@@ -12,6 +12,7 @@ import {AuthService} from "../../auth/services/auth.service";
 import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {Settings} from "../../settings/interfaces/settings";
 import {Album} from "../../albums/interfaces/album";
+import {LoaderService} from "../../core/services/loader.service";
 
 
 @Injectable({
@@ -43,7 +44,10 @@ export class UserService extends BaseService{
   private _playlistTracks : Map<Playlist, Track[]> = new Map<Playlist, Track[]>()
   public following : Artist[] = []
   settings = signal<Settings>({} as Settings);
-  constructor(private http: HttpClient, private config: ConfigService, private _router: Router, private _authService: AuthService) {
+  constructor(private http: HttpClient,
+              private config: ConfigService,
+              private _loaderService: LoaderService,
+              private _router: Router, private _authService: AuthService) {
     super(http, config);
   }
   public updateLikedTracks(tracks :Track[]) {
@@ -64,6 +68,7 @@ export class UserService extends BaseService{
     this._userSubject.next(user)
   }
   getUser(navigateToProfile = false) {
+    this._loaderService.showLoader()
     const subscribe: Subscription = this.get<User>('actor').subscribe({
       next: (user: User): void => {
         this.setUserSubject(user)
@@ -76,6 +81,7 @@ export class UserService extends BaseService{
         this.likedTracks.set(user.liked_tracks)
         this.userLoaded.set(true)
         this.settings.set(user.settings)
+
         if(navigateToProfile) this._router.navigate(['user/profile'])
       },
       error: (response):void => {
@@ -85,12 +91,14 @@ export class UserService extends BaseService{
         // }
         console.log(response.error.message)
       },
-      complete () :void {
+      complete: () :void => {
+        this._loaderService.hideLoader()
         subscribe.unsubscribe()
       }
     })
   }
   unsetAllUserRelevantSubjects() {
+    this.setUserSubject(null)
     this._likedAlbumSubject.next([])
     this._playlistsSubject.next([])
     this._likedTracksSubject.next([])

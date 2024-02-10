@@ -22,7 +22,7 @@ export class SidenavComponent {
   albums: Album[] = []
   selected = new FormControl(0)
   constructor(public _userService: UserService,
-              private _playlistService: PlaylistService,
+              protected _playlistService: PlaylistService,
               private _matDialog: MatDialog,
               public authService: AuthService,
               public dragDropService: DragDropService,
