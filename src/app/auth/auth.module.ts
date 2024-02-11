@@ -8,6 +8,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatRippleModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
 
 
 @NgModule({
@@ -15,14 +16,15 @@ import {MatButtonModule} from "@angular/material/button";
     RegisterComponent,
     LoginComponent
   ],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatRippleModule,
-    MatInputModule,
-    MatButtonModule
-  ]
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatRippleModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule
+    ]
 })
 export class AuthModule { }

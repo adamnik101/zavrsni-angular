@@ -2,13 +2,13 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 50px;
   padding: 20px;
 
   .left-wrapper{
-    width: 500px;
+    width: 100%;
     .login{
-      max-width: 450px;
+
       min-width: 200px;
       .login-form{
         gap: 0;
@@ -29,17 +29,13 @@
   }
   .right-wrapper{
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
     .content{
       width: 500px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
       gap: 20px;
-      text-align: center;
+      text-align: left;
       img{
         width: 100px;
       }

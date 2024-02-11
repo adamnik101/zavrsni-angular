@@ -2,7 +2,7 @@ import {Injectable, signal} from '@angular/core';
 import {User} from "../interfaces/user";
 import {BaseService} from "../../core/services/base.service";
 import {BehaviorSubject, config, Observable, Subscription} from "rxjs";
-import {Router} from "@angular/router";
+import {EventType, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
 import {Playlist} from "../../playlists/interfaces/playlist";
@@ -83,6 +83,7 @@ export class UserService extends BaseService{
         this.settings.set(user.settings)
 
         if(navigateToProfile) this._router.navigate(['user/profile'])
+
       },
       error: (response):void => {
         // if (response.status === 401) {
@@ -93,6 +94,7 @@ export class UserService extends BaseService{
       },
       complete: () :void => {
         this._loaderService.hideLoader()
+        console.log(subscribe)
         subscribe.unsubscribe()
       }
     })
