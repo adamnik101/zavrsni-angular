@@ -6,23 +6,26 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatDurationPipe implements PipeTransform {
 
   transform(originalSeconds: number, ...args: unknown[]): string {
-    const seconds: number = originalSeconds
+    let seconds = originalSeconds
+    console.log(seconds)
+    const days: number = Math.floor(seconds / (24 * 3600));
+    seconds %= 24 * 3600;
+    const hours: number = Math.floor(seconds / 3600);
+    seconds %= 3600;
     const minutes: number = Math.floor(seconds / 60);
-    const hours: number = Math.floor(minutes / 60);
-    const days: number = Math.floor(hours / 24);
+    seconds %= 60;
 
-    // Extract the whole number part
-    const daysWhole: number = days;
-    const hoursWhole: number = hours % 24;
-    const minutesWhole: number = minutes % 60;
-    const secondsWhole: number = seconds % 60;
-    // Format the duration string
-    const formattedDuration = [
-      daysWhole > 0 ? `${daysWhole}d` : '',
-      hoursWhole > 0 ? `${hoursWhole}h` : '',
-      minutesWhole > 0 ? `${minutesWhole}m` : '',
-      secondsWhole > 0 ? `${secondsWhole}s` : '',
-    ].filter(Boolean).join(' ');
+    let formattedDuration = '';
+
+    if (days > 0) {
+      formattedDuration += `${days}d `;
+    }
+
+    if (hours > 0 || days > 0) {
+      formattedDuration += `${hours}h `;
+    }
+
+    formattedDuration += `${minutes}m ${seconds}s`;
 
     return formattedDuration;
   }

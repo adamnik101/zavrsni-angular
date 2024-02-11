@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, inject, signal, ViewChild} from '@angular/core';
 import {AlbumService} from "../services/album.service";
 import {ActivatedRoute} from "@angular/router";
 import {Album} from "../interfaces/album";
@@ -11,6 +11,7 @@ import {UserService} from "../../user/services/user.service";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {Subscription} from "rxjs";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {TrackDurationService} from "../../shared/services/track-duration.service";
 
 @Component({
   selector: 'app-album-detail',
@@ -38,6 +39,7 @@ export class AlbumDetailComponent {
   private _route = inject(ActivatedRoute)
   private _snackbar = inject(SnackbarService)
   private el = inject(ElementRef)
+  private _trackDuration = inject(TrackDurationService)
   public album: Album = {} as Album
   public from : From = {} as From
   public isAlbumLiked: boolean = false
@@ -46,6 +48,7 @@ export class AlbumDetailComponent {
   @ViewChild('background') background!: ElementRef
   private subs: Subscription[] = []
   shouldShowHeader: boolean = false;
+  totalDuration = signal<number>(0)
   ngOnInit() {
 
     this.getAlbum()
@@ -85,6 +88,8 @@ export class AlbumDetailComponent {
 
               console.log(album)
               this._colorService.getRgbColorsFromImage(this.album.cover, "album" ,true)
+              this.totalDuration.set(0)
+              this.totalDuration.set(this._trackDuration.calculateTotalDurationOfTracks(album.tracks))
               this.isLoaded = true
               this.background.nativeElement.style.background = `
               linear-gradient(90deg, var(--black), transparent 100%),

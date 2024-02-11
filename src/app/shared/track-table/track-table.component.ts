@@ -62,13 +62,13 @@ export class TrackTableComponent {
     for (let track of this.likedTracks) {
       this.likedMap.set(track.id, track)
     }
-    /*this._userService.likedTracks$.subscribe({
+    this._userService.likedTracks$.subscribe({
       next: (tracks) => {
         for (let track of tracks) {
           this.likedMap.set(track.id, track)
         }
       }
-    })*/
+    })
 
     this.currentTrack = this._audioService.currentTrack()
 

@@ -1,9 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, inject, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {Track} from "../../shared/interfaces/track";
 import {from, Subscription} from "rxjs";
 import {From} from "../../shared/interfaces/from";
 import {Title} from "@angular/platform-browser";
+import {TrackDurationService} from "../../shared/services/track-duration.service";
 
 @Component({
   selector: 'app-liked',
@@ -15,6 +24,7 @@ export class LikedComponent implements OnInit{
   protected _userService = inject(UserService)
   private _cdr = inject(ChangeDetectorRef)
   private _title = inject(Title)
+  private _trackDurationService = inject(TrackDurationService)
   public likedTracks: Track[] = []
   private _filteredTracks: Track[] = []
   loaded: boolean = false
@@ -26,6 +36,7 @@ export class LikedComponent implements OnInit{
   private page = 1
   private size = 10
   public loading: boolean = false;
+  totalDuration = signal<number>(0)
   likedSub!: Subscription
   ngOnInit() {
     this.likedSub = this._userService.getUserLikedTracks(this.page, this.size).subscribe({
@@ -33,6 +44,9 @@ export class LikedComponent implements OnInit{
         //this._likedTracksSubject.next(tracks)
         this._userService.likedTracks.set(tracks)
         this.likedTracks = this._userService.likedTracks()
+        console.log(tracks)
+        console.log(this._trackDurationService.calculateTotalDurationOfTracks(tracks))
+        this.totalDuration.set(this._trackDurationService.calculateTotalDurationOfTracks(tracks))
         this.loaded = true
       }
     })

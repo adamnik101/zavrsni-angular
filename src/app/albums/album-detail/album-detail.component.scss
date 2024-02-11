@@ -121,3 +121,8 @@
   height: 300px;
   backdrop-filter: blur(10px);
 }
+.with-divider{
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

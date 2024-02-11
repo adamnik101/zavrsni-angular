@@ -12,6 +12,8 @@
           <p>{{(_userService.user$ | async)?.email}}</p>
           <app-divider></app-divider>
           <p>{{likedTracks.length ? likedTracks.length : 0}} tracks</p>
+          <app-divider></app-divider>
+          {{totalDuration() | formatDuration}}
         </div>
       </div>
     </div>

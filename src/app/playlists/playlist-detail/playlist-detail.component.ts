@@ -20,6 +20,7 @@ import {formatDate} from "@angular/common";
 import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {QueueService} from "../../queue/services/queue.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import {TrackDurationService} from "../../shared/services/track-duration.service";
 
 @Component({
   selector: 'app-playlist-detail',
@@ -53,7 +54,8 @@ export class PlaylistDetailComponent implements OnInit{
               private _renderer: Renderer2,
               private _colorService: ColorThiefService,
               private _queueService: QueueService,
-              private el: ElementRef) {
+              private el: ElementRef,
+              private _trackDurationService: TrackDurationService) {
   }
   ngOnInit(): void {
 
@@ -91,12 +93,18 @@ export class PlaylistDetailComponent implements OnInit{
                   imageFrom: this.playlist()!.image_url
                 };
                 this._title.setTitle(`${this.playlist()!.title} - TREBLE`)
-                let totalDuration = 0
-                this.playlistService.trackCount.set(response.tracks_count)
+
                 this.playlistService.totalDuration.set(0)
-                for (let track of this.playlist()!.tracks.data) {
-                  totalDuration += Math.floor(track.duration) - Math.floor(track.duration % 1000)
-                }
+                let totalDuration = this._trackDurationService.calculateTotalDurationOfTracks(this.playlist()?.tracks.data!)
+
+                this.playlistService.trackCount.set(response.tracks_count)
+                // for (let track of this.playlist()!.tracks.data) {
+                //   console.log(track)
+                //   totalDuration += track.duration - Math.floor(track.duration % 1)
+                //   console.log(totalDuration)
+                // }
+                // console.log(totalDuration)
+
                 this.playlistService.totalDuration.set(totalDuration)
                 this.isLoaded = true
               }

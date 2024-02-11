@@ -75,6 +75,7 @@ export class UserService extends BaseService{
         this._likedAlbumSubject.next(user.liked_albums)
         this._playlistsSubject.next(user.playlists)
         this._likedTracksSubject.next(user.liked_tracks)
+        
         this._followingSubject.next(user.following)
         this._settingsSubject.next(user.settings)
         this._authService.isLoggedIn = true
