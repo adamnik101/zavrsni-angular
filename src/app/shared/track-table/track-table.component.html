@@ -139,12 +139,12 @@
 <td class="time">{{track.duration | duration:true}}</td>
 <td class="like">
   @if (_userService.userLoaded()){
-    @if (!likedMap.has(track.id)) {
+    @if (!this.trackLikeService.like().has(track.id)) {
       <button (click)="likeTrack(track)" class="like-icon">
         <img src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
       </button>
     }
-    @if (likedMap.has(track.id)) {
+    @if (this.trackLikeService.like().has(track.id)) {
       <button (click)="removeFromLiked(track.id)">
         <img src="assets/icons-svg/heart-filled.svg" alt="heart, icon" width="18" height="18">
       </button>
@@ -175,13 +175,13 @@
             <span>Remove from playlist</span>
           </button>
         }
-        @if (!likedMap.has(selectedTrack.id)) {
+        @if (!this.trackLikeService.like().has(selectedTrack.id)) {
           <button mat-menu-item (click)="likeTrack(selectedTrack)">
             <mat-icon class="custom-icon-color">favorite_outline</mat-icon>
             <span>Add to My Collection</span>
           </button>
         }
-        @if (likedMap.has(selectedTrack.id)) {
+        @if (this.trackLikeService.like().has(selectedTrack.id)) {
           <button mat-menu-item (click)="removeFromLiked(selectedTrack.id)">
             <mat-icon class="custom-icon-color">favorite</mat-icon>
             <span>Remove from My Collection</span>

@@ -89,7 +89,7 @@ export class AlbumDetailComponent {
               console.log(album)
               this._colorService.getRgbColorsFromImage(this.album.cover, "album" ,true)
               this.totalDuration.set(0)
-              this.totalDuration.set(this._trackDuration.calculateTotalDurationOfTracks(album.tracks))
+              this._trackDuration.calculateTotalDurationOfTracks(album.tracks)
               this.isLoaded = true
               this.background.nativeElement.style.background = `
               linear-gradient(90deg, var(--black), transparent 100%),

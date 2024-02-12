@@ -55,7 +55,7 @@ export class PlaylistDetailComponent implements OnInit{
               private _colorService: ColorThiefService,
               private _queueService: QueueService,
               private el: ElementRef,
-              private _trackDurationService: TrackDurationService) {
+              protected _trackDurationService: TrackDurationService) {
   }
   ngOnInit(): void {
 
@@ -95,7 +95,7 @@ export class PlaylistDetailComponent implements OnInit{
                 this._title.setTitle(`${this.playlist()!.title} - TREBLE`)
 
                 this.playlistService.totalDuration.set(0)
-                let totalDuration = this._trackDurationService.calculateTotalDurationOfTracks(this.playlist()?.tracks.data!)
+                this._trackDurationService.calculateTotalDurationOfTracks(this.playlist()?.tracks.data!)
 
                 this.playlistService.trackCount.set(response.tracks_count)
                 // for (let track of this.playlist()!.tracks.data) {
@@ -105,7 +105,7 @@ export class PlaylistDetailComponent implements OnInit{
                 // }
                 // console.log(totalDuration)
 
-                this.playlistService.totalDuration.set(totalDuration)
+                //this.playlistService.totalDuration.set(totalDuration)
                 this.isLoaded = true
               }
             }

@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {Track} from "../interfaces/track";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TrackDurationService {
-
-  calculateTotalDurationOfTracks(tracks: Track[]): number {
-    let duration : number = 0
-
+  totalDuration = signal<number>(0)
+  calculateTotalDurationOfTracks(tracks: Track[]): void {
+    this.totalDuration.set(0)
     for (let track of tracks) {
-         duration += Number(track.duration)
+         this.totalDuration.update(duration => {
+           return duration += Number(track.duration)
+         })
     }
-
-    return duration
   }
 }

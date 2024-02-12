@@ -13,6 +13,7 @@ import {from, Subscription} from "rxjs";
 import {From} from "../../shared/interfaces/from";
 import {Title} from "@angular/platform-browser";
 import {TrackDurationService} from "../../shared/services/track-duration.service";
+import {TrackLikeService} from "../../shared/services/track-like.service";
 
 @Component({
   selector: 'app-liked',
@@ -24,7 +25,8 @@ export class LikedComponent implements OnInit{
   protected _userService = inject(UserService)
   private _cdr = inject(ChangeDetectorRef)
   private _title = inject(Title)
-  private _trackDurationService = inject(TrackDurationService)
+  protected _trackDurationService = inject(TrackDurationService)
+  protected _trackLikeService = inject(TrackLikeService)
   public likedTracks: Track[] = []
   private _filteredTracks: Track[] = []
   loaded: boolean = false
@@ -41,52 +43,14 @@ export class LikedComponent implements OnInit{
   ngOnInit() {
     this.likedSub = this._userService.getUserLikedTracks(this.page, this.size).subscribe({
       next: (tracks) => {
-        //this._likedTracksSubject.next(tracks)
-        this._userService.likedTracks.set(tracks)
-        this.likedTracks = this._userService.likedTracks()
-        console.log(tracks)
+        this._trackLikeService.setInitialLikedTracks(tracks)
         console.log(this._trackDurationService.calculateTotalDurationOfTracks(tracks))
-        this.totalDuration.set(this._trackDurationService.calculateTotalDurationOfTracks(tracks))
+        this._trackDurationService.calculateTotalDurationOfTracks(tracks)
         this.loaded = true
       }
     })
-    /*this._userService.likedTracks$.subscribe({
-      next: (tracks) => {
-        this.likedTracks = tracks
-        this._title.setTitle('Liked tracks - TREBLE')
-      }
-    })*/
   }
   ngOnDestroy() {
     this.likedSub.unsubscribe()
   }
-  filterLiked(query: string) {
-    const q = query.toLowerCase().trim()
-    this.filteredTracks = this.likedTracks.filter(track =>
-      track.title.toLowerCase().trim().includes(q) ||
-      track.owner.name.toLowerCase().includes(q) ||
-      track.album?.name.toLowerCase().includes(q)
-    )
-  }
-  get filteredTracks(): Track[] {
-    return this._filteredTracks;
-  }
-
-  set filteredTracks(value: Track[]) {
-    this._filteredTracks = value;
-  }
-
-  /*@HostListener('window:scroll', ['$event'])
-  onScroll() {
-    if(document.documentElement.scrollHeight - window.innerHeight <= window.scrollY && this._userService.likedTracks.length < this._userService.likedTracksTotal) {
-      this.loadMore()
-    }
-  }
-
-  private loadMore() {
-    this.loading = true
-    this._userService.getUserLikedTracks(++this.page, this.size).add(() => {
-      this.loading = false
-    })
-  }*/
 }

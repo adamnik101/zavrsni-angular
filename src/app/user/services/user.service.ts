@@ -13,6 +13,7 @@ import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {Settings} from "../../settings/interfaces/settings";
 import {Album} from "../../albums/interfaces/album";
 import {LoaderService} from "../../core/services/loader.service";
+import {TrackLikeService} from "../../shared/services/track-like.service";
 
 
 @Injectable({
@@ -47,7 +48,8 @@ export class UserService extends BaseService{
   constructor(private http: HttpClient,
               private config: ConfigService,
               private _loaderService: LoaderService,
-              private _router: Router, private _authService: AuthService) {
+              private _router: Router, private _authService: AuthService,
+              private likeService: TrackLikeService) {
     super(http, config);
   }
   public updateLikedTracks(tracks :Track[]) {
@@ -75,13 +77,15 @@ export class UserService extends BaseService{
         this._likedAlbumSubject.next(user.liked_albums)
         this._playlistsSubject.next(user.playlists)
         this._likedTracksSubject.next(user.liked_tracks)
-        
+
         this._followingSubject.next(user.following)
         this._settingsSubject.next(user.settings)
         this._authService.isLoggedIn = true
         this.likedTracks.set(user.liked_tracks)
         this.userLoaded.set(true)
         this.settings.set(user.settings)
+
+        this.likeService.setInitialLikedTracks(user.liked_tracks)
 
         if(navigateToProfile) this._router.navigate(['user/profile'])
 

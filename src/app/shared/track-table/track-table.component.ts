@@ -19,6 +19,8 @@ import {Subscription} from "rxjs";
 import {CurrentTrackInfo} from "../interfaces/current-track-info";
 import {LoaderService} from "../../core/services/loader.service";
 import {User} from "../../user/interfaces/user";
+import {TrackLikeService} from "../services/track-like.service";
+import {TrackDurationService} from "../services/track-duration.service";
 
 
 @Component({
@@ -48,7 +50,7 @@ export class TrackTableComponent {
               private _cdr: ChangeDetectorRef,
               private _dragDropService: DragDropService,
               private _matDialog: MatDialog,
-              private _loaderService: LoaderService) {
+              protected trackLikeService: TrackLikeService) {
   }
   ngOnInit() {
     this.subs.push(this._playlistService.playlists$.subscribe({
@@ -58,17 +60,17 @@ export class TrackTableComponent {
       }
     }))
 
-    this.likedTracks = this._userService.likedTracks()
-    for (let track of this.likedTracks) {
-      this.likedMap.set(track.id, track)
-    }
-    this._userService.likedTracks$.subscribe({
-      next: (tracks) => {
-        for (let track of tracks) {
-          this.likedMap.set(track.id, track)
-        }
-      }
-    })
+    // this.likedTracks = this._userService.likedTracks()
+    // for (let track of this.likedTracks) {
+    //   this.likedMap.set(track.id, track)
+    // }
+    // this._userService.likedTracks$.subscribe({
+    //   next: (tracks) => {
+    //     for (let track of tracks) {
+    //       this.likedMap.set(track.id, track)
+    //     }
+    //   }
+    // })
 
     this.currentTrack = this._audioService.currentTrack()
 
@@ -114,7 +116,8 @@ export class TrackTableComponent {
         this._snackbarService.showDefaultMessage(response.message)
         this.likedMap.set(track.id, track)
         //this._userService.getUserLikedTracks(1, 10)
-        this._cdr.markForCheck()
+        this.trackLikeService.addTrackToLiked(track)
+        this._cdr.detectChanges()
       },
       error: (response: any) => {
         this._snackbarService.showFailedMessage(response.error.message)
@@ -134,6 +137,7 @@ export class TrackTableComponent {
         }
         this.likedTracks = tracks
         this._userService.updateLikedTracks(tracks)
+        this.trackLikeService.deleteTrackFromLiked(track)
         this._cdr.markForCheck()
       },
       error: (response) => {

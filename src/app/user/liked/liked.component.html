@@ -11,20 +11,20 @@
         <div class="details">
           <p>{{(_userService.user$ | async)?.email}}</p>
           <app-divider></app-divider>
-          <p>{{likedTracks.length ? likedTracks.length : 0}} tracks</p>
+          <p>{{this._trackLikeService.getLikedTracks().length ? this._trackLikeService.getLikedTracks().length : 0}} tracks</p>
           <app-divider></app-divider>
-          {{totalDuration() | formatDuration}}
+          {{this._trackDurationService.totalDuration() | formatDuration}}
         </div>
       </div>
     </div>
     <div class="bottom">
       <!--  <input type="text" placeholder="Filter liked tracks by title, artists and albums" (input)="filterLiked(input.value)" #input>-->
-      @if (likedTracks.length) {
+      @if (this._trackLikeService.getLikedTracks().length > 0) {
         <!--<ng-container *ngIf="filteredTracks.length > 0">
         <app-track-table [tracks]="filteredTracks" [from]="fromInfo"></app-track-table>
       </ng-container>-->
           <!--<ng-container *ngIf="filteredTracks.length == 0 && !input.value.length">-->
-        <app-track-table [tracks]="likedTracks" [from]="fromInfo"></app-track-table>
+        <app-track-table [tracks]="_trackLikeService.getLikedTracks()" [from]="fromInfo"></app-track-table>
         <div class="loading">
           @if (loading) {
             <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
