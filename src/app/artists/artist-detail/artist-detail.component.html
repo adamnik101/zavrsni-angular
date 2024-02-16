@@ -44,21 +44,21 @@
     <div class="bottom" #bottom>
       <div class="section">
         <div class="play">
-          <button (click)="playPopularTracks(artist.own_tracks)">
+          <button (click)="playPopularTracks(artist.tracks)">
             <img src="assets/icons-svg/play.svg">
           </button>
           <h2>Popular</h2>
         </div>
-        <app-track-table [tracks]="artist.own_tracks" [from]="fromPopular"></app-track-table>
+        <app-track-table [tracks]="artist.tracks" [from]="fromPopular"></app-track-table>
       </div>
       <div class="section">
         <div class="play">
-          <button (click)="playFeaturedTracks(artist.feature_tracks)">
+          <button (click)="playFeaturedTracks(artist.features)">
             <img src="assets/icons-svg/play.svg">
           </button>
           <h2>Features</h2>
         </div>
-        <app-track-table [tracks]="artist.feature_tracks" [from]="fromFeatures"></app-track-table>
+        <app-track-table [tracks]="artist.features" [from]="fromFeatures"></app-track-table>
       </div>
       @if (artist.albums_count > 0) {
         <div class="section">

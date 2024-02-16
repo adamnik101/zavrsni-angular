@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {BaseService} from "../../core/services/base.service";
 import {Genre} from "../interfaces/genre";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +10,10 @@ import {Genre} from "../interfaces/genre";
 export class GenreService extends BaseService{
 
   getGenres() {
-    return this.get<Genre[]>('genres')
+    return this.get<ResponseAPI<Genre[]>>('genres')
   }
 
-  getGenre(id: string) {
-    return this.get(`genres/${id}`)
+  getGenre(id: string): Observable<ResponseAPI<Genre>> {
+    return this.get<ResponseAPI<Genre>>(`genres/${id}`)
   }
 }

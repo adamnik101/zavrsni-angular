@@ -88,8 +88,8 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
       )
       this.subscriptions.push(
         this._genreService.getGenres().subscribe({
-          next: (genres) => {
-            this.genres = genres
+          next: (response) => {
+            this.genres = response.data
             this.dataLoading = false
           }
         })

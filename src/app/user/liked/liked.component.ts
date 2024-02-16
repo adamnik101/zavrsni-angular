@@ -42,10 +42,9 @@ export class LikedComponent implements OnInit{
   likedSub!: Subscription
   ngOnInit() {
     this.likedSub = this._userService.getUserLikedTracks(this.page, this.size).subscribe({
-      next: (tracks) => {
-        this._trackLikeService.setInitialLikedTracks(tracks)
-        console.log(this._trackDurationService.calculateTotalDurationOfTracks(tracks))
-        this._trackDurationService.calculateTotalDurationOfTracks(tracks)
+      next: (response) => {
+        this._trackLikeService.setInitialLikedTracks(response.data)
+        this._trackDurationService.calculateTotalDurationOfTracks(response.data)
         this.loaded = true
       }
     })

@@ -66,13 +66,13 @@ export class ArtistDetailComponent implements OnInit {
         const id = response.get('id')
         if(id){
           this.subs.push(this._artistService.getArtist(id).subscribe({
-            next: (artist) => {
-              this.artist = artist
-              console.log(artist)
+            next: (response) => {
+              this.artist = response.data
+              console.log(response)
               this.top.nativeElement.style.background = `
               linear-gradient(90deg, var(--black), transparent 100%),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${artist.cover}') center/cover no-repeat`
-              this._colorService.getRgbColorsFromImage(artist.cover, 'artist', true)
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${response.data.cover}') center/cover no-repeat`
+              this._colorService.getRgbColorsFromImage(response.data.cover, 'artist', true)
               this.fromFeatures = {
                 id: this.artist.id,
                 name: this.artist.name + '\'s features',
@@ -85,10 +85,10 @@ export class ArtistDetailComponent implements OnInit {
               }
               this.subs.push(this._userService.following$.subscribe({
                 next: (artists) => {
-                  this.isFollowing = artists.findIndex(ar => ar.id === artist.id) !== -1
+                  this.isFollowing = artists.findIndex(ar => ar.id === response.data.id) !== -1
                   this.followings = artists
                   this.loaded = true
-                  this._title.setTitle(`${artist.name} - TREBLE`)
+                  this._title.setTitle(`${response.data.name} - TREBLE`)
                 }
               }))
             },

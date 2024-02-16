@@ -17,6 +17,7 @@ import {AlbumsModule} from "../albums/albums.module";
 import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
+import {TracksWrapperComponent} from "../tracks/tracks-wrapper/tracks-wrapper.component";
 
 
 @NgModule({
@@ -30,19 +31,20 @@ import {MatButtonModule} from "@angular/material/button";
     exports: [
         FollowingComponent
     ],
-  imports: [
-    CommonModule,
-    UserRoutingModule,
-    PlaylistsModule,
-    SharedModule,
-    MatProgressSpinnerModule,
-    MatDividerModule,
-    MatSlideToggleModule,
-    ArtistsModule,
-    AlbumsModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule
-  ]
+    imports: [
+        CommonModule,
+        UserRoutingModule,
+        PlaylistsModule,
+        SharedModule,
+        MatProgressSpinnerModule,
+        MatDividerModule,
+        MatSlideToggleModule,
+        ArtistsModule,
+        AlbumsModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        TracksWrapperComponent
+    ]
 })
 export class UserModule { }

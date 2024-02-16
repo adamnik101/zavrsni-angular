@@ -39,7 +39,7 @@ export class AlbumDetailComponent {
   private _route = inject(ActivatedRoute)
   private _snackbar = inject(SnackbarService)
   private el = inject(ElementRef)
-  private _trackDuration = inject(TrackDurationService)
+  protected _trackDuration = inject(TrackDurationService)
   public album: Album = {} as Album
   public from : From = {} as From
   public isAlbumLiked: boolean = false
@@ -77,8 +77,8 @@ export class AlbumDetailComponent {
             }
           }))
           this.subs.push(this._albumService.getAlbum(id).subscribe({
-            next: (album) => {
-              this.album = album
+            next: (response) => {
+              this.album = response.data
               this.from = {
                 name : this.album.name,
                 url: `/albums/${this.album.id}`,
@@ -86,10 +86,10 @@ export class AlbumDetailComponent {
                 imageFrom: this.album.cover
               };
 
-              console.log(album)
+              console.log(response)
               this._colorService.getRgbColorsFromImage(this.album.cover, "album" ,true)
               this.totalDuration.set(0)
-              this._trackDuration.calculateTotalDurationOfTracks(album.tracks)
+              this._trackDuration.calculateTotalDurationOfTracks(response.data.tracks)
               this.isLoaded = true
               this.background.nativeElement.style.background = `
               linear-gradient(90deg, var(--black), transparent 100%),

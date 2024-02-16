@@ -24,9 +24,12 @@ export class FormatDurationPipe implements PipeTransform {
     if (hours > 0 || days > 0) {
       formattedDuration += `${hours}h `;
     }
-
-    formattedDuration += `${minutes}m ${seconds}s`;
-
+    if(minutes > 0) {
+      formattedDuration += `${minutes}m `;
+    }
+    if (seconds > 0) {
+      formattedDuration += `${seconds}s`;
+    }
     return formattedDuration;
   }
 

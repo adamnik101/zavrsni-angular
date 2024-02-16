@@ -15,8 +15,7 @@ export class RegisterComponent {
               private _snackbar: SnackbarService) {
   }
   registerGroup = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+    username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required,Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     confirmPassword: new FormControl('')
@@ -30,8 +29,7 @@ export class RegisterComponent {
   register() {
     if(this.registerGroup.valid) {
       let registerData: RegisterData = {
-        first_name: this.registerGroup.get('firstName')?.value!,
-        last_name: this.registerGroup.get('lastName')?.value!,
+        username: this.registerGroup.get('username')?.value!,
         email: this.registerGroup.get('email')?.value!,
         password: this.registerGroup.get('password')?.value!,
         confirmPassword: this.registerGroup.get('password')?.value!,

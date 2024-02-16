@@ -1,0 +1,3 @@
+@for (track of tracks; track track.id; let index = $index) {
+  <app-track-row [track]="track" [index]="index" [from]="from"></app-track-row>
+}

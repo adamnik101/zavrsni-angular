@@ -79,8 +79,10 @@
         border: none;
         border-radius: 50%;
         background: none;
+        transition: .1s ease-in-out;
         &:hover{
           cursor: pointer;
+          transform: scale(1.1);
         }
         mat-icon{
           font-size: 40px;
@@ -90,8 +92,12 @@
         }
       }
       .liked{
+        transition: .1s ease-in-out;
         mat-icon{
           color: var(--main-color);
+        }
+        &:hover{
+          transform: scale(1.1);
         }
       }
     }

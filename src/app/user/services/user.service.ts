@@ -14,6 +14,7 @@ import {Settings} from "../../settings/interfaces/settings";
 import {Album} from "../../albums/interfaces/album";
 import {LoaderService} from "../../core/services/loader.service";
 import {TrackLikeService} from "../../shared/services/track-like.service";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 
 @Injectable({
@@ -71,14 +72,15 @@ export class UserService extends BaseService{
   }
   getUser(navigateToProfile = false) {
     this._loaderService.showLoader()
-    const subscribe: Subscription = this.get<User>('actor').subscribe({
-      next: (user: User): void => {
+    const subscribe: Subscription = this.get<ResponseAPI<User>>('auth/me').subscribe({
+      next: (response: ResponseAPI<User>): void => {
+        const user = response.data
         this.setUserSubject(user)
         this._likedAlbumSubject.next(user.liked_albums)
         this._playlistsSubject.next(user.playlists)
         this._likedTracksSubject.next(user.liked_tracks)
 
-        this._followingSubject.next(user.following)
+        this._followingSubject.next(user.followings)
         this._settingsSubject.next(user.settings)
         this._authService.isLoggedIn = true
         this.likedTracks.set(user.liked_tracks)
@@ -120,7 +122,7 @@ export class UserService extends BaseService{
     })
   }
   getUserLikedTracks(page: number, size: number) {
-    return this.get<Track[]>(`actor/liked`)
+    return this.get<ResponseAPI<Track[]>>(`users/me/liked`)
   }
 
   likeTrack(trackId: string) {

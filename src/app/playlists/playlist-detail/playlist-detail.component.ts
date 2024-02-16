@@ -76,11 +76,11 @@ export class PlaylistDetailComponent implements OnInit{
           })*/
           this.subs.push(this.playlistService.showPlaylist(id).subscribe({
             next: (response) => {
-              this.#playlist.set(response)
-              this.playlistService.updatePlaylistTracksSubject(response.tracks.data)
+              this.#playlist.set(response.data)
+              this.playlistService.updatePlaylistTracksSubject(response.data.tracks)
 
-              if(response.image_url){
-                this._colorService.getRgbColorsFromImage(response.image_url,'playlist', true)
+              if(response.data.image_url){
+                this._colorService.getRgbColorsFromImage(response.data.image_url,'playlist', true)
 
               }
 
@@ -95,9 +95,9 @@ export class PlaylistDetailComponent implements OnInit{
                 this._title.setTitle(`${this.playlist()!.title} - TREBLE`)
 
                 this.playlistService.totalDuration.set(0)
-                this._trackDurationService.calculateTotalDurationOfTracks(this.playlist()?.tracks.data!)
+                this._trackDurationService.calculateTotalDurationOfTracks(this.playlist()?.tracks!)
 
-                this.playlistService.trackCount.set(response.tracks_count)
+                this.playlistService.trackCount.set(response.data.tracks_count)
                 // for (let track of this.playlist()!.tracks.data) {
                 //   console.log(track)
                 //   totalDuration += track.duration - Math.floor(track.duration % 1)
@@ -138,7 +138,7 @@ export class PlaylistDetailComponent implements OnInit{
   }*/
   playTracks() {
     if(this.playlist() !== null) {
-      this._queueService.playAllFromIndex(this.playlist()!.tracks.data, 0, this.fromInfo)
+      this._queueService.playAllFromIndex(this.playlist()!.tracks, 0, this.fromInfo)
     }
   }
   @HostListener('window:scroll', ['$event'])

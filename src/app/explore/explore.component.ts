@@ -15,8 +15,8 @@ export class ExploreComponent implements OnInit, OnDestroy{
   }
   ngOnInit() {
     this.sub = this._genreService.getGenres().subscribe({
-      next: (genres) => {
-        this.genres = genres
+      next: (response) => {
+        this.genres = response.data
       }
     })
   }

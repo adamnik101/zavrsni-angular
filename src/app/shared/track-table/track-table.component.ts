@@ -50,7 +50,8 @@ export class TrackTableComponent {
               private _cdr: ChangeDetectorRef,
               private _dragDropService: DragDropService,
               private _matDialog: MatDialog,
-              protected trackLikeService: TrackLikeService) {
+              protected trackLikeService: TrackLikeService,
+              private _trackDurationService: TrackDurationService) {
   }
   ngOnInit() {
     this.subs.push(this._playlistService.playlists$.subscribe({
@@ -111,12 +112,13 @@ export class TrackTableComponent {
   }
 
   likeTrack(track: Track) {
+    this.trackLikeService.addTrackToLiked(track)
+
     this.subs.push(this._userService.likeTrack(track.id).subscribe({
       next: (response: any) => {
         this._snackbarService.showDefaultMessage(response.message)
         this.likedMap.set(track.id, track)
         //this._userService.getUserLikedTracks(1, 10)
-        this.trackLikeService.addTrackToLiked(track)
         this._cdr.detectChanges()
       },
       error: (response: any) => {
@@ -126,6 +128,8 @@ export class TrackTableComponent {
   }
 
   removeFromLiked(track: string) {
+    this.trackLikeService.deleteTrackFromLiked(track)
+
     this.subs.push(this._userService.removeFromLiked(track).subscribe({
       next: (response) => {
         console.log(response)
@@ -137,7 +141,9 @@ export class TrackTableComponent {
         }
         this.likedTracks = tracks
         this._userService.updateLikedTracks(tracks)
-        this.trackLikeService.deleteTrackFromLiked(track)
+        if(this.from.url.includes('/liked')) {
+          this._trackDurationService.calculateTotalDurationOfTracks(this.trackLikeService.getLikedTracks())
+        }
         this._cdr.markForCheck()
       },
       error: (response) => {

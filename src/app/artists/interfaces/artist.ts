@@ -6,6 +6,8 @@ export interface Artist {
   name: string
   cover: string
   own_tracks: Track[]
+  tracks: Track[]
+  features: Track[]
   own_tracks_count: number
   feature_tracks: Track[]
   albums_count: number

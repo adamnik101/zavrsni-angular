@@ -1,0 +1,116 @@
+.row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  height: 60px;
+  .index{
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--light-gray);
+    font-size: 14px;
+    background-size: cover;
+    border-radius: 3px;
+    .actions{
+      width: 40px;
+      height: 100%;
+      display: none;
+      .play{
+        width: 40px;
+        height: 100%;
+        border: none;
+        background: none;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        mat-icon{
+          color: var(--light);
+        }
+      }
+    }
+  }
+  .info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 100%;
+    min-width: 300px;
+    .title{
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      height: 100%;
+      mat-icon{
+        font-size: 14px;
+        width: 14px;
+        height: 14px;
+        color: var(--light-gray);
+      }
+    }
+    .artists{
+      font-size: 13px;
+      color: var(--light-gray);
+    }
+  }
+  .like{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 100%;
+    button{
+      transition: .1s ease-in-out;
+      &:hover{
+        transform: scale(1.2);
+      }
+
+    }
+    .hide-heart{
+      display: none;
+    }
+    .show-heart{
+      mat-icon{
+        color: var(--main-color)
+      }
+    }
+  }
+  .more{
+    width: 50px;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: none;
+  }
+  &:hover{
+    background: var(--secondary-black);
+    .index{
+      .number{
+        display: none;
+      }
+      .actions{
+        display: block;
+        background-color: rgba(10, 10, 10, 0.42);
+        .play{
+        }
+      }
+    }
+    .like{
+      .hide-heart{
+        color: var(--primary-color);
+        display: block;
+      }
+    }
+    .more{
+      display: flex;
+    }
+  }
+}

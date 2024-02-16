@@ -3,14 +3,15 @@ import {Track} from "../../shared/interfaces/track";
 import {Playlist} from "../../playlists/interfaces/playlist";
 import {Settings} from "../../settings/interfaces/settings";
 import {Album} from "../../albums/interfaces/album";
+import {Role} from "./role";
 
 export interface User {
   id: string
-  first_name: string
-  last_name: string
+  username: string
   email: string
   active: boolean
-  following: Artist[]
+  role: Role
+  followings: Artist[]
   liked_tracks: Track[]
   liked_albums: Album[]
   playlists: Playlist[]

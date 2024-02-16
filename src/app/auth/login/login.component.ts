@@ -45,8 +45,8 @@ export class LoginComponent {
       }
       this.subscribe = this._authService.login(loginData).subscribe({
         next: (response) => {
-          if (response.token) {
-            this._tokenService.setToken(response.token)
+          if (response.data) {
+            this._tokenService.setToken(response.data.token)
             this._userService.getUser(true)
             this._playlistService.getPlaylists()
           }

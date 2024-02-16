@@ -23,7 +23,7 @@
         <div class="with-divider">
           <p>{{album.tracks_count}} tracks</p>
           <app-divider></app-divider>
-          <p>{{totalDuration() | formatDuration}}</p>
+          <p>{{this._trackDuration.totalDuration() | formatDuration}}</p>
         </div>
         <p>{{album.release_year}}</p>
         <div class="artist">
@@ -57,6 +57,7 @@
           }
         }
       </div>
+<!--      <app-tracks-wrapper [tracks]="album.tracks" [from]="from"></app-tracks-wrapper>-->
       <app-track-table [tracks]="album.tracks" [from]="from"></app-track-table>
     </div>
   }

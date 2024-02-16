@@ -1,7 +1,7 @@
 @if(playlist() && showSmallHeader){
   <div class="slide" [@slideInOut]="'in'">
     <app-small-header
-      [tracks]="playlist()!.tracks.data"
+      [tracks]="playlist()!.tracks"
       [title]="playlist()!.title"
       [image]="playlist()!.image_url"
       [shouldShow]="showSmallHeader"

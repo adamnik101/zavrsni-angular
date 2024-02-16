@@ -31,9 +31,6 @@ export class PlaylistCardComponent {
       data: playlist
     })
   }
-  ngOnInit() {
-    console.log(this.playlist)
-  }
   playTracks() {
     this.from = {
       id : this.playlist.id,

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {BaseService} from "../../core/services/base.service";
 import {Album} from "../interfaces/album";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import {Album} from "../interfaces/album";
 export class AlbumService extends BaseService{
 
   getAlbum(id: string) {
-    return this.get<Album>(`albums/${id}`)
+    return this.get<ResponseAPI<Album>>(`albums/${id}`)
   }
 
   getLatest() {

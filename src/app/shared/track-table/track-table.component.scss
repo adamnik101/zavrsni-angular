@@ -247,14 +247,20 @@ table{
 }
 .like{
   .like-icon{
-    transition: 0s;
+    transition: transform 0.05s ease-in-out;
     opacity: 0;
+    mat-icon{
+      color: var(--light) !important;
+    }
   }
   button{
     background: none;
     border: none;
     cursor: pointer;
-    transition: .1s ease-in-out;
+    transition: 0.1s ease-in-out;
+    mat-icon{
+      color: var(--main-color);
+    }
     &:hover{
       transform: scale(1.2);
     }

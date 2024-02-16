@@ -1,0 +1,30 @@
+<div class="more">
+  <button style="visibility: hidden; position: fixed;" [style.left]="rowService.menuTopLeftPosition.x"
+          [style.top]="rowService.menuTopLeftPosition.y" [matMenuTriggerFor]="contextMenu"></button>
+  <button mat-icon-button (click)="rowService.openMenuOnLeftClick($event, track)" [matMenuTriggerFor]="contextMenu" >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</div>
+
+<mat-menu #contextMenu='matMenu' (closed)="rowService.onMenuClosed(contextMenu)" >
+  <ng-template matMenuContent>
+    <button mat-menu-item>Add to queue</button>
+    <button mat-menu-item routerLink="/artists/{{rowService.selectedTrack.owner.id}}"
+            [matMenuTriggerFor]="contextArtists">
+      <mat-icon class="custom-icon-color">people</mat-icon>
+      <span>Artists</span>
+    </button>
+  </ng-template>
+</mat-menu>
+<mat-menu #contextArtists="matMenu">
+  <ng-template matMenuContent>
+    <button mat-menu-item routerLink="/artists/{{rowService.selectedTrack.owner.id}}">
+      <span>{{rowService.selectedTrack.owner.name}}</span>
+    </button>
+    @for (feature of rowService.selectedTrack.features; track feature) {
+      <button class="custom" mat-menu-item routerLink="/artists/{{feature.id}}">
+        <span>{{feature.name}}</span>
+      </button>
+    }
+  </ng-template>
+</mat-menu>

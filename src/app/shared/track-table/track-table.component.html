@@ -141,12 +141,12 @@
   @if (_userService.userLoaded()){
     @if (!this.trackLikeService.like().has(track.id)) {
       <button (click)="likeTrack(track)" class="like-icon">
-        <img src="assets/icons-svg/heart.svg" alt="heart, icon" width="18" height="18">
+        <mat-icon>favorite_outline</mat-icon>
       </button>
     }
     @if (this.trackLikeService.like().has(track.id)) {
       <button (click)="removeFromLiked(track.id)">
-        <img src="assets/icons-svg/heart-filled.svg" alt="heart, icon" width="18" height="18">
+        <mat-icon>favorite</mat-icon>
       </button>
     }
   }

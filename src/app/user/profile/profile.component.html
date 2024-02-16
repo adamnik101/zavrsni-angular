@@ -21,7 +21,7 @@
         <p>Profile</p>
         <div class="username">
           <button class="edit" (click)="openEditUsernameDialog()"></button>
-          <h1>{{user.first_name}} {{user.last_name}}</h1>
+          <h1>{{user.username}}</h1>
           <mat-icon>edit</mat-icon>
         </div>
         <div class="row">
@@ -61,7 +61,7 @@
           </div>
           <!--<app-following [following]="user.following"></app-following>-->
           <div class="row">
-            @for (artist of user.following; track artist; let i = $index) {
+            @for (artist of user.followings; track artist; let i = $index) {
               @if(i < 6) {
                 <app-artist-round-card [artist]="artist"></app-artist-round-card>
               }

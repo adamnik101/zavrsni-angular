@@ -7,6 +7,7 @@ import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {BehaviorSubject, Observable} from "rxjs";
 import {AddTracksToPlaylistResponse} from "../../shared/interfaces/add-tracks-to-playlist-response";
 import {SnackbarService} from "../../shared/services/snackbar.service";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class PlaylistService extends BaseService{
   }
 
   showPlaylist(id: string) {
-    return this.get<Playlist>(`playlists/${id}`)
+    return this.get<ResponseAPI<Playlist>>(`playlists/${id}`)
   }
 
   addTrackToPlaylist(trackId: string, playlistId: string) {
@@ -101,9 +102,9 @@ export class PlaylistService extends BaseService{
   }
 
   getPlaylists() {
-    return this.get<Playlist[]>('actor/playlists').subscribe({
-      next: (playlists) => {
-        this.updatePlaylistsSubject(playlists)
+    return this.get<ResponseAPI<Playlist[]>>('playlists').subscribe({
+      next: (response) => {
+        this.updatePlaylistsSubject(response.data)
       }
     })
   }

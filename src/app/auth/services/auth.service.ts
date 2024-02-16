@@ -9,14 +9,15 @@ import {BehaviorSubject, map, Observable} from "rxjs";
 import {User} from "../../user/interfaces/user";
 import {Router} from "@angular/router";
 import {UserService} from "../../user/services/user.service";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService extends BaseService{
   public isLoggedIn = false
-  login(data: LoginRequest) : Observable<LoginResponse> {
-    return this.post<LoginRequest, LoginResponse>('auth/login', data )
+  login(data: LoginRequest) : Observable<ResponseAPI<LoginResponse>> {
+    return this.post<LoginRequest, ResponseAPI<LoginResponse>>('auth/login', data )
   }
 
   register(data: RegisterData)  {

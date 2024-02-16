@@ -1,0 +1,39 @@
+<div class="row" #row (contextmenu)="_trackRowService.openMenuOnRightClick($event, track)" [matMenuTriggerFor]="_trackRowService.matMenu">
+<!--  actions-->
+  <div class="index" #indexRef>
+    @if (from.url.includes('/albums/')) {
+      <p class="number">{{index + 1}}</p>
+    }
+    <div class="actions">
+      <button matRipple class="play"><mat-icon>play_arrow</mat-icon></button>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="title">
+      <p>{{track.title}}</p>
+      @if (track.explicit) {
+        <mat-icon>explicit</mat-icon>
+      }
+    </div>
+    <div class="artists">{{track.owner.name}}</div>
+  </div>
+  <div class="duration">
+    <p>{{track.duration | duration:true}}</p>
+  </div>
+
+  <div class="like">
+    @if (trackLikeService.like().has(track.id)){
+      <button mat-icon-button class="show-heart" (click)="unlikeTrack(track)"><mat-icon>favorite</mat-icon></button>
+    } @else {
+      <button mat-icon-button class="hide-heart" (click)="likeTrack(track)"><mat-icon>favorite_outline</mat-icon></button>
+    }
+  </div>
+
+  <app-track-row-menu [track]="track"></app-track-row-menu>
+<!--  image-->
+<!--  info-->
+<!--  duration-->
+<!--  plays-->
+<!--  more-->
+</div>

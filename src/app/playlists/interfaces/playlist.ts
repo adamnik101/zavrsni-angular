@@ -8,6 +8,6 @@ export interface Playlist {
   tracks_count: number
   created_at: string
   image_url: string
-  tracks: PagedResponse<Track[]>
+  tracks: Track[]
   latest_added: string
 }

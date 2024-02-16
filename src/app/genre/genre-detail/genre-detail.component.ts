@@ -24,9 +24,9 @@ export class GenreDetailComponent {
         const id = paramMap.get('id')
         if(id) {
           this._genreSub = this._genreService.getGenre(id).subscribe({
-            next: (response: any) => {
-              this.playlists = response.playlists as Playlist[]
-              this.genre = response.genre as Genre
+            next: (response) => {
+              this.playlists = response.data.playlists as Playlist[]
+              this.genre = response.data as Genre
             }
           })
         }

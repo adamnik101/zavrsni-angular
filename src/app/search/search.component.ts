@@ -28,8 +28,8 @@ export class SearchComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this._title.setTitle('Search - TREBLE')
     this.subs.push(this._genreService.getGenres().subscribe({
-      next: (genres) => {
-        this.genres = genres
+      next: (response) => {
+        this.genres = response.data
       }
     }))
     this.subs.push(this._searchService.result$.subscribe({

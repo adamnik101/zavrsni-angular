@@ -5,17 +5,10 @@
     </div>
     <form [formGroup]="registerGroup" class="user-ui register-form">
       <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>First name</mat-label>
-        <input matInput placeholder="Your first name" formControlName="firstName"/>
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Your username" formControlName="username">
         @if(registerGroup.get('firstName')?.hasError('required')) {
           <mat-error>First name is required.</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Last name</mat-label>
-        <input matInput placeholder="Your last name" formControlName="lastName"/>
-        @if(registerGroup.get('lastName')?.hasError('required')) {
-          <mat-error>Last name is required.</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" floatLabel="always">

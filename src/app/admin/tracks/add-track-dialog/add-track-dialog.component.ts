@@ -66,8 +66,8 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
       }
     }))
     this._subs.push(this._genreService.getGenres().subscribe({
-      next: (genres) => {
-        this.genres = genres
+      next: (response) => {
+        this.genres = response.data
       }
     }))
   }
