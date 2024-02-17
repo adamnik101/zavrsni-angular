@@ -9,7 +9,7 @@
         <p>Playlist</p>
         <h2>Liked tracks</h2>
         <div class="details">
-          <p>{{(_userService.user$ | async)?.email}}</p>
+          <p>{{(_userService.user$ | async)?.username}}</p>
           <app-divider></app-divider>
           <p>{{this._trackLikeService.getLikedTracks().length ? this._trackLikeService.getLikedTracks().length : 0}} tracks</p>
           <app-divider></app-divider>

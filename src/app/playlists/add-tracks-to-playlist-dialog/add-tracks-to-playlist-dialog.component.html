@@ -8,13 +8,13 @@
     @for(btn of data.actions; track btn) {
       @if(data.status === 'warning-all') {
         @if (btn === 'Add anyway') {
-          <button mat-button (click)="addAnyway(data.playlistId, data.tracksAlreadyInPlaylist)">{{ btn }}</button>
+          <button mat-button (click)="addAnyway(data.playlist_id, data.tracks_already_in_playlist)">{{ btn }}</button>
         } @else if (btn === 'Don\'t add') {
           <button mat-button (click)="closeDialog()">{{ btn }}</button>
         }
       } @else if (data.status === 'warning-some') {
         @if (btn === 'Add all') {
-          <button mat-button (click)="addAll(data.playlistId, data.allTracksIds)">{{ btn }}</button>
+          <button mat-button (click)="addAll(data.playlist_id, data.all_tracks_id)">{{ btn }}</button>
         } @else if (btn === 'Add new ones') {
           <button mat-button (click)="addNewOnes()">{{ btn }}</button>
         }

@@ -5,7 +5,10 @@ import {Playlist} from "../interfaces/playlist";
 import {Track} from "../../shared/interfaces/track";
 import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {BehaviorSubject, Observable} from "rxjs";
-import {AddTracksToPlaylistResponse} from "../../shared/interfaces/add-tracks-to-playlist-response";
+import {
+  AddTracksToPlaylistResponse,
+  SuccessTracksToPlaylistResponse
+} from "../../shared/interfaces/add-tracks-to-playlist-response";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
 
@@ -93,8 +96,8 @@ export class PlaylistService extends BaseService{
     })
   }
 
-  addTracksToPlaylist(tracksToAdd: string[], playlistId: string, confirm?: boolean): Observable<AddTracksToPlaylistResponse> {
-    return this.post(`playlists/${playlistId}/tracks/add`, {tracks: tracksToAdd, confirm: confirm})
+  addTracksToPlaylist(tracksToAdd: string[], playlistId: string, confirm?: boolean): Observable<ResponseAPI<SuccessTracksToPlaylistResponse>> {
+    return this.post(`playlists/${playlistId}/tracks`, {tracks: tracksToAdd, confirm: confirm})
   }
 
   addAllTracksToPlaylistConfirm(id: string, tracks?: Track[]) {

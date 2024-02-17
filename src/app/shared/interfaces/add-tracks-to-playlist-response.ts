@@ -5,8 +5,23 @@ export interface AddTracksToPlaylistResponse {
   status: 'warning-some' | 'warning-all'
   tracksAlreadyInPlaylist: string[]
   allTracksIds?: string[]
-  addedCount?: number
+  added_count?: number
   actions: string[]
   content: string
-  playlistId: string
+  playlist_id: string
+}
+export interface ErrorTracksToPlaylistResponse {
+  message: string
+  status: 'warning-some' | 'warning-all'
+  tracks_already_in_playlist: string[]
+  all_tracks_id?: string[]
+  added_count?: number
+  actions: string[]
+  content: string
+  playlist_id: string
+}
+export interface SuccessTracksToPlaylistResponse {
+  message: string
+  added_count: number
+  playlist_id: string
 }

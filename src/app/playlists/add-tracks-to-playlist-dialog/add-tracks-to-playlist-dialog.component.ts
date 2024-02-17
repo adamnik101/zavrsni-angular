@@ -1,7 +1,10 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
-import {AddTracksToPlaylistResponse} from "../../shared/interfaces/add-tracks-to-playlist-response";
+import {
+  AddTracksToPlaylistResponse,
+  ErrorTracksToPlaylistResponse
+} from "../../shared/interfaces/add-tracks-to-playlist-response";
 import {Track} from "../../shared/interfaces/track";
 import {PlaylistService} from "../services/playlist.service";
 import _default from "chart.js/dist/plugins/plugin.tooltip";
@@ -23,7 +26,7 @@ import {Subscription} from "rxjs";
 export class AddTracksToPlaylistDialogComponent {
   private subs: Subscription[] = []
   constructor(public dialogRef: MatDialogRef<AddTracksToPlaylistDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: AddTracksToPlaylistResponse,
+              @Inject(MAT_DIALOG_DATA) public data: ErrorTracksToPlaylistResponse,
               private _playlistService: PlaylistService,
               private _snackbarService: SnackbarService,
               private _userService: UserService) {
@@ -39,16 +42,16 @@ export class AddTracksToPlaylistDialogComponent {
 
   addNewOnes() {
     let newOnes:string[]=[]
-
-    for (let id of this.data.allTracksIds!) {
-      if(!this.data.tracksAlreadyInPlaylist.includes(id)) {
+    console.log(this.data)
+    for (let id of this.data.all_tracks_id!) {
+      if(!this.data.tracks_already_in_playlist.includes(id)) {
         newOnes.push(id)
       }
     }
-    console.log('all:',this.data.allTracksIds)
-    console.log('already:',this.data.tracksAlreadyInPlaylist)
+    console.log('all:',this.data.all_tracks_id)
+    console.log('already:',this.data.tracks_already_in_playlist)
     console.log('newOnes:', newOnes)
-    this.addAnyway(this.data.playlistId, newOnes)
+    this.addAnyway(this.data.playlist_id, newOnes)
   }
 
   addAnyway(playlistId: string, tracks: string[]) {
@@ -61,9 +64,9 @@ export class AddTracksToPlaylistDialogComponent {
           next: (playlists) => {
             let playlist = playlists.filter(p => p.id === playlistId)[0]
             if(playlist) {
-              this._playlistService.trackCount.update(value => Number(value) + Number(response.addedCount))
+              this._playlistService.trackCount.update(value => Number(value) + Number(response.data.added_count))
 
-              playlist.tracks_count = Number(playlist.tracks_count) + response.addedCount!
+              playlist.tracks_count = Number(playlist.tracks_count) + response.data.added_count!
               this.closeDialog()
             }
           }

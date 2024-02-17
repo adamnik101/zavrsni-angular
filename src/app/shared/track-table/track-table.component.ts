@@ -10,7 +10,10 @@ import {QueueService} from "../../queue/services/queue.service";
 import {CdkDragDrop, CdkDragExit, CdkDragMove, CdkDragStart} from "@angular/cdk/drag-drop";
 import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
 import {DragDropService} from "../services/drag-drop.service";
-import {AddTracksToPlaylistResponse} from "../interfaces/add-tracks-to-playlist-response";
+import {
+  AddTracksToPlaylistResponse,
+  ErrorTracksToPlaylistResponse, SuccessTracksToPlaylistResponse
+} from "../interfaces/add-tracks-to-playlist-response";
 import {MatDialog} from "@angular/material/dialog";
 import {
   AddTracksToPlaylistDialogComponent
@@ -21,6 +24,7 @@ import {LoaderService} from "../../core/services/loader.service";
 import {User} from "../../user/interfaces/user";
 import {TrackLikeService} from "../services/track-like.service";
 import {TrackDurationService} from "../services/track-duration.service";
+import {ResponseAPI} from "../interfaces/response-api";
 
 
 @Component({
@@ -95,18 +99,18 @@ export class TrackTableComponent {
       trackId = this.selectedTrack.id
     }
     this.subs.push(this._playlistService.addTracksToPlaylist([trackId], playlistId).subscribe({
-      next: (response: AddTracksToPlaylistResponse) => {
-        this._snackbarService.showDefaultMessage(response.message)
+      next: (response: ResponseAPI<SuccessTracksToPlaylistResponse>) => {
+        this._snackbarService.showDefaultMessage(response.data.message)
         const playlist = this.playlists.find(playlist => playlist.id === playlistId)
         if(playlist) {
-          this._playlistService.trackCount.update(value => value + 1)
+          // this._playlistService.trackCount.update(value => value + 1)
           playlist.tracks_count++
           this._cdr.markForCheck()
         }
       },
       error: (err) => {
         console.log(err)
-        this._matDialog.open(AddTracksToPlaylistDialogComponent, {data: err.error})
+        this._matDialog.open(AddTracksToPlaylistDialogComponent, {data: err.error.errors as ErrorTracksToPlaylistResponse})
       }
     }))
   }
@@ -251,14 +255,14 @@ export class TrackTableComponent {
       this.tracksToAdd.push(value.id)
     })
     this.subs.push(this._playlistService.addTracksToPlaylist(this.tracksToAdd, playlistId).subscribe({
-      next: (response: AddTracksToPlaylistResponse) => {
+      next: (response: ResponseAPI<SuccessTracksToPlaylistResponse>) => {
         console.log(response)
         const playlist = this.playlists.find(p => p.id === playlistId)
         if(playlist) {
-          this._playlistService.trackCount.update(value => value + Number(response.addedCount))
-          playlist.tracks_count = Number(playlist.tracks_count) + Number(response.addedCount)
+          this._playlistService.trackCount.update(value => value + Number(response.data.added_count))
+          playlist.tracks_count = Number(playlist.tracks_count) + Number(response.data.added_count)
           this._cdr.markForCheck()
-          this._snackbarService.showDefaultMessage(response.message)
+          this._snackbarService.showDefaultMessage(response.data.message)
           this._matDialog.closeAll()
           this.selectedTracks.clear()
           this.tracksToAdd = []
@@ -266,7 +270,7 @@ export class TrackTableComponent {
       },
       error: (response) => {
         console.log(response)
-        this._matDialog.open(AddTracksToPlaylistDialogComponent, {data: response.error})
+        this._matDialog.open(AddTracksToPlaylistDialogComponent, {data: response.error.errors as ErrorTracksToPlaylistResponse})
       }
     }))
     this.tracksToAdd = []
