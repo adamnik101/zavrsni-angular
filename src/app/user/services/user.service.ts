@@ -74,6 +74,7 @@ export class UserService extends BaseService{
     this._loaderService.showLoader()
     const subscribe: Subscription = this.get<ResponseAPI<User>>('auth/me').subscribe({
       next: (response: ResponseAPI<User>): void => {
+        console.log(response)
         const user = response.data
         this.setUserSubject(user)
         this._likedAlbumSubject.next(user.liked_albums)
@@ -122,23 +123,23 @@ export class UserService extends BaseService{
     })
   }
   getUserLikedTracks(page: number, size: number) {
-    return this.get<ResponseAPI<Track[]>>(`users/me/liked`)
+    return this.get<ResponseAPI<Track[]>>(`me/tracks`)
   }
 
   likeTrack(trackId: string) {
-    return this.post('actor/like', {track: trackId})
+    return this.post('me/tracks', {uuid: trackId})
   }
 
   removeFromLiked(track: string) {
-    return this.delete(`actor/liked/${track}/remove`)
+    return this.delete(`me/tracks/${track}`)
   }
 
-  followArtist(artist: Artist) {
-    return this.post(`actor/artists/${artist.id}/follow`, null)
+  followArtist(artist: Artist): Observable<ResponseAPI<string>> {
+    return this.post(`me/artists/`, {uuid : artist.id})
   }
 
   unfollowArtist(artist: Artist) {
-    return this.delete(`actor/artists/${artist.id}/unfollow`)
+    return this.delete(`me/artists/${artist.id}`)
   }
 
   updateFollowing(newFollowing: Artist[]) {

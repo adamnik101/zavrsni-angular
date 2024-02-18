@@ -11,6 +11,7 @@ import {
 } from "../../shared/interfaces/add-tracks-to-playlist-response";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
+import {TrackDurationService} from "../../shared/services/track-duration.service";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,7 @@ export class PlaylistService extends BaseService{
   trackCount = signal<number>(0)
   page = 1
   #snackbar = inject(SnackbarService)
+  #trackDurationService = inject(TrackDurationService)
   updatePlaylistsSubject(playlists: Playlist[]) {
     this.playlistsSubject.next(playlists)
   }
@@ -38,7 +40,7 @@ export class PlaylistService extends BaseService{
     this.tracksSubject.next(tracks)
   }
   createPlaylist(playlistToCreate: FormData) {
-    return this.post<FormData, null>('playlists', playlistToCreate)
+    return this.post<FormData, ResponseAPI<any>>('playlists', playlistToCreate)
   }
 
   showPlaylist(id: string) {
@@ -50,7 +52,7 @@ export class PlaylistService extends BaseService{
   }
 
   removeTrackFromPlaylist(track: Track, playlistId: string) {
-    return this.delete(`playlists/${playlistId}/track/${track.id}/delete/${track.pivot?.id}`).subscribe({
+    return this.delete(`playlists/${playlistId}/tracks/${track.pivot?.id}`).subscribe({
       next: (response: any) => {
         if (response == null){
           const playlistToDeleteFrom = this.playlistsSubject.value.find(pl => pl.id == playlistId)
@@ -61,11 +63,12 @@ export class PlaylistService extends BaseService{
             this.trackCount.update(value => {
               return value - 1
             })
-            this.totalDuration.update((value) => {
-              return value - (Math.floor(track.duration) - Math.floor(track.duration % 1000))
-            })
+            this.#trackDurationService.calculateTotalDurationOfTracks(without)
+            // this.totalDuration.update((value) => {
+            //   return value - (Math.floor(track.duration) - Math.floor(track.duration % 1000))
+            // })
           }
-          this.#snackbar.showSuccessMessage('Removed track from playlist.')
+          this.#snackbar.showDefaultMessage('Removed track from playlist.')
         }
       },
       error: (response) => {
@@ -75,7 +78,7 @@ export class PlaylistService extends BaseService{
   }
 
   deletePlaylist(playlist: Playlist) {
-    return this.delete(`playlists/${playlist.id}/delete`).subscribe({
+    return this.delete(`playlists/${playlist.id}`).subscribe({
       next: (response) => {
         let without = this.playlistsSubject.value.filter(p => p.id !== playlist.id)
         this.playlistsSubject.next(without)

@@ -108,7 +108,7 @@ export class AlbumDetailComponent {
     this.isAlbumLiked = true
     this.subs.push(this._albumService.likeAlbum(id).subscribe({
       next: (response) => {
-        this._userService.updateLikedAlbums(response.albums)
+        this._userService.updateLikedAlbums(response.data)
       }
     }))
     this._snackbar.showDefaultMessage(`Added '${this.album.name}' to library.`)

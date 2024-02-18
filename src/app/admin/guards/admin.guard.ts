@@ -11,7 +11,7 @@ export const adminGuard: CanActivateFn = (route, state) => {
 
   return tokenService.checkTokenFromApi().pipe(
     map(response => {
-      if(response.token !== null) {
+      if(response.data.token !== null) {
         return true
       }
 

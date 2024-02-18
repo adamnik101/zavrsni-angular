@@ -3,6 +3,7 @@ import {BaseService} from "../../core/services/base.service";
 import {Observable} from "rxjs";
 import {User} from "../../user/interfaces/user";
 import {TokenResponse} from "../interfaces/token-response";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class TokenService extends BaseService{
     localStorage.removeItem('token')
   }
 
-  checkTokenFromApi(): Observable<TokenResponse> {
-    return this.get<TokenResponse>('auth/token')
+  checkTokenFromApi(): Observable<ResponseAPI<TokenResponse>> {
+    return this.get<ResponseAPI<TokenResponse>>('auth/token')
   }
 
   setToken(token: string) {

@@ -106,7 +106,7 @@ export class ArtistDetailComponent implements OnInit {
   followArtist(artist: Artist) {
     this.subs.push(this._userService.followArtist(artist).subscribe({
       next: (response) => {
-        this._snackbarService.showDefaultMessage(response as string)
+        this._snackbarService.showDefaultMessage(response.message)
         this.followings.unshift(artist)
         this._userService.updateFollowing(this.followings)
         this.artist.followed_by_count++

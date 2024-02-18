@@ -12,7 +12,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   return tokenService.checkTokenFromApi().pipe(
     map(response => {
       console.log(response)
-      if(response.token !== null) {
+      if(response.data.token !== null) {
         return true
       }
 

@@ -51,8 +51,9 @@ export class ColorThiefService {
 
 
     }
+    let googleProxyURL = 'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=';
     image.crossOrigin = 'anonymous';
-    image.src = url
+    image.src = googleProxyURL + url
   }
 
   getDominantColors(image: HTMLImageElement) : [number[]] {

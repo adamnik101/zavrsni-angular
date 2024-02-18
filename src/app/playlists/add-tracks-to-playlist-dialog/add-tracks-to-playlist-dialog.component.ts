@@ -58,7 +58,7 @@ export class AddTracksToPlaylistDialogComponent {
     const confirm = true
     this.subs.push(this._playlistService.addTracksToPlaylist(tracks,playlistId, confirm).subscribe({
       next: (response) => {
-        this._snackbarService.showSuccessMessage(response.message)
+        this._snackbarService.showDefaultMessage(response.message)
 
         this.subs.push(this._playlistService.playlists$.subscribe({
           next: (playlists) => {

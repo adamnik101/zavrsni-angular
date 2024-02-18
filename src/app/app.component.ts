@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
       this._tokenService.checkTokenFromApi().subscribe({
         next: (response) => {
           console.log(response)
-          if(response.token == null) {
+          if(response.data.token == null) {
 
             return
           }
