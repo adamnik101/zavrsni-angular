@@ -18,6 +18,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {TracksWrapperComponent} from "../tracks/tracks-wrapper/tracks-wrapper.component";
+import {LoaderComponent} from "../core/loader/loader.component";
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import {TracksWrapperComponent} from "../tracks/tracks-wrapper/tracks-wrapper.co
         MatInputModule,
         MatIconModule,
         MatButtonModule,
-        TracksWrapperComponent
+        TracksWrapperComponent,
+        LoaderComponent
     ]
 })
 export class UserModule { }

@@ -77,7 +77,7 @@ export class ArtistSearchFormComponent {
     this._adminArtistService.params = params
     this._adminArtistService.getPagedResponse(params).subscribe({
       next: (pagedResponse) => {
-        this._adminArtistService.setPagedResponse(pagedResponse)
+        this._adminArtistService.setPagedResponse(pagedResponse.data)
       }
     })
   }

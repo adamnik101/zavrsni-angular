@@ -91,7 +91,7 @@ export class AlbumsSearchFormComponent {
     console.log(this._adminAlbumService.params)
     this._adminAlbumService.getPagedResponse(this._adminAlbumService.params).subscribe({
       next: (pagedResponse) => {
-        this._adminAlbumService.setPagedResponse(pagedResponse)
+        this._adminAlbumService.setPagedResponse(pagedResponse.data)
       }
     })
   }

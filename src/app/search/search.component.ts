@@ -21,6 +21,7 @@ export class SearchComponent implements OnInit, OnDestroy{
   genres: Genre[] = [];
   genreSub!: Subscription
   query: string  = ''
+  loading: boolean = true;
   constructor(private _searchService: SearchService, private _title: Title, private _genreService: GenreService) {
 
   }
@@ -30,6 +31,7 @@ export class SearchComponent implements OnInit, OnDestroy{
     this.subs.push(this._genreService.getGenres().subscribe({
       next: (response) => {
         this.genres = response.data
+        this.loading = false
       }
     }))
     this.subs.push(this._searchService.result$.subscribe({

@@ -19,3 +19,8 @@ ul{
     }
   }
 }
+.active{
+  border-radius: 5px;
+  background: var(--light);
+  color: var(--black);
+}

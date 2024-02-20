@@ -141,7 +141,12 @@ export class QueueService implements Queue {
   goForward(): void {
     if(this.shuffleQueue) {
       this.shuffle()
-      this.playAtIndex(this.shuffleQueueIndex)
+      if (this._userService.userLoaded()) {
+        this.playAtIndex(this.shuffleQueueIndex)
+      }
+      else {
+        this.playAtIndexWithNoUser(this.shuffleQueueIndex)
+      }
       return
     }
     let amount = 1

@@ -33,6 +33,7 @@ import {AddUserDialogComponent} from "../users/add-user-dialog/add-user-dialog.c
 import {AddAlbumDialogComponent} from "../albums/add-album-dialog/add-album-dialog.component";
 import {ArtistFormDialogComponent} from "../artists/artist-form-dialog/artist-form-dialog.component";
 import {TracksFormDialogComponent} from "../tracks/tracks-form-dialog/tracks-form-dialog.component";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Component({
   selector: 'app-table-admin',
@@ -119,9 +120,9 @@ export class TableAdminComponent<T extends  {}> {
 
     if(this.service) {
       this.service.navigateTo(url).subscribe({
-        next: (pagedResponse: PagedResponse<any>) => {
-          this.service.setPagedResponse(pagedResponse)
-          this.checkIfAllAreSelected(pagedResponse.data)
+        next: (pagedResponse: ResponseAPI<PagedResponse<any>>) => {
+          this.service.setPagedResponse(pagedResponse.data)
+          this.checkIfAllAreSelected(pagedResponse.data.data)
         }
       })
     }

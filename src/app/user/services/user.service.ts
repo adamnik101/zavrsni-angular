@@ -163,11 +163,11 @@ export class UserService extends BaseService{
     return this.get<Track[]>('actor/favorite/tracks')
   }
 
-  getRecentlyPlayedTracks() : Observable<Track[]> {
-    return this.get<Track[]>('actor/recent/tracks')
+  getRecentlyPlayedTracks() {
+    return this.get<ResponseAPI<Track[]>>('me/recently-played')
   }
 
   updateSettings(value: any, setting: string) {
-    return this.post<{value: boolean, setting: string}, Settings>('actor/settings/update', {value,setting})
+    return this.post<{value: boolean, setting: string}, ResponseAPI<Settings>>('me/settings', {value,setting})
   }
 }

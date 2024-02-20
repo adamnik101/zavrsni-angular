@@ -15,7 +15,7 @@ export class AlbumsComponent {
     this._loader.showLoader()
     this.adminAlbumService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
-        this.adminAlbumService.setPagedResponse(pagedResponse)
+        this.adminAlbumService.setPagedResponse(pagedResponse.data)
         this._loader.hideLoader()
       }
     })

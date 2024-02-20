@@ -32,7 +32,13 @@
           <p>Last updated {{playlist()!.latest_added | humanizeDate}}</p>
 
           <div class="with-divider">
-            <p>{{playlistService.trackCount()}} tracks</p>
+            <p>{{playlistService.trackCount()}}
+              @if (playlistService.trackCount() == 1){
+                track
+              } @else {
+                tracks
+              }
+            </p>
             @if(this._trackDurationService.totalDuration()) {
               <app-divider></app-divider>
               <p>{{this._trackDurationService.totalDuration() | formatDuration}}</p>
@@ -57,7 +63,8 @@
   </div>
 } @else {
   <div class="loading">
-    <app-loading></app-loading>
+    <app-loader></app-loader>
+
   </div>
 }
 
@@ -69,7 +76,7 @@
     </div>
   } @else {
     <div class="no-tracks">
-      <p>Start building your playlist with tracks by tapping on 'Add to playlist' in the option menu.</p>
+      <p>Start building your playlist with tracks by tapping on 'Add to playlist' in the option menu or just drag tracks to playlist.</p>
     </div>
   }
 }

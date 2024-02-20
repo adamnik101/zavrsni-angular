@@ -6,7 +6,13 @@
         <input type="file" hidden #image (change)="onFileSelected($event)">
         <div class="profile-image-overlay">
           <div class="shadow-circle">
-            <div class="profile-image" #profileImage [style.background-image]="profileImageSrc ? profileImageSrc : ''">
+
+            <div class="profile-image" #profileImage [style.background-image]="profileImageSrc ? profileImageSrc : 'url(assets/images/)'">
+              @if (profileImageSrc === '') {
+                <div class="icon">
+                  <mat-icon>person</mat-icon>
+                </div>
+              }
             </div>
             <div class="change-image">
               <button mat-button class="choose" (click)="image.click()">

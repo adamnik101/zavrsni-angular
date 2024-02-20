@@ -97,7 +97,7 @@ export class TracksSearchFormComponent {
     }
     this._adminTrackService.getPagedResponse(this._adminTrackService.params).subscribe({
       next: (pagedResponse) => {
-        this._adminTrackService.setPagedResponse(pagedResponse)
+        this._adminTrackService.setPagedResponse(pagedResponse.data)
       }
     })
   }

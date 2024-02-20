@@ -24,7 +24,7 @@ export class DeleteDialogComponent {
         this._dialogRef.close()
         this._adminArtistService.getPagedResponse().subscribe({
           next: (pagedResponse) => {
-            this._adminArtistService.setPagedResponse(pagedResponse)
+            this._adminArtistService.setPagedResponse(pagedResponse.data)
           }
         })
       }

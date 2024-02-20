@@ -4,6 +4,7 @@ import {BaseService} from "../../core/services/base.service";
 import {HttpHeaders} from "@angular/common/http";
 import {SearchResult} from "../interfaces/search-result";
 import {Router} from "@angular/router";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class SearchService extends BaseService{
     this.track_page = 1
     this.artist_page = 1
     this.album_page = 1
-    return this.get<SearchResult>('search?search=' + query).subscribe({
+    return this.get<ResponseAPI<SearchResult>>('search?query=' + query).subscribe({
       next: (response) => {
-        this.resultSubject.next(response)
+        this.resultSubject.next(response.data)
       }
     })
   }
@@ -33,11 +34,11 @@ export class SearchService extends BaseService{
       case "album": this.album_page++; break
       default: return
     }
-    let query = `search?search=${this.querySignal()}` + `&track_page=${this.track_page}&album_page=${this.album_page}&artist_page=${this.artist_page}`
+    let query = `search?query=${this.querySignal()}` + `&track_page=${this.track_page}&album_page=${this.album_page}&artist_page=${this.artist_page}`
     console.log(query)
-    return this.get<SearchResult>(query).subscribe({
+    return this.get<ResponseAPI<SearchResult>>(query).subscribe({
       next: (response) => {
-        this.resultSubject.next(response)
+        this.resultSubject.next(response.data)
       }
     })
   }
@@ -48,11 +49,11 @@ export class SearchService extends BaseService{
       case "album": this.album_page--; break
       default: return
     }
-    let query = `search?search=${this.querySignal()}` + `&track_page=${this.track_page}&album_page=${this.album_page}&artist_page=${this.artist_page}`
+    let query = `search?query=${this.querySignal()}` + `&track_page=${this.track_page}&album_page=${this.album_page}&artist_page=${this.artist_page}`
     console.log(query)
-    return this.get<SearchResult>(query).subscribe({
+    return this.get<ResponseAPI<SearchResult>>(query).subscribe({
       next: (response) => {
-        this.resultSubject.next(response)
+        this.resultSubject.next(response.data)
       }
     })
   }

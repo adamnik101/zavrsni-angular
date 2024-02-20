@@ -15,6 +15,7 @@ import {MatRippleModule} from "@angular/material/core";
 import { PublicPlaylistCardComponent } from './public-playlist-card/public-playlist-card.component';
 import {MatIconModule} from "@angular/material/icon";
 import {SmallHeaderComponent} from "../core/header/small-header/small-header.component";
+import {LoaderComponent} from "../core/loader/loader.component";
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {SmallHeaderComponent} from "../core/header/small-header/small-header.com
         MatRippleModule,
         MatIconModule,
         SmallHeaderComponent,
+        LoaderComponent,
     ]
 })
 export class PlaylistsModule { }

@@ -10,10 +10,12 @@
         <h2>Liked tracks</h2>
         <div class="details">
           <p>{{(_userService.user$ | async)?.username}}</p>
-          <app-divider></app-divider>
-          <p>{{this._trackLikeService.getLikedTracks().length ? this._trackLikeService.getLikedTracks().length : 0}} tracks</p>
-          <app-divider></app-divider>
-          {{this._trackDurationService.totalDuration() | formatDuration}}
+          @if (_userService.likedTracks().length) {
+            <app-divider></app-divider>
+            <p>{{_userService.likedTracks().length ? this._userService.likedTracks().length : 0}} tracks</p>
+            <app-divider></app-divider>
+            {{this._trackDurationService.totalDuration() | formatDuration}}
+          }
         </div>
       </div>
     </div>
@@ -44,5 +46,5 @@
     </div>
 </div>
 } @else {
-  <app-loading></app-loading>
+  <app-loader></app-loader>
 }

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AdminTracksService} from "./services/admin-tracks.service";
+import {TrackService} from "../../tracks/services/track.service";
 
 @Component({
   selector: 'app-tracks',
@@ -8,13 +9,14 @@ import {AdminTracksService} from "./services/admin-tracks.service";
 })
 export class TracksComponent {
 
-  constructor(public adminTrackService: AdminTracksService) {
+  constructor(public trackService: TrackService,
+              protected adminTrackService: AdminTracksService) {
   }
 
   ngOnInit() {
-    this.adminTrackService.getPagedResponse().subscribe({
-      next: (pagedResponse) => {
-        this.adminTrackService.setPagedResponse(pagedResponse)
+    this.trackService.getTracks().subscribe({
+      next: (response) => {
+        this.adminTrackService.setPagedResponse(response.data)
       }
     })
   }

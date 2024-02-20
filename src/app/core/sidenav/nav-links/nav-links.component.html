@@ -1,18 +1,18 @@
 <ul>
   <li>
-    <a routerLink="/">
+    <a routerLink="/home" routerLinkActive="active">
       <mat-icon>home</mat-icon>
       Home
     </a>
   </li>
   <li>
-    <a routerLink="search">
+    <a routerLink="search" routerLinkActive="active">
       <mat-icon>search</mat-icon>
       Search
     </a>
   </li>
   <li>
-    <a routerLink="trending">
+    <a routerLink="trending" routerLinkActive="active">
       <mat-icon>whatshot</mat-icon>
       Trending
     </a>
@@ -20,13 +20,13 @@
   @if (userService.userLoaded() === false || userService.userLoaded() === null){
     <mat-divider></mat-divider>
     <li>
-      <a routerLink="auth/login">
+      <a routerLink="auth/login" routerLinkActive="active">
         <mat-icon>exit_to_app</mat-icon>
         Login
       </a>
     </li>
     <li>
-      <a routerLink="auth/register">
+      <a routerLink="auth/register" routerLinkActive="active">
         <mat-icon>assignment</mat-icon>
         Register
       </a>
@@ -34,7 +34,7 @@
   }
   @if (userService.userLoaded()) {
     <li>
-      <a routerLink="/user/liked">
+      <a routerLink="/user/liked" routerLinkActive="active">
         <mat-icon>favorite_border</mat-icon>
         Liked tracks
       </a>

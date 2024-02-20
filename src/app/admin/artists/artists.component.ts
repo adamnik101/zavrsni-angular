@@ -20,7 +20,7 @@ export class ArtistsComponent {
   ngOnInit() {
     this.adminArtistsService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
-        this.adminArtistsService.setPagedResponse(pagedResponse)
+        this.adminArtistsService.setPagedResponse(pagedResponse.data)
       }
     })
   }

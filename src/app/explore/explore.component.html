@@ -1,8 +1,13 @@
-<div class="explore">
-  <h1>Explore</h1>
-  <div class="genres">
-    @for (genre of genres; track genre) {
-      <app-genre-card [genre]="genre"></app-genre-card>
-    }
+@if (loading) {
+  <app-loader></app-loader>
+} @else {
+  <div class="explore">
+    <h1>Explore</h1>
+    <div class="genres">
+      @for (genre of genres; track genre) {
+        <app-genre-card [genre]="genre"></app-genre-card>
+      }
+    </div>
   </div>
-</div>
+
+}

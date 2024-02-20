@@ -23,4 +23,12 @@ export class AlbumService extends BaseService{
   removeFromLiked(id: string) {
     return this.delete(`me/albums/${id}`)
   }
+
+  getNewReleases() {
+    return this.get<ResponseAPI<Album[]>>('albums/new-releases')
+  }
+
+  getTrending() {
+    return this.get<ResponseAPI<Album[]>>('albums/trending')
+  }
 }

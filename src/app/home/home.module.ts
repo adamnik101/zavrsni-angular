@@ -5,6 +5,7 @@ import {AlbumsModule} from "../albums/albums.module";
 import {ArtistsModule} from "../artists/artists.module";
 import {SharedModule} from "../shared/shared.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {LoaderComponent} from "../core/loader/loader.component";
 
 
 
@@ -12,12 +13,13 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   declarations: [
     HomeComponent
   ],
-  imports: [
-    CommonModule,
-    AlbumsModule,
-    ArtistsModule,
-    SharedModule,
-    MatProgressSpinnerModule
-  ]
+    imports: [
+        CommonModule,
+        AlbumsModule,
+        ArtistsModule,
+        SharedModule,
+        MatProgressSpinnerModule,
+        LoaderComponent
+    ]
 })
 export class HomeModule { }

@@ -7,6 +7,7 @@ import { Track } from '../shared/interfaces/track';
 import { From } from '../shared/interfaces/from';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import {TrackService} from "../tracks/services/track.service";
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   recommendedArtists: Artist[] = [];
   recommendedTracks: Track[] = [];
   recentTracks: Track[] = [];
+  newReleasesTracks: Track[] = []
   from: From = {
     id: '',
     url: '/',
@@ -28,14 +30,33 @@ export class HomeComponent implements OnInit, OnDestroy {
   public loadedRecently: boolean = false
   constructor(
     private _albumService: AlbumService,
+    private _trackService: TrackService,
     private _userService: UserService,
     private _titleService: Title
   ) {}
 
   ngOnInit() {
     this._titleService.setTitle('Home - TREBLE');
-    this.loadedRecently = false
-    this.subs.push(this._userService.getRecentlyPlayedTracks().subscribe({
+    this.subs.push(this._albumService.getNewReleases().subscribe({
+      next: (responseAPI) => {
+        this.albums = responseAPI.data
+      }
+    }))
+    this.subs.push(this._trackService.getNewReleases().subscribe({
+      next: (responseAPI) => {
+        this.newReleasesTracks = responseAPI.data
+        this.loading = false
+      }
+    }))
+    this._userService.user$.subscribe({
+      next: (user) => {
+
+      }
+    })
+
+
+    // this.loadedRecently = false
+    /*this.subs.push(this._userService.getRecentlyPlayedTracks().subscribe({
       next: (tracks) => {
         this.recentTracks = tracks;
         this.loadedRecently = true
@@ -56,9 +77,18 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.recommendedTracks = tracks;
         this.loading = false;
       },
-    }))
+    }))*/
   }
-
+  ngAfterViewInit() {
+    if (this._userService.userLoaded()) {
+      this.subs.push(this._userService.getRecentlyPlayedTracks().subscribe({
+        next: (tracks) => {
+          this.recentTracks = tracks.data;
+          this.loadedRecently = true
+        },
+      }))
+    }
+  }
   ngOnDestroy() {
     for(let sub of this.subs) {
       sub.unsubscribe()

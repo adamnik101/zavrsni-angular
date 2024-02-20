@@ -116,6 +116,6 @@ export class PlaylistService extends BaseService{
   }
 
   getPlaylistTracks(id: string) {
-    return this.get(`playlists/${id}/tracks`)
+    return this.get<ResponseAPI<Playlist>>(`playlists/${id}`)
   }
 }

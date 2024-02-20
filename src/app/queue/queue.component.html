@@ -30,7 +30,7 @@
       </div>
       <div class="list" cdkDropList (cdkDropListDropped)="drop($event)" #trackList cdkScrollable>
         @for (track of queueService.queue; track track; let index = $index) {
-          <div class="item" [ngClass]="{'hover': index !== this.queueService.currentQueueIndex,'current' : index == this.queueService.currentQueueIndex,'transparent' : index < this.queueService.currentQueueIndex, 'disabled' : track.explicit && !this.userService.settings().explicit}" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="track.explicit && !userService.settings().explicit">
+          <div class="item" [ngClass]="{'hover': index !== this.queueService.currentQueueIndex,'current' : index == this.queueService.currentQueueIndex,'transparent' : index < this.queueService.currentQueueIndex, 'disabled' : this.userService.userLoaded() && track.explicit && !this.userService.settings().explicit}" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="userService.userLoaded() && track.explicit && !userService.settings().explicit">
             <!--  <p class="next-up" *ngIf="queueService.currentQueueIndex < this.queueService.queue.length - 1 && index == this.queueService.currentQueueIndex + 1">
             Next up from: {{this.queueService.from.name}}
           </p>

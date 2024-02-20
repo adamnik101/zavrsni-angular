@@ -7,6 +7,7 @@ import {SharedModule} from "../shared/shared.module";
 import {AlbumsModule} from "../albums/albums.module";
 import {ArtistsModule} from "../artists/artists.module";
 import {MatIconModule} from "@angular/material/icon";
+import {LoaderComponent} from "../core/loader/loader.component";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import {MatIconModule} from "@angular/material/icon";
         SharedModule,
         AlbumsModule,
         ArtistsModule,
-        MatIconModule
+        MatIconModule,
+        LoaderComponent
     ]
 })
 export class TrendingModule { }

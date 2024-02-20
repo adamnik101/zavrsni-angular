@@ -11,12 +11,14 @@ import {Subscription} from "rxjs";
 export class ExploreComponent implements OnInit, OnDestroy{
   genres: Genre[] = []
   sub!: Subscription
+  loading: boolean = true
   constructor(private _genreService: GenreService) {
   }
   ngOnInit() {
     this.sub = this._genreService.getGenres().subscribe({
       next: (response) => {
         this.genres = response.data
+        this.loading = false
       }
     })
   }

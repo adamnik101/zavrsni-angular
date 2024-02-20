@@ -6,6 +6,8 @@ import {UserService} from "../../user/services/user.service";
 import {PlaylistService} from "../services/playlist.service";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {DialogRef} from "@angular/cdk/dialog";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
+import {ResponseError} from "../../shared/interfaces/response-error";
 
 @Component({
   selector: 'app-create-playlist-dialog',
@@ -51,6 +53,10 @@ export class CreatePlaylistDialogComponent {
           this._playlistService.getPlaylists()
           this._snackbarService.showDefaultMessage(response.message)
           this._dialog.close()
+        },
+        error: (err) => {
+          let responseError = err.error as ResponseAPI<string>
+          this._snackbarService.showDefaultMessage(responseError.message)
         }
       })
 

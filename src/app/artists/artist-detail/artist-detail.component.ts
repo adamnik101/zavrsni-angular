@@ -43,7 +43,7 @@ export class ArtistDetailComponent implements OnInit {
   initSub?: Subscription
   constructor(private _artistService: ArtistService,
               private _route: ActivatedRoute,
-              private _userService: UserService,
+              protected _userService: UserService,
               private _snackbarService: SnackbarService,
               private _title: Title,
               private _renderer: Renderer2,

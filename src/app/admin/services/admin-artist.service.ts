@@ -5,6 +5,7 @@ import {Artist} from "../../artists/interfaces/artist";
 import {BehaviorSubject, Observable} from "rxjs";
 import {HttpParams} from "@angular/common/http";
 import {Track} from "../../shared/interfaces/track";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Injectable({
   providedIn: 'root'
@@ -14,19 +15,19 @@ export class AdminArtistService extends BaseService{
   public pagedResponse$ = this.pagedResponseSubject.asObservable();
   currentPage : number = 1
   params: HttpParams = new HttpParams()
-  getPagedResponse(queryParams?: HttpParams): Observable<PagedResponse<Artist[]>> {
-    return this.get<PagedResponse<Artist[]>>(`admin/artists`, {params: queryParams})
+  getPagedResponse(queryParams?: HttpParams) {
+    return this.get<ResponseAPI<PagedResponse<Artist[]>>>(`artists/search`, {params: queryParams})
   }
   navigateToNextPage() {
-    return this.get<PagedResponse<Artist[]>>(`admin/artists?&page=${++this.currentPage}`)
+    return this.get<ResponseAPI<PagedResponse<Artist[]>>>(`artists?&page=${++this.currentPage}`)
   }
 
   navigateToPreviousPage() {
-    return this.get<PagedResponse<Artist[]>>(`admin/artists?page=${--this.currentPage}`)
+    return this.get<ResponseAPI<PagedResponse<Artist[]>>>(`artists?page=${--this.currentPage}`)
   }
 
   updateArtist(id: string, formData: FormData) {
-    return this.post<FormData,Artist>(`admin/artists/${id}/update`, formData)
+    return this.post<FormData,Artist>(`artists/${id}/update`, formData)
   }
 
   setPagedResponse(pagedResponse: PagedResponse<Artist[]>) {

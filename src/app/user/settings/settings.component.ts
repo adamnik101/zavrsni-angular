@@ -38,12 +38,12 @@ export class SettingsComponent {
 
   update(value: any, setting: string) {
     this.userService.updateSettings(value, setting).subscribe({
-      next: (response: Settings) => {
+      next: (response) => {
         console.log(response)
-        this.userService.settings.set(response)
-        this.userService.updateUserSettings(response)
+        this.userService.settings.set(response.data)
+        this.userService.updateUserSettings(response.data)
         if(setting === 'explicit') {
-          this._snackbar.showDefaultMessage(`Explicit content ${response.explicit ? "enabled" : "disabled"}`)
+          this._snackbar.showDefaultMessage(`Explicit content ${response.data.explicit ? "enabled" : "disabled"}`)
         }
       }
     })

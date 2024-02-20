@@ -7,7 +7,8 @@
   @if(loaded){
 
   } @else {
-    <app-loading></app-loading>
+    <app-loader></app-loader>
+
   }
   <div class="top" #top>
     @if (loaded) {
@@ -23,15 +24,17 @@
               <app-divider></app-divider>
               <p>{{artist.monthly_listeners | number}} Monthly listeners</p>
             </div>
-            @if (!isFollowing) {
-              <button (click)="followArtist(artist)">
-                <img src="assets/icons-svg/plus.svg" alt="plus,icon"/>
-              Follow</button>
-            }
-            @else {
-              <button (click)="unfollowArtist(artist)">
-                <img src="assets/icons-svg/check.svg" alt="check,icon"/>
-              Following</button>
+            @if (_userService.userLoaded()){
+              @if (!isFollowing) {
+                <button (click)="followArtist(artist)">
+                  <img src="assets/icons-svg/plus.svg" alt="plus,icon"/>
+                  Follow</button>
+              }
+              @else {
+                <button (click)="unfollowArtist(artist)">
+                  <img src="assets/icons-svg/check.svg" alt="check,icon"/>
+                  Following</button>
+              }
             }
           </div>
         </div>
@@ -41,25 +44,30 @@
     }
   </div>
   @if (loaded) {
+
     <div class="bottom" #bottom>
-      <div class="section">
-        <div class="play">
-          <button (click)="playPopularTracks(artist.tracks)">
-            <img src="assets/icons-svg/play.svg">
-          </button>
-          <h2>Popular</h2>
+      @if (artist.tracks.length > 0) {
+        <div class="section">
+          <div class="play">
+            <button (click)="playPopularTracks(artist.tracks)">
+              <img src="assets/icons-svg/play.svg">
+            </button>
+            <h2>Popular</h2>
+          </div>
+          <app-track-table [tracks]="artist.tracks" [from]="fromPopular"></app-track-table>
         </div>
-        <app-track-table [tracks]="artist.tracks" [from]="fromPopular"></app-track-table>
-      </div>
-      <div class="section">
-        <div class="play">
-          <button (click)="playFeaturedTracks(artist.features)">
-            <img src="assets/icons-svg/play.svg">
-          </button>
-          <h2>Features</h2>
+      }
+      @if (artist.features.length > 0) {
+        <div class="section">
+          <div class="play">
+            <button (click)="playFeaturedTracks(artist.features)">
+              <img src="assets/icons-svg/play.svg">
+            </button>
+            <h2>Features</h2>
+          </div>
+          <app-track-table [tracks]="artist.features" [from]="fromFeatures"></app-track-table>
         </div>
-        <app-track-table [tracks]="artist.features" [from]="fromFeatures"></app-track-table>
-      </div>
+      }
       @if (artist.albums_count > 0) {
         <div class="section">
           <div class="play">

@@ -7,12 +7,16 @@
   h1{
     font-size: 30px;
   }
-  .cards{
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    flex-wrap: wrap;
+  .section{
+    .header{
+      margin-bottom: 20px;
+    }
+    .cards{
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
   }
-
 }
 

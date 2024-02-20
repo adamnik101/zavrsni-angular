@@ -25,13 +25,10 @@
     <a routerLinkActive="active" routerLink="/playlists/{{playlist.id}}" class="title">{{playlist.title}}</a>
     <p class="number">
       {{playlist.tracks_count}}
-      @switch (playlist.tracks_count) {
-        @case (1) {
-          track
-        }
-        @default {
-          tracks
-        }
+      @if (playlist.tracks_count == 1) {
+        track
+      } @else {
+        tracks
       }
     </p>
 

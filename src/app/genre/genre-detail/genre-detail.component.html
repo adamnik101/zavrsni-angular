@@ -1,12 +1,19 @@
+@if(loading) {
+  <app-loader></app-loader>
+} @else {
+  <div class="container">
+    <div class="top" #top>
+      <div class="color"></div>
+      <h1>{{genre.name}}</h1>
+      <app-divider></app-divider>
+      <p>Genre</p>
+    </div>
+    <div class="cards">
+      @for (playlist of playlists; track playlist) {
+        <app-public-playlist-card [playlist]="playlist"></app-public-playlist-card>
+      }
+    </div>
 
-<div class="container">
-  <div class="top">
-    <h1>{{genre.name}}</h1>
-  </div>
-  <div class="cards">
-    @for (playlist of playlists; track playlist) {
-      <app-public-playlist-card [playlist]="playlist"></app-public-playlist-card>
-    }
   </div>
 
-</div>
+}

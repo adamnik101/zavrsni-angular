@@ -38,6 +38,12 @@
   }
   <div class="info">
     <a routerLink="/playlists/{{playlist.id}}">{{playlist.title}}</a>
-    <p class="second">{{playlist.tracks_count}} tracks</p>
+    <p class="second">{{playlist.tracks_count}}
+      @if (playlist.tracks_count == 1) {
+        track
+      } @else {
+        tracks
+      }
+    </p>
   </div>
 </div>

@@ -6,6 +6,7 @@ import {BehaviorSubject} from "rxjs";
 import {HttpParams} from "@angular/common/http";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Artist} from "../../../artists/interfaces/artist";
+import {ResponseAPI} from "../../../shared/interfaces/response-api";
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class AdminTracksService extends BaseService{
   public params = new HttpParams()
   private _formData: FormData = new FormData()
   getPagedResponse(params?: HttpParams) {
-    let path = 'admin/tracks'
-    return this.get<PagedResponse<Track[]>>(path, {params: params})
+    let path = 'tracks/search'
+    return this.get<ResponseAPI<PagedResponse<Track[]>>>(path, {params: params})
   }
   getSoftDeletedTracks() {
     return this.get<PagedResponse<Track[]>>('admin/tracks/soft-deleted')
@@ -36,7 +37,7 @@ export class AdminTracksService extends BaseService{
 
   navigateTo(url: string) {
     let part = url.split('api/')[1]
-    return this.get<PagedResponse<Track[]>>(part, {params: this.params})
+    return this.get<ResponseAPI<PagedResponse<Track[]>>>(part, {params: this.params})
   }
 
   addTrack() {

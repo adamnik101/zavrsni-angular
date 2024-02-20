@@ -8,6 +8,7 @@ import {SharedModule} from "../shared/shared.module";
 import {GenreModule} from "../genre/genre.module";
 import {ArtistsModule} from "../artists/artists.module";
 import {MatRippleModule} from "@angular/material/core";
+import {LoaderComponent} from "../core/loader/loader.component";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import {MatRippleModule} from "@angular/material/core";
         SharedModule,
         GenreModule,
         ArtistsModule,
-        MatRippleModule
+        MatRippleModule,
+        LoaderComponent
     ]
 })
 export class SearchModule { }

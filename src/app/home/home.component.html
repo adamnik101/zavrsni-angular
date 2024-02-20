@@ -11,9 +11,24 @@
   </div>
 }
 @if (loading) {
-  <app-loading></app-loading>
+  <app-loader></app-loader>
 } @else {
   <div class="container">
+    <h1>New releases</h1>
+    <div class="section">
+      <p class="header">Albums</p>
+      <div class="cards">
+        @for (album of albums; track album) {
+          <app-album-card [album]="album"></app-album-card>
+        }
+      </div>
+    </div>
+    <div class="section">
+      <p class="header">Tracks</p>
+      <app-track-table [tracks]="newReleasesTracks" [from]="from"></app-track-table>
+    </div>
+  </div>
+  <!--<div class="container">
     <h1>Latest albums added</h1>
     <div class="cards">
       @for (album of albums; track album) {
@@ -39,5 +54,5 @@
         <app-track-table [tracks]="recommendedTracks" [from]="from"></app-track-table>
       </div>
     </div>
-  }
+  }-->
 }

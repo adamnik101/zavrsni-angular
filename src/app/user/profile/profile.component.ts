@@ -78,9 +78,10 @@ export class ProfileComponent{
       reader.readAsDataURL(this.selectedFile);
 
       reader.onload = (e) => {
-        console.log(e)
+        console.log(e.target?.result)
         this._colorService.getRgbColorsFromImage(e.target?.result as string, "profile", true)
         this.profileImage.nativeElement.style.backgroundImage = `url(${e.target?.result})`
+        this.profileImageSrc = e.target!.result as string
       };
     }
   }

@@ -12,6 +12,7 @@ import {SnackbarService} from "../../shared/services/snackbar.service";
 import {Subscription} from "rxjs";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TrackDurationService} from "../../shared/services/track-duration.service";
+import {LoaderService} from "../../core/services/loader.service";
 
 @Component({
   selector: 'app-album-detail',
@@ -39,6 +40,7 @@ export class AlbumDetailComponent {
   private _route = inject(ActivatedRoute)
   private _snackbar = inject(SnackbarService)
   private el = inject(ElementRef)
+  private _loader = inject(LoaderService)
   protected _trackDuration = inject(TrackDurationService)
   public album: Album = {} as Album
   public from : From = {} as From

@@ -1,6 +1,22 @@
 .container{
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+    .top{
+      height: 60px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      .color{
+        width: 5px;
+        height: 100%;
+        background: var(--genre-detail);
+      }
+    }
   .cards{
+
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

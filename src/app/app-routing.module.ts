@@ -17,7 +17,8 @@ import {loggedInGuard} from "./guards/logged-in.guard";
 import {adminGuard} from "./admin/guards/admin.guard";
 
 const routes: Routes = [
-  {path : '', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule), pathMatch: "full"},
+  {path : '', pathMatch: "full",redirectTo: 'home'},
+  {path : 'home', component: HomeComponent, loadChildren: () => import('./home/home.module').then(m => m.HomeModule), pathMatch: "full"},
   {path : 'explore', component: ExploreComponent, loadChildren: () => import('./explore/explore.module').then(m => m.ExploreModule)},
   {path : 'trending', loadChildren: () => import('./trending/trending.module').then(m => m.TrendingModule)},
   {path : 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule), canActivate: [loggedInGuard]},
@@ -30,7 +31,7 @@ const routes: Routes = [
   {path : 'queue', loadChildren: () => import('./queue/queue.module').then(m => m.QueueModule)},
   {path : 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule), canActivate: [authGuard, adminGuard]},
   {path : 'error', component: ServerErrorComponent, pathMatch: "full"},
- // {path : '**', pathMatch: 'full', redirectTo: 'explore'},
+  //{path : '**', pathMatch: 'full', redirectTo: 'explore'},
 ];
 
 @NgModule({

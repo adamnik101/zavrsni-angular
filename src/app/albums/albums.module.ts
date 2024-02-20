@@ -8,6 +8,7 @@ import { AlbumCardComponent } from './album-card/album-card.component';
 import {MatIconModule} from "@angular/material/icon";
 import {SmallHeaderComponent} from "../core/header/small-header/small-header.component";
 import {TracksWrapperComponent} from "../tracks/tracks-wrapper/tracks-wrapper.component";
+import {LoaderComponent} from "../core/loader/loader.component";
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {TracksWrapperComponent} from "../tracks/tracks-wrapper/tracks-wrapper.co
         SharedModule,
         MatIconModule,
         SmallHeaderComponent,
-        TracksWrapperComponent
+        TracksWrapperComponent,
+        LoaderComponent
     ]
 })
 export class AlbumsModule { }

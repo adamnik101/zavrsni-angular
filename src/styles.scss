@@ -168,6 +168,7 @@ mat-dialog-container{
   --lightest: #f8f8f8;
   --light-black: #1f1f1f;
   --secondary-black: #101010;
+  --genre-detail: #000;
   --profile: linear-gradient(#532472, #000000);
   --gray: #383838;
   --success: #4FBF26;
@@ -360,7 +361,7 @@ form{
   padding-left: 5px;
 }
 .active{
-  color: var(--main-color) !important;
+  //color: var(--main-color) !important;
 }
 .mat-mdc-slider .mdc-slider__track--active_fill{
   border-color: var(--light) !important;

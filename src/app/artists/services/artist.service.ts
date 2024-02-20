@@ -15,4 +15,8 @@ export class ArtistService extends BaseService{
   getArtists() {
     return this.get<Artist[]>('artists')
   }
+
+  getTrending() {
+    return this.get<ResponseAPI<Artist[]>>('artists/trending')
+  }
 }
