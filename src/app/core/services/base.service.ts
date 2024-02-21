@@ -22,6 +22,9 @@ export class BaseService {
   protected put<TRequest, TResponse>(endpoint: string, data: TRequest, options?: {headers: HttpHeaders}) {
     return this._http.put<TResponse>(this.baseUrl + endpoint, data, options)
   }
+  protected patch<TRequest, TResponse>(endpoint: string, data: TRequest, options?: {headers: HttpHeaders}) {
+    return this._http.patch<TResponse>(this.baseUrl + endpoint, data, options)
+  }
   protected delete<T>(endpoint: string, options? : {headers: HttpHeaders}) {
     return this._http.delete<T>(this.baseUrl + endpoint, options)
   }

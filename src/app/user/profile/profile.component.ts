@@ -46,7 +46,9 @@ export class ProfileComponent{
       next: (user) => {
         if(user) {
           this.user = user
-          this._colorService.getRgbColorsFromImage(this.user.cover, "profile", true)
+          if (user.cover) {
+            this._colorService.getRgbColorsFromImage(this.user.cover, "profile", true)
+          }
           console.log(user)
           this.load = !this.load
           if(user.cover) {
@@ -82,6 +84,7 @@ export class ProfileComponent{
         this._colorService.getRgbColorsFromImage(e.target?.result as string, "profile", true)
         this.profileImage.nativeElement.style.backgroundImage = `url(${e.target?.result})`
         this.profileImageSrc = e.target!.result as string
+        this.user.cover = this.profileImageSrc
       };
     }
   }
@@ -97,6 +100,12 @@ export class ProfileComponent{
   }
 
   openEditUsernameDialog() {
-    this._matDialog.open(EditUserNameDialogComponent)
+    this._matDialog.open(EditUserNameDialogComponent, {data: this.user}).afterClosed().subscribe({
+      next: (username) => {
+        if (username) {
+          this.user.username = username
+        }
+      }
+    })
   }
 }

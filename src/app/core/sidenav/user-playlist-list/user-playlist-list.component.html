@@ -1,36 +1,39 @@
-<div class="row" [id]="playlist.id" [ngClass]="{'drop-to': shouldAddBorder}" (mouseenter)="setBorder()" (mouseleave)="removeBorder()">
-  <div class="image" [ngClass]="{'opacity-05' : this._queueService.from.id === playlist.id}">
-    @if (playlist.image_url) {
-      <img class="has-cover" src="{{playlist.image_url}}" width="25" height="25"/>
-    } @else {
-      <img  src="assets/icons-svg/note.svg" width="25" height="25"/>
-    }
-  </div>
-  @if(playlist.tracks_count > 0) {
-    @if(this._queueService.currentTrackInfo()?.from === playlist.id && this._queueService.currentTrackInfo()?.isBeingPlayed) {
-      <button  class="showing opacity-1" matRipple (click)="pause()">
-        <mat-icon class="white">pause</mat-icon>
-      </button>
-    } @else if(this._queueService.currentTrackInfo()?.from === playlist.id && !this._queueService.currentTrackInfo()?.isBeingPlayed) {
-      <button  class="showing opacity-1" matRipple (click)="continue()">
-        <mat-icon class="white">play_arrow</mat-icon>
-      </button>
-    } @else {
-      <button class="showing" matRipple (click)="playPlaylist(playlist.id)">
-        <mat-icon class="white">play_arrow</mat-icon>
-      </button>
-    }
-  }
-  <div class="info"  >
-    <a routerLinkActive="active" routerLink="/playlists/{{playlist.id}}" class="title">{{playlist.title}}</a>
-    <p class="number">
-      {{playlist.tracks_count}}
-      @if (playlist.tracks_count == 1) {
-        track
+<li>
+  <div class="row" [id]="playlist.id" [ngClass]="{'drop-to': shouldAddBorder}" (mouseenter)="setBorder()" (mouseleave)="removeBorder()">
+    <div class="image" [ngClass]="{'opacity-05' : this._queueService.from.id === playlist.id}">
+      @if (playlist.image_url) {
+        <img class="has-cover" src="{{playlist.image_url}}" width="25" height="25"/>
       } @else {
-        tracks
+        <img  src="assets/icons-svg/note.svg" width="25" height="25"/>
       }
-    </p>
+    </div>
+    @if(playlist.tracks_count > 0) {
+      @if(this._queueService.currentTrackInfo()?.from === playlist.id && this._queueService.currentTrackInfo()?.isBeingPlayed) {
+        <button  class="showing opacity-1" matRipple (click)="pause()">
+          <mat-icon class="white">pause</mat-icon>
+        </button>
+      } @else if(this._queueService.currentTrackInfo()?.from === playlist.id && !this._queueService.currentTrackInfo()?.isBeingPlayed) {
+        <button  class="showing opacity-1" matRipple (click)="continue()">
+          <mat-icon class="white">play_arrow</mat-icon>
+        </button>
+      } @else {
+        <button class="showing" matRipple (click)="playPlaylist(playlist.id)">
+          <mat-icon class="white">play_arrow</mat-icon>
+        </button>
+      }
+    }
+    <div class="info"  >
+      <a routerLinkActive="active" routerLink="/playlists/{{playlist.id}}" class="title">{{playlist.title}}</a>
+      <p class="number">
+        {{playlist.tracks_count}}
+        @if (playlist.tracks_count == 1) {
+          track
+        } @else {
+          tracks
+        }
+      </p>
 
+    </div>
   </div>
-</div>
+
+</li>

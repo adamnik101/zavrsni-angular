@@ -63,7 +63,6 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-family: Regular;
     }
     a{
       font-size: 14px;
@@ -94,4 +93,7 @@
   border: none;
   opacity: 0;
   cursor: pointer;
+}
+.active{
+  color: var(--main-color) !important;
 }

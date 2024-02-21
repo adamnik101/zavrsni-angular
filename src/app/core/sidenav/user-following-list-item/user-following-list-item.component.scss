@@ -1,28 +1,29 @@
-.item{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding: 5px;
-  height: 55px;
-  border-radius: 27.5px 0 0 27.5px;
-  &:hover{
-    background: var(--secondary-black);
+li{
+  .item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 5px;
+    height: 40px;
+    //border-radius: 27.5px 0 0 27.5px;
+    img{
+      height: 100%;
+      border-radius: 50%;
+    }
     p{
-      color: var(--primary-text);
+      color: var(--light);
     }
   }
-  img{
-    height: 100%;
-    border-radius: 50%;
-  }
-  p{
-    color: var(--light-text);
+  .active{
+    p{
+      color: var(--main-color);
+    }
   }
 }
-.active{
-  p{
-    color: var(--main-color);
+li{
+  &:hover {
+    background: var(--secondary-black);
   }
 }

@@ -170,4 +170,8 @@ export class UserService extends BaseService{
   updateSettings(value: any, setting: string) {
     return this.post<{value: boolean, setting: string}, ResponseAPI<Settings>>('me/settings', {value,setting})
   }
+
+  updateUsername(username: string) {
+    return this.patch<{ username: string },ResponseAPI<User>>('me/username', {username: username})
+  }
 }

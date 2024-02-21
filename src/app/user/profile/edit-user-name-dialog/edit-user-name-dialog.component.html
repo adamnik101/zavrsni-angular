@@ -1,10 +1,20 @@
 <div class="dialog-ui">
-  <h1 mat-dialog-title>Edit name</h1>
+  <h1 mat-dialog-title>Edit username</h1>
   <div mat-dialog-content>
-
+    <form [formGroup]="username" class="user-ui">
+      <mat-form-field floatLabel="always" appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" placeholder="My username" formControlName="username">
+        <mat-error>
+          @if (username.get('username')?.hasError('required')) {
+            Username is required
+          }
+        </mat-error>
+      </mat-form-field>
+    </form>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button>Cancel</button>
-    <button mat-raised-button>Update</button>
+    <button mat-button mat-dialog-close [style.color]="'white'">Cancel</button>
+    <button mat-raised-button (click)="updateUsername()">Update</button>
   </div>
 </div>
