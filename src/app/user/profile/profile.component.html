@@ -8,9 +8,14 @@
           <div class="shadow-circle">
 
             <div class="profile-image" #profileImage [style.background-image]="profileImageSrc ? profileImageSrc : 'url(assets/images/)'">
-              @if (profileImageSrc === '') {
+              @if (!loadingImage && profileImageSrc === '') {
                 <div class="icon">
                   <mat-icon>person</mat-icon>
+                </div>
+              }
+              @if (loadingImage) {
+                <div class="icon">
+                  <mat-spinner diameter="50" mode="indeterminate"></mat-spinner>
                 </div>
               }
             </div>

@@ -174,4 +174,11 @@ export class UserService extends BaseService{
   updateUsername(username: string) {
     return this.patch<{ username: string },ResponseAPI<User>>('me/username', {username: username})
   }
+
+  updateCover(selectedFile: any) {
+    const formData = new FormData()
+    formData.append('image', selectedFile)
+
+    return this.post<any, ResponseAPI<any>>('me/cover', formData)
+  }
 }

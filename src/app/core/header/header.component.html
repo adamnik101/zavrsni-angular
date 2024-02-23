@@ -11,11 +11,11 @@
 <div class="right">
   @if (_userService.userLoaded()){
     <button mat-button [matMenuTriggerFor]="menu" matRipple class="cover">
-      @if (!cover) {
+      @if (!(_userService.user$ | async)?.cover) {
         <mat-icon>person</mat-icon>
       }
-      @if (cover) {
-        <img src="{{cover}}"/>
+      @else {
+        <img src="{{(_userService.user$ | async)?.cover}}"/>
       }
       <!--@if(cover){ // works but webstorm doesnt support it still
       <img *ngIf="cover" src="{{cover}}"/>

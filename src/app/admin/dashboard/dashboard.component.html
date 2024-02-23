@@ -1,6 +1,6 @@
 <div class="main-container">
   <div class="fullwidth">
-    <h1>Welcome back, {{user!.username}}</h1>
+    <h1>Welcome back, {{user?.username}}</h1>
   </div>
   <div class="full-width">
     <div class="spinners">
@@ -21,11 +21,11 @@
         <p>New users</p>
       </div>
       <div class="count">
-        <h1>{{averageNumberOfPlaylistsPerUser | number}}</h1>
+          <h1>{{averageNumberOfPlaylistsPerUser | number}}</h1>
         <p>Playlists per user</p>
       </div>
       <div class="count">
-        <h1>{{averageNumberOfTracksPerPlaylist | number}}</h1>
+<!--        <h1>{{averageNumberOfTracksPerPlaylist | number}}</h1>-->
         <p>Tracks per playlist</p>
       </div>
       <div class="count">
@@ -52,7 +52,7 @@
     </div>
 
 </div>
-  <div class="top">
+<!--  <div class="top">
     <div class="left">
       <div class="chart">
         <canvas id="MyChart_1">{{chart1}}</canvas>
@@ -64,7 +64,7 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->
 <div class="container">
 <div class="main-container">
 

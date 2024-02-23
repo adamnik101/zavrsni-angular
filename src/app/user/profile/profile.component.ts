@@ -11,6 +11,9 @@ import {PlaylistService} from "../../playlists/services/playlist.service";
 import {Artist} from "../../artists/interfaces/artist";
 import {MatDialog} from "@angular/material/dialog";
 import {EditUserNameDialogComponent} from "./edit-user-name-dialog/edit-user-name-dialog.component";
+import {SnackbarService} from "../../shared/services/snackbar.service";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
+import {ResponseError} from "../../shared/interfaces/response-error";
 
 @Component({
   selector: 'app-profile',
@@ -34,11 +37,13 @@ export class ProfileComponent{
     id: ''
   }
   load: boolean = true
+  public loadingImage: boolean = false;
   constructor(public userService: UserService,
               private _playlistService: PlaylistService,
               private _titleService: Title,
               private _colorService: ColorThiefService,
-              private _matDialog: MatDialog) { }
+              private _matDialog: MatDialog,
+              private _snackbar: SnackbarService) { }
 
   ngOnInit() {
     this._titleService.setTitle('My Profile - TREBLE')
@@ -74,22 +79,32 @@ export class ProfileComponent{
     // })
   }
   onFileSelected(event: any) {
+    this.loadingImage = true
     this.selectedFile = event.target.files[0] ?? null
     if (this.selectedFile) {
-      const reader = new FileReader();
-      reader.readAsDataURL(this.selectedFile);
+      this.userService.updateCover(this.selectedFile).subscribe({
+        next: (response) => {
+          this._snackbar.showDefaultMessage(response.message)
+          const reader = new FileReader();
+          reader.readAsDataURL(this.selectedFile);
 
-      reader.onload = (e) => {
-        console.log(e.target?.result)
-        this._colorService.getRgbColorsFromImage(e.target?.result as string, "profile", true)
-        this.profileImage.nativeElement.style.backgroundImage = `url(${e.target?.result})`
-        this.profileImageSrc = e.target!.result as string
-        this.user.cover = this.profileImageSrc
-      };
+          reader.onload = (e) => {
+            console.log(e.target?.result)
+            this._colorService.getRgbColorsFromImage(e.target?.result as string, "profile", true)
+            this.profileImage.nativeElement.style.backgroundImage = `url(${e.target?.result})`
+            this.profileImageSrc = e.target!.result as string
+            this.user.cover = this.profileImageSrc
+            this.loadingImage = false
+          };
+        },
+        error: (err) => {
+          let responseError = err.error as ResponseAPI<string>
+          this._snackbar.showDefaultMessage(responseError.message)
+          this.loadingImage = false
+        }
+      })
+
     }
-  }
-  ngAfterViewInit() {
-
   }
   ngOnDestroy() {
     console.log('destroy')

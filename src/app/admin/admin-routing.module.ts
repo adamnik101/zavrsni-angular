@@ -9,13 +9,14 @@ import {UsersComponent} from "./users/users.component";
 import {RolesComponent} from "./roles/roles.component";
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
+  {path: 'dashboard', component: DashboardComponent},
   {path: 'artists', component: ArtistsComponent},
   {path: 'users', component: UsersComponent},
   {path: 'tracks', component: TracksComponent},
   {path: 'albums', component: AlbumsComponent},
   {path: 'genres', component: GenresComponent},
-  {path: 'roles', component: RolesComponent}
+  {path: 'roles', component: RolesComponent},
+  {path: '**', pathMatch: 'full', redirectTo: 'dashboard'}
 ];
 
 @NgModule({

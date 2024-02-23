@@ -30,32 +30,29 @@ export class DashboardComponent {
   ngOnInit() {
 
     this._adminService.dashboard().subscribe({
-      next: (response: any) => {
-        console.log(response)
-        this.albumsCount = response.totalAlbums
-        this.artistsCount = response.totalArtists
-        this.tracksCount = response.totalTracks
-        this.progress1 = response.percentageOfActiveUsers
-        this.userCount = response.totalUsers
-        this.playlistCount = response.totalPlaylists
-        this.averageNumberOfPlaylistsPerUser = response.average
-        this.averageNumberOfTracksPerPlaylist = response.averageNofTrackPerPlaylist
-        this.newUsers = response.newUsers
-        this._chartService
-          .createLineChart(
-            'MyChart_1',
-            response.percentageOfActiveUsersInLast7Days[0],
-            [response.percentageOfActiveUsersInLast7Days[1],
-                  response.createdPlaylists[1]]);
-
-        this.chart1 = this._chartService.chart1
-
-        this._chartService.createPieChart('barChart', response.popularGenres[0], response.popularGenres[1], response.popularGenres[2])
-        this._userService.user$.subscribe({
-          next: (user) => {
-            this.user = user
-          }
-        })
+      next: (response) => {
+        const data = response.data
+        this.albumsCount = data.album_count
+        this.artistsCount = data.artist_count
+        this.tracksCount = data.track_count
+        this.userCount = data.user_count
+        this.playlistCount = data.playlist_count
+        this.averageNumberOfPlaylistsPerUser = data.average_count_per_user.playlists
+        // this._chartService
+        //   .createLineChart(
+        //     'MyChart_1',
+        //     response.percentageOfActiveUsersInLast7Days[0],
+        //     [response.percentageOfActiveUsersInLast7Days[1],
+        //           response.createdPlaylists[1]]);
+        //
+        // this.chart1 = this._chartService.chart1
+        //
+        // this._chartService.createPieChart('barChart', response.popularGenres[0], response.popularGenres[1], response.popularGenres[2])
+        // this._userService.user$.subscribe({
+        //   next: (user) => {
+        //     this.user = user
+        //   }
+        // })
         //this.createLineChart(response.percentageOfActiveUsersInLast7Days[0], response.percentageOfActiveUsersInLast7Days[1], response.createdPlaylists[1])
       }
     })
