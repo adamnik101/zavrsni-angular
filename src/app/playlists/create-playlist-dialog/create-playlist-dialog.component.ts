@@ -91,10 +91,11 @@ export class CreatePlaylistDialogComponent {
     const formData = this.fillFormData()
     this._playlistService.updatePlaylist(this.data.id, formData).subscribe({
       next: (response) => {
-        console.log(response)
+        this._snackbarService.showDefaultMessage(response.message)
+        this._dialog.close()
       },
       error: (err) => {
-        console.log(err)
+        this._snackbarService.showDefaultMessage(err.errors.message)
       }
     })
   }
@@ -106,7 +107,10 @@ export class CreatePlaylistDialogComponent {
       formData.append('image', this.selectedFile)
     }
     formData.append('title', this.playlist.controls.title.value!)
-    formData.append('description', this.playlist.controls.description.value!)
+
+    if (this.playlist.controls.description.value) {
+      formData.append('description', this.playlist.controls.description.value)
+    } else formData.append('description', '')
 
     return formData
   }
