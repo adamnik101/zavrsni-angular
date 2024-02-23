@@ -12,6 +12,7 @@ import {
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
 import {TrackDurationService} from "../../shared/services/track-duration.service";
+import {FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -117,5 +118,10 @@ export class PlaylistService extends BaseService{
 
   getPlaylistTracks(id: string) {
     return this.get<ResponseAPI<Playlist>>(`playlists/${id}`)
+  }
+
+  updatePlaylist(id: string, playlist: FormData) {
+
+    return this.post<FormData,ResponseAPI<Playlist>>(`playlists/${id}?_method=patch`, playlist)
   }
 }

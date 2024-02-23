@@ -21,6 +21,9 @@ import {ColorThiefService} from "../../shared/services/color-thief.service";
 import {QueueService} from "../../queue/services/queue.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TrackDurationService} from "../../shared/services/track-duration.service";
+import {UserService} from "../../user/services/user.service";
+import {MatDialog} from "@angular/material/dialog";
+import {CreatePlaylistDialogComponent} from "../create-playlist-dialog/create-playlist-dialog.component";
 
 @Component({
   selector: 'app-playlist-detail',
@@ -55,7 +58,9 @@ export class PlaylistDetailComponent implements OnInit{
               private _colorService: ColorThiefService,
               private _queueService: QueueService,
               private el: ElementRef,
-              protected _trackDurationService: TrackDurationService) {
+              protected _trackDurationService: TrackDurationService,
+              private _userService: UserService,
+              private _matDialog: MatDialog) {
   }
   ngOnInit(): void {
 
@@ -145,5 +150,11 @@ export class PlaylistDetailComponent implements OnInit{
   onScroll(event: Event) {
     const distanceToTop = this.el.nativeElement.getBoundingClientRect().top
     this.showSmallHeader = distanceToTop < -200
+  }
+
+  openEditDialog() {
+    if(this._userService.userLoaded()) {
+      this._matDialog.open(CreatePlaylistDialogComponent, {data: this.playlist()})
+    }
   }
 }

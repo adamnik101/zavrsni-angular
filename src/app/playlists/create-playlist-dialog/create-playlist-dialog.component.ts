@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {max} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CreatePlaylist} from "../interfaces/create-playlist";
@@ -8,6 +8,8 @@ import {SnackbarService} from "../../shared/services/snackbar.service";
 import {DialogRef} from "@angular/cdk/dialog";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
 import {ResponseError} from "../../shared/interfaces/response-error";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {Playlist} from "../interfaces/playlist";
 
 @Component({
   selector: 'app-create-playlist-dialog',
@@ -15,6 +17,7 @@ import {ResponseError} from "../../shared/interfaces/response-error";
   styleUrls: ['./create-playlist-dialog.component.scss']
 })
 export class CreatePlaylistDialogComponent {
+  isEdit: boolean = false
   maxLength: number = 300
   numberOfLetters: number = 0
   selectedFile: any = null
@@ -25,10 +28,18 @@ export class CreatePlaylistDialogComponent {
     description: new FormControl("", [Validators.maxLength(this.maxLength)]),
     image: new FormControl('')
   })
-  constructor(private _playlistService: PlaylistService,
+  constructor(@Inject(MAT_DIALOG_DATA) public data : Playlist,
+              private _playlistService: PlaylistService,
               private _userService: UserService,
               private _snackbarService: SnackbarService,
               private _dialog: DialogRef<CreatePlaylistDialogComponent>) {
+    if (this.data) {
+      this.isEdit = true
+      this.playlist.patchValue({
+        title: this.data.title,
+        description: this.data.description,
+      })
+    }
   }
   ngOnInit() {
     this.playlist.controls.description.valueChanges.subscribe({
@@ -37,16 +48,9 @@ export class CreatePlaylistDialogComponent {
       }
     })
   }
-
   confirm() {
     if (this.playlist.valid) {
-      const formData = new FormData()
-
-      if(this.selectedFile) {
-        formData.append('image', this.selectedFile)
-      }
-      formData.append('title', this.playlist.controls.title.value!)
-      formData.append('description', this.playlist.controls.description.value!)
+      const formData = this.fillFormData()
 
       this._playlistService.createPlaylist(formData).subscribe({
         next: (response) => {
@@ -81,5 +85,29 @@ export class CreatePlaylistDialogComponent {
     this.image.nativeElement.src = 'assets/icons-svg/select.svg'
     this.imageUpload.nativeElement.value = null
     this.selectedFile = null
+  }
+
+  update() {
+    const formData = this.fillFormData()
+    this._playlistService.updatePlaylist(this.data.id, formData).subscribe({
+      next: (response) => {
+        console.log(response)
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+  private fillFormData() {
+    const formData = new FormData()
+
+    if(this.selectedFile) {
+      formData.append('image', this.selectedFile)
+    }
+    formData.append('title', this.playlist.controls.title.value!)
+    formData.append('description', this.playlist.controls.description.value!)
+
+    return formData
   }
 }

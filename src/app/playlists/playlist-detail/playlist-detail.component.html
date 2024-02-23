@@ -16,7 +16,7 @@
     <div class="top">
 
       <div class="image-info">
-        <div class="image">
+        <div class="image" (click)="openEditDialog()">
           @if (this.playlist()!.image_url) {
             <img src="{{playlist()!.image_url}}" alt="cover, playlist">
           } @else {
