@@ -10,4 +10,5 @@ export interface Playlist {
   image_url: string
   tracks: Track[]
   latest_added: string
+  updated_at: string
 }

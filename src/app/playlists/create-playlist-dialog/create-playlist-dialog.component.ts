@@ -8,7 +8,7 @@ import {SnackbarService} from "../../shared/services/snackbar.service";
 import {DialogRef} from "@angular/cdk/dialog";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
 import {ResponseError} from "../../shared/interfaces/response-error";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Playlist} from "../interfaces/playlist";
 
 @Component({
@@ -21,6 +21,7 @@ export class CreatePlaylistDialogComponent {
   maxLength: number = 300
   numberOfLetters: number = 0
   selectedFile: any = null
+  removeCoverImage: boolean = false
   @ViewChild('image') image!: ElementRef
   @ViewChild('imageUpload') imageUpload!: ElementRef
   playlist = new FormGroup({
@@ -32,7 +33,7 @@ export class CreatePlaylistDialogComponent {
               private _playlistService: PlaylistService,
               private _userService: UserService,
               private _snackbarService: SnackbarService,
-              private _dialog: DialogRef<CreatePlaylistDialogComponent>) {
+              private _dialog: MatDialogRef<CreatePlaylistDialogComponent>) {
     if (this.data) {
       this.isEdit = true
       this.playlist.patchValue({
@@ -56,7 +57,7 @@ export class CreatePlaylistDialogComponent {
         next: (response) => {
           this._playlistService.getPlaylists()
           this._snackbarService.showDefaultMessage(response.message)
-          this._dialog.close()
+          this._dialog.close(response)
         },
         error: (err) => {
           let responseError = err.error as ResponseAPI<string>
@@ -76,7 +77,7 @@ export class CreatePlaylistDialogComponent {
 
       reader.onload = (e) => {
         this.image.nativeElement.src = e.target?.result;
-
+        this.removeCoverImage = false
       };
     }
   }
@@ -85,6 +86,7 @@ export class CreatePlaylistDialogComponent {
     this.image.nativeElement.src = 'assets/icons-svg/select.svg'
     this.imageUpload.nativeElement.value = null
     this.selectedFile = null
+    this.removeCoverImage = true
   }
 
   update() {
@@ -92,7 +94,16 @@ export class CreatePlaylistDialogComponent {
     this._playlistService.updatePlaylist(this.data.id, formData).subscribe({
       next: (response) => {
         this._snackbarService.showDefaultMessage(response.message)
-        this._dialog.close()
+        this._dialog.close(response)
+        this._playlistService.playlists.update(pl => {
+          const update = pl.find(p => p.id === response.data.id)
+
+          if (update) {
+            update.title = response.data.title
+            update.image_url = response.data.image_url
+          }
+          return pl
+        })
       },
       error: (err) => {
         this._snackbarService.showDefaultMessage(err.errors.message)
@@ -105,6 +116,9 @@ export class CreatePlaylistDialogComponent {
 
     if(this.selectedFile) {
       formData.append('image', this.selectedFile)
+    }
+    if (this.removeCoverImage) {
+      formData.append('remove_image', 'true')
     }
     formData.append('title', this.playlist.controls.title.value!)
 

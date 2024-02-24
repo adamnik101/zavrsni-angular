@@ -39,7 +39,7 @@ export class ProfileComponent{
   load: boolean = true
   public loadingImage: boolean = false;
   constructor(public userService: UserService,
-              private _playlistService: PlaylistService,
+              protected _playlistService: PlaylistService,
               private _titleService: Title,
               private _colorService: ColorThiefService,
               private _matDialog: MatDialog,
@@ -60,11 +60,6 @@ export class ProfileComponent{
             this.profileImageSrc = `url(${user.cover})`
           }
         }
-      }
-    })
-    this._playlistService.playlists$.subscribe({
-      next: (playlists) => {
-        this.playlists = playlists
       }
     })
     this.userService.following$.subscribe({

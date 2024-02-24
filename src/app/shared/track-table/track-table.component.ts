@@ -49,7 +49,7 @@ export class TrackTableComponent {
   constructor(protected _audioService: AudioService,
               protected _userService: UserService,
               protected _queueService: QueueService,
-              private _playlistService: PlaylistService,
+              protected _playlistService: PlaylistService,
               private _snackbarService: SnackbarService,
               private _cdr: ChangeDetectorRef,
               private _dragDropService: DragDropService,
@@ -58,12 +58,6 @@ export class TrackTableComponent {
               private _trackDurationService: TrackDurationService) {
   }
   ngOnInit() {
-    this.subs.push(this._playlistService.playlists$.subscribe({
-      next: (playlists) => {
-        console.log(playlists)
-        this.playlists = playlists
-      }
-    }))
 
     // this.likedTracks = this._userService.likedTracks()
     // for (let track of this.likedTracks) {
@@ -101,9 +95,9 @@ export class TrackTableComponent {
     this.subs.push(this._playlistService.addTracksToPlaylist([trackId], playlistId).subscribe({
       next: (response: ResponseAPI<SuccessTracksToPlaylistResponse>) => {
         this._snackbarService.showDefaultMessage(response.data.message)
-        const playlist = this.playlists.find(playlist => playlist.id === playlistId)
+        const playlist = this._playlistService.playlists().find(playlist => playlist.id === playlistId)
         if(playlist) {
-          // this._playlistService.trackCount.update(value => value + 1)
+          //this._playlistService.trackCount.update(value => value + Number(1))
           playlist.tracks_count++
           this._cdr.markForCheck()
         }
@@ -257,9 +251,9 @@ export class TrackTableComponent {
     this.subs.push(this._playlistService.addTracksToPlaylist(this.tracksToAdd, playlistId).subscribe({
       next: (response: ResponseAPI<SuccessTracksToPlaylistResponse>) => {
         console.log(response)
-        const playlist = this.playlists.find(p => p.id === playlistId)
+        const playlist = this._playlistService.playlists().find(p => p.id === playlistId)
         if(playlist) {
-          this._playlistService.trackCount.update(value => value + Number(response.data.added_count))
+          //this._playlistService.trackCount.update(value => value + Number(response.data.added_count))
           playlist.tracks_count = Number(playlist.tracks_count) + Number(response.data.added_count)
           this._cdr.markForCheck()
           this._snackbarService.showDefaultMessage(response.data.message)

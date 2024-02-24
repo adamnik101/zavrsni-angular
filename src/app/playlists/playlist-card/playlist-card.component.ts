@@ -30,6 +30,10 @@ export class PlaylistCardComponent {
   deletePlaylist(playlist: Playlist) {
     this._dialog.open(ConfirmPlaylistDeleteDialogComponent, {
       data: playlist
+    }).afterClosed().subscribe({
+      next: (response: ResponseAPI<Playlist>) => {
+        this._playlistService.filterPlaylists()
+      }
     })
   }
   playTracks() {

@@ -43,16 +43,16 @@
       </div>
     </div>
     <div class="bottom">
-      @if (playlists.length) {
+      @if (_playlistService.playlists().length) {
         <div class="section">
           <div class="top-section">
             <h1>Playlists</h1>
-            @if (user.playlists_count > 5) {
+            @if (_playlistService.playlists().length > 5) {
               <a routerLink="/user/playlists">See more</a>
             }
           </div>
           <div class="row">
-            @for (playlist of playlists; track playlist; let i = $index) {
+            @for (playlist of _playlistService.playlists(); track playlist.id; let i = $index) {
               @if (i < 6) {
                 <app-playlist-card [playlist]="playlist"></app-playlist-card>
               }

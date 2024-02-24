@@ -165,7 +165,7 @@
         <span>Add to queue</span>
       </button>
       @if (_userService.userLoaded()) {
-        <button mat-menu-item [matMenuTriggerFor]="playlist" [disabled]="playlists.length === 0">
+        <button mat-menu-item [matMenuTriggerFor]="playlist" [disabled]="_playlistService.playlists().length === 0">
           <mat-icon class="custom-icon-color">add</mat-icon>
           <span>Add to playlist</span>
         </button>
@@ -220,7 +220,7 @@
   </mat-menu>
   <mat-menu #playlist="matMenu">
     <ng-template matMenuContent>
-      @for (playlist of playlists; track playlist) {
+      @for (playlist of _playlistService.playlists(); track playlist) {
         <button mat-menu-item (click)="addTrackToPlaylist(playlist.id)">{{playlist.title}}</button>
       }
     </ng-template>

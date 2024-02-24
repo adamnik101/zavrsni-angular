@@ -24,6 +24,7 @@ import {TrackDurationService} from "../../shared/services/track-duration.service
 import {UserService} from "../../user/services/user.service";
 import {MatDialog} from "@angular/material/dialog";
 import {CreatePlaylistDialogComponent} from "../create-playlist-dialog/create-playlist-dialog.component";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Component({
   selector: 'app-playlist-detail',
@@ -46,9 +47,9 @@ export class PlaylistDetailComponent implements OnInit{
   isLoaded:boolean = false
   @ViewChild('background') background!: ElementRef
   fromInfo : From = {} as From
-  tracks : Track[] = []
   #playlist = signal<Playlist | null>(null)
   playlist = computed(this.#playlist)
+  tracks = signal<Track[]>([])
   private subs: Subscription[] = []
   showSmallHeader: boolean = false
   constructor(private _route: ActivatedRoute,
@@ -82,11 +83,9 @@ export class PlaylistDetailComponent implements OnInit{
           this.subs.push(this.playlistService.showPlaylist(id).subscribe({
             next: (response) => {
               this.#playlist.set(response.data)
-              this.playlistService.updatePlaylistTracksSubject(response.data.tracks)
-
+              this.playlistService.tracks.set(response.data.tracks)
               if(response.data.image_url){
                 this._colorService.getRgbColorsFromImage(response.data.image_url,'playlist', true)
-
               }
 
               //this.background.nativeElement.style.background = `linear-gradient(to bottom, rgba(0, 0, 0, 0.72), #000), url('${this.playlist.image_url}')`
@@ -154,7 +153,20 @@ export class PlaylistDetailComponent implements OnInit{
 
   openEditDialog() {
     if(this._userService.userLoaded()) {
-      this._matDialog.open(CreatePlaylistDialogComponent, {data: this.playlist()})
+      this._matDialog.open(CreatePlaylistDialogComponent, {data: this.playlist()}).afterClosed().subscribe({
+        next: (response: ResponseAPI<Playlist>) => {
+          if (response) {
+            this.#playlist.update(pl => {
+              pl!.image_url = response.data.image_url
+              pl!.title = response.data.title
+              pl!.description = response.data.description
+              pl!.latest_added = response.data.updated_at
+              return pl
+            })
+            this._colorService.getRgbColorsFromImage(response.data.image_url, 'playlist', true)
+          }
+        }
+      })
     }
   }
 }

@@ -1,27 +1,27 @@
 @if (userService.userLoaded()) {
   <div class="playlists">
-    @if (playlists.length) {
+    @if (_playlistService.playlists().length) {
       <h1>My playlists</h1>
       <div class="user-ui">
         <mat-form-field appearance="outline" floatLabel="always" [style.width]="'400px'">
           <mat-label>Search playlists</mat-label>
-          <input matInput type="text" placeholder="Filter playlists by name" (input)="filterPlaylists(query.value)" #query>
+          <input matInput type="text" placeholder="Filter playlists by name" [(ngModel)]="this._playlistService.query" (input)="filterPlaylists()" #query>
         </mat-form-field>
       </div>
       <div class="search-bar">
       </div>
       <div class="cards">
-        @if (filtered.length > 0) {
-          @for (playlist of filtered; track playlist.id) {
+        @if (_playlistService.filtered.length > 0) {
+          @for (playlist of _playlistService.filtered; track playlist) {
             <app-playlist-card [playlist]="playlist"></app-playlist-card>
           }
         }
-        @if (filtered.length == 0 && !query.value.length) {
-          @for (playlist of playlists; track playlist.id) {
+        @if (_playlistService.filtered.length == 0 && !query.value.length) {
+          @for (playlist of _playlistService.playlists(); track playlist.id) {
             <app-playlist-card [playlist]="playlist"></app-playlist-card>
           }
         }
-        @if (!filtered.length && query.value.length) {
+        @if (!_playlistService.filtered.length && query.value.length) {
           <app-no-results style="width: 100%"></app-no-results>
         }
       </div>

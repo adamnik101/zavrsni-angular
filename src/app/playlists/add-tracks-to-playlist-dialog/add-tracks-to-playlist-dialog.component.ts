@@ -60,7 +60,7 @@ export class AddTracksToPlaylistDialogComponent {
       next: (response) => {
         this._snackbarService.showDefaultMessage(response.message)
 
-        this.subs.push(this._playlistService.playlists$.subscribe({
+        /*this.subs.push(this._playlistService.playlists$.subscribe({
           next: (playlists) => {
             let playlist = playlists.filter(p => p.id === playlistId)[0]
             if(playlist) {
@@ -70,7 +70,7 @@ export class AddTracksToPlaylistDialogComponent {
               this.closeDialog()
             }
           }
-        }))
+        }))*/
         console.log(response) // update playlist count tracks and success message or error
       },
       error: (response) => {

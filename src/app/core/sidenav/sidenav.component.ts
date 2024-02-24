@@ -10,6 +10,7 @@ import {DragDropService} from "../../shared/services/drag-drop.service";
 import {FormControl} from "@angular/forms";
 import {PlaylistService} from "../../playlists/services/playlist.service";
 import {QueueService} from "../../queue/services/queue.service";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Component({
   selector: 'app-sidenav',
@@ -30,11 +31,6 @@ export class SidenavComponent {
 
   }
   ngOnInit() {
-    this._playlistService.playlists$.subscribe({
-      next: (playlists) => {
-        this.playlists = playlists
-      }
-    })
 
     this._userService.following$.subscribe({
       next: (artists) => {
@@ -49,8 +45,11 @@ export class SidenavComponent {
   }
   openDialog() {
     this._matDialog.open(CreatePlaylistDialogComponent).afterClosed().subscribe({
-      next: (res) => {
-        console.log(res)
+      next: (response: ResponseAPI<Playlist>) => {
+        if (response) {
+          console.log(response)
+          this._playlistService.getPlaylists()
+        }
       }
     })
   }

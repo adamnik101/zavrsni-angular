@@ -6,6 +6,7 @@ import {PlaylistService} from "../../playlists/services/playlist.service";
 import {Subscription} from "rxjs";
 import {CreatePlaylistDialogComponent} from "../../playlists/create-playlist-dialog/create-playlist-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {ResponseAPI} from "../../shared/interfaces/response-api";
 
 @Component({
   selector: 'app-playlists',
@@ -14,34 +15,22 @@ import {MatDialog} from "@angular/material/dialog";
   changeDetection: ChangeDetectionStrategy.Default // manual
 })
 export class PlaylistsComponent implements OnInit{
-  filtered : Playlist[] = []
   playlists: Playlist[] = []
   subs: Subscription[] = []
   constructor(public userService: UserService,
-              private _playlistService: PlaylistService,
+              protected _playlistService: PlaylistService,
               private _cdr: ChangeDetectorRef,
               private _title: Title,
               private _dialog: MatDialog) {
 
   }
   ngOnInit(){
-    this.subs.push(this._playlistService.playlists$.subscribe({
-      next:(playlists) => {
-        this.playlists = playlists
-        this._title.setTitle(`My playlists - TREBLE`)
-        this._cdr.markForCheck()
-      }
-    }))
   }
 
-  filterPlaylists(query: string) {
-    this.filtered = []
-    this.subs.push(this._playlistService.playlists$.subscribe({
-      next:(playlists) => {
-        this.filtered = playlists.filter(playlist => playlist.title.toLowerCase().trim().includes(query.toLowerCase().trim()))
-        this._cdr.markForCheck()
-      }
-    }))
+  filterPlaylists() {
+    this._playlistService.filterPlaylists()
+    this._cdr.markForCheck()
+
   }
   ngOnDestroy() {
     for(let sub of this.subs) {
@@ -50,6 +39,14 @@ export class PlaylistsComponent implements OnInit{
   }
 
   openCreatePlaylistDialog() {
-    this._dialog.open(CreatePlaylistDialogComponent)
+    this._dialog.open(CreatePlaylistDialogComponent).afterClosed().subscribe({
+      next: (response: ResponseAPI<Playlist>) => {
+        const playlists = this._playlistService.playlists().concat([response.data])
+        this._playlistService.playlists.set(playlists)
+        this.filterPlaylists()
+        this._cdr.markForCheck()
+        console.log(playlists)
+      }
+    })
   }
 }

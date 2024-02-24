@@ -19,6 +19,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {TracksWrapperComponent} from "../tracks/tracks-wrapper/tracks-wrapper.component";
 import {LoaderComponent} from "../core/loader/loader.component";
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {LoaderComponent} from "../core/loader/loader.component";
         MatIconModule,
         MatButtonModule,
         TracksWrapperComponent,
-        LoaderComponent
+        LoaderComponent,
+        FormsModule
     ]
 })
 export class UserModule { }

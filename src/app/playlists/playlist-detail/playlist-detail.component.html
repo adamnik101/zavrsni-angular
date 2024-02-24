@@ -32,8 +32,8 @@
           <p>Last updated {{playlist()!.latest_added | humanizeDate}}</p>
 
           <div class="with-divider">
-            <p>{{playlistService.trackCount()}}
-              @if (playlistService.trackCount() == 1){
+            <p>{{playlistService.tracks().length}}
+              @if (playlistService.tracks().length == 1){
                 track
               } @else {
                 tracks
@@ -70,9 +70,9 @@
 
 
 @if (isLoaded) {
-  @if ((playlistService.tracks$ | async)?.length) {
+  @if (playlistService.tracks().length) {
     <div class="table">
-      <app-track-table [tracks]="(playlistService.tracks$ | async)!" [from]="fromInfo"></app-track-table>
+      <app-track-table [tracks]="playlistService.tracks()" [from]="fromInfo"></app-track-table>
     </div>
   } @else {
     <div class="no-tracks">
