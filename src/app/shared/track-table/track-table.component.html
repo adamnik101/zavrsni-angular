@@ -220,8 +220,22 @@
   </mat-menu>
   <mat-menu #playlist="matMenu">
     <ng-template matMenuContent>
-      @for (playlist of _playlistService.playlists(); track playlist) {
-        <button mat-menu-item (click)="addTrackToPlaylist(playlist.id)">{{playlist.title}}</button>
+      <div class="search-playlist" mat-menu-item (click)="$event.stopPropagation()">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Find a playlist" #search (blur)="search.focus()" (input)="searchPlaylists()" [(ngModel)]="searchQuery">
+      </div>
+      <button mat-menu-item (click)="openCreatePlaylistDialog()">
+        <mat-icon>add</mat-icon>
+        Create new playlist</button>
+      <mat-divider></mat-divider>
+      @if (searching) {
+        @for (filtered of filteredPlaylists; track filtered.id) {
+          <button mat-menu-item (click)="addTrackToPlaylist(filtered.id)">{{filtered.title}}</button>
+        }
+      } @else {
+        @for (playlist of _playlistService.playlists(); track playlist) {
+          <button mat-menu-item (click)="addTrackToPlaylist(playlist.id)">{{playlist.title}}</button>
+        }
       }
     </ng-template>
   </mat-menu>

@@ -17,6 +17,9 @@
   </button>
 
   <mat-menu #more="matMenu">
+    <button mat-menu-item (click)="openUpdateDialog()">
+      <span>Update</span>
+    </button>
     <button mat-menu-item (click)="deletePlaylist(playlist)">
       <span>Delete</span>
     </button>

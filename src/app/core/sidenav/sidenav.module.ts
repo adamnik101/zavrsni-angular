@@ -17,6 +17,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {UserFollowingListItemComponent} from "./user-following-list-item/user-following-list-item.component";
 import {MatButtonModule} from "@angular/material/button";
 import {LoaderComponent} from "../loader/loader.component";
+import {MatMenuModule} from "@angular/material/menu";
 
 
 
@@ -49,6 +50,7 @@ import {LoaderComponent} from "../loader/loader.component";
         UserFollowingListItemComponent,
         MatButtonModule,
         LoaderComponent,
+        MatMenuModule,
     ]
 })
 export class SidenavModule { }

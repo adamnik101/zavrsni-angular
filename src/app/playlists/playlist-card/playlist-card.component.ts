@@ -11,6 +11,7 @@ import {
 } from "../confirm-playlist-delete-dialog/confirm-playlist-delete-dialog.component";
 import {QueueService} from "../../queue/services/queue.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
+import {CreatePlaylistDialogComponent} from "../create-playlist-dialog/create-playlist-dialog.component";
 
 @Component({
   selector: 'app-playlist-card',
@@ -59,5 +60,9 @@ export class PlaylistCardComponent {
   continue() {
     this._audioService.continue()
     this._queueService.currentTrackInfo()!.isBeingPlayed = true
+  }
+
+  openUpdateDialog() {
+    this._dialog.open(CreatePlaylistDialogComponent, {data: this.playlist})
   }
 }

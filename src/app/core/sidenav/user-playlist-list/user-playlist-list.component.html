@@ -1,5 +1,7 @@
 <li>
-  <div class="row" [id]="playlist.id" [ngClass]="{'drop-to': shouldAddBorder}" (mouseenter)="setBorder()" (mouseleave)="removeBorder()">
+  <button style="visibility: hidden; position: fixed;" [style.left]="menuTopLeftPosition.x"
+          [style.top]="menuTopLeftPosition.y" [matMenuTriggerFor]="menu"></button>
+  <div class="row" [id]="playlist.id" (contextmenu)="openMenu($event)" [ngClass]="{'selected': playlist.id === selectedPlaylist?.id,'drop-to': shouldAddBorder}" (mouseenter)="setBorder()" (mouseleave)="removeBorder()">
     <div class="image" [ngClass]="{'opacity-05' : this._queueService.from.id === playlist.id}">
       @if (playlist.image_url) {
         <img class="has-cover" src="{{playlist.image_url}}" width="25" height="25"/>
@@ -35,5 +37,8 @@
 
     </div>
   </div>
-
+  <mat-menu #menu="matMenu" yPosition="below" xPosition="after" (closed)="onMenuClosed(menu)">
+    <button mat-menu-item (click)="openEditDialog(playlist)">Update</button>
+    <button mat-menu-item (click)="openDeleteDialog(playlist)">Delete</button>
+  </mat-menu>
 </li>

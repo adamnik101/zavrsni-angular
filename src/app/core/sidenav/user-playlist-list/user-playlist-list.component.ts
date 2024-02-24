@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {Playlist} from "../../../playlists/interfaces/playlist";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {Track} from "../../../shared/interfaces/track";
@@ -7,6 +7,14 @@ import {QueueService} from "../../../queue/services/queue.service";
 import {AudioService} from "../../../audio/audio.service";
 import {PlaylistService} from "../../../playlists/services/playlist.service";
 import {From} from "../../../shared/interfaces/from";
+import {MatMenu, MatMenuTrigger} from "@angular/material/menu";
+import {MatDialog} from "@angular/material/dialog";
+import {
+  CreatePlaylistDialogComponent
+} from "../../../playlists/create-playlist-dialog/create-playlist-dialog.component";
+import {
+  ConfirmPlaylistDeleteDialogComponent
+} from "../../../playlists/confirm-playlist-delete-dialog/confirm-playlist-delete-dialog.component";
 
 @Component({
   selector: 'app-user-playlist-list',
@@ -18,10 +26,15 @@ export class UserPlaylistListComponent {
   shouldAddBorder : boolean = false
   track: Track = {} as Track;
   from: From = {} as From
+  menuTopLeftPosition =  { x: '0px', y: '0px' };
+  @ViewChild(MatMenuTrigger) matMenuTrigger!: MatMenuTrigger;
+  @ViewChild('triggerMenu') triggerMenu! : ElementRef
+  selectedPlaylist : Playlist | null = null
   constructor(public dragDropService: DragDropService,
               protected _queueService: QueueService,
               private _audioService: AudioService,
-              private _playlistService: PlaylistService) {
+              private _playlistService: PlaylistService,
+              private _matDialog: MatDialog) {
   }
   playPlaylist(id: string) {
     this.from = {
@@ -62,5 +75,24 @@ export class UserPlaylistListComponent {
       this._audioService.continue()
       this._queueService.currentTrackInfo()!.isBeingPlayed = true
     }
+  }
+  openEditDialog(playlist: Playlist) {
+    this._matDialog.open(CreatePlaylistDialogComponent, {data: playlist})
+  }
+
+  openDeleteDialog(playlist: Playlist) {
+    this._matDialog.open(ConfirmPlaylistDeleteDialogComponent, {data: playlist})
+  }
+
+  openMenu(event: MouseEvent) {
+    event.preventDefault()
+    this.selectedPlaylist = this.playlist
+    this.menuTopLeftPosition.x = event.clientX + 'px'
+    this.menuTopLeftPosition.y = event.clientY + 'px'
+    this.matMenuTrigger.openMenu()
+  }
+
+  onMenuClosed(menu: MatMenu) {
+    this.selectedPlaylist = null
   }
 }

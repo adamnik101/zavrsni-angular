@@ -67,16 +67,12 @@ export class ProfileComponent{
         this.followings = artists
       }
     })
-    // this.userService.getFavoriteTracksInLast7Days().subscribe({
-    //   next: (tracks) => {
-    //     this.favoriteTracks = tracks
-    //   }
-    // })
   }
   onFileSelected(event: any) {
-    this.loadingImage = true
+
     this.selectedFile = event.target.files[0] ?? null
     if (this.selectedFile) {
+      this.loadingImage = true
       this.userService.updateCover(this.selectedFile).subscribe({
         next: (response) => {
           this._snackbar.showDefaultMessage(response.message)

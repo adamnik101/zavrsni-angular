@@ -25,6 +25,7 @@ import {User} from "../../user/interfaces/user";
 import {TrackLikeService} from "../services/track-like.service";
 import {TrackDurationService} from "../services/track-duration.service";
 import {ResponseAPI} from "../interfaces/response-api";
+import {CreatePlaylistDialogComponent} from "../../playlists/create-playlist-dialog/create-playlist-dialog.component";
 
 
 @Component({
@@ -46,6 +47,9 @@ export class TrackTableComponent {
   dropToPlaylistId: string = ''
   private subs: Subscription[] = []
   user: User = { } as User
+  searching: boolean = false
+  filteredPlaylists: Playlist[] = []
+  searchQuery: string = ''
   constructor(protected _audioService: AudioService,
               protected _userService: UserService,
               protected _queueService: QueueService,
@@ -220,6 +224,8 @@ export class TrackTableComponent {
   }
 
   onMenuClosed(contextMenu: MatMenu) {
+      this.searchQuery = ''
+    this.searching = false
     if(this.closestRow && contextMenu.closed) {
       this.closestRow.style.background = ''
     }
@@ -321,4 +327,13 @@ export class TrackTableComponent {
   playAllFromIndexWithNoUser(tracks: Track[], index: number, from: From) {
     this._queueService.playAllFromIndexWithNoUser(tracks, index, from)
   }
+
+  openCreatePlaylistDialog() {
+    this._matDialog.open(CreatePlaylistDialogComponent)
+  }
+  searchPlaylists() {
+      this.searching = this.searchQuery.length !== 0;
+    this.filteredPlaylists = []
+    this.filteredPlaylists = this._playlistService.playlists().filter(p => p.title.trim().toLowerCase().includes(this.searchQuery.trim().toLowerCase()))
+    }
 }
