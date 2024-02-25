@@ -60,7 +60,7 @@ export class PlaylistDetailComponent implements OnInit{
               private _queueService: QueueService,
               private el: ElementRef,
               protected _trackDurationService: TrackDurationService,
-              private _userService: UserService,
+              protected _userService: UserService,
               private _matDialog: MatDialog) {
   }
   ngOnInit(): void {
@@ -153,6 +153,9 @@ export class PlaylistDetailComponent implements OnInit{
 
   openEditDialog() {
     if(this._userService.userLoaded()) {
+      if (!this._userService.user()?.playlists.find(p => p.id === this.playlist()?.id)){
+        return
+      }
       this._matDialog.open(CreatePlaylistDialogComponent, {data: this.playlist()}).afterClosed().subscribe({
         next: (response: ResponseAPI<Playlist>) => {
           if (response) {

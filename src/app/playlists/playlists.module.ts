@@ -16,6 +16,7 @@ import { PublicPlaylistCardComponent } from './public-playlist-card/public-playl
 import {MatIconModule} from "@angular/material/icon";
 import {SmallHeaderComponent} from "../core/header/small-header/small-header.component";
 import {LoaderComponent} from "../core/loader/loader.component";
+import {IsPlaylistOwnerPipe} from "../shared/pipes/is-playlist-owner.pipe";
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {LoaderComponent} from "../core/loader/loader.component";
         MatIconModule,
         SmallHeaderComponent,
         LoaderComponent,
+        IsPlaylistOwnerPipe,
     ]
 })
 export class PlaylistsModule { }

@@ -38,7 +38,11 @@
     </div>
   </div>
   <mat-menu #menu="matMenu" yPosition="below" xPosition="after" (closed)="onMenuClosed(menu)">
-    <button mat-menu-item (click)="openEditDialog(playlist)">Update</button>
-    <button mat-menu-item (click)="openDeleteDialog(playlist)">Delete</button>
+    <button mat-menu-item (click)="openEditDialog(playlist)">
+      <mat-icon>edit</mat-icon>
+      Edit details</button>
+    <button mat-menu-item (click)="openDeleteDialog(playlist)">
+      <mat-icon>delete</mat-icon>
+      Delete</button>
   </mat-menu>
 </li>

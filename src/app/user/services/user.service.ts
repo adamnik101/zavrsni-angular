@@ -24,6 +24,7 @@ export class UserService extends BaseService{
   plaldsada: Playlist[] = []
   userLoaded = signal<boolean | null>(null)
   likedTracks = signal<Track[]>([])
+  user = signal<User | null>(null)
   private _userSubject : BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null)
   public user$ = this._userSubject.asObservable()
 
@@ -77,6 +78,7 @@ export class UserService extends BaseService{
         console.log(response)
         const user = response.data
         this.setUserSubject(user)
+        this.user.set(response.data)
         this._likedAlbumSubject.next(user.liked_albums)
         this._playlistsSubject.next(user.playlists)
         this._likedTracksSubject.next(user.liked_tracks)
