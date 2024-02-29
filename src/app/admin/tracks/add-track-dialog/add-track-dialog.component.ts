@@ -62,7 +62,7 @@ export class AddTrackDialogComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._subs.push(this._artistService.getArtists().subscribe({
       next: (artists) => {
-        this.artists = artists
+        this.artists = artists.data
       }
     }))
     this._subs.push(this._genreService.getGenres().subscribe({

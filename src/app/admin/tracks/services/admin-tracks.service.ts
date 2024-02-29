@@ -41,7 +41,7 @@ export class AdminTracksService extends BaseService{
   }
 
   addTrack() {
-    return this.post('admin/tracks/add', this._formData)
+    return this.post('tracks', this._formData)
   }
 
   updateTrack(id: string, group: FormGroup) {
@@ -51,7 +51,9 @@ export class AdminTracksService extends BaseService{
       formData.append('track', group.get('track')?.value)
       formData.append('title', group.get('title')?.value)
       formData.append('owner', group.get('owner')?.value.id)
+    if (group.get('album')?.value) {
       formData.append('album', group.get('album')?.value)
+    }
       formData.append('explicit', group.get('explicit')?.value)
       formData.append('genre', group.get('genre')?.value)
       if(group.get('features')?.value) {
@@ -68,7 +70,9 @@ export class AdminTracksService extends BaseService{
     this._formData.append('track', group.get('track')?.value)
     this._formData.append('title', group.get('title')?.value)
     this._formData.append('owner', group.get('owner')?.value.id)
-    this._formData.append('album', group.get('album')?.value)
+    if (group.get('album')?.value) {
+      this._formData.append('album', group.get('album')?.value)
+    }
     this._formData.append('explicit', group.get('explicit')?.value)
     this._formData.append('genre', group.get('genre')?.value)
     if(group.get('features')?.value) {

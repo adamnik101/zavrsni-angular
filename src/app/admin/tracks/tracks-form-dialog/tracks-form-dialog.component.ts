@@ -77,10 +77,10 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
       this.subscriptions.push(
         this._artistService.getArtists().subscribe({
           next: (artists) => {
-           this.artistsSubject.next(artists)
-            this.artists = artists
+           this.artistsSubject.next(artists.data)
+            this.artists = artists.data
             if(this.data.isEdit) {
-              this.getOwnerAlbums(artists)
+              this.getOwnerAlbums(artists.data)
             }
 
           }

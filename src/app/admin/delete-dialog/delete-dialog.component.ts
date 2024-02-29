@@ -22,11 +22,11 @@ export class DeleteDialogComponent {
       next: (response) => {
         console.log(response)
         this._dialogRef.close()
-        this._adminArtistService.getPagedResponse().subscribe({
-          next: (pagedResponse) => {
-            this._adminArtistService.setPagedResponse(pagedResponse.data)
-          }
-        })
+        // this._adminArtistService.getPagedResponse().subscribe({
+        //   next: (pagedResponse) => {
+        //     this._adminArtistService.setPagedResponse(pagedResponse.data)
+        //   }
+        // })
       }
     })
   }

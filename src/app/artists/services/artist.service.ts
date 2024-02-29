@@ -13,7 +13,7 @@ export class ArtistService extends BaseService{
   }
 
   getArtists() {
-    return this.get<Artist[]>('artists')
+    return this.get<ResponseAPI<Artist[]>>('artists')
   }
 
   getTrending() {

@@ -19,7 +19,7 @@ export class AdminService extends BaseService{
 
 
   deleteResource(id: any, path: string) {
-    return this.delete(`admin/${path}/${id}/delete`)
+    return this.delete(`${path}/${id}`)
   }
 
   deleteMany(toDelete: string) {
