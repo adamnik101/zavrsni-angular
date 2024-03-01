@@ -13,6 +13,7 @@ import {Subscription} from "rxjs";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TrackDurationService} from "../../shared/services/track-duration.service";
 import {LoaderService} from "../../core/services/loader.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-album-detail',
@@ -51,8 +52,9 @@ export class AlbumDetailComponent {
   private subs: Subscription[] = []
   shouldShowHeader: boolean = false;
   totalDuration = signal<number>(0)
-  ngOnInit() {
+  private _title = inject(Title)
 
+  ngOnInit() {
     this.getAlbum()
     this.subs.push(this._userService.likedAlbums$.subscribe({
       next: (albums) => {
@@ -87,6 +89,7 @@ export class AlbumDetailComponent {
                 id: this.album.id,
                 imageFrom: this.album.cover
               };
+              this._title.setTitle(`${response.data.name} - TREBLE`)
 
               console.log(response)
               this._colorService.getRgbColorsFromImage(this.album.cover, "album" ,true)

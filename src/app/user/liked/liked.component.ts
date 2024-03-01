@@ -37,16 +37,18 @@ export class LikedComponent implements OnInit{
   }
   private page = 1
   private size = 10
-  public loading: boolean = false;
+  public loading: boolean = true;
   totalDuration = signal<number>(0)
   likedSub!: Subscription
   ngOnInit() {
+    this.loading = true
+    this._title.setTitle("Liked Tracks - TREBLE")
     this.likedSub = this._userService.getUserLikedTracks(this.page, this.size).subscribe({
       next: (response) => {
         this._userService.likedTracks.set(response.data)
         this._trackLikeService.setInitialLikedTracks(response.data)
         this._trackDurationService.calculateTotalDurationOfTracks(response.data)
-        this.loaded = true
+        this.loading = false
       }
     })
   }

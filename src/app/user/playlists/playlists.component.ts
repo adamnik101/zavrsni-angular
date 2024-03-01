@@ -25,6 +25,7 @@ export class PlaylistsComponent implements OnInit{
 
   }
   ngOnInit(){
+    this._title.setTitle("My Playlists - TREBLE")
   }
 
   filterPlaylists() {

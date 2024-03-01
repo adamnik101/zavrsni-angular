@@ -59,7 +59,13 @@ export class AddTracksToPlaylistDialogComponent {
     this.subs.push(this._playlistService.addTracksToPlaylist(tracks,playlistId, confirm).subscribe({
       next: (response) => {
         this._snackbarService.showDefaultMessage(response.message)
+        let playlist = this._playlistService.playlists().find(p => p.id === playlistId)
 
+        if (playlist) {
+          playlist.tracks_count = Number(playlist.tracks_count) + Number(response.data.added_count)
+          this.closeDialog()
+
+        }
         /*this.subs.push(this._playlistService.playlists$.subscribe({
           next: (playlists) => {
             let playlist = playlists.filter(p => p.id === playlistId)[0]

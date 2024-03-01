@@ -1,5 +1,8 @@
 
-@if (loaded) {
+@if (loading) {
+  <app-loader></app-loader>
+
+} @else {
   <div class="liked">
     <div class="top">
       <div class="image">
@@ -26,7 +29,7 @@
         <app-track-table [tracks]="filteredTracks" [from]="fromInfo"></app-track-table>
       </ng-container>-->
           <!--<ng-container *ngIf="filteredTracks.length == 0 && !input.value.length">-->
-<!--        <app-tracks-wrapper [tracks]="this._trackLikeService.getLikedTracks()" [from]="fromInfo"></app-tracks-wrapper>-->
+          <!--        <app-tracks-wrapper [tracks]="this._trackLikeService.getLikedTracks()" [from]="fromInfo"></app-tracks-wrapper>-->
         <app-track-table [tracks]="this._trackLikeService.getLikedTracks()" [from]="fromInfo"></app-track-table>
         <div class="loading">
           @if (loading) {
@@ -44,7 +47,5 @@
         </div>
       }
     </div>
-</div>
-} @else {
-  <app-loader></app-loader>
+  </div>
 }

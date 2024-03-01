@@ -106,7 +106,8 @@ export class CreatePlaylistDialogComponent {
         })
       },
       error: (err) => {
-        this._snackbarService.showDefaultMessage(err.errors.message)
+        let responseError = err.error as ResponseAPI<string>
+        this._snackbarService.showDefaultMessage(responseError.message)
       }
     })
   }
