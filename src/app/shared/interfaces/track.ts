@@ -2,6 +2,7 @@ import {Artist} from "../../artists/interfaces/artist";
 import {Album} from "../../albums/interfaces/album";
 
 export interface Track {
+  album_id?: string;
   id: string
   title: string
   cover: string

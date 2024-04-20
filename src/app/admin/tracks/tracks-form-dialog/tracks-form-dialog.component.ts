@@ -60,7 +60,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     imageTypes = ['image/jpg', 'image/jpeg', 'image/png'];
     maxImageSize = 2000000 //2MB
     selectedImageSrc = ''
-    maxTrackSize = 3500000 // 3.5MB
+    maxTrackSize = 10000000 // 3.5MB
     trackTypes = ['audio/mpeg'];
     selectedTrack = null
     @ViewChild('trackFile') trackFile!: ElementRef
@@ -101,7 +101,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     }
 
     fillForm(item: Track): void {
-      console.log(item.owner.albums)
+      console.log(item)
         this.trackInfo = item.path
         this.group.get('track')?.setValue(item.path)
         this.group.get('title')?.setValue(item.title)
@@ -110,11 +110,13 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
         this.group.get('cover')?.setValue(item.cover)
         this.group.get('genre')?.setValue(item.genre_id)
         if(this.group.get('owner')?.value) {
-          if(item.owner.albums.length > 0) {
-            this.group.get('album')?.setValue(item.album?.id)
+          if(item.album_id) {
             this.group.get('album')?.enable()
+            this.group.get('album')?.setValue({value: item.album_id})
+
           }
         }
+        console.log(this.group.get('album'))
         this.group.get('features')?.setValue([])
         if(item.features.length > 0) {
           let featureIds = []

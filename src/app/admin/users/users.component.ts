@@ -13,8 +13,8 @@ export class UsersComponent {
 
   ngOnInit() {
     this.adminUserService.getPagedResponse().subscribe({
-      next: (pagedResponse) => {
-        this.adminUserService.setPagedResponse(pagedResponse)
+      next: (response) => {
+        this.adminUserService.setPagedResponse(response.data)
       }
     })
   }

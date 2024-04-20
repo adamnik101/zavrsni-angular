@@ -56,6 +56,9 @@
                   @case ('Name') {
                     <td>{{item.name}}</td>
                   }
+                  @case ('Username') {
+                    <td>{{item.username}}</td>
+                  }
                   @case ('Master') {
                     <td>{{item.artist.name}}</td>
                   }
@@ -86,6 +89,9 @@
                   }
                   @case ('Email') {
                     <td>{{item.email}}</td>
+                  }
+                  @case ('Role') {
+                    <td>{{item.role.name}}</td>
                   }
                   @case ('Active') {
                     <td>{{item.active | humanizeBoolean}}</td>

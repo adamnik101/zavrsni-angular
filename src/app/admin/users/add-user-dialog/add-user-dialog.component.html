@@ -3,17 +3,10 @@
   <div mat-dialog-content>
     <form [formGroup]="userGroup">
       <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>First name</mat-label>
-        <input matInput type="text" placeholder="Enter first name" formControlName="firstName"/>
-        @if (userGroup.get('firstName')?.hasError('required')) {
-          <mat-error>First name is required.</mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Last name</mat-label>
-        <input matInput type="text" placeholder="Enter last name" formControlName="lastName"/>
-        @if (userGroup.get('lastName')?.hasError('required')) {
-          <mat-error>Last name is required.</mat-error>
+        <mat-label>Username</mat-label>
+        <input matInput type="text" placeholder="Enter username" formControlName="username"/>
+        @if (userGroup.get('username')?.hasError('required')) {
+          <mat-error>Username is required.</mat-error>
         }
       </mat-form-field>
       <mat-form-field appearance="outline" floatLabel="always">
@@ -24,6 +17,27 @@
         }
         @if (userGroup.get('email')?.hasError('email')) {
           <mat-error>Email is in wrong format.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role" placeholder="Select user role">
+          @for (role of roles; track role.id) {
+            <mat-option [value]="role.id">{{role.name}}</mat-option>
+          }
+        </mat-select>
+        @if (this.userGroup.get('role')?.hasError('required')) {
+          <mat-error>User role is required.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Active</mat-label>
+        <mat-select formControlName="active" placeholder="Choose active status">
+          <mat-option [value]="true">Yes</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+        @if (this.userGroup.get('active')?.hasError('required')) {
+          <mat-error>User status is required.</mat-error>
         }
       </mat-form-field>
     </form>

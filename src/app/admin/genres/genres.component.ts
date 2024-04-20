@@ -15,8 +15,8 @@ export class GenresComponent {
 
   ngOnInit() {
     this.adminGenreService.getPagedResponse().subscribe({
-      next: (pagedResponse) => {
-        this.adminGenreService.setPagedResponse(pagedResponse)
+      next: (response) => {
+        this.adminGenreService.setPagedResponse(response.data)
       }
     })
   }

@@ -2,5 +2,5 @@
 <app-table-admin
   [title]="'Users'"
   [data]="adminUserService.users$ | async"
-  [columns]="['First Name', 'Last Name', 'Email', 'Active', 'Created at', 'Updated at']"
+  [columns]="['Username', 'Email', 'Role','Active', 'Created at', 'Updated at']"
 ></app-table-admin>

@@ -58,8 +58,8 @@ export class GenreSearchFormComponent {
     }
 
     this._adminGenreService.getPagedResponse(this._adminGenreService.params).subscribe({
-      next: (pagedResponse) => {
-        this._adminGenreService.setPagedResponse(pagedResponse)
+      next: (response) => {
+        this._adminGenreService.setPagedResponse(response.data)
       }
     })
   }

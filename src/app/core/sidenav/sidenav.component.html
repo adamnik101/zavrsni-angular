@@ -5,7 +5,11 @@
         <img ngSrc="assets/logo.svg" alt="home,icon" width="50" height="50"/>
         <h1>TREBLE</h1>
       </div>
-      <app-nav-links></app-nav-links>
+      @if(_userService.user()?.role?.name === 'admin'){
+        admin nav here!
+      } @else {
+        <app-nav-links></app-nav-links>
+      }
       <mat-divider></mat-divider>
       @if (_userService.userLoaded()) {
         <div class="my-collection">

@@ -66,7 +66,7 @@
                   <img src="{{track.cover}}" alt="cover"/>
                 } @else {
                   @if (track.album) {
-                    <img src="{{track.album?.cover!}}"/>
+                    <img src="{{track.album.cover!}}"/>
                   } @else {
                     <img src="{{track.owner.cover}}"/>
                   }

@@ -7,6 +7,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatSelectModule} from "@angular/material/select";
+import {AdminRolesService} from "../../roles/services/admin-roles.service";
+import {Role} from "../../../user/interfaces/role";
 
 @Component({
   selector: 'app-user-search-form',
@@ -24,27 +26,34 @@ import {MatSelectModule} from "@angular/material/select";
 })
 export class UserSearchFormComponent {
 
-  constructor(private _adminUserService: AdminUserService) {
+  constructor(private _adminUserService: AdminUserService,
+              private _adminRoleService: AdminRolesService) {
   }
   userFormGroup = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
+    username: new FormControl(''),
     email: new FormControl(''),
     active: new FormControl(null),
+    role: new FormControl(null),
     createdFrom: new FormControl(undefined),
     createdTo: new FormControl(undefined),
     updatedFrom: new FormControl(undefined),
     updatedTo: new FormControl(undefined)
   })
-
-
+  roles: Role[] = []
+  ngOnInit() {
+    this._adminRoleService.getRoles().subscribe({
+      next: (response) => {
+        this.roles = response.data
+      }
+    })
+  }
   search() {
     let group = this.userFormGroup
 
-    let firstName = group.get('firstName')?.value?.trim()
-    let lastName = group.get('lastName')?.value?.trim()
+    let username = group.get('username')?.value?.trim()
     let email = group.get('email')?.value?.trim()
     let active = group.get('active')?.value
+    let role = group.get('role')?.value
     let createdFrom = group.get('createdFrom')?.value
     let createdTo = group.get('createdTo')?.value
     let updatedFrom = group.get('updatedFrom')?.value
@@ -52,17 +61,17 @@ export class UserSearchFormComponent {
 
     this._adminUserService.params = new HttpParams()
 
-    if(firstName) {
-      this._adminUserService.params = this._adminUserService.params.append('firstName', firstName)
-    }
-    if(lastName) {
-      this._adminUserService.params = this._adminUserService.params.append('lastName', lastName)
+    if(username) {
+      this._adminUserService.params = this._adminUserService.params.append('username', username)
     }
     if(email) {
       this._adminUserService.params = this._adminUserService.params.append('email', email)
     }
     if(active !== null && active !== undefined) {
       this._adminUserService.params = this._adminUserService.params.append('active', active)
+    }
+    if (role !== null && role !== undefined) {
+      this._adminUserService.params = this._adminUserService.params.append('role', role)
     }
     if(createdFrom) {
       this._adminUserService.params = this._adminUserService.params.append('createdFrom', createdFrom)
@@ -78,8 +87,8 @@ export class UserSearchFormComponent {
     }
 
     this._adminUserService.getPagedResponse(this._adminUserService.params).subscribe({
-      next: (pagedResponse) => {
-        this._adminUserService.setPagedResponse(pagedResponse)
+      next: (response) => {
+        this._adminUserService.setPagedResponse(response.data)
       }
     })
   }

@@ -125,7 +125,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline" floatLabel="always">
           <mat-label>Select album</mat-label>
-          <mat-select formControlName="album" [placeholder]="'[Optional]'" [disabled]="!group.get('owner')?.value || group.get('owner')?.value!.albums?.length === 0">
+          <mat-select formControlName="album" [placeholder]="'[Optional]'">
             @if(group.get('owner')?.value) {
               @for (album of group.get('owner')?.value!.albums; track album.id) {
                 <mat-option [value]="album.id">{{album.name}}</mat-option>
