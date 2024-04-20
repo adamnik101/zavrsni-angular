@@ -11,7 +11,6 @@ import {DatePipe, DecimalPipe, NgClass} from "@angular/common";
 import {AdminTracksService} from "../tracks/services/admin-tracks.service";
 import {MatDialog} from "@angular/material/dialog";
 import {DeleteMultipleEntitiesDialog} from "../delete-multiple-entities-dialog/delete-multiple-entities-dialog.component";
-import {AddTrackDialogComponent} from "../tracks/add-track-dialog/add-track-dialog.component";
 import {AdminUserService} from "../users/services/admin-user.service";
 import {AdminArtistService} from "../services/admin-artist.service";
 import {AdminAlbumService} from "../albums/services/admin-album.service";
@@ -20,20 +19,18 @@ import {MatMenuModule} from "@angular/material/menu";
 import {DeleteDialogComponent} from "../delete-dialog/delete-dialog.component";
 import {AdminService} from "../services/admin.service";
 import {HttpParams} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
 import {AdminGenreService} from "../genres/services/admin-genre.service";
 import {TracksSearchFormComponent} from "../tracks/tracks-search-form/tracks-search-form.component";
 import {AlbumsSearchFormComponent} from "../albums/albums-search-form/albums-search-form.component";
 import {GenreSearchFormComponent} from "../genres/genre-search-form/genre-search-form.component";
 import {UserSearchFormComponent} from "../users/user-search-form/user-search-form.component";
 import {ArtistSearchFormComponent} from "../artists/artist-search-form/artist-search-form.component";
-import {AddGenreDialogComponent} from "../genres/add-genre-dialog/add-genre-dialog.component";
-import {AddArtistDialogComponent} from "../artists/add-artist-dialog/add-artist-dialog.component";
-import {AddUserDialogComponent} from "../users/add-user-dialog/add-user-dialog.component";
-import {AddAlbumDialogComponent} from "../albums/add-album-dialog/add-album-dialog.component";
 import {ArtistFormDialogComponent} from "../artists/artist-form-dialog/artist-form-dialog.component";
 import {TracksFormDialogComponent} from "../tracks/tracks-form-dialog/tracks-form-dialog.component";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
+import {AlbumsFormDialogComponent} from "../albums/albums-form-dialog/albums-form-dialog.component";
+import {UsersFormDialogComponent} from "../users/users-form-dialog/users-form-dialog.component";
+import {GenresFormDialogComponent} from "../genres/genres-form-dialog/genres-form-dialog.component";
 
 @Component({
   selector: 'app-table-admin',
@@ -88,16 +85,16 @@ export class TableAdminComponent<T extends  {}> {
         this._dialog.open(TracksFormDialogComponent, config)
       } break
       case 'genres' : {
-        this._dialog.open(AddGenreDialogComponent)
+        this._dialog.open(GenresFormDialogComponent, config)
       } break
       case 'artists' : {
         this._dialog.open(ArtistFormDialogComponent, config)
       } break
       case 'albums' : {
-        this._dialog.open(AddAlbumDialogComponent)
+        this._dialog.open(AlbumsFormDialogComponent, config)
       } break
       case 'users' : {
-        this._dialog.open(AddUserDialogComponent)
+        this._dialog.open(UsersFormDialogComponent, config)
       } break
     }
   }
@@ -216,7 +213,12 @@ export class TableAdminComponent<T extends  {}> {
         })
       } break;
       case 'users': {
-
+        this._dialog.open(UsersFormDialogComponent, {
+          data: {
+            isEdit: true,
+            item: item
+          }
+        })
       } break;
       case 'artists' : {
         this._dialog.open(ArtistFormDialogComponent, {
@@ -227,10 +229,20 @@ export class TableAdminComponent<T extends  {}> {
         })
       } break;
       case 'albums' : {
-
+        this._dialog.open(AlbumsFormDialogComponent, {
+          data: {
+            isEdit: true,
+            item: item
+          }
+        })
       } break;
       case 'genres' : {
-
+        this._dialog.open(GenresFormDialogComponent, {
+          data: {
+            isEdit: true,
+            item: item
+          }
+        })
       } break;
       default : {
 

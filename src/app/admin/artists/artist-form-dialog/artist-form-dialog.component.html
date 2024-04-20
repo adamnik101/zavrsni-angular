@@ -29,7 +29,7 @@
   </div>
 
   <div mat-dialog-actions>
-    <button mat-button>
+    <button mat-button (click)="submitForm()">
       @if (data.isEdit) {
         Update
       } @else {

@@ -34,7 +34,7 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit{
     this.group.get('name')?.setValue(item.name)
   }
 
-
-
-
+  submitForm(): void {
+    console.log(this.group.getRawValue())
+  }
 }

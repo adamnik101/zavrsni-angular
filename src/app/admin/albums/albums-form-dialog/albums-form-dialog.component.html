@@ -1,5 +1,11 @@
 <div class="dialog">
-  <h1 mat-dialog-title>Add album</h1>
+  <h1 mat-dialog-title>
+    @if (data.isEdit) {
+      Edit
+    } @else {
+      Add
+    }
+     album</h1>
   <div mat-dialog-content>
     <form [formGroup]="albumGroup">
       <mat-form-field appearance="outline" floatLabel="always">
@@ -16,11 +22,20 @@
           <mat-error>Artist is required</mat-error>
         }
       </mat-form-field>
+
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Release year</mat-label>
+        <mat-select formControlName="releaseYear" placeholder="Select release year">
+          @for(year of years; track year) {
+            <mat-option value="{{year}}">{{year}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </form>
   </div>
 
   <div mat-dialog-actions>
-    <button mat-button>Add</button>
+    <button mat-button (click)="submitForm()">Add</button>
     <button mat-button mat-dialog-close>Cancel</button>
   </div>
 </div>

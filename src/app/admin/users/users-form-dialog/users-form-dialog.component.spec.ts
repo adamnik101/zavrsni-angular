@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddAlbumDialogComponent } from './add-album-dialog.component';
+import { UsersFormDialogComponent } from './users-form-dialog.component';
 
-describe('AddAlbumDialogComponent', () => {
-  let component: AddAlbumDialogComponent;
-  let fixture: ComponentFixture<AddAlbumDialogComponent>;
+describe('UsersFormDialogComponent', () => {
+  let component: UsersFormDialogComponent;
+  let fixture: ComponentFixture<UsersFormDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AddAlbumDialogComponent]
+      imports: [UsersFormDialogComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(AddAlbumDialogComponent);
+    fixture = TestBed.createComponent(UsersFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -21,6 +21,7 @@
   <mat-form-field appearance="outline" floatLabel="always">
     <mat-label>Release year</mat-label>
     <mat-select formControlName="releaseYear" placeholder="Select release year">
+      <mat-option value="">Select..</mat-option>
       @for(year of years; track year) {
         <mat-option value="{{year}}">{{year}}</mat-option>
       }
