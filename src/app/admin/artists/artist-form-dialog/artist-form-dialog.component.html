@@ -1,41 +1,25 @@
 <div class="dialog">
-  <h3 mat-dialog-title>
-      @if(data.isEdit) {
-        Edit
-      } @else {
-        Add
-      }
-      artist
-  </h3>
-
+  <h1 mat-dialog-title>
+    @if (data.isEdit) {
+      Edit existing
+    } @else {
+      Add new
+    }
+    artist</h1>
   <div mat-dialog-content>
-    <form [formGroup]="group" class="artist-form">
-      @if(data.isEdit) {
-        <img src="{{data.item?.cover}}"/>
-      } @else {
-        <button>Add image</button>
-      }
-      <img src=""/>
+    <form [formGroup]="group">
       <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Name</mat-label>
-        <input type="text" matInput placeholder="Enter artist name" formControlName="name"/>
-        @if (group.get('name')?.hasError('required')) {
-          <mat-error>
-            Name is required.
-          </mat-error>
-        }
+        <mat-label>Artist name</mat-label>
+        <input matInput type="text" placeholder="Enter artist name" formControlName="name"/>
       </mat-form-field>
+
+      <input type="file" hidden formControlName="image" #imageInput (change)="onSelectedImage($event)"/>
+      <button mat-button (click)="imageInput.click()">Select image</button>
+      <p>{{this.selectedFile?.name}}</p>
     </form>
   </div>
-
   <div mat-dialog-actions>
-    <button mat-button (click)="submitForm()">
-      @if (data.isEdit) {
-        Update
-      } @else {
-        Add
-      } artist
-    </button>
+    <button mat-button (click)="submitForm()">Create</button>
     <button mat-button mat-dialog-close>Cancel</button>
   </div>
 </div>

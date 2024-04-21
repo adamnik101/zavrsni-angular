@@ -1,1 +1,55 @@
-<p>users-form-dialog works!</p>
+<div class="dialog">
+  <h1 mat-dialog-title>
+    @if (data.isEdit) {
+      Edit
+    } @else {
+      Create
+    }
+    user</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="userGroup">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Username</mat-label>
+        <input matInput type="text" placeholder="Enter username" formControlName="username"/>
+        @if (userGroup.get('username')?.hasError('required')) {
+          <mat-error>Username is required.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Email</mat-label>
+        <input matInput type="text" placeholder="Enter email" formControlName="email"/>
+        @if (userGroup.get('email')?.hasError('required')) {
+          <mat-error>Email is required.</mat-error>
+        }
+        @if (userGroup.get('email')?.hasError('email')) {
+          <mat-error>Email is in wrong format.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role" placeholder="Select user role">
+          @for (role of roles; track role.id) {
+            <mat-option [value]="role.id">{{role.name}}</mat-option>
+          }
+        </mat-select>
+        @if (this.userGroup.get('role')?.hasError('required')) {
+          <mat-error>User role is required.</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Active</mat-label>
+        <mat-select formControlName="active" placeholder="Choose active status">
+          <mat-option [value]="true">Yes</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+        @if (this.userGroup.get('active')?.hasError('required')) {
+          <mat-error>User status is required.</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button>Create</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</div>

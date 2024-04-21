@@ -23,7 +23,7 @@ export class AdminService extends BaseService{
   }
 
   deleteMany(toDelete: string) {
-    return this.post(`admin/${toDelete}/delete`, {data: this._selectionService.selectedItems()})
+    return this.post(`${toDelete}/delete-many`, {data: this._selectionService.selectedItems()})
   }
 
   navigateTo(url: string) {

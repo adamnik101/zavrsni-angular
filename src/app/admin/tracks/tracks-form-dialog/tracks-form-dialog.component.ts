@@ -6,7 +6,7 @@ import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
-import {FormData} from "../../interfaces/form-data";
+import {DialogData} from "../../interfaces/dialog-data";
 import {IsSelectedInFeaturesPipe} from "../../pipes/is-selected-in-features.pipe";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectChange, MatSelectModule} from "@angular/material/select";
@@ -66,7 +66,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     @ViewChild('trackFile') trackFile!: ElementRef
     trackInfo: string = ''
     dataLoading = true
-    constructor(@Inject(MAT_DIALOG_DATA) public data: FormData<Track>,
+    constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<Track>,
                 private _artistService: ArtistService,
                 private _genreService: GenreService,
                 private _adminTrackService: AdminTracksService,

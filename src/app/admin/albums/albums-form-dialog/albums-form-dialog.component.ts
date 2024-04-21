@@ -6,7 +6,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
-import {FormData} from "../../interfaces/form-data";
+import {DialogData} from "../../interfaces/dialog-data";
 import {Artist} from "../../../artists/interfaces/artist";
 import {Album} from "../../../albums/interfaces/album";
 
@@ -28,7 +28,7 @@ import {Album} from "../../../albums/interfaces/album";
 })
 export class AlbumsFormDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: FormData<Album>) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<Album>) { }
 
   currentYear = new Date().getFullYear();
   years: number[] = [];

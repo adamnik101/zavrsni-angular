@@ -1,1 +1,24 @@
-<p>genres-form-dialog works!</p>
+<div class="dialog">
+  <h1 mat-dialog-title>
+    @if(data.isEdit) {
+      Edit
+    } @else {
+      Add
+    }
+    genre</h1>
+  <div mat-dialog-content>
+    <form [formGroup]="genreForm">
+      <mat-form-field appearance="outline" floatLabel="always">
+        <mat-label>Genre name</mat-label>
+        <input matInput type="text" placeholder="Enter genre name" formControlName="name"/>
+        @if (genreForm.get('name')?.hasError('required')) {
+          <mat-error>Name is required</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="createGenre()">Create</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </div>
+</div>

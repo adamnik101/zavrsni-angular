@@ -35,7 +35,7 @@ export class AdminArtistService extends BaseService{
   }
 
   storeArtist(formData: FormData) {
-    return this.post<FormData, null>('admin/artists', formData)
+    return this.post<FormData, null>('artists', formData)
   }
 
   navigateTo(url: string) {
