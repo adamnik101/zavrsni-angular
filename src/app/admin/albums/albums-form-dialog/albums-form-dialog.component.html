@@ -15,12 +15,14 @@
           <mat-error>Name is required</mat-error>
         }
       </mat-form-field>
+
       <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Artist</mat-label>
-        <input type="text" matInput placeholder="Select an owner" formControlName="artist"/>
-        @if(albumGroup.get('artist')?.hasError('required')){
-          <mat-error>Artist is required</mat-error>
-        }
+        <mat-select formControlName="artist" placeholder="Select owner">
+          @for(artist of artists; track artist) {
+            <mat-option value="{{artist.id}}">{{artist.name}}</mat-option>
+          }
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline" floatLabel="always">

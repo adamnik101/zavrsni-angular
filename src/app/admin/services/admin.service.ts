@@ -26,6 +26,24 @@ export class AdminService extends BaseService{
     return this.post(`${toDelete}/delete-many`, {data: this._selectionService.selectedItems()})
   }
 
+  update(path: string, data: FormData, id: string) {
+    return this.post(`${path}/${id}`, {
+      name: data.get('name'),
+      release_year: data.get('releaseYear'),
+      cover: data.get('cover'),
+      artist_id: data.get('artist')
+    });
+  }
+
+  insert(path: string, data: FormData) {
+    return this.post(`${path}`, {
+      name: data.get('name'),
+      release_year: data.get('releaseYear'),
+      cover: data.get('cover'),
+      artist_id: data.get('artist')
+    });
+  }
+
   navigateTo(url: string) {
 
   }
