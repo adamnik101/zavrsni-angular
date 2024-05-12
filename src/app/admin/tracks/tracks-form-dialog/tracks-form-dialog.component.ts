@@ -21,6 +21,8 @@ import {GenreService} from "../../../genre/services/genre.service";
 import {AdminTracksService} from "../services/admin-tracks.service";
 import {SnackbarService} from "../../../shared/services/snackbar.service";
 import {DialogLoadingComponent} from "../../dialog-loading/dialog-loading.component";
+import {AdminService} from "../../services/admin.service";
+import {AdminTracksFormServiceService} from "../services/forms/admin-tracks-form-service.service";
 
 @Component({
   selector: 'app-tracks-form-dialog',
@@ -70,34 +72,75 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
                 private _artistService: ArtistService,
                 private _genreService: GenreService,
                 private _adminTrackService: AdminTracksService,
-                private _snackbar: SnackbarService){
+                private adminService: AdminService,
+                private _snackbar: SnackbarService,
+                private adminTracksFormServiceService: AdminTracksFormServiceService){
     }
 
     ngOnInit() {
       this.subscriptions.push(
-        this._artistService.getArtists().subscribe({
-          next: (artists) => {
-           this.artistsSubject.next(artists.data)
-            this.artists = artists.data
-            if(this.data.isEdit) {
-              this.getOwnerAlbums(artists.data)
-            }
+        this.adminTracksFormServiceService.getAllDataFromRequests().subscribe({
+          next: (data) => {
+            this.artists = data.artists.data;
+            this.genres = data.genres.data;
 
-          }
-        })
-      )
-      this.subscriptions.push(
-        this._genreService.getGenres().subscribe({
-          next: (response) => {
-            this.genres = response.data
+            if(this.data.isEdit) {
+              this.fillForm(this.data.item);
+            }
             this.dataLoading = false
           }
         })
-      )
+      );
 
-      if(this.data.isEdit) {
-        this.fillForm(this.data.item)
-      }
+      this.trackOwnerValueChange();
+
+      // this.subscriptions.push(
+      //   this._artistService.getArtists().subscribe({
+      //     next: (artists) => {
+      //      this.artistsSubject.next(artists.data)
+      //       this.artists = artists.data
+      //       if(this.data.isEdit) {
+      //         this.getOwnerAlbums(artists.data)
+      //       }
+      //
+      //     }
+      //   })
+      // )
+      // this.subscriptions.push(
+      //   this._genreService.getGenres().subscribe({
+      //     next: (response) => {
+      //       this.genres = response.data
+      //       this.dataLoading = false
+      //     }
+      //   })
+      // )
+
+
+    }
+
+    trackOwnerValueChange(): void {
+      this.group.get('owner')?.valueChanges.subscribe({
+        next: (data: Artist) => {
+          if(data) {
+            if(data.albums.length) {
+              this.group.get('album')?.enable();
+              this.owner.update(value => {
+                if (value) value.albums = data.albums;
+                return value;
+              });
+
+              if(this.data.isEdit) {
+                if(this.group.get('album')?.value) {
+
+                }
+              }
+            } else {
+              this.group.get('album')?.disable();
+              this.group.get('album')?.setValue(null)
+            }
+          }
+        }
+      })
     }
 
     fillForm(item: Track): void {
@@ -112,8 +155,8 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
         if(this.group.get('owner')?.value) {
           if(item.album_id) {
             this.group.get('album')?.enable()
-            this.group.get('album')?.setValue({value: item.album_id})
-
+            this.group.get('album')?.setValue(item.album_id)
+            console.log(this.group.get('album'))
           }
         }
         console.log(this.group.get('album'))
@@ -134,18 +177,7 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
       }
     }
 
-    getOwnerAlbums(artists: Artist[] | Observable<Artist[]>) {
-      if(artists instanceof Observable) {
-        artists.subscribe({
-          next: (response) => {
-            console.log(response)
-            console.log(this.group.get('owner')?.value, this.owner())
 
-          }
-        })
-      }
-      //this.owner.set(this.artists()?.find(artist => artist.id === this.group.get('owner')?.value))
-    }
 
     finish() {
         if(this.data.isEdit && this.group.valid) {
@@ -224,5 +256,30 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
         }
       };
     }
+  }
+
+  prepareDataToSend(): FormData {
+      let formData = new FormData();
+
+      return formData;
+  }
+
+  submitForm(): void {
+      let data = this.prepareDataToSend();
+
+      if(this.data.isEdit) {
+        this.submitUpdate(data)
+      }
+      else {
+        this.submitInsert(data)
+      }
+  }
+
+  submitInsert(data: FormData): Observable<any> {
+    return this.adminService.insert('tracks', data);
+  }
+
+  submitUpdate(data: FormData): Observable<any> {
+    return this.adminService.update('tracks', data, this.data.item.id);
   }
 }

@@ -6,6 +6,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {PlaylistService} from "./playlists/services/playlist.service";
 import {LoaderService} from "./core/services/loader.service";
 import {TokenService} from "./auth/services/token.service";
+import {forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -41,19 +42,30 @@ export class AppComponent implements OnInit {
       this.loaderService.showLoader()
       this._tokenService.checkTokenFromApi().subscribe({
         next: (response) => {
-          console.log(response)
+
           if(response.data.token == null) {
 
             return
           }
-          this._userService.getUser()
-          this._playlistService.getPlaylists()
+
+          this.getDataFromAllRequests().subscribe({
+            next: (data) => {
+              if(data) {
+                this.loaderService.hideLoader();
+              }
+            }
+          });
         }
-      }).add(() => {
-        this.loaderService.hideLoader()
       })
     }
 
     this._titleService.setTitle('Treble')
+  }
+
+  getDataFromAllRequests(): Observable<any> {
+    return forkJoin({
+      user: this._userService.getUser(),
+      playlists: this._playlistService.getPlaylists()
+    })
   }
 }

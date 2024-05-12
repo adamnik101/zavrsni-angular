@@ -18,6 +18,7 @@ import {UserFollowingListItemComponent} from "./user-following-list-item/user-fo
 import {MatButtonModule} from "@angular/material/button";
 import {LoaderComponent} from "../loader/loader.component";
 import {MatMenuModule} from "@angular/material/menu";
+import {AdminNavLinksComponent} from "../../admin/components/admin-nav-links/admin-nav-links.component";
 
 
 
@@ -51,6 +52,7 @@ import {MatMenuModule} from "@angular/material/menu";
         MatButtonModule,
         LoaderComponent,
         MatMenuModule,
+        AdminNavLinksComponent,
     ]
 })
 export class SidenavModule { }

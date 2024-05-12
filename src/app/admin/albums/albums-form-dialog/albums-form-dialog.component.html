@@ -1,43 +1,60 @@
 <div class="dialog">
-  <h1 mat-dialog-title>
-    @if (data.isEdit) {
-      Edit
-    } @else {
-      Add
-    }
-     album</h1>
-  <div mat-dialog-content>
-    <form [formGroup]="albumGroup">
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Name</mat-label>
-        <input type="text" matInput placeholder="Enter name of album" formControlName="name"/>
-        @if(albumGroup.get('name')?.hasError('required')){
-          <mat-error>Name is required</mat-error>
-        }
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Artist</mat-label>
-        <mat-select formControlName="artist" placeholder="Select owner">
-          @for(artist of artists; track artist) {
-            <mat-option value="{{artist.id}}">{{artist.name}}</mat-option>
+  @if(dataLoading) {
+  <app-dialog-loading></app-dialog-loading>
+  } @else {
+    <h1 mat-dialog-title>
+      @if (data.isEdit) {
+        Edit
+      } @else {
+        Add
+      }
+      album</h1>
+    <div mat-dialog-content>
+      <form [formGroup]="group">
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Name</mat-label>
+          <input type="text" matInput placeholder="Enter name of album" formControlName="name"/>
+          @if(group.get('name')?.hasError('required')){
+            <mat-error>Name is required</mat-error>
           }
-        </mat-select>
-      </mat-form-field>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" floatLabel="always">
-        <mat-label>Release year</mat-label>
-        <mat-select formControlName="releaseYear" placeholder="Select release year">
-          @for(year of years; track year) {
-            <mat-option value="{{year}}">{{year}}</mat-option>
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Artist</mat-label>
+          <mat-select formControlName="artist_id" placeholder="Select owner">
+            @for(artist of artists; track artist) {
+              <mat-option value="{{artist.id}}">{{artist.name}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" floatLabel="always">
+          <mat-label>Release year</mat-label>
+          <mat-select formControlName="release_year" placeholder="Select release year">
+            @for(year of years; track year) {
+              <mat-option value="{{year}}">{{year}}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <div class="item-image-form">
+          @if (group.get('cover')?.value === '') {
+            <div class="no-image">
+              <p>No Image</p>
+            </div>
+            <button mat-raised-button>Add image</button>
+          } @else {
+            <img src="{{group.get('cover')?.value}}"/>
+            <button mat-raised-button>Change image</button>
           }
-        </mat-select>
-      </mat-form-field>
-    </form>
-  </div>
+        </div>
 
-  <div mat-dialog-actions>
-    <button mat-button (click)="submitForm()">Add</button>
-    <button mat-button mat-dialog-close>Cancel</button>
-  </div>
+      </form>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="submitForm()">Add</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </div>
+  }
 </div>

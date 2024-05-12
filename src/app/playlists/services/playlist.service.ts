@@ -4,7 +4,7 @@ import {CreatePlaylist} from "../interfaces/create-playlist";
 import {Playlist} from "../interfaces/playlist";
 import {Track} from "../../shared/interfaces/track";
 import {PagedResponse} from "../../shared/interfaces/paged-response";
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, Observable, tap} from "rxjs";
 import {
   AddTracksToPlaylistResponse,
   SuccessTracksToPlaylistResponse
@@ -86,12 +86,13 @@ export class PlaylistService extends BaseService{
   }
 
   getPlaylists() {
-    return this.get<ResponseAPI<Playlist[]>>('playlists').subscribe({
+    return this.get<ResponseAPI<Playlist[]>>('playlists').pipe(
+      tap({
       next: (response) => {
         this.playlists.set(response.data)
         this.filterPlaylists()
       }
-    })
+    }))
   }
 
   getPlaylistTracks(id: string) {

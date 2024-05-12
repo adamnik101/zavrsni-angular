@@ -1,0 +1,26 @@
+ul{
+  display: flex;
+  flex-direction: column;
+  li{
+    transition: .1s ease-in;
+    border-radius: 5px;
+    &:hover{
+      background: var(--light-black);
+    }
+    a{
+      padding: 12px 15px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: 1px;
+    }
+  }
+}
+.active{
+  border-radius: 5px;
+  background: var(--light);
+  color: var(--black);
+}

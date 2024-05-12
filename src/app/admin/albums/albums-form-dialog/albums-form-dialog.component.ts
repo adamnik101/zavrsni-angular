@@ -11,24 +11,28 @@ import {Artist} from "../../../artists/interfaces/artist";
 import {Album} from "../../../albums/interfaces/album";
 import {AdminService} from "../../services/admin.service";
 import {ArtistService} from "../../../artists/services/artist.service";
+import {DialogLoadingComponent} from "../../dialog-loading/dialog-loading.component";
+import {FormComponent} from "../../interfaces/form-component";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-albums-form-dialog',
   standalone: true,
-    imports: [
-        FormsModule,
-        MatButtonModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatOptionModule,
-        MatSelectModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    FormsModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    DialogLoadingComponent
+  ],
   templateUrl: './albums-form-dialog.component.html',
   styleUrl: './albums-form-dialog.component.scss'
 })
-export class AlbumsFormDialogComponent implements OnInit {
+export class AlbumsFormDialogComponent implements FormComponent<Album>, OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<Album>,
               private artistService: ArtistService,
@@ -38,11 +42,12 @@ export class AlbumsFormDialogComponent implements OnInit {
   currentYear = new Date().getFullYear();
   years: number[] = [];
   artists: Artist[] = [];
-
-  albumGroup = new FormGroup({
+  dataLoading: boolean = true;
+  group = new FormGroup({
     name: new FormControl('', [Validators.required]),
-    artist: new FormControl('', [Validators.required]),
-    releaseYear: new FormControl('', [Validators.required, Validators.max(new Date().getFullYear())])
+    artist_id: new FormControl('', [Validators.required]),
+    release_year: new FormControl('', [Validators.required, Validators.max(new Date().getFullYear())]),
+    cover: new FormControl('')
   });
 
   ngOnInit(): void {
@@ -58,6 +63,7 @@ export class AlbumsFormDialogComponent implements OnInit {
     this.artistService.getArtists().subscribe({
       next: (artists) => {
         this.artists = artists.data;
+        this.dataLoading = false;
       }
     })
   }
@@ -66,18 +72,23 @@ export class AlbumsFormDialogComponent implements OnInit {
     this.fillAlbumName(data.name);
     this.fillArtist(data.artist.id)
     this.fillReleaseYear(data.release_year);
+    this.fillCover(data.cover);
   }
 
   fillAlbumName(name: string): void {
-    this.albumGroup.get('name')?.setValue(name);
+    this.group.get('name')?.setValue(name);
   }
 
   fillArtist(id: string): void {
-    this.albumGroup.get('artist')?.setValue(id);
+    this.group.get('artist_id')?.setValue(id);
   }
 
   fillReleaseYear(year: any): void {
-    this.albumGroup.get('releaseYear')?.setValue(year);
+    this.group.get('release_year')?.setValue(year);
+  }
+
+  fillCover(imagePath: string): void {
+    this.group.get('cover')?.setValue(imagePath);
   }
 
   submitForm(): void {
@@ -108,18 +119,19 @@ export class AlbumsFormDialogComponent implements OnInit {
   prepareDataToSend(): FormData {
     let formData = new FormData();
 
-    formData.append('name', this.albumGroup.controls.name.value!);
-    formData.append('artist', this.albumGroup.controls.artist.value!);
-    formData.append('releaseYear', this.albumGroup.controls.releaseYear.value!);
+    formData.append('name', this.group.controls.name.value!);
+    formData.append('artist_id', this.group.controls.artist_id.value!);
+    formData.append('cover', this.group.controls.cover.value!);
+    formData.append('release_year', this.group.controls.release_year.value!);
 
     return formData;
   }
 
-  submitInsert(data: FormData) {
+  submitInsert(data: FormData): Observable<any> {
     return this.adminService.insert('albums', data);
   }
 
-  submitUpdate(data: FormData) {
+  submitUpdate(data: FormData): Observable<any> {
     return this.adminService.update('albums', data, this.data.item.id);
   }
 

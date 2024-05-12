@@ -7,18 +7,18 @@
     }
     genre</h1>
   <div mat-dialog-content>
-    <form [formGroup]="genreForm">
+    <form [formGroup]="group">
       <mat-form-field appearance="outline" floatLabel="always">
         <mat-label>Genre name</mat-label>
         <input matInput type="text" placeholder="Enter genre name" formControlName="name"/>
-        @if (genreForm.get('name')?.hasError('required')) {
+        @if (group.get('name')?.hasError('required')) {
           <mat-error>Name is required</mat-error>
         }
       </mat-form-field>
     </form>
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="createGenre()">Create</button>
+    <button mat-button (click)="submitForm()">Create</button>
     <button mat-button mat-dialog-close>Cancel</button>
   </div>
 </div>

@@ -4,6 +4,7 @@ import {Artist} from "../../artists/interfaces/artist";
 import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {BehaviorSubject} from "rxjs";
 import {AdminArtistService} from "../services/admin-artist.service";
+import {LoaderService} from "../../core/services/loader.service";
 
 @Component({
   selector: 'app-artists',
@@ -16,11 +17,14 @@ export class ArtistsComponent {
 
 
   public adminArtistsService = inject(AdminArtistService)
+  private _loader = inject(LoaderService)
 
   ngOnInit() {
+    this._loader.showLoader()
     this.adminArtistsService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
         this.adminArtistsService.setPagedResponse(pagedResponse.data)
+        this._loader.hideLoader()
       }
     })
   }

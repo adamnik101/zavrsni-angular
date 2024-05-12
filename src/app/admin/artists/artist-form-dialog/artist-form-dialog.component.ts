@@ -8,6 +8,8 @@ import {FormComponent} from "../../interfaces/form-component";
 import {DialogData} from "../../interfaces/dialog-data";
 import {SnackbarService} from "../../../shared/services/snackbar.service";
 import {AdminArtistService} from "../../services/admin-artist.service";
+import { Observable } from 'rxjs';
+import {AdminService} from "../../services/admin.service";
 
 @Component({
   selector: 'app-artist-form-dialog',
@@ -21,10 +23,10 @@ import {AdminArtistService} from "../../services/admin-artist.service";
   templateUrl: './artist-form-dialog.component.html',
   styleUrl: './artist-form-dialog.component.scss'
 })
-export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit{
+export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<Artist>,
-              private _adminArtistService: AdminArtistService,
+              private adminService: AdminService,
               private _snackbar: SnackbarService
   ) { }
 
@@ -42,7 +44,7 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit{
   }
 
   fillForm(item: Artist): void {
-    this.fillArtistName(item.name);
+      this.fillArtistName(item.name);
   }
 
   fillArtistName(name: string): void {
@@ -66,10 +68,24 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit{
     let data: FormData = this.prepareDataToSend();
 
     if (this.data.isEdit) {
-      this.updateArtist(data)
+      this.submitUpdate(data).subscribe({
+        next: (data) => {
+          console.log(data)
+        },
+        error: (err) => {
+
+        }
+      })
     }
     else {
-      this.insertArtist(data)
+      this.submitInsert(data).subscribe({
+        next: (data) => {
+          console.log(data)
+        },
+        error: (err) => {
+
+        }
+      })
     }
   }
 
@@ -84,29 +100,11 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit{
     return formData;
   }
 
-  insertArtist(data: FormData) {
-    this._adminArtistService.storeArtist(data).subscribe({
-      next: (data) => {
-
-        this._snackbar.showDefaultMessage('Added new artist');
-      },
-      error: (err) => {
-
-        this._snackbar.showFailedMessage('An error occurred');
-      }
-    })
+  submitInsert(data: FormData): Observable<any> {
+    return this.adminService.insert('artists', data);
   }
 
-  updateArtist(data: FormData) {
-    this._adminArtistService.updateArtist(this.data.item.id, data).subscribe({
-      next: (data) => {
-
-        this._snackbar.showDefaultMessage('Updated an artist');
-      },
-      error: (err) => {
-
-        this._snackbar.showFailedMessage('An error occurred');
-      }
-    })
+  submitUpdate(data: FormData): Observable<any> {
+    return this.adminService.update('artists', data, this.data.item.id);
   }
 }

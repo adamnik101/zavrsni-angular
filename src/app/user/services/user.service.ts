@@ -1,7 +1,7 @@
 import {Injectable, signal} from '@angular/core';
 import {User} from "../interfaces/user";
 import {BaseService} from "../../core/services/base.service";
-import {BehaviorSubject, config, Observable, Subscription} from "rxjs";
+import {BehaviorSubject, config, Observable, pipe, Subscription, tap} from "rxjs";
 import {EventType, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ConfigService} from "../../config/config.service";
@@ -72,8 +72,8 @@ export class UserService extends BaseService{
     this._userSubject.next(user)
   }
   getUser(navigateToProfile = false) {
-    this._loaderService.showLoader()
-    const subscribe: Subscription = this.get<ResponseAPI<User>>('auth/me').subscribe({
+    return this.get<ResponseAPI<User>>('auth/me')
+    .pipe(tap({
       next: (response: ResponseAPI<User>): void => {
         console.log(response)
         const user = response.data
@@ -92,7 +92,11 @@ export class UserService extends BaseService{
 
         this.likeService.setInitialLikedTracks(user.liked_tracks)
 
-        if(navigateToProfile) this._router.navigate(['user/profile'])
+        if(this.user()?.role.name === 'end-user' && navigateToProfile) {
+          this._router.navigate(['user/profile'])
+        } else if(this.user()?.role.name === 'admin' && navigateToProfile) {
+          this._router.navigate(['admin/dashboard'])
+        }
 
       },
       error: (response):void => {
@@ -101,13 +105,8 @@ export class UserService extends BaseService{
         //   this._router.navigate(['auth/login'])
         // }
         console.log(response.error.message)
-      },
-      complete: () :void => {
-        this._loaderService.hideLoader()
-        console.log(subscribe)
-        subscribe.unsubscribe()
       }
-    })
+    }))
   }
   unsetAllUserRelevantSubjects() {
     this.setUserSubject(null)

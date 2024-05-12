@@ -5,13 +5,13 @@
         <img ngSrc="assets/logo.svg" alt="home,icon" width="50" height="50"/>
         <h1>TREBLE</h1>
       </div>
-      @if(_userService.user()?.role?.name === 'admin'){
-        admin nav here!
-      } @else {
-        <app-nav-links></app-nav-links>
+      @if(_userService.userLoaded() && _userService.user()?.role?.name === 'admin'){
+        <app-admin-nav-links/>
+      } @else if ((_userService.userLoaded() && _userService.user()?.role?.name === 'end-user') || !_userService.userLoaded()) {
+        <app-nav-links/>
       }
       <mat-divider></mat-divider>
-      @if (_userService.userLoaded()) {
+      @if (_userService.userLoaded() && _userService.user()?.role?.name === 'end-user') {
         <div class="my-collection">
           <div class="left-collection">
             <img ngSrc="assets/icons-svg/playlist.svg" width="20" height="20" alt="playlist icon"/>
