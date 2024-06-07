@@ -909,3 +909,22 @@ form{
   background: rgba(0, 0, 0, .7);
 }
 
+.item-image-form{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  img{
+    width: 100px;
+    height: auto;
+  }
+  .no-image{
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--light-gray);
+  }
+}
