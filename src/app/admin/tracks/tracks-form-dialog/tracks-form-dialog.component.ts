@@ -94,28 +94,6 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
 
       this.trackOwnerValueChange();
 
-      // this.subscriptions.push(
-      //   this._artistService.getArtists().subscribe({
-      //     next: (artists) => {
-      //      this.artistsSubject.next(artists.data)
-      //       this.artists = artists.data
-      //       if(this.data.isEdit) {
-      //         this.getOwnerAlbums(artists.data)
-      //       }
-      //
-      //     }
-      //   })
-      // )
-      // this.subscriptions.push(
-      //   this._genreService.getGenres().subscribe({
-      //     next: (response) => {
-      //       this.genres = response.data
-      //       this.dataLoading = false
-      //     }
-      //   })
-      // )
-
-
     }
 
     trackOwnerValueChange(): void {
@@ -128,12 +106,6 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
                 if (value) value.albums = data.albums;
                 return value;
               });
-
-              if(this.data.isEdit) {
-                if(this.group.get('album')?.value) {
-
-                }
-              }
             } else {
               this.group.get('album')?.disable();
               this.group.get('album')?.setValue(null)

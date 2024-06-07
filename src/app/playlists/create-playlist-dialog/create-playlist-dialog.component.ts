@@ -55,7 +55,11 @@ export class CreatePlaylistDialogComponent {
 
       this._playlistService.createPlaylist(formData).subscribe({
         next: (response) => {
-          this._playlistService.getPlaylists()
+          this._playlistService.getPlaylists().subscribe({
+            next: (data) => {
+              console.log(data);
+            }
+          })
           this._snackbarService.showDefaultMessage(response.message)
           this._dialog.close(response)
         },

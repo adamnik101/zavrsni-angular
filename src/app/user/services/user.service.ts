@@ -15,6 +15,7 @@ import {Album} from "../../albums/interfaces/album";
 import {LoaderService} from "../../core/services/loader.service";
 import {TrackLikeService} from "../../shared/services/track-like.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
+import {SpinnerFunctions} from "../../core/static-functions";
 
 
 @Injectable({
@@ -93,9 +94,13 @@ export class UserService extends BaseService{
         this.likeService.setInitialLikedTracks(user.liked_tracks)
 
         if(this.user()?.role.name === 'end-user' && navigateToProfile) {
-          this._router.navigate(['user/profile'])
+          this._router.navigate(['user/profile']).then(() => {
+            SpinnerFunctions.hideSpinner();
+          })
         } else if(this.user()?.role.name === 'admin' && navigateToProfile) {
-          this._router.navigate(['admin/dashboard'])
+          this._router.navigate(['admin/dashboard']).then(() => {
+            SpinnerFunctions.hideSpinner();
+          })
         }
 
       },

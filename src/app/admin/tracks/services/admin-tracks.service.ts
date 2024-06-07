@@ -62,7 +62,7 @@ export class AdminTracksService extends BaseService{
         }
 
       }
-      return this.post(`admin/tracks/${id}/update`, formData)
+      return this.post(`tracks/${id}/update`, formData)
   }
   addToFormData(group: FormGroup) {
     this._formData = new FormData()

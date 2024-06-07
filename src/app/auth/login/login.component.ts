@@ -12,6 +12,7 @@ import {PlaylistService} from "../../playlists/services/playlist.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {SnackbarService} from "../../shared/services/snackbar.service";
+import {SpinnerFunctions} from "../../core/static-functions";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -43,11 +44,16 @@ export class LoginComponent {
         password: this.loginGroup.get('password')?.value?.trim()!,
         remember: this.loginGroup.get('remember')?.value
       }
+      SpinnerFunctions.showSpinner();
       this.subscribe = this._authService.login(loginData).subscribe({
         next: (response) => {
           if (response.data) {
             this._tokenService.setToken(response.data.token)
-            this._userService.getUser(true)
+            this._userService.getUser(true).subscribe({
+              next: (data) => {
+                console.log(data)
+              }
+            })
             this._playlistService.getPlaylists()
           }
         },
