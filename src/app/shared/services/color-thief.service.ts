@@ -45,6 +45,7 @@ export class ColorThiefService {
           document.documentElement.style.setProperty('--profile', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
         } break;
         case "small-header" : {
+          console.log(newBackgroundDarker)
           document.documentElement.style.setProperty('--small-header', newBackgroundDarker);
         }
       }
@@ -57,7 +58,10 @@ export class ColorThiefService {
     if(type === 'profile') {
       image.src = url
     }
-    if (url.includes('placeholder')) {image.src = googleProxyURL + url}
+    else if (url.includes('placeholder')) {
+      image.src = googleProxyURL + encodeURIComponent(url)
+      console.log(url)
+    }
     else {
       image.src = url
     }

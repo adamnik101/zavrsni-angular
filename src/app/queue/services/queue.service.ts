@@ -83,7 +83,7 @@ export class QueueService implements Queue {
           this.setCurrentTrack(track)
           this._audioService.playTrack(track, this.from)
         }
-        else if(this._userService.settings().explicit && track.explicit) {
+        else if(this._userService.user()!.settings.explicit && track.explicit) {
           this.currentQueueIndexSignal.set(index)
           this.currentQueueIndex = index
           this.setCurrentTrack(track)

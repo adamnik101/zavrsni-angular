@@ -64,6 +64,9 @@
   :nth-child(1) {
     width: 250px;
   }
+  .no-bottom {
+    margin-bottom: -1.25em !important;
+  }
   button{
     background: var(--light-black);
     padding: 12px;
@@ -75,6 +78,13 @@
     cursor: pointer;
     border-radius: 50%;
     transition: .1s ease-in-out;
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      &:hover{
+        background: var(--light-black);
+      }
+    }
     &:hover{
       background: rgba(250, 26, 26, 0.76);
     }

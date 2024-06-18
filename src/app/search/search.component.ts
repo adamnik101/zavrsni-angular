@@ -14,7 +14,7 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit, OnDestroy{
-  public response : SearchResult = {} as SearchResult
+  public response : SearchResult = {} as SearchResult;
   subs: Subscription[] = []
   private _sub1!: Subscription
   public from!: From;
@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit, OnDestroy{
   genreSub!: Subscription
   query: string  = ''
   loading: boolean = true;
-  constructor(private _searchService: SearchService, private _title: Title, private _genreService: GenreService) {
+  constructor(public _searchService: SearchService, private _title: Title, private _genreService: GenreService) {
 
   }
 
@@ -54,22 +54,38 @@ export class SearchComponent implements OnInit, OnDestroy{
     }
   }
 
-  goToNextPaginatedPageTrack(nextPageUrl: string) {
+  goToNextPaginatedPageTrack(nextPageUrl: string): void {
     this._searchService.changePagedResponsePage(nextPageUrl, 'track')
   }
-  goToNextPaginatedPageArtist(nextPageUrl: string) {
+  goToNextPaginatedPageArtist(nextPageUrl: string): void {
     this._searchService.changePagedResponsePage(nextPageUrl, 'artist')
   }
-  goToNextPaginatedPageAlbum(nextPageUrl: string) {
+  goToNextPaginatedPageAlbum(nextPageUrl: string): void {
     this._searchService.changePagedResponsePage(nextPageUrl, 'album')
   }
-  goToPreviousPaginatedPageAlbum() {
-    this._searchService.goToPreviousPagedResponse('album')
+  goToPreviousPaginatedPageAlbum(previousPageUrl: string): void {
+    this._searchService.changePagedResponsePage(previousPageUrl, 'album', true)
   }
-  goToPreviousPaginatedPageTrack() {
-    this._searchService.goToPreviousPagedResponse('track')
+  goToPreviousPaginatedPageTrack(previousPageUrl: string): void {
+    this._searchService.changePagedResponsePage(previousPageUrl, 'track', true)
   }
-  goToPreviousPaginatedPageArtist() {
-    this._searchService.goToPreviousPagedResponse('artist')
+  goToPreviousPaginatedPageArtist(previousPageUrl: string): void {
+    this._searchService.changePagedResponsePage(previousPageUrl, 'artist', true)
+  }
+  onGoToPageChange(type: 'tracks' | 'albums' | 'artists', page: any): void {
+    switch (type) {
+      case 'tracks': {
+        this._searchService.track_page.set(page.value);
+        this._searchService.goToPage(this._searchService.track_page(), 'track')
+      } break;
+      case 'albums': {
+        this._searchService.album_page.set(page.value);
+        this._searchService.goToPage(this._searchService.album_page(), 'album')
+      } break;
+      case 'artists': {
+        this._searchService.artist_page.set(page.value);
+        this._searchService.goToPage(this._searchService.artist_page(), 'artist')
+      }break;
+    }
   }
 }

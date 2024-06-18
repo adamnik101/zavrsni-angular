@@ -16,37 +16,26 @@ export class SettingsComponent {
   user: User = {} as User
   public userService = inject(UserService)
   private _titleService = inject(Title)
-  private _cdr = inject(ChangeDetectorRef)
   private _snackbar = inject(SnackbarService)
   ngOnInit() {
     this._titleService.setTitle('My Settings - TREBLE')
-    this.userService.user$.subscribe({
-      next: (user) => {
-        if(user) {
-          this.user = user
-        }
-      }
-    })
-    this.userService.settings$.subscribe({
-      next: (settings) => {
-       this.settings = settings
-        this.loading = false
-        this._cdr.markForCheck()
-      }
-    })
   }
 
   update(value: any, setting: string) {
     this.userService.updateSettings(value, setting).subscribe({
       next: (response) => {
         console.log(response)
-        this.userService.settings.set(response.data)
-        this.userService.updateUserSettings(response.data)
+        this.userService.user.update(user => {
+          if (user) {
+              user.settings = response.data;
+          }
+
+          return user;
+        });
         if(setting === 'explicit') {
           this._snackbar.showDefaultMessage(`Explicit content ${response.data.explicit ? "enabled" : "disabled"}`)
         }
       }
     })
-    console.log(value)
   }
 }

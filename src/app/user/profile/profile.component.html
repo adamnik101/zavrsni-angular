@@ -1,5 +1,5 @@
 
-@if (userService.userLoaded()) {
+@if (userService.userLoaded() && userService.user()) {
   <div class="profile">
     <div class="top" #cover>
       <div class="left">
@@ -32,7 +32,7 @@
         <p>Profile</p>
         <div class="username">
           <button class="edit" (click)="openEditUsernameDialog()"></button>
-          <h1>{{user.username}}</h1>
+          <h1>{{userService.user()?.username}}</h1>
           <mat-icon>edit</mat-icon>
         </div>
         <div class="row">
@@ -62,17 +62,17 @@
           </div>
         </div>
       }
-      @if(followings.length) {
+      @if(userService.user() && userService.user()!.following_count) {
         <div class="section">
           <div class="top-section">
             <h1>Following</h1>
-            @if (user.following_count > 6) {
+            @if (userService.user() && userService.user()!.following_count > 6) {
               <a routerLink="/user/followings">See more</a>
             }
           </div>
           <!--<app-following [following]="user.following"></app-following>-->
           <div class="row">
-            @for (artist of user.followings; track artist; let i = $index) {
+            @for (artist of userService.user()!.followings; track artist; let i = $index) {
               @if(i < 6) {
                 <app-artist-round-card [artist]="artist"></app-artist-round-card>
               }
@@ -82,16 +82,16 @@
           </div>
         </div>
       }
-      @if ((userService.likedAlbums$ | async )?.length!) {
+      @if (userService.user() && userService.user()!.liked_albums.length) {
         <div class="section">
           <div class="top-section">
             <h1>Liked albums</h1>
-            @if ((userService.likedAlbums$ | async )?.length! > 6) {
+            @if (userService.user()!.liked_albums.length! > 6) {
               <a routerLink="/user/followings">See more</a>
             }
           </div>
           <div class="row">
-            @for(album of (userService.likedAlbums$ | async); track album; let index = $index) {
+            @for(album of userService.user()!.liked_albums; track album; let index = $index) {
               @if(index < 6) {
                 <app-album-card [album]="album"></app-album-card>
               }
@@ -104,7 +104,7 @@
       }
       <div class="section favorite">
         <h1>Your favorite tracks last 7 days</h1>
-        @if (favoriteTracks.length > 0) {
+        @if (userService.user() && userService.user()!.liked_tracks.length > 0) {
           <p>Only visible to you</p>
           <app-track-table [tracks]="favoriteTracks" [from]="from"></app-track-table>
         } @else {

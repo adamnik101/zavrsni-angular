@@ -45,17 +45,10 @@ export class LoginComponent {
         remember: this.loginGroup.get('remember')?.value
       }
       SpinnerFunctions.showSpinner();
-      this.subscribe = this._authService.login(loginData).subscribe({
+      this.subscribe = this._authService.getDataFromAllRequests(loginData).subscribe({
         next: (response) => {
-          if (response.data) {
-            this._tokenService.setToken(response.data.token)
-            this._userService.getUser(true).subscribe({
-              next: (data) => {
-                console.log(data)
-              }
-            })
-            this._playlistService.getPlaylists()
-          }
+          console.log(response)
+          SpinnerFunctions.hideSpinner();
         },
         error: (response) => {
           const res = response.error as LoginResponseError
