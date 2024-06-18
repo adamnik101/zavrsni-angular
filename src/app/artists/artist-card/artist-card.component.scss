@@ -53,9 +53,12 @@
 .row{
   display: flex;
   flex-direction: row;
-  gap: 20px;
   width: 100%;
   align-items: center;
+  background: var(--light-black);
+  padding: 10px;
+  height: 70px;
+  border-radius: 45px;
   .left{
     display: flex;
     flex-direction: row;
@@ -66,6 +69,11 @@
       width: 50px;
       border-radius: 50%;
     }
+    a{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   .right{
     width: auto;
@@ -73,6 +81,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 7.5px;
+    padding-right: 10px;
     p{
       color: var(--light-text);
     }

@@ -51,7 +51,7 @@ export class UserService extends BaseService{
   constructor(private http: HttpClient,
               private config: ConfigService,
               private _loaderService: LoaderService,
-              private _router: Router, private _authService: AuthService,
+              private _router: Router,
               private likeService: TrackLikeService) {
     super(http, config);
   }
@@ -86,7 +86,7 @@ export class UserService extends BaseService{
 
         this._followingSubject.next(user.followings)
         this._settingsSubject.next(user.settings)
-        this._authService.isLoggedIn = true
+        // this._authService.isLoggedIn = true
         this.likedTracks.set(user.liked_tracks)
         this.userLoaded.set(true)
         this.settings.set(user.settings)
