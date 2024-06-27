@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {Artist} from "../../../artists/interfaces/artist";
@@ -27,7 +27,8 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData<Artist>,
               private adminService: AdminService,
-              private _snackbar: SnackbarService
+              private _snackbar: SnackbarService,
+              private dialogRef: MatDialogRef<ArtistFormDialogComponent>
   ) { }
 
   group = new FormGroup({
@@ -70,20 +71,24 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit 
     if (this.data.isEdit) {
       this.submitUpdate(data).subscribe({
         next: (data) => {
-          console.log(data)
+
+
+          this.close(true);
         },
         error: (err) => {
-
+          this.close();
         }
       })
     }
     else {
       this.submitInsert(data).subscribe({
         next: (data) => {
-          console.log(data)
+
+          this.close(true);
+
         },
         error: (err) => {
-
+          this.close();
         }
       })
     }
@@ -93,7 +98,7 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit 
     let formData: FormData = new FormData();
 
     if (this.selectedFile) {
-      formData.append('image', this.selectedFile);
+      formData.append('cover', this.selectedFile);
     }
     formData.append('name', this.group.controls.name.value!)
 
@@ -106,5 +111,9 @@ export class ArtistFormDialogComponent implements FormComponent<Artist>, OnInit 
 
   submitUpdate(data: FormData): Observable<any> {
     return this.adminService.update('artists', data, this.data.item.id);
+  }
+
+  close(state: boolean = false): void {
+    this.dialogRef.close(state);
   }
 }

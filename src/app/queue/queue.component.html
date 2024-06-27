@@ -43,12 +43,12 @@
                     <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
                   </button>
                 }
-                @if (index == this.queueService.currentQueueIndex && !audioService.audio.paused) {
+                @if (index == this.queueService.currentQueueIndex && !audioService.stopped()) {
                   <button (click)="audioService.pause()" class="pause">
                     <mat-icon [style.color]="'#fff'">pause</mat-icon>
                   </button>
                 }
-                @if (index == this.queueService.currentQueueIndex && audioService.audio.paused) {
+                @if (index == this.queueService.currentQueueIndex && audioService.stopped()) {
                   <button (click)="audioService.continue()" class="pause">
                     <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
                   </button>

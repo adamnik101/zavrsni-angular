@@ -54,7 +54,7 @@
                   >
                     <img class="next" src="assets/icons-svg/back.svg" />
                   </button>
-                  <mat-form-field class="no-bottom">
+                  <mat-form-field class="no-bottom black-ddl">
                     <mat-label>Go to page</mat-label>
                     <mat-select formControlName="tracks_page" (selectionChange)="onGoToPageChange('tracks', $event)">
                       @for (page of _searchService.tracksPages(); track page) {
@@ -92,7 +92,7 @@
                   <img class="next" src="assets/icons-svg/back.svg" />
                 </button>
 
-                <mat-form-field class="no-bottom">
+                <mat-form-field class="no-bottom black-ddl">
                   <mat-label>Go to page</mat-label>
                   <mat-select  formControlName="artists_page" (selectionChange)="onGoToPageChange('artists', $event)">
                     @for (page of _searchService.artistsPages(); track page) {
@@ -129,7 +129,7 @@
                 >
                   <img class="next" src="assets/icons-svg/back.svg" />
                 </button>
-                <mat-form-field class="no-bottom">
+                <mat-form-field class="no-bottom black-ddl">
                   <mat-label>Go to page</mat-label>
                   <mat-select formControlName="albums_page" (selectionChange)="onGoToPageChange('albums', $event)">
                     @for (page of _searchService.albumsPages(); track page) {

@@ -18,7 +18,13 @@
     </form>
   </div>
   <div mat-dialog-actions>
-    <button mat-button (click)="submitForm()">Create</button>
+    <button mat-raised-button color="primary" (click)="submitForm()">
+      @if (data.isEdit) {
+        Update
+      } @else {
+        Add
+      }
+    </button>
     <button mat-button mat-dialog-close>Cancel</button>
   </div>
 </div>

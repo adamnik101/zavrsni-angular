@@ -33,7 +33,7 @@ export class UserPlaylistListComponent {
   selectedPlaylist : Playlist | null = null
   constructor(public dragDropService: DragDropService,
               protected _queueService: QueueService,
-              private _audioService: AudioService,
+              public _audioService: AudioService,
               private _playlistService: PlaylistService,
               private _matDialog: MatDialog) {
   }

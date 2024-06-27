@@ -26,15 +26,16 @@
             @if (this.group.get('cover') && data.isEdit) {
               <div class="image">
                 <p>Current image: </p>
-                @if (data.item.cover) {
-                  <img src="{{data.item.cover}}"/>
+                @if (group.get('cover')?.value) {
+                  <img src="{{selectedImageSrc}}"/>
                 } @else {
-                  @if (group.get('cover')?.value) {
-                    <img src="{{selectedImageSrc}}"/>
+                  @if (data.item.cover) {
+                    <img src="{{data.item.cover}}"/>
                   } @else {
                     None
                   }
                 }
+
               </div>
               <button mat-stroked-button (click)="imageFile.click()">Change image</button>
             } @else {
@@ -149,7 +150,7 @@
     </div>
 
     <div mat-dialog-actions>
-      <button mat-button (click)="finish()">
+      <button mat-raised-button class="main-button" color="primary" (click)="finish()">
         @if (data.isEdit) {
           Update
         } @else {
@@ -157,7 +158,7 @@
         }
         track
       </button>
-      <button mat-button (click)="resetToDefaultValues()">Reset</button>
+      <button mat-raised-button class="main-button" color="warn" (click)="resetToDefaultValues()">Reset</button>
       <button mat-button mat-dialog-close>Cancel</button>
     </div>
   }

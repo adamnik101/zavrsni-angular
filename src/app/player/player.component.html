@@ -69,7 +69,7 @@
         <mat-icon [style.color]="'#fff'" class="smaller">skip_previous</mat-icon>
       </button>
 
-      @if (!this._queueService.currentTrackInfo()?.isBeingPlayed) {
+      @if (this.audioService.stopped()) {
         <button class="action-button play" (click)="continue()">
           <mat-icon [style.color]="'#fff'" class="bigger">play_circle_filled</mat-icon>
         </button>
