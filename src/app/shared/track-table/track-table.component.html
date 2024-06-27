@@ -36,7 +36,7 @@
     }
     <td class="cover-title">
       @if (_queueService.currentTrackInfo() | isCurrentTrack:track:index:from) {
-        @if (_queueService.currentTrackInfo()?.isBeingPlayed) {
+        @if (!this._audioService.stopped()) {
           <button class="play" (click)="pause()">
             <img src="assets/icons-svg/pause.svg" />
           </button>

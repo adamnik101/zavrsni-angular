@@ -32,7 +32,7 @@ export class GenresFormDialogComponent implements FormComponent<Genre>, OnInit {
               private _adminGenreService: AdminGenreService,
               private adminService: AdminService,
               private _snackbar: SnackbarService,
-              private _matDialog: MatDialogRef<GenresFormDialogComponent>) { }
+              private dialogRef: MatDialogRef<GenresFormDialogComponent>) { }
 
   group = new FormGroup({
     name: new FormControl('', [Validators.required])
@@ -57,42 +57,25 @@ export class GenresFormDialogComponent implements FormComponent<Genre>, OnInit {
     if(this.data.isEdit) {
       this.submitUpdate(data).subscribe({
         next: (response) => {
-          this.closeDialog();
-          this.getData();
+          this.close(true);
         },
         error: (err) => {
-
+          this.close();
         }
       });
     }
     else {
       this.submitInsert(data).subscribe({
         next: (data) => {
-          this.closeDialog();
-          this.getData();
+          this.close(true);
         },
         error: (err) => {
-
+          this.close();
         }
       });
     }
   }
 
-  closeDialog(): void {
-    this._matDialog.close()
-  }
-
-  getData(): void {
-    this._matDialog.afterClosed().subscribe({
-      next: (response) => {
-        this._adminGenreService.getPagedResponse().subscribe({
-          next: (genres) => {
-            this._adminGenreService.setPagedResponse(genres.data)
-          }
-        })
-      }
-    })
-  }
   prepareDataToSend(): FormData {
     let formData = new FormData();
 
@@ -107,5 +90,9 @@ export class GenresFormDialogComponent implements FormComponent<Genre>, OnInit {
 
   submitInsert(data: FormData): Observable<any> {
     return this.adminService.insert('genres', data);
+  }
+
+  close(state: boolean = false): void {
+    this.dialogRef.close(state);
   }
 }

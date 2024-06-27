@@ -82,23 +82,63 @@ export class TableAdminComponent<T extends  {}> {
     }
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
-        this._dialog.open(TracksFormDialogComponent, config)
+        this._dialog.open(TracksFormDialogComponent, config).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
+        })
       } break
       case 'genres' : {
-        this._dialog.open(GenresFormDialogComponent, config)
+        this._dialog.open(GenresFormDialogComponent, config).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
+        })
       } break
       case 'artists' : {
-        this._dialog.open(ArtistFormDialogComponent, config)
+        this._dialog.open(ArtistFormDialogComponent, config).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
+        })
       } break
       case 'albums' : {
-        this._dialog.open(AlbumsFormDialogComponent, config)
+        this._dialog.open(AlbumsFormDialogComponent, config).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
+        })
       } break
       case 'users' : {
-        this._dialog.open(UsersFormDialogComponent, config)
+        this._dialog.open(UsersFormDialogComponent, config).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
+        })
       } break
     }
   }
 
+  getDataAfterSuccessResponse(): void {
+    console.log('get data')
+    this.service.getPagedResponse().subscribe({
+      next: (pagedResponse: ResponseAPI<PagedResponse<any>>): void => {
+        if(pagedResponse) {
+          this.service.setPagedResponse(pagedResponse.data);
+        }
+      }
+    })
+  }
   unselectAll() {
     this._selectionService.removeAll(this.selectAllCheckbox)
   }
@@ -210,6 +250,12 @@ export class TableAdminComponent<T extends  {}> {
             isEdit: true,
             item: item
           }
+        }).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
         })
       } break;
       case 'users': {
@@ -217,6 +263,12 @@ export class TableAdminComponent<T extends  {}> {
           data: {
             isEdit: true,
             item: item
+          }
+        }).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
           }
         })
       } break;
@@ -226,6 +278,12 @@ export class TableAdminComponent<T extends  {}> {
             isEdit: true,
             item: item
           }
+        }).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
         })
       } break;
       case 'albums' : {
@@ -234,6 +292,12 @@ export class TableAdminComponent<T extends  {}> {
             isEdit: true,
             item: item
           }
+        }).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
+          }
         })
       } break;
       case 'genres' : {
@@ -241,6 +305,12 @@ export class TableAdminComponent<T extends  {}> {
           data: {
             isEdit: true,
             item: item
+          }
+        }).afterClosed().subscribe({
+          next: (data) => {
+            if(data) {
+              this.getDataAfterSuccessResponse();
+            }
           }
         })
       } break;

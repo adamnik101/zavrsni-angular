@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, inject, Injectable, signal} from '@angular/core';
+import {ChangeDetectorRef, inject, Injectable, signal, WritableSignal} from '@angular/core';
 import {Track} from "../shared/interfaces/track";
 import {From} from "../shared/interfaces/from";
 import {BaseService} from "../core/services/base.service";
@@ -11,14 +11,11 @@ import {BehaviorSubject} from "rxjs";
 export class AudioService extends BaseService{
   public currentTrack = signal<Track>({} as Track)
 
-  //private _queueService = inject(QueueService)
   from: From = { } as From
   audio : HTMLAudioElement = new Audio()
   currTime = signal<number>(0)
   dur = signal<number>(0)
-  currentTime = 0
   duration = 0
-  isPlaying: boolean = false
 
   repeatIndex: number = 0
   repeat : string[] = ['no-repeat', 'repeat-all', 'repeat-one']
@@ -26,6 +23,7 @@ export class AudioService extends BaseService{
   volumeValue: number = 0.5;
   private muted: boolean = false;
   trackEnd: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  stopped: WritableSignal<boolean> = signal<boolean>(true);
 
   playTrack(track: Track, from: From) {
     this.currentTrack.set(track)
@@ -43,35 +41,34 @@ export class AudioService extends BaseService{
       this.audio.oncanplaythrough = () => {
         this.trackEnd.next(false);
         this.dur.set(this.audio.duration * 1000)
-        //this.duration = this.audio.duration * 1000
-        this.isPlaying = true
+        this.stopped.set(false);
         this.audio.ontimeupdate = () => {
           this.currTime.set(this.audio.currentTime * 1000)
-          //this.currentTime = this.audio.currentTime * 1000
         }
         this.audio.onended = () => {
-          this.trackEnd.next(true);
+          this.stopped.set(true);
           switch (this.repeatIndex) {
             case 1 : this.repeatQueue();break
             case 2 : this.playTrack(track, from); break
             default: {
-
+              if(this.repeatIndex == 0) {
+                this.trackEnd.next(true);
+              }
             }
             }
-          this.isPlaying = false
         }
       }
     })
   }
   continue() {
     this.audio.play().then(() => {
-      this.isPlaying = true
+      this.stopped.set(false);
     })
   }
 
   pause() {
-    this.audio.pause()
-    this.isPlaying = false
+    this.audio.pause();
+    this.stopped.set(true);
   }
 
   toggleRepeat() {
@@ -103,14 +100,6 @@ export class AudioService extends BaseService{
     /*if(this.queueIndex == this.queue.length - 1) {
       this.playTrack(this.currentlyPlayingTrack, this.from)
     }*/
-  }
-
-  goForward() {
-
-  }
-
-  goPrevious() {
-
   }
 
   toggleMuteVolume() {

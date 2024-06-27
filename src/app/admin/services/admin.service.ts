@@ -28,7 +28,7 @@ export class AdminService extends BaseService{
   }
 
   update(path: string, data: FormData, id: string) {
-    return this.post(`${path}/${id}`, data);
+    return this.post(`${path}/${id}/update`, data);
   }
 
   insert(path: string, data: FormData) {

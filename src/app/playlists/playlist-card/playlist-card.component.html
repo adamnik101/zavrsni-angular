@@ -27,11 +27,11 @@
     </button>
   </mat-menu>
   @if (playlist.tracks_count > 0) {
-    @if(this._queueService.from.id === playlist.id && this._queueService.currentTrackInfo()?.isBeingPlayed) {
+    @if(this._queueService.from.id === playlist.id && !this._audioService.stopped()) {
       <button  class="showing" matRipple (click)="pause()">
         <mat-icon class="white">pause</mat-icon>
       </button>
-    } @else if(this._queueService.from.id === playlist.id && !this._queueService.currentTrackInfo()?.isBeingPlayed) {
+    } @else if(this._queueService.from.id === playlist.id && this._audioService.stopped()) {
       <button  class="showing" matRipple (click)="continue()">
         <mat-icon class="white">play_arrow</mat-icon>
       </button>

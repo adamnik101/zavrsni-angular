@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  ViewChild
+} from '@angular/core';
 import {AudioService} from "../audio/audio.service";
 import {Track} from "../shared/interfaces/track";
 import {From} from "../shared/interfaces/from";
@@ -20,11 +27,8 @@ export class PlayerComponent {
   constructor(public audioService: AudioService,
               protected _queueService: QueueService,
               private _router: Router,
-              private _route: ActivatedRoute) { }
-  /*get currentTrack() : Track {
-    return this.audioService.currentlyPlayingTrack
-  }
-  */
+              private _route: ActivatedRoute,
+              private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.trackEnd();
@@ -32,9 +36,13 @@ export class PlayerComponent {
 
   trackEnd(): void {
     this.audioService.trackEnd.subscribe({
-      next: (data) => {
+      next: (data: boolean): void => {
         if(data) {
-          this._queueService.goForward();
+          this.audioService.stopped.set(true);
+          const isLastInQueue: boolean = this._queueService.currentQueueIndex == this._queueService.queue.length - 1;
+          if(!isLastInQueue) {
+            this._queueService.goForward();
+          }
         }
       }
     })
@@ -112,7 +120,7 @@ export class PlayerComponent {
     this._queueService.queueOpened = !this._queueService.queueOpened
   }
   @HostListener('window:keydown', ["$event"])
-  handleSpaceDown(event: KeyboardEvent) {
+  handleSpaceDown(event: KeyboardEvent): void {
     if(this._queueService.currentTrackInfo()?.isBeingPlayed) {
       if(event.key === " ") {
         event.preventDefault()

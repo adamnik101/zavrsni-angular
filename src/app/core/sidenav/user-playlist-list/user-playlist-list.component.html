@@ -10,11 +10,11 @@
       }
     </div>
     @if(playlist.tracks_count > 0) {
-      @if(this._queueService.currentTrackInfo()?.from === playlist.id && this._queueService.currentTrackInfo()?.isBeingPlayed) {
+      @if(this._queueService.currentTrackInfo()?.from === playlist.id && !this._audioService.stopped()) {
         <button  class="showing opacity-1" matRipple (click)="pause()">
           <mat-icon class="white">pause</mat-icon>
         </button>
-      } @else if(this._queueService.currentTrackInfo()?.from === playlist.id && !this._queueService.currentTrackInfo()?.isBeingPlayed) {
+      } @else if(this._queueService.currentTrackInfo()?.from === playlist.id && this._audioService.stopped()) {
         <button  class="showing opacity-1" matRipple (click)="continue()">
           <mat-icon class="white">play_arrow</mat-icon>
         </button>

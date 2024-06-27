@@ -47,8 +47,12 @@ export class AdminTracksService extends BaseService{
   updateTrack(id: string, group: FormGroup) {
      let formData = new FormData()
 
-      formData.append('cover', group.get('cover')?.value)
-      formData.append('track', group.get('track')?.value)
+      if(group.get('cover')?.value) {
+        formData.append('cover', group.get('cover')?.value)
+      }
+      if(group.get('track')?.value) {
+        formData.append('track', group.get('track')?.value)
+      }
       formData.append('title', group.get('title')?.value)
       formData.append('owner', group.get('owner')?.value.id)
     if (group.get('album')?.value) {

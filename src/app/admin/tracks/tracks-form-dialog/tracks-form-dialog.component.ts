@@ -2,20 +2,18 @@ import {Component, ElementRef, Inject, OnInit, Signal, signal, ViewChild} from '
 import {FormComponent} from "../../interfaces/form-component";
 import {Track} from "../../../shared/interfaces/track";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {DialogData} from "../../interfaces/dialog-data";
 import {IsSelectedInFeaturesPipe} from "../../pipes/is-selected-in-features.pipe";
 import {MatOptionModule} from "@angular/material/core";
-import {MatSelectChange, MatSelectModule} from "@angular/material/select";
+import {MatSelectModule} from "@angular/material/select";
 import {Artist} from "../../../artists/interfaces/artist";
 import {ArtistService} from "../../../artists/services/artist.service";
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
 import {AsyncPipe} from "@angular/common";
-import {toSignal} from "@angular/core/rxjs-interop";
-import {OwnerValue} from "../../interfaces/owner-value";
 import {Genre} from "../../../genre/interfaces/genre";
 import {GenreService} from "../../../genre/services/genre.service";
 import {AdminTracksService} from "../services/admin-tracks.service";
@@ -74,7 +72,8 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
                 private _adminTrackService: AdminTracksService,
                 private adminService: AdminService,
                 private _snackbar: SnackbarService,
-                private adminTracksFormServiceService: AdminTracksFormServiceService){
+                private adminTracksFormServiceService: AdminTracksFormServiceService,
+                private dialogRef: MatDialogRef<TracksFormDialogComponent>){
     }
 
     ngOnInit() {
@@ -118,11 +117,21 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     fillForm(item: Track): void {
       console.log(item)
         this.trackInfo = item.path
-        this.group.get('track')?.setValue(item.path)
+        if(this.selectedTrack) {
+          this.group.get('track')?.setValue(item.path)
+        } else {
+          this.group.get('track')?.clearValidators();
+          this.group.updateValueAndValidity({onlySelf: true, emitEvent: false});
+        }
         this.group.get('title')?.setValue(item.title)
         this.group.get('owner')?.setValue(item.owner)
         this.group.get('explicit')?.setValue(item.explicit)
-        this.group.get('cover')?.setValue(item.cover)
+        if(this.selectedImageSrc) {
+          this.group.get('cover')?.setValue(item.cover)
+        } else {
+          this.group.get('cover')?.clearValidators();
+          this.group.updateValueAndValidity({onlySelf: true, emitEvent: false});
+        }
         this.group.get('genre')?.setValue(item.genre_id)
         if(this.group.get('owner')?.value) {
           if(item.album_id) {
@@ -144,7 +153,6 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
     }
     ngOnDestroy() {
       for (let sub of this.subscriptions) {
-        console.log(sub)
         sub.unsubscribe()
       }
     }
@@ -158,9 +166,11 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
           this._adminTrackService.updateTrack(this.data.item.id,this.group).subscribe({
             next: (response) => {
               console.log(response)
+              this.close(true);
             },
             error: (err) => {
-              console.log(err.error.msg)
+              console.log(err)
+              this.close();
             }
           })
           return
@@ -171,7 +181,11 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
           this._adminTrackService.addToFormData(this.group)
           this._adminTrackService.addTrack().subscribe({
             next: (response) => {
-              console.log(response)
+
+              this.close(true);
+            },
+            error: (err) => {
+              this.close()
             }
           })
         }
@@ -184,6 +198,11 @@ export class TracksFormDialogComponent implements FormComponent<Track>, OnInit {
       }
       this.group.reset()
   }
+
+  close(state: boolean = false): void {
+      this.dialogRef.close(state);
+  }
+
   compareOwners(o1: any, o2: any) {
     return o1 && o2 ? o1.id === o2.id : o1 === o2
   }

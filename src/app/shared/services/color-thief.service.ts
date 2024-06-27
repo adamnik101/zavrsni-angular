@@ -59,8 +59,7 @@ export class ColorThiefService {
       image.src = url
     }
     else if (url.includes('placeholder')) {
-      image.src = googleProxyURL + encodeURIComponent(url)
-      console.log(url)
+      image.src = encodeURIComponent(url)
     }
     else {
       image.src = url
