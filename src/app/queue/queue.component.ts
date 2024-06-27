@@ -27,6 +27,7 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import {Track} from "../shared/interfaces/track";
 import {Artist} from "../artists/interfaces/artist";
 import {UserService} from "../user/services/user.service";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-queue',
@@ -91,9 +92,7 @@ export class QueueComponent {
       },
     });
   }
-  ngOnChanges() {
-    console.log('change');
-  }
+
   ngAfterViewInit() {
     const playing =
       this.trackList.nativeElement.children[
@@ -142,6 +141,8 @@ export class QueueComponent {
       },
     });
   }
+
+
   drop(event: CdkDragDrop<any, any>) {
     console.log(
       this.queueService.currentQueueIndex,

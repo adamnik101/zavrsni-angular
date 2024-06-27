@@ -23,10 +23,8 @@ export class TokenInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`
         }
       })
-      console.log('new request')
       return next.handle(newRequest)
     }
-    console.log('normal request')
     return next.handle(request);
   }
 }

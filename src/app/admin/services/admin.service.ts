@@ -6,13 +6,14 @@ import {Observable} from "rxjs";
 import {SelectionService} from "./selection.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
 import { DashboardResponse } from '../interfaces/dashboard-response';
+import {SnackbarService} from "../../shared/services/snackbar.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService extends BaseService{
 
-  private _selectionService = inject(SelectionService)
+  private _selectionService = inject(SelectionService);
   dashboard() {
     return this.get<ResponseAPI<DashboardResponse>>('admin/dashboard')
   }

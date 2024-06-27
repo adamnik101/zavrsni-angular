@@ -242,13 +242,23 @@
 </td>
 </tr>
 }
-@loading {
-  <app-loading></app-loading>
-}
 @placeholder {
-  <div class="placeholder">
+  <tr>
+    <td [colSpan]="12">
+      <div class="placeholder">
 
-  </div>
+        <div class="image"></div>
+
+        <div class="info-left">
+          <div class="text-top"></div>
+          <div class="text-bottom"></div>
+        </div>
+
+        <div class="info-right"></div>
+
+      </div>
+    </td>
+  </tr>
 }
 }
 

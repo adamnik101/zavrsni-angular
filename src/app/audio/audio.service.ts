@@ -3,6 +3,7 @@ import {Track} from "../shared/interfaces/track";
 import {From} from "../shared/interfaces/from";
 import {BaseService} from "../core/services/base.service";
 import {QueueService} from "../queue/services/queue.service";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,8 @@ export class AudioService extends BaseService{
   shuffle: boolean = false;
   volumeValue: number = 0.5;
   private muted: boolean = false;
+  trackEnd: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   playTrack(track: Track, from: From) {
     this.currentTrack.set(track)
    // this._queueService.setCurrentTrack(track)
@@ -38,6 +41,7 @@ export class AudioService extends BaseService{
     })
     this.audio.play().then(() => {
       this.audio.oncanplaythrough = () => {
+        this.trackEnd.next(false);
         this.dur.set(this.audio.duration * 1000)
         //this.duration = this.audio.duration * 1000
         this.isPlaying = true
@@ -46,9 +50,13 @@ export class AudioService extends BaseService{
           //this.currentTime = this.audio.currentTime * 1000
         }
         this.audio.onended = () => {
+          this.trackEnd.next(true);
           switch (this.repeatIndex) {
             case 1 : this.repeatQueue();break
             case 2 : this.playTrack(track, from); break
+            default: {
+
+            }
             }
           this.isPlaying = false
         }
