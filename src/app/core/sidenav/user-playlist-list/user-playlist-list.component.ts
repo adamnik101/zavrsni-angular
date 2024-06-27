@@ -15,6 +15,7 @@ import {
 import {
   ConfirmPlaylistDeleteDialogComponent
 } from "../../../playlists/confirm-playlist-delete-dialog/confirm-playlist-delete-dialog.component";
+import {ResponseAPI} from "../../../shared/interfaces/response-api";
 
 @Component({
   selector: 'app-user-playlist-list',
@@ -43,8 +44,8 @@ export class UserPlaylistListComponent {
       url: '/playlists/' + this.playlist.id
     }
     this._playlistService.getPlaylistTracks(id).subscribe({
-      next: (response: any) => {
-        this._queueService.playAllFromIndex(response.tracks, 0, this.from)
+      next: (response: ResponseAPI<Playlist>) => {
+        this._queueService.playAllFromIndex(response.data.tracks, 0, this.from)
       }
     })
   }

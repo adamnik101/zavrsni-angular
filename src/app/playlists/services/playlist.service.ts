@@ -95,7 +95,7 @@ export class PlaylistService extends BaseService{
     }))
   }
 
-  getPlaylistTracks(id: string) {
+  getPlaylistTracks(id: string): Observable<ResponseAPI<Playlist>> {
     return this.get<ResponseAPI<Playlist>>(`playlists/${id}`)
   }
 

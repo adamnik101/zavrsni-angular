@@ -36,8 +36,7 @@ export class QueueService implements Queue {
       from: this.from.id,
       isBeingPlayed: true
     })
-    localStorage.setItem('current-track', JSON.stringify(this.currentTrackInfo()))
-    console.log(track)
+
   }
 
   addTrack(track: Track, from: From): void {
@@ -122,7 +121,6 @@ export class QueueService implements Queue {
       }
 
       this.shuffleQueueIndex = generateIndex(queueLength)
-      console.log(this.shuffleQueueIndex)
     }
 
   }

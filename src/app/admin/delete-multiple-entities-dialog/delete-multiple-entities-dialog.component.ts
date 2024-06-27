@@ -4,6 +4,8 @@ import {DialogRef} from "@angular/cdk/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {SelectionService} from "../services/selection.service";
 import {AdminService} from "../services/admin.service";
+import {SpinnerFunctions} from "../../core/static-functions";
+import {SnackbarService} from "../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-delete-multiple-entities-dialog',
@@ -17,15 +19,18 @@ export class DeleteMultipleEntitiesDialog {
               protected selectionService: SelectionService,
               private _dialogRef: DialogRef<DeleteMultipleEntitiesDialog>,
               private _adminService: AdminService,
+              private snackbarService: SnackbarService
   ) { }
 
   confirm() {
+    SpinnerFunctions.showSpinner();
     return this._adminService.deleteMany(this.data).subscribe({
       next: (response) => {
         this.selectionService.removeAllFromSelected()
         console.log(response)
 
-
+        SpinnerFunctions.hideSpinner();
+        this.snackbarService.showSuccessMessage('Successfully deleted')
       }
     })
   }

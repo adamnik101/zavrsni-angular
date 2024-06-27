@@ -7,6 +7,7 @@ import {PlaylistService} from "./playlists/services/playlist.service";
 import {LoaderService} from "./core/services/loader.service";
 import {TokenService} from "./auth/services/token.service";
 import {forkJoin, Observable} from "rxjs";
+import {SpinnerFunctions} from "./core/static-functions";
 
 @Component({
   selector: 'app-root',
@@ -39,20 +40,19 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     if(this._tokenService.getToken()){
-      this.loaderService.showLoader()
+      SpinnerFunctions.showSpinner();
       this._tokenService.checkTokenFromApi().subscribe({
         next: (response) => {
 
           if(response.data.token == null) {
-
             return
           }
 
           this.getDataFromAllRequests().subscribe({
             next: (data) => {
               if(data) {
-                this.loaderService.hideLoader();
               }
+              SpinnerFunctions.hideSpinner();
             }
           });
         }

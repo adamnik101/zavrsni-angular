@@ -6,6 +6,7 @@ import {QueueService} from "../queue/services/queue.service";
 import {UserService} from "../user/services/user.service";
 import {TokenService} from "../auth/services/token.service";
 import {MatDialog} from "@angular/material/dialog";
+import {SpinnerFunctions} from "../core/static-functions";
 
 @Injectable()
 export class UnauthorizedStatusCodeInterceptor implements HttpInterceptor {
@@ -18,6 +19,7 @@ export class UnauthorizedStatusCodeInterceptor implements HttpInterceptor {
       return next.handle(req).pipe(catchError(err => {
         if([401,403].includes(err.status)) {
           this.clearData()
+          SpinnerFunctions.hideSpinner();
           this._router.navigateByUrl('/auth/login')
         }
 

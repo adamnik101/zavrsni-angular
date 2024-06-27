@@ -26,6 +26,20 @@ export class PlayerComponent {
   }
   */
 
+  ngOnInit(): void {
+    this.trackEnd();
+  }
+
+  trackEnd(): void {
+    this.audioService.trackEnd.subscribe({
+      next: (data) => {
+        if(data) {
+          this._queueService.goForward();
+        }
+      }
+    })
+  }
+
   ngOnDestroy() {
     this.currSub.unsubscribe()
   }

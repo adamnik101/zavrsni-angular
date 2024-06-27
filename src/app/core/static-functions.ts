@@ -10,6 +10,7 @@ export class SpinnerFunctions {
   static hideSpinner(): void {
     let spinner = document.getElementById('global-spinner');
     if(spinner) {
+      console.log('hide')
       spinner.style.display = 'none';
     }
   }
