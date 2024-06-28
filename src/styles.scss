@@ -61,15 +61,18 @@ $zavrsniAng-theme: mat.define-light-theme((
   font-family: Regular, "Helvetica Neue", sans-serif;
 }
 div,html{
+  .black-ddl {
 
-  --mat-select-panel-background-color: var(--light-black);
-  --mat-select-enabled-trigger-text-color: rgba(255, 255, 255, .87);
-  --mat-select-disabled-trigger-text-color: rgba(255, 255, 255, .38);
-  --mat-select-placeholder-text-color: rgba(255, 255, 255, .6);
-  --mat-select-enabled-arrow-color: rgba(255, 255, 255, .54);
-  --mat-select-disabled-arrow-color: rgba(255, 255, 255, .38);
-  --mat-select-focused-arrow-color: var(--primary-color);
-  --mat-select-invalid-arrow-color: rgba(244, 67, 54, .87);
+    --mat-select-panel-background-color: var(--light-black);
+    --mat-select-enabled-trigger-text-color: rgba(255, 255, 255, .87);
+    --mat-select-disabled-trigger-text-color: rgba(255, 255, 255, .38);
+    --mat-select-placeholder-text-color: rgba(255, 255, 255, .6);
+    --mat-select-enabled-arrow-color: rgba(255, 255, 255, .54);
+    --mat-select-disabled-arrow-color: rgba(255, 255, 255, .38);
+    --mat-select-focused-arrow-color: var(--primary-color);
+    --mat-select-invalid-arrow-color: rgba(244, 67, 54, .87);
+
+  }
 
   &::-webkit-scrollbar{
     width: 10px;
@@ -939,16 +942,19 @@ form{
   }
 }
 
-.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
-  color: var(--light) !important;
-}
-.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
-  &:after{
+
+.black-ddl {
+  &.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
     color: var(--light) !important;
   }
-}
-.mdc-list-item__primary-text {
-  color: var(--light-gray) !important;
+  &.mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+    &:after{
+      color: var(--light) !important;
+    }
+  }
+  &.mdc-list-item__primary-text {
+    color: var(--light-gray) !important;
+  }
 }
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: var(--secondary-black) !important;
@@ -958,4 +964,10 @@ form{
 }
 .mdc-text-field--filled{
   font-size: 13px !important;
+}
+
+.main-button{
+  span{
+    color: var(--light) !important;
+  }
 }
