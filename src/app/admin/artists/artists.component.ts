@@ -5,6 +5,7 @@ import {PagedResponse} from "../../shared/interfaces/paged-response";
 import {BehaviorSubject} from "rxjs";
 import {AdminArtistService} from "../services/admin-artist.service";
 import {LoaderService} from "../../core/services/loader.service";
+import { SpinnerFunctions } from 'src/app/core/static-functions';
 
 @Component({
   selector: 'app-artists',
@@ -13,18 +14,17 @@ import {LoaderService} from "../../core/services/loader.service";
 })
 export class ArtistsComponent {
   artists: Artist[] = []
-  //pagedResponse: PagedResponse<Artist[]> = {} as PagedResponse<Artist[]>
 
-
-  public adminArtistsService = inject(AdminArtistService)
-  private _loader = inject(LoaderService)
+  constructor(
+    public adminArtistsService: AdminArtistService,
+  ) {}
 
   ngOnInit() {
-    this._loader.showLoader()
+    SpinnerFunctions.showSpinner();
     this.adminArtistsService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
         this.adminArtistsService.setPagedResponse(pagedResponse.data)
-        this._loader.hideLoader()
+        SpinnerFunctions.hideSpinner();
       }
     })
   }
