@@ -8,6 +8,11 @@ import { From } from '../shared/interfaces/from';
 import { Title } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import {TrackService} from "../tracks/services/track.service";
+import { UserRequestsService } from '../user/services/requests/user-requests.service';
+import { TokenService } from '../auth/services/token.service';
+import { HomeRequestsService } from './services/requests/home-requests.service';
+import { HomepageData } from './interfaces/homepage-data';
+import { SpinnerFunctions } from '../core/static-functions';
 
 @Component({
   selector: 'app-home',
@@ -32,27 +37,45 @@ export class HomeComponent implements OnInit, OnDestroy {
     private _albumService: AlbumService,
     private _trackService: TrackService,
     private _userService: UserService,
-    private _titleService: Title
+    private _titleService: Title,
+    private _userRequests: UserRequestsService,
+    private tokenService: TokenService,
+    private homeRequests: HomeRequestsService
   ) {}
 
   ngOnInit() {
     this._titleService.setTitle('Home - TREBLE');
-    this.subs.push(this._albumService.getNewReleases().subscribe({
-      next: (responseAPI) => {
-        this.albums = responseAPI.data
-      }
-    }))
-    this.subs.push(this._trackService.getNewReleases().subscribe({
-      next: (responseAPI) => {
-        this.newReleasesTracks = responseAPI.data
-        this.loading = false
-      }
-    }))
-    this._userService.user$.subscribe({
-      next: (user) => {
+    const hasToken = !!this.tokenService.getToken();
+    SpinnerFunctions.showSpinner();
+    this.homeRequests.getAllDataForHomePage(hasToken).subscribe({
+      next: (response: HomepageData) => {
+        console.log(response)
+        this.albums = response.albums.data;
+        this.newReleasesTracks = response.tracks.data;
+        if(hasToken && response.recent) {
+          this.recentTracks = response.recent.data;
+          this.loadedRecently = true;
+        }
 
+        SpinnerFunctions.hideSpinner();
       }
     })
+    // this.subs.push(this._albumService.getNewReleases().subscribe({
+    //   next: (responseAPI) => {
+    //     this.albums = responseAPI.data
+    //   }
+    // }))
+    // this.subs.push(this._trackService.getNewReleases().subscribe({
+    //   next: (responseAPI) => {
+    //     this.newReleasesTracks = responseAPI.data
+    //     this.loading = false
+    //   }
+    // }))
+    // this._userService.user$.subscribe({
+    //   next: (user) => {
+
+    //   }
+    // })
 
 
     // this.loadedRecently = false
@@ -79,9 +102,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       },
     }))*/
   }
+
+
   ngAfterViewInit() {
     if (this._userService.userLoaded()) {
-      this.subs.push(this._userService.getRecentlyPlayedTracks().subscribe({
+      this.subs.push(this._userRequests.getRecentlyPlayedTracks().subscribe({
         next: (tracks) => {
           this.recentTracks = tracks.data;
           this.loadedRecently = true
@@ -89,6 +114,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }))
     }
   }
+
   ngOnDestroy() {
     for(let sub of this.subs) {
       sub.unsubscribe()

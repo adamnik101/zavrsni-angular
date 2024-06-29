@@ -26,6 +26,7 @@ import {TrackLikeService} from "../services/track-like.service";
 import {TrackDurationService} from "../services/track-duration.service";
 import {ResponseAPI} from "../interfaces/response-api";
 import {CreatePlaylistDialogComponent} from "../../playlists/create-playlist-dialog/create-playlist-dialog.component";
+import { UserRequestsService } from 'src/app/user/services/requests/user-requests.service';
 
 
 @Component({
@@ -59,7 +60,8 @@ export class TrackTableComponent {
               private _dragDropService: DragDropService,
               private _matDialog: MatDialog,
               protected trackLikeService: TrackLikeService,
-              private _trackDurationService: TrackDurationService) {
+              private _trackDurationService: TrackDurationService,
+              private userRequests: UserRequestsService) {
   }
   ngOnInit() {
 
@@ -116,7 +118,7 @@ export class TrackTableComponent {
   likeTrack(track: Track) {
     this.trackLikeService.addTrackToLiked(track)
 
-    this.subs.push(this._userService.likeTrack(track.id).subscribe({
+    this.subs.push(this.userRequests.likeTrack(track.id).subscribe({
       next: (response: any) => {
         this._snackbarService.showDefaultMessage(response.message)
         this.likedMap.set(track.id, track)
@@ -132,7 +134,7 @@ export class TrackTableComponent {
   removeFromLiked(track: string) {
     this.trackLikeService.deleteTrackFromLiked(track)
 
-    this.subs.push(this._userService.removeFromLiked(track).subscribe({
+    this.subs.push(this.userRequests.removeFromLiked(track).subscribe({
       next: (response) => {
         console.log(response)
         this._snackbarService.showDefaultMessage('Removed from liked.')

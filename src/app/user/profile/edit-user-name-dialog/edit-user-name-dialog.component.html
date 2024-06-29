@@ -1,12 +1,12 @@
 <div class="dialog-ui">
   <h1 mat-dialog-title>Edit username</h1>
   <div mat-dialog-content>
-    <form [formGroup]="username" class="user-ui">
+    <form [formGroup]="form" class="user-ui">
       <mat-form-field floatLabel="always" appearance="outline">
         <mat-label>Username</mat-label>
         <input matInput type="text" placeholder="My username" formControlName="username">
         <mat-error>
-          @if (username.get('username')?.hasError('required')) {
+          @if (form.get('username')?.hasError('required')) {
             Username is required
           }
         </mat-error>

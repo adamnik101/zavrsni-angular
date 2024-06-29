@@ -16,7 +16,7 @@ import {ResponseAPI} from "../../shared/interfaces/response-api";
 })
 export class PlaylistsComponent implements OnInit{
   playlists: Playlist[] = []
-  subs: Subscription[] = []
+  sub: Subscription = new Subscription();
   constructor(public userService: UserService,
               protected _playlistService: PlaylistService,
               private _cdr: ChangeDetectorRef,
@@ -33,21 +33,23 @@ export class PlaylistsComponent implements OnInit{
     this._cdr.markForCheck()
 
   }
-  ngOnDestroy() {
-    for(let sub of this.subs) {
-      sub.unsubscribe()
-    }
+  
+
+  openCreatePlaylistDialog(): void {
+    this.sub.add(
+      this._dialog.open(CreatePlaylistDialogComponent).afterClosed().subscribe({
+        next: (response: ResponseAPI<Playlist>) => {
+          const playlists = this._playlistService.playlists().concat([response.data])
+          this._playlistService.playlists.set(playlists)
+          this.filterPlaylists()
+          this._cdr.markForCheck()
+          console.log(playlists)
+        }
+      })
+    )
   }
 
-  openCreatePlaylistDialog() {
-    this._dialog.open(CreatePlaylistDialogComponent).afterClosed().subscribe({
-      next: (response: ResponseAPI<Playlist>) => {
-        const playlists = this._playlistService.playlists().concat([response.data])
-        this._playlistService.playlists.set(playlists)
-        this.filterPlaylists()
-        this._cdr.markForCheck()
-        console.log(playlists)
-      }
-    })
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 }
