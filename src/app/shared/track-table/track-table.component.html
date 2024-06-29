@@ -1,23 +1,4 @@
 <table>
-  @if (!from.url.includes('/') && !from.name.includes('search') && !from.name.includes('Trending')) {
-    <thead>
-      <tr>
-        <th class="index">TRACK</th>
-        <!--<th>Plays</th>-->
-        @if (!from.url.includes('albums/')) {
-          <th class="album">ALBUM</th>
-        }
-        @if (!from.url.includes('albums/') && !from.url.includes('artists/') && !from.url.includes('search') ) {
-          <th class="album"
-            >ADDED
-          AT</th>
-        }
-        <th class="time"><img src="assets/icons-svg/time.svg" width="15" /></th>
-        <th class="like"></th>
-        <th></th>
-      </tr>
-    </thead>
-  }
   <tbody cdkDropList class="list" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
     @for (track of tracks; track track.id; let index = $index;) {
       @defer(on viewport){

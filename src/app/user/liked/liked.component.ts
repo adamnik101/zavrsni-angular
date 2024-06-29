@@ -14,6 +14,7 @@ import {From} from "../../shared/interfaces/from";
 import {Title} from "@angular/platform-browser";
 import {TrackDurationService} from "../../shared/services/track-duration.service";
 import {TrackLikeService} from "../../shared/services/track-like.service";
+import { UserRequestsService } from '../services/requests/user-requests.service';
 
 @Component({
   selector: 'app-liked',
@@ -27,6 +28,7 @@ export class LikedComponent implements OnInit{
   private _title = inject(Title)
   protected _trackDurationService = inject(TrackDurationService)
   protected _trackLikeService = inject(TrackLikeService)
+  private userRequests = inject(UserRequestsService)
   public likedTracks: Track[] = []
   private _filteredTracks: Track[] = []
   loaded: boolean = false
@@ -43,7 +45,7 @@ export class LikedComponent implements OnInit{
   ngOnInit() {
     this.loading = true
     this._title.setTitle("Liked Tracks - TREBLE")
-    this.likedSub = this._userService.getUserLikedTracks(this.page, this.size).subscribe({
+    this.likedSub = this.userRequests.getUserLikedTracks(this.page, this.size).subscribe({
       next: (response) => {
         this._userService.likedTracks.set(response.data)
         this._trackLikeService.setInitialLikedTracks(response.data)

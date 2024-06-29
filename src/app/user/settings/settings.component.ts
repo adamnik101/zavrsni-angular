@@ -4,6 +4,7 @@ import {User} from "../interfaces/user";
 import {UserService} from "../services/user.service";
 import {Title} from "@angular/platform-browser";
 import {SnackbarService} from "../../shared/services/snackbar.service";
+import { UserRequestsService } from '../services/requests/user-requests.service';
 
 @Component({
   selector: 'app-settings',
@@ -17,17 +18,18 @@ export class SettingsComponent {
   public userService = inject(UserService)
   private _titleService = inject(Title)
   private _snackbar = inject(SnackbarService)
+  private userRequests = inject(UserRequestsService);
   ngOnInit() {
     this._titleService.setTitle('My Settings - TREBLE')
   }
 
   update(value: any, setting: string) {
-    this.userService.updateSettings(value, setting).subscribe({
+    this.userRequests.updateSettings(value, setting).subscribe({
       next: (response) => {
         console.log(response)
         this.userService.user.update(user => {
           if (user) {
-              user.settings = response.data;
+              user.settings.explicit = response.data.explicit;
           }
 
           return user;

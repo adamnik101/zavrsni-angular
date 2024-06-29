@@ -5,6 +5,7 @@ import {AuthService} from "../../auth/services/auth.service";
 import {TokenService} from "../../auth/services/token.service";
 import {Router} from "@angular/router";
 import {LoaderService} from "../services/loader.service";
+import { SpinnerFunctions } from '../static-functions';
 
 @Component({
   selector: 'app-header',
@@ -34,15 +35,15 @@ export class HeaderComponent {
   }
 
   logout() {
-    this._loaderService.showLoader()
+    SpinnerFunctions.showSpinner();
     this._authService.logout().subscribe({
       next: (response) => {
         this._tokenService.removeToken()
         this._userService.userLoaded.set(false)
         this._userService.unsetAllUserRelevantSubjects()
-        this._loaderService.hideLoader()
+        this._router.navigateByUrl('/auth/login')
+        SpinnerFunctions.hideSpinner();
       }
     })
-    this._router.navigateByUrl('/')
   }
 }

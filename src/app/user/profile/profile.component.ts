@@ -14,6 +14,7 @@ import {EditUserNameDialogComponent} from "./edit-user-name-dialog/edit-user-nam
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
 import {ResponseError} from "../../shared/interfaces/response-error";
+import { UserRequestsService } from '../services/requests/user-requests.service';
 
 @Component({
   selector: 'app-profile',
@@ -43,7 +44,8 @@ export class ProfileComponent{
               private _titleService: Title,
               private _colorService: ColorThiefService,
               private _matDialog: MatDialog,
-              private _snackbar: SnackbarService) { }
+              private _snackbar: SnackbarService,
+              private userRequests: UserRequestsService) { }
 
   ngOnInit() {
     this._titleService.setTitle('My Profile - TREBLE')
@@ -73,7 +75,7 @@ export class ProfileComponent{
     this.selectedFile = event.target.files[0] ?? null
     if (this.selectedFile) {
       this.loadingImage = true
-      this.userService.updateCover(this.selectedFile).subscribe({
+      this.userRequests.updateCover(this.selectedFile).subscribe({
         next: (response) => {
           this._snackbar.showDefaultMessage(response.message)
           const reader = new FileReader();

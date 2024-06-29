@@ -1,4 +1,4 @@
-@if (userService.userLoaded()) {
+
   <div class="playlists">
     @if (_playlistService.playlists().length) {
       <h1>My playlists</h1>
@@ -33,6 +33,4 @@
       </div>
     }
   </div>
-} @else {
-  <app-loader></app-loader>
-}
+

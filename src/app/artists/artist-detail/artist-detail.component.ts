@@ -11,6 +11,7 @@ import {Subscription} from "rxjs";
 import {Track} from "../../shared/interfaces/track";
 import {QueueService} from "../../queue/services/queue.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
+import { UserRequestsService } from 'src/app/user/services/requests/user-requests.service';
 
 @Component({
   selector: 'app-artist-detail',
@@ -30,6 +31,19 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   ]
 })
 export class ArtistDetailComponent implements OnInit {
+
+  constructor(private _artistService: ArtistService,
+    private _route: ActivatedRoute,
+    protected _userService: UserService,
+    private _snackbarService: SnackbarService,
+    private _title: Title,
+    private _renderer: Renderer2,
+    private _colorService: ColorThiefService,
+    private _queueService: QueueService,
+    private el: ElementRef,
+    private userRequests: UserRequestsService
+  ) { }
+  
   showSmallHeader: boolean = false
   artist: Artist = {} as Artist
   @ViewChild('top') top!: ElementRef
@@ -41,16 +55,7 @@ export class ArtistDetailComponent implements OnInit {
   followings: Artist[] = []
   subs: Subscription[] = []
   initSub?: Subscription
-  constructor(private _artistService: ArtistService,
-              private _route: ActivatedRoute,
-              protected _userService: UserService,
-              private _snackbarService: SnackbarService,
-              private _title: Title,
-              private _renderer: Renderer2,
-              private _colorService: ColorThiefService,
-              private _queueService: QueueService,
-              private el: ElementRef) {
-  }
+  
   ngOnInit() {
     this.loaded = false
     this.getArtist()
@@ -104,7 +109,7 @@ export class ArtistDetailComponent implements OnInit {
     })
   }
   followArtist(artist: Artist) {
-    this.subs.push(this._userService.followArtist(artist).subscribe({
+    this.subs.push(this.userRequests.followArtist(artist).subscribe({
       next: (response) => {
         this._snackbarService.showDefaultMessage(response.message)
         this.followings.unshift(artist)
@@ -118,7 +123,7 @@ export class ArtistDetailComponent implements OnInit {
   }
 
   unfollowArtist(artist: Artist) {
-    this.subs.push(this._userService.unfollowArtist(artist).subscribe({
+    this.subs.push(this.userRequests.unfollowArtist(artist).subscribe({
       next: (response) => {
         this._snackbarService.showDefaultMessage('Removed from your followings.')
         const artistToDelete = this.followings.findIndex(ar => ar.id === artist.id)
