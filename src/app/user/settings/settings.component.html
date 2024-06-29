@@ -1,4 +1,4 @@
-@if (userService.user() && userService.user()!.settings.id) {
+
   <div class="container">
     <h1>Your info</h1>
     <div class="rows">
@@ -22,17 +22,5 @@
         </div>
       </div>
       <mat-divider></mat-divider>
-      <div class="row-preference">
-        <div class="left">
-          <p>History</p>
-          <p>Enable saving history. </p>
-        </div>
-        <div class="right">
-          <mat-slide-toggle [checked]="userService.user()!.settings.history" (change)="update($event.checked, 'history')" #history></mat-slide-toggle>
-        </div>
-      </div>
     </div>
   </div>
-} @else {
-  <app-loading></app-loading>
-}
