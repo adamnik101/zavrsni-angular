@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {AdminAlbumService} from "./services/admin-album.service";
-import {LoaderService} from "../../core/services/loader.service";
+import { SpinnerFunctions } from 'src/app/core/static-functions';
 
 @Component({
   selector: 'app-albums',
@@ -8,15 +8,16 @@ import {LoaderService} from "../../core/services/loader.service";
   styleUrls: ['./albums.component.scss']
 })
 export class AlbumsComponent {
-  constructor(public adminAlbumService: AdminAlbumService,
-              private _loader: LoaderService) {
-  }
+  constructor(
+    public adminAlbumService: AdminAlbumService
+  ) { }
+
   ngOnInit() {
-    this._loader.showLoader()
+    SpinnerFunctions.showSpinner();
     this.adminAlbumService.getPagedResponse().subscribe({
       next: (pagedResponse) => {
         this.adminAlbumService.setPagedResponse(pagedResponse.data)
-        this._loader.hideLoader()
+        SpinnerFunctions.hideSpinner();
       }
     })
   }
