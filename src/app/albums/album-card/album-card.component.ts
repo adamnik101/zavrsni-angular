@@ -8,4 +8,8 @@ import {Album} from "../interfaces/album";
 })
 export class AlbumCardComponent {
   @Input('album') album: Album = {} as Album
+
+  ngOnInit(): void {
+    console.log(this.album)
+  }
 }

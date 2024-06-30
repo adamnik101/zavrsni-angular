@@ -17,6 +17,8 @@
               <p>{{artist.followed_by_count | number}} Followers</p>
               <app-divider></app-divider>
               <p>{{artist.monthly_listeners | number}} Monthly listeners</p>
+              <app-divider></app-divider>
+              <p>{{totalLikes | number}} Likes</p>
             </div>
             @if (_userService.userLoaded()){
               @if (!isFollowing) {
@@ -46,7 +48,7 @@
             </button>
             <h2>Popular</h2>
           </div>
-          <app-track-table [tracks]="artist.tracks" [from]="fromPopular"></app-track-table>
+          <app-track-table (onTrackLike)="onTrackLike($event)" [tracks]="artist.tracks" [from]="fromPopular"></app-track-table>
         </div>
       }
       @if (artist.features && artist.features.length > 0) {

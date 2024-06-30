@@ -24,4 +24,5 @@ export interface Track {
   formatted_created_at: string
   formatted_updated_at: string
   genre_id: string
+  liked_by_count?: number;
 }

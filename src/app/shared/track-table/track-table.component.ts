@@ -53,7 +53,8 @@ export class TrackTableComponent {
   searchQuery: string = ''
   
   @Output() onTrackPlayed: EventEmitter<boolean> = new EventEmitter<boolean>();
-  
+  @Output() onTrackLike: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   constructor(protected _audioService: AudioService,
               protected _userService: UserService,
               protected _queueService: QueueService,
@@ -116,7 +117,7 @@ export class TrackTableComponent {
 
   likeTrack(track: Track) {
     this.trackLikeService.addTrackToLiked(track)
-
+    this.onTrackLike.emit(true);
     this.subs.push(this.userRequests.likeTrack(track.id).subscribe({
       next: (response: any) => {
         this._snackbarService.showDefaultMessage(response.message)
@@ -132,7 +133,7 @@ export class TrackTableComponent {
 
   removeFromLiked(track: string) {
     this.trackLikeService.deleteTrackFromLiked(track)
-
+    this.onTrackLike.emit(false);
     this.subs.push(this.userRequests.removeFromLiked(track).subscribe({
       next: (response) => {
         console.log(response)
