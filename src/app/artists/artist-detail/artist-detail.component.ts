@@ -12,6 +12,7 @@ import {Track} from "../../shared/interfaces/track";
 import {QueueService} from "../../queue/services/queue.service";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import { UserRequestsService } from 'src/app/user/services/requests/user-requests.service';
+import { SpinnerFunctions } from 'src/app/core/static-functions';
 
 @Component({
   selector: 'app-artist-detail',
@@ -50,66 +51,66 @@ export class ArtistDetailComponent implements OnInit {
   @ViewChild('bottom') bottom!: ElementRef
   fromFeatures: From = { } as From
   fromPopular: From = { } as From
-  loaded: boolean = false;
   isFollowing: boolean = false
   followings: Artist[] = []
   subs: Subscription[] = []
   initSub?: Subscription
-  
+  subscription: Subscription = new Subscription();
   ngOnInit() {
-    this.loaded = false
     this.getArtist()
   }
+
   getArtist() {
-    this._route.paramMap.subscribe({
-      next: (response) => {
-        this.loaded = false
-        document.documentElement.style.setProperty('--header', `var(--primary-black)`)
-        for (let sub of this.subs) {
-          sub.unsubscribe()
-        }
-        const id = response.get('id')
-        if(id){
-          this.subs.push(this._artistService.getArtist(id).subscribe({
-            next: (response) => {
-              this.artist = response.data
-              console.log(response)
-              this.top.nativeElement.style.background = `
-              linear-gradient(90deg, var(--black), transparent 100%),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${response.data.cover}') center/cover no-repeat`
-              this._colorService.getRgbColorsFromImage(response.data.cover, 'artist', true)
-              this.fromFeatures = {
-                id: this.artist.id,
-                name: this.artist.name + '\'s features',
-                url: '/artists/' + this.artist.id
-              }
-              this.fromPopular = {
-                id: this.artist.id,
-                name: this.artist.name + '\'s popular',
-                url: '/artists/' + this.artist.id
-              }
-              this.subs.push(this._userService.following$.subscribe({
-                next: (artists) => {
-                  this.isFollowing = artists.findIndex(ar => ar.id === response.data.id) !== -1
-                  this.followings = artists
-                  this.loaded = true
-                  this._title.setTitle(`${response.data.name} - TREBLE`)
+    SpinnerFunctions.showSpinner();
+    this.subscription.add(
+      this._route.paramMap.subscribe({
+        next: (response) => {
+          document.documentElement.style.setProperty('--header', `var(--primary-black)`)
+          const id = response.get('id')
+          if(id){
+            this.subscription.add(this._artistService.getArtist(id).subscribe({
+              next: (response) => {
+                this.artist = response.data
+                this.top.nativeElement.style.background = `
+                linear-gradient(90deg, var(--black), transparent 100%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${response.data.cover}') center/cover no-repeat`
+                this._colorService.getRgbColorsFromImage(response.data.cover, 'artist', true)
+                this.fromFeatures = {
+                  id: this.artist.id,
+                  name: this.artist.name + '\'s features',
+                  url: '/artists/' + this.artist.id
                 }
-              }))
-            },
-            error: (err) => {
-              //
-            }
-          }))
+                this.fromPopular = {
+                  id: this.artist.id,
+                  name: this.artist.name + '\'s popular',
+                  url: '/artists/' + this.artist.id
+                }
+                this.subscription.add(this._userService.following$.subscribe({
+                  next: (artists) => {
+                    this.isFollowing = artists.findIndex(ar => ar.id === response.data.id) !== -1
+                    this.followings = artists
+                    this._title.setTitle(`${response.data.name} - TREBLE`)
+                  }
+                }))
+                SpinnerFunctions.hideSpinner();
+              },
+              error: (err) => {
+                //
+                SpinnerFunctions.hideSpinner();
+              }
+            }))
+          }
+        },
+        error: (response) => {
+          //
+          SpinnerFunctions.hideSpinner();
         }
-      },
-      error: (response) => {
-        //
-      }
-    })
+      })
+    );
   }
+
   followArtist(artist: Artist) {
-    this.subs.push(this.userRequests.followArtist(artist).subscribe({
+    this.subscription.add(this.userRequests.followArtist(artist).subscribe({
       next: (response) => {
         this._snackbarService.showDefaultMessage(response.message)
         this.followings.unshift(artist)
@@ -123,7 +124,7 @@ export class ArtistDetailComponent implements OnInit {
   }
 
   unfollowArtist(artist: Artist) {
-    this.subs.push(this.userRequests.unfollowArtist(artist).subscribe({
+    this.subscription.add(this.userRequests.unfollowArtist(artist).subscribe({
       next: (response) => {
         this._snackbarService.showDefaultMessage('Removed from your followings.')
         const artistToDelete = this.followings.findIndex(ar => ar.id === artist.id)
@@ -139,12 +140,10 @@ export class ArtistDetailComponent implements OnInit {
       }
     }))
   }
+
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', `var(--primary-black)`)
-    for (let sub of this.subs) {
-      sub.unsubscribe()
-    }
-    this.initSub?.unsubscribe()
+    this.subscription.unsubscribe();
   }
 
   playFeaturedTracks(tracks: Track[]) {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, signal, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, signal, ViewChild} from '@angular/core';
 import {Track} from "../interfaces/track";
 import {AudioService} from "../../audio/audio.service";
 import {From} from "../interfaces/from";
@@ -51,6 +51,9 @@ export class TrackTableComponent {
   searching: boolean = false
   filteredPlaylists: Playlist[] = []
   searchQuery: string = ''
+  
+  @Output() onTrackPlayed: EventEmitter<boolean> = new EventEmitter<boolean>();
+  
   constructor(protected _audioService: AudioService,
               protected _userService: UserService,
               protected _queueService: QueueService,
@@ -80,6 +83,7 @@ export class TrackTableComponent {
     this.currentTrack = this._audioService.currentTrack()
 
   }
+
   playAllFromIndex(tracks: Track[], index: number, from: From) {
     if(this._userService.userLoaded()) {
       this._queueService.playAllFromIndex(tracks, index, from)
@@ -87,13 +91,8 @@ export class TrackTableComponent {
     else {
       this._queueService.playAllFromIndexWithNoUser(tracks, index, from)
     }
-    /*this._queueService.currentQueueIndexSignal.set(index)
-    this._queueService.currentQueueIndex = index
-    this._queueService.addTracks(tracks, from)
-    this._queueService.playAtIndex(this._queueService.currentQueueIndex)*/
-
-    //this._audioService.playTrack(this._queueService.queue[this._queueService.currentQueueIndex], from)
   }
+
   addTrackToPlaylist(playlistId: string, trackId?: string) {
     if(!trackId) {
       trackId = this.selectedTrack.id
@@ -155,9 +154,11 @@ export class TrackTableComponent {
       }
     }))
   }
+
   get playlist() {
     return this._playlistService.playlist
   }
+
   removeFromPlaylist(track: Track, from: From) {
     this._playlistService.removeTrackFromPlaylist(track, from.id)
   }
@@ -210,6 +211,7 @@ export class TrackTableComponent {
       }
 
   }
+
   private updateMenu(event: MouseEvent, track: Track) {
     this.clickedElement = event.target as HTMLElement
     this.closestRow = this.clickedElement.closest('tr')
@@ -234,6 +236,7 @@ export class TrackTableComponent {
   }
   selectedTracks : Map<number, Track> = new Map<number, Track>()
   tracksToAdd: string[] = []
+
   selectTrack(event: MouseEvent, index: number, track: Track) {
       if(this._userService.userLoaded()) {
         if(event.ctrlKey) {

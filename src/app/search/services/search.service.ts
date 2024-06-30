@@ -44,18 +44,19 @@ export class SearchService extends BaseService{
     this.artist_page.set(1);
     this.album_page.set(1);
     return this.get<ResponseAPI<SearchResult>>('search?query=' + query).subscribe({
-      next: (searchResult) => {
-        if(searchResult) {
-          this.tracksPagedResponse.set(searchResult.data.tracks);
-          this.artistsPagedResponse.set(searchResult.data.artists);
-          this.albumsPagedResponse.set(searchResult.data.albums);
-          this.totalResults.set(searchResult.data.tracks!.total + searchResult.data.artists!.total + searchResult.data.albums!.total);
-          this.albumsPages.set(this.createArrayFrom(searchResult.data.albums?.last_page!));
-          this.tracksPages.set(this.createArrayFrom(searchResult.data.tracks?.last_page!));
-          this.artistsPages.set(this.createArrayFrom(searchResult.data.artists?.last_page!));
+      next: (response) => {
+        if(response.data) {
+          const searchResult = response.data;
+          this.tracksPagedResponse.set(searchResult.tracks);
+          this.artistsPagedResponse.set(searchResult.artists);
+          this.albumsPagedResponse.set(searchResult.albums);
+          this.totalResults.set(searchResult.tracks!.total + searchResult.artists!.total + searchResult.albums!.total);
+          this.albumsPages.set(this.createArrayFrom(searchResult.albums?.last_page!));
+          this.tracksPages.set(this.createArrayFrom(searchResult.tracks?.last_page!));
+          this.artistsPages.set(this.createArrayFrom(searchResult.artists?.last_page!));
           console.log((this.albumsPages()))
-          SpinnerFunctions.hideSpinner();
         }
+        SpinnerFunctions.hideSpinner();
       }
     })
   }

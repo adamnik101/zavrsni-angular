@@ -74,12 +74,14 @@ export class TableAdminComponent<T extends  {}> {
   ngOnInit() {
     this.service = this.serviceForCurrentPage()
   }
+
   openAddDialog() {
     let config = {
       data: {
         isEdit: false
       }
     }
+    
     switch (this.title.toLowerCase()) {
       case 'tracks' : {
         this._dialog.open(TracksFormDialogComponent, config).afterClosed().subscribe({
