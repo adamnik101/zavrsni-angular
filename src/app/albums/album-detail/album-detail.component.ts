@@ -14,6 +14,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TrackDurationService} from "../../shared/services/track-duration.service";
 import {LoaderService} from "../../core/services/loader.service";
 import {Title} from "@angular/platform-browser";
+import { SpinnerFunctions } from 'src/app/core/static-functions';
 
 @Component({
   selector: 'app-album-detail',
@@ -64,8 +65,10 @@ export class AlbumDetailComponent {
   }
 
   private getAlbum() {
+    SpinnerFunctions.showSpinner();
     this.subs.push(this._route.paramMap.subscribe({
       next: (paramMap) => {
+        SpinnerFunctions.showSpinner();
         document.documentElement.style.setProperty('--header', 'var(--primary-black)')
         this.isLoaded = false
         this.isAlbumLiked = false
@@ -98,7 +101,11 @@ export class AlbumDetailComponent {
               this.isLoaded = true
               this.background.nativeElement.style.background = `
               linear-gradient(90deg, var(--black), transparent 100%),
-              linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${this.album.cover}') right/600px repeat-x`
+              linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${this.album.cover}') right/600px repeat-x`;
+              SpinnerFunctions.hideSpinner();
+            },
+            error: (err) => {
+              SpinnerFunctions.hideSpinner();
             }
           }))
         }
@@ -109,6 +116,7 @@ export class AlbumDetailComponent {
   playAlbum(tracks: Track[]) {
     this._queueService.playAllFromIndex(tracks, 0, this.from)
   }
+
   likeAlbum(id: string) {
     this.isAlbumLiked = true
     this.subs.push(this._albumService.likeAlbum(id).subscribe({
@@ -142,6 +150,7 @@ export class AlbumDetailComponent {
     const distanceToTop = this.el.nativeElement.getBoundingClientRect().top
     this.shouldShowHeader = distanceToTop < -200
   }
+
   ngOnDestroy() {
     document.documentElement.style.setProperty('--header', 'var(--primary-black)')
     this.isAlbumLiked = false

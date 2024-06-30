@@ -1,7 +1,4 @@
 
-@if (loading) {
-  <app-loader></app-loader>
-} @else {
   <ng-container *ngIf="this._searchService.querySignal().length == 0; else results">
     <div class="genres-container" *ngIf="this._searchService.querySignal().length === 0">
       <h1>Explore genres</h1>
@@ -145,4 +142,3 @@
       </div>
     </ng-template>
   </ng-template>
-}

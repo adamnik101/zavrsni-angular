@@ -7,6 +7,7 @@ import {From} from "../shared/interfaces/from";
 import {GenreService} from "../genre/services/genre.service";
 import {Genre} from "../genre/interfaces/genre";
 import {Title} from "@angular/platform-browser";
+import { SpinnerFunctions } from '../core/static-functions';
 
 @Component({
   selector: 'app-search',
@@ -15,7 +16,7 @@ import {Title} from "@angular/platform-browser";
 })
 export class SearchComponent implements OnInit, OnDestroy{
   public response : SearchResult = {} as SearchResult;
-  subs: Subscription[] = []
+  subs: Subscription = new Subscription();
   private _sub1!: Subscription
   public from!: From;
   genres: Genre[] = [];
@@ -28,50 +29,61 @@ export class SearchComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this._title.setTitle('Search - TREBLE')
-    this.subs.push(this._genreService.getGenres().subscribe({
+    this.getGenres();
+    this.trackSearch();
+  }
+
+  getGenres(): void {
+    SpinnerFunctions.showSpinner();
+    this.subs.add(this._genreService.getGenres().subscribe({
       next: (response) => {
         this.genres = response.data
-        this.loading = false
+        SpinnerFunctions.hideSpinner();
+      },
+      error: (err) => {
+        SpinnerFunctions.hideSpinner();
       }
     }))
-    this.subs.push(this._searchService.result$.subscribe({
+  }
+
+  trackSearch(): void {
+    this.subs.add(this._searchService.result$.subscribe({
       next: (result) => {
         this.response = result
         this.query = this._searchService.querySignal()
-        console.log(result)
         this.from = {
           url : 'search',
           name: "search",
           id: ''
         }
       }
-    }))
-  }
-
-  ngOnDestroy() {
-    for(let sub of this.subs) {
-      sub.unsubscribe()
-    }
+    }));
   }
 
   goToNextPaginatedPageTrack(nextPageUrl: string): void {
     this._searchService.changePagedResponsePage(nextPageUrl, 'track')
   }
+
   goToNextPaginatedPageArtist(nextPageUrl: string): void {
     this._searchService.changePagedResponsePage(nextPageUrl, 'artist')
   }
+
   goToNextPaginatedPageAlbum(nextPageUrl: string): void {
     this._searchService.changePagedResponsePage(nextPageUrl, 'album')
   }
+
   goToPreviousPaginatedPageAlbum(previousPageUrl: string): void {
     this._searchService.changePagedResponsePage(previousPageUrl, 'album', true)
   }
+
   goToPreviousPaginatedPageTrack(previousPageUrl: string): void {
     this._searchService.changePagedResponsePage(previousPageUrl, 'track', true)
   }
+
   goToPreviousPaginatedPageArtist(previousPageUrl: string): void {
     this._searchService.changePagedResponsePage(previousPageUrl, 'artist', true)
   }
+
   onGoToPageChange(type: 'tracks' | 'albums' | 'artists', page: any): void {
     switch (type) {
       case 'tracks': {
@@ -87,5 +99,9 @@ export class SearchComponent implements OnInit, OnDestroy{
         this._searchService.goToPage(this._searchService.artist_page(), 'artist')
       }break;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

@@ -27,11 +27,11 @@
           <!--<ng-container *ngIf="filteredTracks.length == 0 && !input.value.length">-->
           <!--        <app-tracks-wrapper [tracks]="this._trackLikeService.getLikedTracks()" [from]="fromInfo"></app-tracks-wrapper>-->
         <app-track-table [tracks]="this._trackLikeService.getLikedTracks()" [from]="fromInfo"></app-track-table>
-        <div class="loading">
+        <!-- <div class="loading">
           @if (loading) {
             <mat-progress-spinner diameter="40" mode="indeterminate"></mat-progress-spinner>
           }
-        </div>
+        </div> -->
         <!--</ng-container>-->
           <!--<ng-container *ngIf="!filteredTracks.length && input.value.length">
           <app-no-results></app-no-results>
