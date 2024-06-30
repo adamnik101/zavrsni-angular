@@ -4,14 +4,8 @@
   </div>
 }
 <div class="artist">
-  @if(loaded){
-
-  } @else {
-    <app-loader></app-loader>
-
-  }
   <div class="top" #top>
-    @if (loaded) {
+
       <div class="info">
         <div class="top-section">
 
@@ -41,12 +35,10 @@
         <div class="lower-section">
         </div>
       </div>
-    }
   </div>
-  @if (loaded) {
 
     <div class="bottom" #bottom>
-      @if (artist.tracks.length > 0) {
+      @if (artist.tracks && artist.tracks.length > 0) {
         <div class="section">
           <div class="play">
             <button (click)="playPopularTracks(artist.tracks)">
@@ -57,7 +49,7 @@
           <app-track-table [tracks]="artist.tracks" [from]="fromPopular"></app-track-table>
         </div>
       }
-      @if (artist.features.length > 0) {
+      @if (artist.features && artist.features.length > 0) {
         <div class="section">
           <div class="play">
             <button (click)="playFeaturedTracks(artist.features)">
@@ -68,7 +60,7 @@
           <app-track-table [tracks]="artist.features" [from]="fromFeatures"></app-track-table>
         </div>
       }
-      @if (artist.albums_count > 0) {
+      @if (artist.features && artist.albums_count > 0) {
         <div class="section">
           <div class="play">
             <h2>Albums</h2>
@@ -80,7 +72,7 @@
           </div>
         </div>
       }
-      @if (artist.featured_albums.length > 0) {
+      @if (artist.featured_albums && artist.featured_albums.length > 0) {
         <div class="section">
           <div class="play">
             <h2>Featured albums</h2>
@@ -93,7 +85,6 @@
         </div>
       }
     </div>
-  }
 
 </div>
 
