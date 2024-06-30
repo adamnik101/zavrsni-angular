@@ -25,6 +25,7 @@ import {UserService} from "../../user/services/user.service";
 import {MatDialog} from "@angular/material/dialog";
 import {CreatePlaylistDialogComponent} from "../create-playlist-dialog/create-playlist-dialog.component";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
+import { SpinnerFunctions } from 'src/app/core/static-functions';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -67,6 +68,7 @@ export class PlaylistDetailComponent implements OnInit{
 
     this.subs.push(this._route.paramMap.subscribe({
       next: (params) => {
+        SpinnerFunctions.showSpinner();
         this.#playlist.set(null)
         this.isLoaded = false
         document.documentElement.style.setProperty('--header', 'var(--primary-black)')
@@ -112,6 +114,7 @@ export class PlaylistDetailComponent implements OnInit{
                 //this.playlistService.totalDuration.set(totalDuration)
                 this.isLoaded = true
               }
+              SpinnerFunctions.hideSpinner();
             }
           }))
         }

@@ -65,6 +65,7 @@ export class ArtistDetailComponent implements OnInit {
     this.subscription.add(
       this._route.paramMap.subscribe({
         next: (response) => {
+          SpinnerFunctions.showSpinner();
           document.documentElement.style.setProperty('--header', `var(--primary-black)`)
           const id = response.get('id')
           if(id){

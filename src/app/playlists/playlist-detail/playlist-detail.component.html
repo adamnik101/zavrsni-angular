@@ -10,7 +10,7 @@
     </app-small-header>
   </div>
 }
-@if (this.playlist() !== null) {
+@if (playlist()) {
   <div class="playlist" #background>
 
     <div class="top">
@@ -61,16 +61,11 @@
       }
     </div>
   </div>
-} @else {
-  <div class="loading">
-    <app-loader></app-loader>
-
-  </div>
 }
+  
 
 
-@if (isLoaded) {
-  @if (playlistService.tracks().length) {
+  @if (playlist() && playlistService.tracks().length) {
     <div class="table">
       <app-track-table [tracks]="playlistService.tracks()" [from]="fromInfo"></app-track-table>
     </div>
@@ -79,7 +74,6 @@
       <p>Start building your playlist with tracks by tapping on 'Add to playlist' in the option menu or just drag tracks to playlist.</p>
     </div>
   }
-}
 
 <ng-template #loading>
   <div class="loading">

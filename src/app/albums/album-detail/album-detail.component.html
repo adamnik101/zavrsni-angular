@@ -11,7 +11,7 @@
 
   <div class="top" #background>
 
-    @if (isLoaded) {
+    @if (album) {
       <div class="backdrop"></div>
       <img class="cover" src="{{album.cover}}">
       <div class="info">
@@ -33,11 +33,9 @@
           </a>
         </div>
       </div>
-    } @else {
-        <app-loader></app-loader>
     }
   </div>
-  @if (isLoaded;) {
+  @if (album) {
     <div class="bottom">
       <div class="buttons">
         <button class="play" (click)="playAlbum(album.tracks)">
@@ -59,9 +57,3 @@
     </div>
   }
 </div>
-<ng-template #loading>
-  <div class="loading">
-    <app-loading></app-loading>
-  </div>
-
-</ng-template>
