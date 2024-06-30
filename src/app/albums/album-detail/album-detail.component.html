@@ -1,4 +1,4 @@
-@if(shouldShowHeader) {
+@if(shouldShowHeader && album) {
   <div class="slide" [@slideInOut]="'in'">
     <app-small-header [tracks]="album.tracks"
                       [title]="album.name"

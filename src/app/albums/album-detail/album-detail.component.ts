@@ -44,7 +44,7 @@ export class AlbumDetailComponent {
   private el = inject(ElementRef)
   private _loader = inject(LoaderService)
   protected _trackDuration = inject(TrackDurationService)
-  public album: Album = {} as Album
+  public album: Album | null = null;
   public from : From = {} as From
   public isAlbumLiked: boolean = false
   public isLoaded: boolean = false
@@ -102,6 +102,7 @@ export class AlbumDetailComponent {
               this.background.nativeElement.style.background = `
               linear-gradient(90deg, var(--black), transparent 100%),
               linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${this.album.cover}') right/600px repeat-x`;
+              this.isLoaded = true;
               SpinnerFunctions.hideSpinner();
             },
             error: (err) => {
@@ -124,12 +125,12 @@ export class AlbumDetailComponent {
         this._userService.updateLikedAlbums(response.data)
       }
     }))
-    this._snackbar.showDefaultMessage(`Added '${this.album.name}' to library.`)
+    this._snackbar.showDefaultMessage(`Added '${this.album?.name}' to library.`)
   }
 
   removeAlbumFromLiked(id: string) {
     this.isAlbumLiked = false
-    this._snackbar.showDefaultMessage(`Removed '${this.album.name}' from library.`)
+    this._snackbar.showDefaultMessage(`Removed '${this.album?.name}' from library.`)
     this.subs.push(this._albumService.removeFromLiked(id).subscribe({
       next: (response) => {
         if(response === null) {
