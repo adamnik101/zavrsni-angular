@@ -13,7 +13,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {EditUserNameDialogComponent} from "./edit-user-name-dialog/edit-user-name-dialog.component";
 import {SnackbarService} from "../../shared/services/snackbar.service";
 import {ResponseAPI} from "../../shared/interfaces/response-api";
-import {ResponseError} from "../../shared/interfaces/response-error";
 import { UserRequestsService } from '../services/requests/user-requests.service';
 
 @Component({

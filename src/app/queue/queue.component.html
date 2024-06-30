@@ -30,73 +30,78 @@
       </div>
       <div class="list" cdkDropList (cdkDropListDropped)="drop($event)" #trackList cdkScrollable>
         @for (track of queueService.queue; track track; let index = $index) {
-          <div class="item" [ngClass]="{'hover': index !== this.queueService.currentQueueIndex,'current' : index == this.queueService.currentQueueIndex,'transparent' : index < this.queueService.currentQueueIndex, 'disabled' : this.userService.userLoaded() && track.explicit && !this.userService.settings().explicit}" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="userService.userLoaded() && track.explicit && !userService.settings().explicit">
-            <!--  <p class="next-up" *ngIf="queueService.currentQueueIndex < this.queueService.queue.length - 1 && index == this.queueService.currentQueueIndex + 1">
-            Next up from: {{this.queueService.from.name}}
-          </p>
-          <p class="currently-playing" *ngIf="queueService.currentQueueIndex == index">Playing from: {{this.queueService.from.name}}</p>
-          -->
-            <div class="track-info">
-              <div class="image">
-                @if (index !== this.queueService.currentQueueIndex) {
-                  <button class="play" (click)="this.queueService.playAtIndex(index)">
-                    <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
-                  </button>
-                }
-                @if (index == this.queueService.currentQueueIndex && !audioService.stopped()) {
-                  <button (click)="audioService.pause()" class="pause">
-                    <mat-icon [style.color]="'#fff'">pause</mat-icon>
-                  </button>
-                }
-                @if (index == this.queueService.currentQueueIndex && audioService.stopped()) {
-                  <button (click)="audioService.continue()" class="pause">
-                    <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
-                  </button>
-                }
-                @if (index === this.queueService.currentQueueIndex) {
-                  <mat-icon class="playing playing-icon" [style.color]="'#fff'" [style.font-size]="'20px'">volume_up</mat-icon>
-                }
-                @if (index !== this.queueService.currentQueueIndex) {
-                  <p class="index">{{index + 1}}</p>
-                }
-              </div>
-              <div class="image cover">
-                @if (track.cover) {
-                  <img src="{{track.cover}}" alt="cover"/>
-                } @else {
-                  @if (track.album) {
-                    <img src="{{track.album.cover!}}"/>
-                  } @else {
-                    <img src="{{track.owner.cover}}"/>
+          @defer (on viewport) {
+            <div class="item" [ngClass]="{'hover': index !== this.queueService.currentQueueIndex,'current' : index == this.queueService.currentQueueIndex,'transparent' : index < this.queueService.currentQueueIndex, 'disabled' : this.userService.userLoaded() && track.explicit && !this.userService.settings().explicit}" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="userService.userLoaded() && track.explicit && !userService.settings().explicit">
+              <!--  <p class="next-up" *ngIf="queueService.currentQueueIndex < this.queueService.queue.length - 1 && index == this.queueService.currentQueueIndex + 1">
+              Next up from: {{this.queueService.from.name}}
+            </p>
+            <p class="currently-playing" *ngIf="queueService.currentQueueIndex == index">Playing from: {{this.queueService.from.name}}</p>
+            -->
+              <div class="track-info">
+                <div class="image">
+                  @if (index !== this.queueService.currentQueueIndex) {
+                    <button class="play" (click)="this.queueService.playAtIndex(index)">
+                      <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
+                    </button>
                   }
-                }
-              </div>
-              <div class="info">
-                <p class="title">{{track.title}}</p>
-                <p class="artists">
-                  {{track.owner.name}}@if (track.features.length > 0) {
-                  &nbsp;ft.@for (feature of track.features; track feature; let index = $index) {
-                    &nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>@if (track.features.length - 1 != index) {
-                      ,
+                  @if (index == this.queueService.currentQueueIndex && !audioService.stopped()) {
+                    <button (click)="audioService.pause()" class="pause">
+                      <mat-icon [style.color]="'#fff'">pause</mat-icon>
+                    </button>
+                  }
+                  @if (index == this.queueService.currentQueueIndex && audioService.stopped()) {
+                    <button (click)="audioService.continue()" class="pause">
+                      <mat-icon [style.color]="'#fff'">play_arrow</mat-icon>
+                    </button>
+                  }
+                  @if (index === this.queueService.currentQueueIndex) {
+                    <mat-icon class="playing playing-icon" [style.color]="'#fff'" [style.font-size]="'20px'">volume_up</mat-icon>
+                  }
+                  @if (index !== this.queueService.currentQueueIndex) {
+                    <p class="index">{{index + 1}}</p>
+                  }
+                </div>
+                <div class="image cover">
+                  @if (track.cover) {
+                    <img src="{{track.cover}}" alt="cover"/>
+                  } @else {
+                    @if (track.album) {
+                      <img src="{{track.album.cover!}}"/>
+                    } @else {
+                      <img src="{{track.owner.cover}}"/>
                     }
                   }
-                }
-                </p>
-              </div>
-              <div class="drag-handle image" >
-                @if (width <= 1100) {
-                  <button mat-button cdkDragHandle>
-                    <img src="assets/icons-svg/grip.svg">
-                  </button>
-                }
-                @if (index !== this.queueService.currentQueueIndex) {
-                  <button mat-button (click)="removeFromQueue(index)">
-                    <img src="assets/icons-svg/delete.svg">
-                  </button>
-                }
+                </div>
+                <div class="info">
+                  <p class="title">{{track.title}}</p>
+                  <p class="artists">
+                    {{track.owner.name}}@if (track.features.length > 0) {
+                    &nbsp;ft.@for (feature of track.features; track feature; let index = $index) {
+                      &nbsp;<a routerLink="/artists/{{feature.id}}">{{feature.name}}</a>@if (track.features.length - 1 != index) {
+                        ,
+                      }
+                    }
+                  }
+                  </p>
+                </div>
+                <div class="drag-handle image" >
+                  @if (width <= 1100) {
+                    <button mat-button cdkDragHandle>
+                      <img src="assets/icons-svg/grip.svg">
+                    </button>
+                  }
+                  @if (index !== this.queueService.currentQueueIndex) {
+                    <button mat-button (click)="removeFromQueue(index)">
+                      <img src="assets/icons-svg/delete.svg">
+                    </button>
+                  }
+                </div>
               </div>
             </div>
-          </div>
+          }
+          @placeholder {
+            <div>loading</div>
+          }
         }
       </div>
     </div>

@@ -56,6 +56,8 @@ export class ArtistDetailComponent implements OnInit {
   subs: Subscription[] = []
   initSub?: Subscription
   subscription: Subscription = new Subscription();
+  public totalLikes: number = 0;
+  
   ngOnInit() {
     this.getArtist()
   }
@@ -72,6 +74,7 @@ export class ArtistDetailComponent implements OnInit {
             this.subscription.add(this._artistService.getArtist(id).subscribe({
               next: (response) => {
                 this.artist = response.data
+                this.calculateTotalLikes(this.artist);
                 this.top.nativeElement.style.background = `
                 linear-gradient(90deg, var(--black), transparent 100%),
                 linear-gradient(to bottom, rgba(0, 0, 0, 0.5), var(--black)), url('${response.data.cover}') center/cover no-repeat`
@@ -110,6 +113,15 @@ export class ArtistDetailComponent implements OnInit {
     );
   }
 
+  calculateTotalLikes(artist: Artist): void {
+    this.totalLikes = artist.tracks.reduce((acc, track) => {
+      if(track.liked_by_count) {
+        return acc + Number(track.liked_by_count);
+      }
+      return 0;
+    }, 0)
+  }
+
   followArtist(artist: Artist) {
     this.subscription.add(this.userRequests.followArtist(artist).subscribe({
       next: (response) => {
@@ -140,6 +152,10 @@ export class ArtistDetailComponent implements OnInit {
         this._snackbarService.showFailedMessage(response.error)
       }
     }))
+  }
+
+  onTrackLike(like: boolean): void {
+    this.totalLikes = Math.max(0, this.totalLikes + (like ? 1 : -1));
   }
 
   ngOnDestroy() {
