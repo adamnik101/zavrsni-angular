@@ -20,14 +20,11 @@ import {
   style,
   transition,
   trigger,
-  useAnimation,
 } from '@angular/animations';
-import { transitionAnimation } from '../animations';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import {Track} from "../shared/interfaces/track";
 import {Artist} from "../artists/interfaces/artist";
 import {UserService} from "../user/services/user.service";
-import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-queue',
@@ -58,27 +55,31 @@ export class QueueComponent {
     public queueService: QueueService,
     public audioService: AudioService,
     private _renderer2: Renderer2,
-    private _colorThiefService: ColorThiefService,
+    public _colorThiefService: ColorThiefService,
     private _cdr: ChangeDetectorRef,
     private _breakpointObserver: BreakpointObserver,
-    protected userService: UserService
+    protected userService: UserService,
   ) {}
 
   @ViewChild('trackList') trackList!: ElementRef;
   @ViewChild('queue') queue!: ElementRef;
+
   cover: string = '';
   width: number = 0;
   currentTrack: Track = {} as Track
   owner: Artist = {} as Artist
+
   @HostListener('window:resize', ['$event'])
   getScreenSize() {
     this.width = window.innerWidth;
     console.log(window.innerWidth);
   }
+
   @HostListener('document:keydown.escape', ['$event'])
   closeQueue(event?: KeyboardEvent) {
     this.queueService.queueOpened = false
   }
+
   ngOnInit() {
     this.getScreenSize();
     this._breakpointObserver.observe(['max-width: 768px']).subscribe({
@@ -135,7 +136,7 @@ export class QueueComponent {
         }
 
         //this.queue.nativeElement.style.backgroundImage = `url(${this.cover})`
-
+        
         this._colorThiefService.getRgbColorsFromImage(this.cover, 'queue');
         this._cdr.detectChanges();
       },
