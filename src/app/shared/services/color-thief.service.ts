@@ -1,4 +1,4 @@
-import {ElementRef, Injectable, Renderer2} from '@angular/core';
+import { ElementRef, inject, Injectable, Renderer2} from '@angular/core';
 // @ts-ignore
 import {default as ColorThief} from 'colorthief/dist/color-thief.mjs';
 import {QueueService} from "../../queue/services/queue.service";
@@ -6,16 +6,20 @@ import {QueueService} from "../../queue/services/queue.service";
   providedIn: 'root'
 })
 export class ColorThiefService {
-  constructor() { }
+  constructor(
+  ) { }
+  isAnimating: boolean = false;
 
   getRgbColorsFromImage(url: string, type: string, header?: boolean) : void {
-
     const colorThief = new ColorThief()
     const image = new Image()
 
-
     image.onload = () => {
-      const dominantColor =  colorThief.getColor(image)
+    this.isAnimating = true;
+
+      const dominantColor = colorThief.getColor(image);
+      const palette = colorThief.getPalette(image);
+      
       const red = dominantColor[0]
       const green = dominantColor[1]
       const blue = dominantColor[2]
@@ -39,7 +43,9 @@ export class ColorThiefService {
           document.documentElement.style.setProperty('--playlist', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
         } break;
         case "queue" : {
-          document.documentElement.style.setProperty('--queue', newBackground);
+          
+          let linearGradient = this.getLinearGradient(palette);
+          document.documentElement.style.setProperty('--queue', linearGradient);  
         } break;
         case "profile" : {
           document.documentElement.style.setProperty('--profile', `linear-gradient(to bottom, rgb(${red}, ${green}, ${blue}), var(--black))`);
@@ -49,7 +55,6 @@ export class ColorThiefService {
           document.documentElement.style.setProperty('--small-header', newBackgroundDarker);
         }
       }
-
 
     }
 
@@ -71,5 +76,19 @@ export class ColorThiefService {
     const colorThief = new ColorThief()
     dominantColors = colorThief.getPalette(image, 5)
     return dominantColors;
+  }
+
+  getLinearGradient(palette: [number[]]): string {
+    const gradientStart = 'radial-gradient(';
+    let gradientContent = [];
+    const gradientEnd = ')';
+
+    for(let i = 0; i < 2; i++) {
+      gradientContent.push(`rgb(${palette[i][0]}, ${palette[i][1]}, ${palette[i][2]}) `)
+    }
+
+    let final = gradientContent.join(', ');
+    console.log(gradientStart + final + gradientEnd)
+    return gradientStart + final + gradientEnd;
   }
 }

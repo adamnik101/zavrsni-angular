@@ -22,7 +22,6 @@ import {SpinnerFunctions} from "../../core/static-functions";
   providedIn: 'root'
 })
 export class UserService extends BaseService{
-  plaldsada: Playlist[] = []
   userLoaded = signal<boolean | null>(null)
   likedTracks = signal<Track[]>([])
   user = signal<User | null>(null)
@@ -132,5 +131,5 @@ export class UserService extends BaseService{
     this._settingsSubject.next(settings)
   }
 
-  
+
 }
