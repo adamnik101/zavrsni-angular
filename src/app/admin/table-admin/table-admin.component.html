@@ -42,7 +42,7 @@
         </tr>
         </thead>
         <tbody>
-          @for (item of data?.data; track item.id; let index = $index) {
+          @for (item of data.data; track item.id; let index = $index) {
             <tr>
               <td>
                 <mat-checkbox (change)="onSelectChange($event, item)" [checked]="_selectionService.selectedItems().includes(item.id)"></mat-checkbox>
@@ -146,10 +146,10 @@
 
       <div class="pagination">
         <div class="info">
-          <p>Showing {{data?.from}} - {{data?.to}} of {{data?.total}}</p>
+          <p>Showing {{data.from}} - {{data.to}} of {{data.total}}</p>
         </div>
         <!-- <button matRipple (click)="navigateToPreviousPage()" *ngIf="pagedResponse.prev_page_url">Previous page</button>-->
-        @for (page of data?.links; track page) {
+        @for (page of data.links; track page) {
           @if (page.url) {
             <button class="button" (click)="navigateTo(page.url)" mat-button [ngClass]="{'active-pagination' : page.active}">
               <span [innerHTML]="page.label"></span>
