@@ -6,6 +6,6 @@ import {environment} from "../environments/environment";
 })
 export class ConfigService {
   getBaseApiUrl() : string {
-    return environment.apiBaseUrl
+    return environment.production.apiBaseUrl;
   }
 }
